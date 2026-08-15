@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NaturIA – Expert Santé Animale & Végétale</title>
+  <meta name="description" content="Assistant IA expert en santé animale et végétale. Obtenez des conseils sur vos animaux de compagnie, plantes et jardins grâce à l'intelligence artificielle Mistral." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Animated background blobs -->
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="app-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Leaf -->
+              <path d="M20 5 C10 5 5 15 8 25 C11 35 20 35 20 35 C20 35 29 35 32 25 C35 15 30 5 20 5Z" fill="url(#leafGrad)" opacity="0.9"/>
+              <path d="M20 35 L20 15" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+              <path d="M20 28 L14 22" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+              <path d="M20 23 L26 17" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+              <!-- Paw -->
+              <circle cx="30" cy="30" r="7" fill="url(#pawGrad)" opacity="0.9"/>
+              <circle cx="28" cy="26" r="2" fill="white" opacity="0.8"/>
+              <circle cx="32" cy="26" r="2" fill="white" opacity="0.8"/>
+              <circle cx="26" cy="29" r="1.5" fill="white" opacity="0.8"/>
+              <circle cx="34" cy="29" r="1.5" fill="white" opacity="0.8"/>
+              <path d="M27 31 Q30 34 33 31" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <defs>
+                <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#4ade80"/>
+                  <stop offset="100%" stop-color="#16a34a"/>
+                </linearGradient>
+                <linearGradient id="pawGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#86efac"/>
+                  <stop offset="100%" stop-color="#22c55e"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div class="logo-text">
+            <span class="logo-name">NaturIA</span>
+            <span class="logo-sub">Expert Nature</span>
+          </div>
+        </div>
+        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Fermer le menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <button class="new-chat-btn" id="newChatBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Nouvelle conversation
+      </button>
+
+      <div class="sidebar-section">
+        <span class="sidebar-label">Domaines couverts</span>
+        <div class="topic-chips">
+          <div class="topic-chip chip-animal" data-prompt="Quels sont les premiers soins pour un chien blessé à la patte ?">
+            <span class="chip-icon"></span> Chiens & Canins
+          </div>
+          <div class="topic-chip chip-animal" data-prompt="Pourquoi mon chat ne mange plus ses croquettes ?">
+            <span class="chip-icon"></span> Chats & Félins
+          </div>
+          <div class="topic-chip chip-plant" data-prompt="Quels sont les symptômes d'une carence en fer chez une plante ?">
+            <span class="chip-icon"></span> Plantes & Cultures
+          </div>
+          <div class="topic-chip chip-plant" data-prompt="Comment traiter les pucerons sur mes cultures ?">
+            <span class="chip-icon"></span> Traitements Bio
+          </div>
+          <div class="topic-chip chip-plant" data-prompt="Comment améliorer le rendement des cultures maraîchères ?">
+            <span class="chip-icon"></span> Potager & Maraîchage
+          </div>
+          <div class="topic-chip chip-animal" data-prompt="Conseils pour l'élevage de volailles locales">
+            <span class="chip-icon"></span> Élevage & Volailles
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <span class="sidebar-label">Questions fréquentes</span>
+        <div class="quick-questions">
+          <button class="quick-q" data-prompt="Quels sont les soins essentiels pour un cheptel sain ?">Soins du cheptel et volailles</button>
+          <button class="quick-q" data-prompt="Les feuilles de mes plants jaunissent, pourquoi ?">Feuilles qui jaunissent (diagnostic)</button>
+          <button class="quick-q" data-prompt="Quels vaccins obligatoires pour l'élevage fermier ?">Vaccination fermière et prophylaxie</button>
+          <button class="quick-q" data-prompt="Comment fabriquer un bio-fertilisant naturel ?">Fabrication de compost naturel</button>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="disclaimer-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+          <span>Ne remplace pas un vétérinaire ou un spécialiste</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CHAT AREA -->
+    <main class="main-content">
+      <!-- Top bar -->
+      <header class="topbar">
+        <button class="menu-btn" id="menuBtn" aria-label="Ouvrir le menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+        <div class="topbar-center">
+          <div class="status-dot"></div>
+          <span>NaturIA</span>
+        </div>
+        <button class="clear-btn" id="clearBtn" title="Effacer la conversation">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+        </button>
+      </header>
+
+      <!-- Chat messages area -->
+      <div class="chat-area" id="chatArea">
+        <!-- Welcome screen -->
+        <div class="welcome-screen" id="welcomeScreen">
+          <div class="welcome-icon">
+            <div class="welcome-icon-inner">
+              <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+                <circle cx="40" cy="40" r="40" fill="url(#bgGrad)"/>
+                <path d="M40 15 C25 15 15 28 18 42 C21 56 40 60 40 60 C40 60 59 56 62 42 C65 28 55 15 40 15Z" fill="url(#leafG)" opacity="0.9"/>
+                <path d="M40 60 L40 30" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+                <path d="M40 50 L30 40" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+                <path d="M40 42 L50 32" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+                <circle cx="58" cy="58" r="12" fill="url(#pawG)"/>
+                <circle cx="55.5" cy="53.5" r="2.8" fill="white" opacity="0.85"/>
+                <circle cx="60.5" cy="53.5" r="2.8" fill="white" opacity="0.85"/>
+                <circle cx="53" cy="57.5" r="2" fill="white" opacity="0.8"/>
+                <circle cx="63" cy="57.5" r="2" fill="white" opacity="0.8"/>
+                <path d="M54.5 61 Q58 65 61.5 61" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                <defs>
+                  <radialGradient id="bgGrad" cx="50%" cy="30%">
+                    <stop offset="0%" stop-color="#1a2e1a"/>
+                    <stop offset="100%" stop-color="#0d1f0d"/>
+                  </radialGradient>
+                  <linearGradient id="leafG" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#4ade80"/>
+                    <stop offset="100%" stop-color="#16a34a"/>
+                  </linearGradient>
+                  <linearGradient id="pawG" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#86efac"/>
+                    <stop offset="100%" stop-color="#22c55e"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+          </div>
+          <h1 class="welcome-title">Bonjour ! Je suis <span class="gradient-text">NaturIA</span></h1>
+          <p class="welcome-sub">Votre assistant IA expert en santé animale & végétale.<br/><span style="font-style: italic; opacity: 0.9;">(Par exemple : "Mon chat a des puces, que faire ?" ou "Mes tomates ont des taches noires, c'est quoi ?")</span></p>
+          <div class="warning-badge" style="margin: 10px auto 16px auto; max-width: 90%; justify-content: center; background: rgba(251, 191, 36, 0.12); border: 1px solid rgba(251, 191, 36, 0.3); color: #fde68a;">
+            <span>Ces informations sont fournies à titre indicatif et ne remplacent pas une consultation vétérinaire ou phytosanitaire professionnelle.</span>
+          </div>
+          <div class="welcome-cards">
+            <div class="welcome-card" data-prompt="Quelles sont les maladies les plus courantes chez les chats domestiques ?">
+              <span class="card-icon"></span>
+              <div>
+                <strong>Santé animale</strong>
+                <span>Maladies, symptômes, soins</span>
+              </div>
+            </div>
+            <div class="welcome-card" data-prompt="Comment diagnostiquer et traiter le mildiou sur mes tomates ?">
+              <span class="card-icon"></span>
+              <div>
+                <strong>Santé végétale</strong>
+                <span>Maladies, ravageurs, carences</span>
+              </div>
+            </div>
+            <div class="welcome-card" data-prompt="Quelle alimentation recommandez-vous pour un lapin nain en appartement ?">
+              <span class="card-icon"></span>
+              <div>
+                <strong>Alimentation & Soins</strong>
+                <span>Régimes, habitats, quotidien</span>
+              </div>
+            </div>
+            <div class="welcome-card" data-prompt="Comment entretenir un ficus benjamina en intérieur ?">
+              <span class="card-icon"></span>
+              <div>
+                <strong>Jardinage & Botanique</strong>
+                <span>Arrosage, engrais, espèces</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Messages will be injected here -->
+        <div class="messages-container" id="messagesContainer"></div>
+      </div>
+
+      <!-- Input area -->
+      <div class="input-area">
+        <div class="input-wrapper">
+          <textarea
+            id="userInput"
+            class="chat-input"
+            placeholder="Posez votre question sur vos animaux ou plantes…"
+            rows="1"
+            maxlength="2000"
+            aria-label="Votre message"
+          ></textarea>
+          <div class="input-actions">
+            <span class="char-count" id="charCount">0/2000</span>
+            <button class="send-btn" id="sendBtn" aria-label="Envoyer le message" disabled>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <p class="input-notice">NaturIA est un assistant IA. Ses conseils ne remplacent pas un vétérinaire ou un phytosanitaire professionnel.</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

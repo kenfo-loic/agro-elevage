@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketplace B2B — AgroElevage Link</title>
+  <meta name="description" content="Place de marché agricole B2B sécurisée. Achetez et vendez récoltes, cheptels, tubercules et fruits directement entre professionnels." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css?v=3" />
+</head>
+<body>
+  <!-- ===================================================================
+       WEB APPLICATION SHELL (PURE FULLSCREEN WEB APP)
+       =================================================================== -->
+  <div class="web-app-shell">
+    
+    <!-- Shared Web Sidebar (Injected by layout.js) -->
+    <div id="sidebar-root"></div>
+
+    <!-- Main Content Area -->
+    <div class="web-main-container">
+      
+      <!-- Top Navigation Bar -->
+      <header class="web-topbar">
+        <div class="web-topbar-left">
+          <button class="web-menu-toggle" id="btnToggleMobileMenu" title="Ouvrir le menu de navigation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg> <span>Menu</span></button>
+          <span class="web-page-heading-title"> Marketplace B2B</span>
+        </div>
+
+        <div class="web-topbar-search">
+          <span class="web-search-lens-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+          <input type="text" class="web-global-search-input" id="inputMarketSearch" placeholder="Rechercher des tomates, maïs, poulets, manioc..." />
+        </div>
+
+        <div class="web-topbar-right">
+          <a href="passer_commande.html" class="btn-primary-action" style="height: 38px; width: auto; padding: 0 16px; font-size: 13px; gap: 6px; text-decoration: none;">
+            <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg></span> <span>Passer Commande</span>
+          </a>
+
+          <a href="notifications.html" class="web-topbar-btn-circle" title="Notifications">
+            <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span>
+            <span class="web-notif-dot"></span>
+          </a>
+
+          <a href="profil.html" class="web-topbar-btn-circle" title="Profil">
+            <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Main Content Body -->
+      <main class="web-content-body">
+        
+        <!-- Marketplace Banner -->
+        <div class="web-card" style="background: linear-gradient(135deg, #15803d 0%, #166534 100%); color: #ffffff; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <span style="font-size: 12px; background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 20px; font-weight: 700;">PRODUITS FRAIS DU TERROIR</span>
+            <h1 style="font-family: var(--font-heading); font-size: 22px; font-weight: 800; margin: 6px 0 2px;">Place de Marché B2B Sécurisée</h1>
+            <p style="font-size: 13px; opacity: 0.9;">Achetez directement auprès de producteurs vérifiés. Vos fonds sont protégés en séquestre jusqu'à la livraison.</p>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <a href="carte_et_geoloc.html" class="btn-primary-action" style="background: #ffffff; color: var(--primary-dark); font-weight: 800; height: 38px; width: auto; padding: 0 18px; text-decoration: none; border-radius: 9999px;">
+              ️ Voir sur la Carte
+            </a>
+          </div>
+        </div>
+
+        <!-- Filter Chips & Search -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+          <div class="category-chips-row" id="marketCategoryChips" style="margin-bottom: 0;">
+            <button class="cat-chip active" data-cat="all">Tous les produits</button>
+            <button class="cat-chip" data-cat="maraichage">Maraîchage</button>
+            <button class="cat-chip" data-cat="tubercules">Tubercules</button>
+            <button class="cat-chip" data-cat="cereales">Céréales</button>
+            <button class="cat-chip" data-cat="elevage">Élevage & Volailles</button>
+            <button class="cat-chip" data-cat="fruits">Fruits & Vergers</button>
+          </div>
+
+          <div style="font-size: 12.5px; color: var(--text-muted); font-weight: 600;" id="marketProductCount">
+            Affichage des produits certifiés
+          </div>
+        </div>
+
+        <!-- Responsive Products Grid -->
+        <div class="products-grid" id="marketProductsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px;">
+          
+          <!-- Product 1 -->
+          <div class="web-card product-item-card" data-cat="maraichage" style="padding: 14px; display: flex; flex-direction: column; cursor: pointer;" onclick="window.location.href='detail_produit.html'">
+            <div style="position: relative; height: 160px; border-radius: 12px; overflow: hidden; margin-bottom: 12px;">
+              <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400" style="width: 100%; height: 100%; object-fit: cover;" alt="Tomates" />
+              <span style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: #fff; font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">Maraîchage</span>
+              <span style="position: absolute; top: 10px; right: 10px; background: #dcfce7; color: #15803d; font-size: 10.5px; font-weight: 800; padding: 3px 8px; border-radius: 6px;">En Stock</span>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column;">
+              <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 2px;" class="prod-title">Tomates fraîches Roma</div>
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Ferme de la Vallée • Yaoundé</div>
+              <div style="display: flex; gap: 8px; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border-subtle); align-items: center; justify-content: space-between;">
+                <div>
+                  <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--primary);">250 FCFA <span style="font-size: 11px; font-weight: 500; color: var(--text-muted);">/ kg</span></div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Stock : 200 kg</div>
+                </div>
+                <div style="display: flex; gap: 6px; align-items: center;">
+                  <a href="https://wa.me/237690123456?text=Bonjour,%20je%20suis%20int%C3%A9ress%C3%A9%20par%20vos%20Tomates%20fra%C3%AEches%20Roma%20sur%20AgroElevage%20Link." target="_blank" class="btn-secondary" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; font-weight: 700; background: #25d366; color: #ffffff; text-decoration: none; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;" onclick="event.stopPropagation()" title="Discuter directement sur WhatsApp">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    WhatsApp
+                  </a>
+                  <a href="passer_commande.html" class="btn-primary-action" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; text-decoration: none;" onclick="event.stopPropagation()">
+                    Commander
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 2 -->
+          <div class="web-card product-item-card" data-cat="elevage" style="padding: 14px; display: flex; flex-direction: column; cursor: pointer;" onclick="window.location.href='detail_produit.html'">
+            <div style="position: relative; height: 160px; border-radius: 12px; overflow: hidden; margin-bottom: 12px;">
+              <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=400" style="width: 100%; height: 100%; object-fit: cover;" alt="Poulets" />
+              <span style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: #fff; font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">Élevage</span>
+              <span style="position: absolute; top: 10px; right: 10px; background: #dcfce7; color: #15803d; font-size: 10.5px; font-weight: 800; padding: 3px 8px; border-radius: 6px;">En Stock</span>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column;">
+              <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 2px;" class="prod-title">Poulets Goliath fermiers</div>
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Élevage Avicole Mbouda • Ouest</div>
+              <div style="display: flex; gap: 8px; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border-subtle); align-items: center; justify-content: space-between;">
+                <div>
+                  <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--primary);">3 500 FCFA <span style="font-size: 11px; font-weight: 500; color: var(--text-muted);">/ u</span></div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Stock : 50 u</div>
+                </div>
+                <div style="display: flex; gap: 6px; align-items: center;">
+                  <a href="https://wa.me/237699887766?text=Bonjour,%20je%20suis%20int%C3%A9ress%C3%A9%20par%20vos%20Poulets%20Goliath%20sur%20AgroElevage%20Link." target="_blank" class="btn-secondary" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; font-weight: 700; background: #25d366; color: #ffffff; text-decoration: none; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;" onclick="event.stopPropagation()" title="Discuter directement sur WhatsApp">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    WhatsApp
+                  </a>
+                  <a href="passer_commande.html" class="btn-primary-action" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; text-decoration: none;" onclick="event.stopPropagation()">
+                    Commander
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 3 -->
+          <div class="web-card product-item-card" data-cat="cereales" style="padding: 14px; display: flex; flex-direction: column; cursor: pointer;" onclick="window.location.href='detail_produit.html'">
+            <div style="position: relative; height: 160px; border-radius: 12px; overflow: hidden; margin-bottom: 12px;">
+              <img src="https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=400" style="width: 100%; height: 100%; object-fit: cover;" alt="Maïs" />
+              <span style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: #fff; font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">Céréales</span>
+              <span style="position: absolute; top: 10px; right: 10px; background: #dcfce7; color: #15803d; font-size: 10.5px; font-weight: 800; padding: 3px 8px; border-radius: 6px;">En Stock</span>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column;">
+              <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 2px;" class="prod-title">Maïs Blanc Séché (Sacs 50kg)</div>
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">GIC Céréales Bafoussam</div>
+              <div style="display: flex; gap: 8px; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border-subtle); align-items: center; justify-content: space-between;">
+                <div>
+                  <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--primary);">12 000 FCFA <span style="font-size: 11px; font-weight: 500; color: var(--text-muted);">/ sac</span></div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Stock : 300 sacs</div>
+                </div>
+                <div style="display: flex; gap: 6px; align-items: center;">
+                  <a href="https://wa.me/237677112233?text=Bonjour,%20je%20suis%20int%C3%A9ress%C3%A9%20par%20votre%20Ma%C3%AFs%20Blanc%20sur%20AgroElevage%20Link." target="_blank" class="btn-secondary" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; font-weight: 700; background: #25d366; color: #ffffff; text-decoration: none; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;" onclick="event.stopPropagation()" title="Discuter directement sur WhatsApp">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    WhatsApp
+                  </a>
+                  <a href="passer_commande.html" class="btn-primary-action" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; text-decoration: none;" onclick="event.stopPropagation()">
+                    Commander
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 4 -->
+          <div class="web-card product-item-card" data-cat="tubercules" style="padding: 14px; display: flex; flex-direction: column; cursor: pointer;" onclick="window.location.href='detail_produit.html'">
+            <div style="position: relative; height: 160px; border-radius: 12px; overflow: hidden; margin-bottom: 12px;">
+              <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400" style="width: 100%; height: 100%; object-fit: cover;" alt="Pommes de terre" />
+              <span style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: #fff; font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">Tubercules</span>
+              <span style="position: absolute; top: 10px; right: 10px; background: #dcfce7; color: #15803d; font-size: 10.5px; font-weight: 800; padding: 3px 8px; border-radius: 6px;">En Stock</span>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column;">
+              <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 2px;" class="prod-title">Pommes de Terre de Dschang</div>
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Coopérative des Hauts Plateaux</div>
+              <div style="display: flex; gap: 8px; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border-subtle); align-items: center; justify-content: space-between;">
+                <div>
+                  <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--primary);">320 FCFA <span style="font-size: 11px; font-weight: 500; color: var(--text-muted);">/ kg</span></div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Stock : 500 kg</div>
+                </div>
+                <div style="display: flex; gap: 6px; align-items: center;">
+                  <a href="https://wa.me/237690554433?text=Bonjour,%20je%20suis%20int%C3%A9ress%C3%A9%20par%20vos%20Pommes%20de%20Terre%20sur%20AgroElevage%20Link." target="_blank" class="btn-secondary" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; font-weight: 700; background: #25d366; color: #ffffff; text-decoration: none; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;" onclick="event.stopPropagation()" title="Discuter directement sur WhatsApp">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    WhatsApp
+                  </a>
+                  <a href="passer_commande.html" class="btn-primary-action" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; text-decoration: none;" onclick="event.stopPropagation()">
+                    Commander
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+
+      <!-- Interactive Toast -->
+      <div class="toast-msg" id="appToast">Produit ajouté au panier !</div>
+
+    </div>
+  </div>
+
+  <!-- API Client -->
+  <script src="js/api-client.js"></script>
+
+  <!-- Navigation & Layout Helpers -->
+  <script src="js/layout.js"></script>
+  <script src="js/mpa_app.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const grid = document.getElementById('marketProductsGrid');
+      const countEl = document.getElementById('marketProductCount');
+      const searchInput = document.getElementById('inputMarketSearch');
+
+      // Load user published products from localStorage
+      function loadUserProducts() {
+        const userProducts = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
+        if (!grid || userProducts.length === 0) return;
+
+        userProducts.forEach(p => {
+          const cleanWa = (p.whatsapp || '+237690123456').replace(/[^\d+]/g, '');
+          const cardHtml = document.createElement('div');
+          cardHtml.className = 'web-card product-item-card';
+          cardHtml.setAttribute('data-cat', p.category || 'maraichage');
+          cardHtml.style.cssText = 'padding: 14px; display: flex; flex-direction: column; cursor: pointer; border: 2px solid var(--primary-soft);';
+          cardHtml.onclick = () => window.location.href = 'detail_produit.html';
+          cardHtml.innerHTML = `
+            <div style="position: relative; height: 160px; border-radius: 12px; overflow: hidden; margin-bottom: 12px;">
+              <img src="${p.image}" style="width: 100%; height: 100%; object-fit: cover;" alt="${p.name}" />
+              <span style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: #fff; font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">${p.categoryLabel || p.category}</span>
+              <span style="position: absolute; top: 10px; right: 10px; background: #16a34a; color: #ffffff; font-size: 10.5px; font-weight: 800; padding: 3px 8px; border-radius: 6px;">Nouveau</span>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column;">
+              <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 2px;" class="prod-title">${p.name}</div>
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">${p.location}</div>
+              <div style="display: flex; gap: 8px; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border-subtle); align-items: center; justify-content: space-between;">
+                <div>
+                  <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--primary);">${p.price} FCFA <span style="font-size: 11px; font-weight: 500; color: var(--text-muted);">/ kg</span></div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Stock : ${p.quantity} kg</div>
+                </div>
+                <div style="display: flex; gap: 6px; align-items: center;">
+                  <a href="https://wa.me/${cleanWa}?text=${encodeURIComponent('Bonjour, je suis intéressé par votre produit ' + p.name + ' sur AgroElevage Link.')}" target="_blank" class="btn-secondary" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; font-weight: 700; background: #25d366; color: #ffffff; text-decoration: none; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;" onclick="event.stopPropagation()" title="Discuter directement sur WhatsApp">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    WhatsApp
+                  </a>
+                  <a href="passer_commande.html" class="btn-primary-action" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; text-decoration: none;" onclick="event.stopPropagation()">
+                    Commander
+                  </a>
+                </div>
+              </div>
+            </div>
+          `;
+          grid.prepend(cardHtml);
+        });
+
+        updateProductCount();
+      }
+
+      function performSearch(query) {
+        const q = (query || '').toLowerCase().trim();
+        const cards = document.querySelectorAll('.product-item-card');
+        cards.forEach(card => {
+          const cardContent = card.textContent.toLowerCase();
+          if (!q || cardContent.includes(q)) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+        updateProductCount();
+      }
+
+      // Category filter chips handler
+      const chips = document.querySelectorAll('.cat-chip');
+      chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          chips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+
+          const cat = chip.getAttribute('data-cat');
+          const cards = document.querySelectorAll('.product-item-card');
+          cards.forEach(card => {
+            if (cat === 'all' || card.getAttribute('data-cat') === cat) {
+              card.style.display = 'flex';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+          updateProductCount();
+        });
+      });
+
+      // Search handler
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          performSearch(e.target.value);
+        });
+      }
+
+      loadUserProducts();
+
+      // Read URL ?search= param
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialQuery = urlParams.get('search');
+      if (initialQuery) {
+        if (searchInput) searchInput.value = initialQuery;
+        performSearch(initialQuery);
+      }
+    });
+  </script>
+</body>
+</html>

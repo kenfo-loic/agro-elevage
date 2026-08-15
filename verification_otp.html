@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vérification OTP — AgroElevage Link</title>
+  <meta name="description" content="Saisissez le code à 4 chiffres envoyé par SMS pour sécuriser votre compte." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css?v=3" />
+  <style>
+    .auth-page-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+      background: radial-gradient(circle at 50% 20%, #f0fdf4 0%, #f8fafc 100%);
+    }
+    .auth-card-compact {
+      width: 100%;
+      max-width: 480px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+      border: 1px solid var(--border-color);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-page-container">
+    <div class="auth-card-compact">
+      
+      <div style="width: 54px; height: 54px; border-radius: 50%; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 26px; margin: 0 auto 16px;">
+        
+      </div>
+
+      <h1 style="font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">Vérification par Code OTP</h1>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">
+        Un code de validation à 4 chiffres a été envoyé au <strong style="color: var(--text-main);">+237 693 412 317</strong>
+      </p>
+
+      <form id="otpWebForm">
+        <div class="otp-boxes-wrapper" style="display: flex; gap: 12px; justify-content: center; margin-bottom: 24px;">
+          <input type="text" maxlength="1" class="otp-box-input" value="4" style="width: 56px; height: 60px; font-size: 24px; text-align: center; font-weight: 800; border: 1.5px solid var(--border-color); border-radius: 12px;" autofocus />
+          <input type="text" maxlength="1" class="otp-box-input" value="8" style="width: 56px; height: 60px; font-size: 24px; text-align: center; font-weight: 800; border: 1.5px solid var(--border-color); border-radius: 12px;" />
+          <input type="text" maxlength="1" class="otp-box-input" value="2" style="width: 56px; height: 60px; font-size: 24px; text-align: center; font-weight: 800; border: 1.5px solid var(--border-color); border-radius: 12px;" />
+          <input type="text" maxlength="1" class="otp-box-input" value="9" style="width: 56px; height: 60px; font-size: 24px; text-align: center; font-weight: 800; border: 1.5px solid var(--border-color); border-radius: 12px;" />
+        </div>
+
+        <button type="submit" class="btn-primary-action" style="height: 46px; font-size: 15px; font-weight: 800; border-radius: 9999px; margin-bottom: 16px;">
+          Valider et Accéder à mon Espace →
+        </button>
+
+        <div style="font-size: 12px; color: var(--text-muted);">
+          Vous n'avez pas reçu de code ? <a href="#" style="color: var(--primary); font-weight: 700; text-decoration: none;">Renvoyer par SMS (00:45)</a>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('otpWebForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      localStorage.setItem('ago_logged_in', 'true');
+      localStorage.setItem('agroelevage_user', JSON.stringify({
+        name: 'Kenfo Loic',
+        phone: '+237 693 412 317',
+        role: 'Producteur Certifié'
+      }));
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>

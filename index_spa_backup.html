@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="fr">
+<he
+<section class="screen-view active" id="view-welcome" data-theme="dark">
+
+            <div class="welcome-overlay"></div>
+            <div class="sun-ray-effect"></div>
+
+            <header class="welcome-header">
+              <div class="logo-badge-container">
+                <img src="assets/images/logo.png" alt="AgroElevage Link Logo" class="logo-badge-img" />
+              </div>
+              <h1 class="welcome-app-title">AgroElevage <span class="link-accent">Link</span></h1>
+              <p class="welcome-subtitle">Connecter nos terres aux grandes tables</p>
+            </header>
+
+            <section class="welcome-body">
+              <p class="welcome-description">
+                La plateforme qui rapproche les producteurs agricoles et les acheteurs professionnels.
+              </p>
+            </section>
+
+            <footer class="welcome-actions">
+              <button class="btn-welcome-primary" id="btnWelcomeLogin">
+                <span>Se connecter</span>
+              </button>
+              <button class="btn-welcome-secondary" id="btnWelcomeRegister">
+                <span>S'inscrire</span>
+              </button>
+            </footer>
+          
+</section>
+</main>
+
+          <!-- ===================================================================
+               02. ÉCRAN D'INSCRIPTION (CRÉER UN COMPTE)
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-register" data-theme="light">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-welcome">←</button>
+              <h2>Inscription</h2>
+              <div style="width: 32px;"></div>
+            </header>
+
+            <h1 class="form-card-title">Créer un compte</h1>
+            <p class="form-card-subtitle">Rejoignez notre communauté</p>
+
+            <form class="register-form" id="registerForm" onsubmit="event.preventDefault();">
+              <div class="form-group">
+                <label class="form-label">Nom complet</label>
+                <input type="text" class="form-input" id="inputRegName" placeholder="Nom complet" value="Jean Dupont" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Téléphone</label>
+                <input type="tel" class="form-input" id="inputRegPhone" placeholder="Téléphone" value="+237 677 889 900" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Mot de passe</label>
+                <div class="input-wrapper">
+                  <input type="password" class="form-input" id="inputRegPass" placeholder="Mot de passe" value="secret123" required />
+                  <button type="button" class="toggle-password-btn" data-target="inputRegPass">️</button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Confirmer le mot de passe</label>
+                <div class="input-wrapper">
+                  <input type="password" class="form-input" id="inputRegConfirmPass" placeholder="Confirmer le mot de passe" value="secret123" required />
+                  <button type="button" class="toggle-password-btn" data-target="inputRegConfirmPass">️</button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Je suis</label>
+                <div class="role-segmented-box">
+                  <div class="role-tab-card active" data-role="vendeur" id="tabRoleVendeur">
+                    <span></span> <span>Vendeur</span>
+                  </div>
+                  <div class="role-tab-card" data-role="acheteur" id="tabRoleAcheteur">
+                    <span>️</span> <span>Acheteur</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="terms-checkbox-wrap">
+                <input type="checkbox" id="checkTerms" checked />
+                <label for="checkTerms">J'accepte les conditions d'utilisation</label>
+              </div>
+
+              <button type="submit" class="btn-primary-action" id="btnSubmitRegister">
+                <span>S'inscrire</span>
+              </button>
+
+              <p style="text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 10px;">
+                Déjà un compte ? <a href="#" id="linkGoToLogin" style="color: var(--primary); font-weight: 700;">Se connecter</a>
+              </p>
+            </form>
+          </section>
+
+          <!-- ===================================================================
+               03. ÉCRAN DE VÉRIFICATION OTP
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-otp" data-theme="light">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-register">←</button>
+              <h2>Vérification</h2>
+              <div style="width: 32px;"></div>
+            </header>
+
+            <div style="text-align: center; margin-top: 10px;">
+              <h1 class="form-card-title">Vérification</h1>
+              <p class="form-card-subtitle">Entrez le code envoyé au <strong id="otpTargetPhone">+237 6XX XXX XXX</strong></p>
+
+              <div class="otp-boxes-wrapper">
+                <input type="text" class="otp-box-input" maxlength="1" value="2" />
+                <input type="text" class="otp-box-input" maxlength="1" value="4" />
+                <input type="text" class="otp-box-input" maxlength="1" value="7" />
+                <input type="text" class="otp-box-input" maxlength="1" value="1" />
+              </div>
+
+              <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">
+                Renvoyer le code dans <strong style="color: var(--primary);" id="otpTimerDisplay">00:45</strong>
+              </p>
+
+              <button class="btn-primary-action" id="btnVerifyOtp">
+                <span>Vérifier</span>
+              </button>
+
+              <button type="button" class="btn-back-link" id="btnChangeNumber" style="background: none; border: none; color: var(--text-muted); margin-top: 14px; font-size: 13px; cursor: pointer;">
+                Changer de numéro
+              </button>
+            </div>
+          </section>
+
+          <!-- ===================================================================
+               04. ÉCRAN DE CHOIX DU RÔLE
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-role-select" data-theme="light">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-otp">←</button>
+              <h2>Rôle</h2>
+              <div style="width: 32px;"></div>
+            </header>
+
+            <h1 class="form-card-title">Choisissez votre rôle</h1>
+            <p class="form-card-subtitle">Sélectionnez le rôle qui vous décrit le mieux</p>
+
+            <div class="role-selection-grid">
+              <div class="role-card-item selected" data-role="vendeur" id="roleCardPickVendeur">
+                <div class="role-img-wrapper">
+                  <img src="assets/images/farmer.png" alt="Vendeur" class="role-img" />
+                </div>
+                <div style="flex: 1;">
+                  <h3 style="font-size: 16px; font-weight: 700; color: var(--text-main);">Vendeur</h3>
+                  <p style="font-size: 12.5px; color: var(--text-muted);">Agriculteur / Éleveur</p>
+                </div>
+              </div>
+
+              <div class="role-card-item" data-role="acheteur" id="roleCardPickAcheteur">
+                <div class="role-img-wrapper">
+                  <img src="assets/images/buyer.png" alt="Acheteur" class="role-img" />
+                </div>
+                <div style="flex: 1;">
+                  <h3 style="font-size: 16px; font-weight: 700; color: var(--text-main);">Acheteur</h3>
+                  <p style="font-size: 12.5px; color: var(--text-muted);">Entreprise / Restaurant</p>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn-primary-action" id="btnConfirmRole" style="margin-top: 16px;">
+              <span>Continuer vers mon espace</span>
+            </button>
+          </section>
+
+          <!-- ===================================================================
+               05. TABLEAU DE BORD (VENDEUR / AGRICULTEUR)
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-seller-dashboard" data-theme="light">
+            <div class="dashboard-user-bar">
+              <div>
+                <h1 class="user-greeting-title">Bonjour, Jean </h1>
+                <p class="user-role-badge">Agriculteur</p>
+              </div>
+              <button class="nav-back-btn" id="btnSellerNotif" title="Notifications"></button>
+            </div>
+
+            <h2 class="section-title">Statistiques</h2>
+            <div class="metrics-row">
+              <div class="metric-card">
+                <div class="metric-value">12</div>
+                <div class="metric-label">Produits</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value">5</div>
+                <div class="metric-label">Commandes</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value">250 g</div>
+                <div class="metric-label">Stock total</div>
+              </div>
+            </div>
+
+            <h2 class="section-title">Actions rapides</h2>
+            <div class="quick-actions-grid">
+              <div class="quick-action-item" id="actSellerAddProd">
+                <div class="action-icon-circle"></div>
+                <span class="action-label">Ajouter produit</span>
+              </div>
+              <div class="quick-action-item" id="actSellerMyProds">
+                <div class="action-icon-circle"></div>
+                <span class="action-label">Mes produits</span>
+              </div>
+              <div class="quick-action-item" id="actSellerOrders">
+                <div class="action-icon-circle"></div>
+                <span class="action-label">Commandes</span>
+              </div>
+              <div class="quick-action-item" id="actSellerNaturIA" style="background: rgba(34, 197, 94, 0.1); color: var(--primary-dark);">
+                <div class="action-icon-circle" style="background: var(--primary);"></div>
+                <span class="action-label">NaturIA Expert</span>
+              </div>
+            </div>
+
+            <div class="sales-chart-box">
+              <span style="font-size: 11.5px; color: var(--text-muted); font-weight: 600;">Aperçu des ventes</span>
+              <div class="sales-chart-header">
+                <div>
+                  <span style="font-size: 11px; color: var(--text-muted);">Ventes ce mois</span>
+                  <div class="sales-amount-big">250 000 FCFA</div>
+                </div>
+                <span class="sales-growth-pill">+15% vs mois dernier </span>
+              </div>
+              <canvas id="sellerSalesChartCanvas" height="110"></canvas>
+            </div>
+          </section>
+
+          <!-- ===================================================================
+               06. TABLEAU DE BORD (ACHETEUR / RESTAURANT)
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-buyer-dashboard" data-theme="light">
+            <div class="dashboard-user-bar">
+              <div>
+                <h1 class="user-greeting-title">Bonjour, Restaurant </h1>
+                <p class="user-role-badge">Le Gourmet</p>
+              </div>
+              <button class="nav-back-btn" id="btnBuyerNotif" title="Notifications"></button>
+            </div>
+
+            <h2 class="section-title">Statistiques</h2>
+            <div class="metrics-row">
+              <div class="metric-card">
+                <div class="metric-value">8</div>
+                <div class="metric-label">Commandes</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value">3</div>
+                <div class="metric-label">Fournisseurs</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value">125 g</div>
+                <div class="metric-label">Achats</div>
+              </div>
+            </div>
+
+            <h2 class="section-title">Actions rapides</h2>
+            <div class="quick-actions-grid">
+              <div class="quick-action-item" id="actBuyerSearch">
+                <div class="action-icon-circle"></div>
+                <span class="action-label">Rechercher</span>
+              </div>
+              <div class="quick-action-item" id="actBuyerOrders">
+                <div class="action-icon-circle"></div>
+                <span class="action-label">Commandes</span>
+              </div>
+              <div class="quick-action-item" id="actBuyerFavorites">
+                <div class="action-icon-circle"></div>
+                <span class="action-label">Favoris</span>
+              </div>
+              <div class="quick-action-item" id="actBuyerNaturIA" style="background: rgba(34, 197, 94, 0.1); color: var(--primary-dark);">
+                <div class="action-icon-circle" style="background: var(--primary);"></div>
+                <span class="action-label">NaturIA Expert</span>
+              </div>
+            </div>
+
+            <h2 class="section-title">Commandes récentes</h2>
+            <div class="recent-order-card" id="cardBuyerRecentOrder">
+              <img src="assets/images/tomatoes.png" class="order-thumb-img" alt="Tomates" />
+              <div style="flex: 1;">
+                <div style="display: flex; justify-content: space-between;">
+                  <strong style="font-size: 13.5px;">Commande #1254</strong>
+                  <span style="font-size: 10.5px; color: var(--warning); font-weight: 700; background: var(--warning-soft); padding: 2px 6px; border-radius: 4px;">En cours</span>
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">250 g de Tomates</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===================================================================
+               07. MARKETPLACE / RECHERCHE
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-marketplace" data-theme="light">
+            <div class="search-filter-bar">
+              <div class="search-input-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                <input type="text" class="form-input" id="inputMarketSearch" placeholder="Rechercher un produit..." />
+              </div>
+              <button class="nav-back-btn" id="btnFilterMarket" style="border: 1px solid var(--border-color); border-radius: 12px;">️</button>
+            </div>
+
+            <div class="category-chips-row" id="marketCategoryChips">
+              <button class="cat-chip active" data-cat="all">Tout</button>
+              <button class="cat-chip" data-cat="legumes">Légumes</button>
+              <button class="cat-chip" data-cat="fruits">Fruits</button>
+              <button class="cat-chip" data-cat="volailles">Volailles</button>
+              <button class="cat-chip" data-cat="cereales">Céréales</button>
+              <button class="cat-chip" data-cat="laitiers">Laitiers</button>
+            </div>
+
+            <div class="products-grid" id="marketProductsGrid">
+              <!-- Item 1 -->
+              <div class="product-item-card" data-prod="tomates">
+                <img src="assets/images/tomatoes.png" class="product-thumb-img" alt="Tomates" />
+                <div class="product-info-wrap">
+                  <span class="product-name-txt">Tomates fraîche</span>
+                  <span class="product-price-txt">250 FCFA / kg</span>
+                  <span class="product-stock-txt">Disponible: 200 kg</span>
+                </div>
+                <label class="switch-toggle" onclick="event.stopPropagation()">
+                  <input type="checkbox" checked />
+                  <span class="slider-round"></span>
+                </label>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="product-item-card" data-prod="poulet">
+                <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=150" class="product-thumb-img" alt="Poulet" />
+                <div class="product-info-wrap">
+                  <span class="product-name-txt">Poulet local</span>
+                  <span class="product-price-txt">2 500 FCFA / unité</span>
+                  <span class="product-stock-txt">Disponible: 50 unités</span>
+                </div>
+                <label class="switch-toggle" onclick="event.stopPropagation()">
+                  <input type="checkbox" checked />
+                  <span class="slider-round"></span>
+                </label>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="product-item-card" data-prod="mais">
+                <img src="https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=150" class="product-thumb-img" alt="Maïs" />
+                <div class="product-info-wrap">
+                  <span class="product-name-txt">Maïs</span>
+                  <span class="product-price-txt">100 FCFA / kg</span>
+                  <span class="product-stock-txt">Disponible: 300 kg</span>
+                </div>
+                <label class="switch-toggle" onclick="event.stopPropagation()">
+                  <input type="checkbox" checked />
+                  <span class="slider-round"></span>
+                </label>
+              </div>
+
+              <!-- Item 4 -->
+              <div class="product-item-card" data-prod="lait">
+                <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=150" class="product-thumb-img" alt="Lait" />
+                <div class="product-info-wrap">
+                  <span class="product-name-txt">Lait frais</span>
+                  <span class="product-price-txt">1 000 FCFA / litre</span>
+                  <span class="product-stock-txt">Disponible: 100 litres</span>
+                </div>
+                <label class="switch-toggle" onclick="event.stopPropagation()">
+                  <input type="checkbox" checked />
+                  <span class="slider-round"></span>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===================================================================
+               08. DÉTAIL D'UN PRODUIT
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-product-detail" data-theme="light">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-marketplace">←</button>
+              <h2>Détail Produit</h2>
+              <button class="header-right-action" title="Favori"></button>
+            </header>
+
+            <div class="detail-hero-banner">
+              <img src="assets/images/tomatoes.png" class="detail-hero-img" alt="Tomates" />
+            </div>
+
+            <div class="detail-price-row">
+              <div>
+                <h1 style="font-size: 20px; font-weight: 800; color: var(--text-main);">Tomates fraîche</h1>
+                <div style="font-size: 18px; font-weight: 800; color: var(--primary);">250 <span style="font-size: 13px; font-weight: 600; color: var(--text-muted);">FCFA / kg</span></div>
+              </div>
+            </div>
+
+            <div class="detail-seller-box">
+              <img src="assets/images/farmer.png" class="seller-avatar-img" alt="Ferme" />
+              <div style="flex: 1;">
+                <strong style="font-size: 13.5px;">Par: Ferme de la Vallée</strong>
+                <div style="font-size: 11.5px; color: var(--accent-gold-dark);">⭐ 4.8 (24)</div>
+              </div>
+            </div>
+
+            <div class="spec-badges-row">
+              <div class="spec-badge">
+                <span style="color: var(--text-muted);">Quantité disponible</span>
+                <strong>200 kg</strong>
+              </div>
+              <div class="spec-badge">
+                <span style="color: var(--text-muted);">Date de récolte</span>
+                <strong>25 Mai 2024</strong>
+              </div>
+            </div>
+
+            <div class="spec-badge" style="margin-bottom: 20px;">
+              <span style="color: var(--text-muted);">Localisation</span>
+              <strong>Yaoundé, Cameroun (5 km)</strong>
+            </div>
+            <button class="btn-primary-action" id="btnOrderProduct">
+              Passer commande
+            </button>
+          </section>
+
+          <!-- ===================================================================
+               09. CARTE & GÉOLOCALISATION
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-map" data-theme="light">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-buyer-dashboard">←</button>
+              <h2>Carte des producteurs</h2>
+              <div style="width: 32px;"></div>
+            </header>
+
+            <div class="map-view-container" id="leafletMapContainer"></div>
+
+            <div class="map-card-popup" id="mapProducerCard">
+              <img src="assets/images/farmer.png" style="width: 48px; height: 48px; border-radius: 10px; object-fit: cover;" alt="Ferme" />
+              <div style="flex: 1;">
+                <strong style="font-size: 13.5px;">Ferme de la Vallée</strong>
+                <p style="font-size: 11.5px; color: var(--text-muted);">Tomates, Maïs, Concombres</p>
+                <span style="font-size: 11px; color: var(--primary); font-weight: 700;"> 5 km de vous</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===================================================================
+               11. AJOUT DE PRODUIT (VENDEUR)
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-add-product" data-theme="light">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-seller-dashboard">←</button>
+              <h2>Ajouter un produit</h2>
+              <div style="width: 32px;"></div>
+            </header>
+
+            <h1 class="form-card-title">Informations du produit</h1>
+
+            <form class="register-form" id="addProductForm" onsubmit="event.preventDefault();">
+              <div class="form-group">
+                <label class="form-label">Photo du produit</label>
+                <label class="photo-upload-box" style="width: 100%; height: 120px; border: 2px dashed var(--border-color); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); cursor: pointer; background: var(--bg-input); transition: border-color 0.2s;">
+                  <span style="font-size: 28px; margin-bottom: 8px;"></span>
+                  <span style="font-size: 13px; font-weight: 600;">Appuyez pour ajouter une photo</span>
+                  <input type="file" accept="image/*" style="display: none;" />
+                </label>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Catégorie</label>
+                <select class="form-input" id="addCategory">
+                  <option>Légumes</option>
+                  <option>Fruits</option>
+                  <option>Volailles</option>
+                  <option>Céréales</option>
+                  <option>Produits laitiers</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Nom du produit</label>
+                <input type="text" class="form-input" id="addName" value="Tomates fraîche" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Prix unitaire (FCFA / kg)</label>
+                <input type="number" class="form-input" id="addPrice" value="250" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Quantité disponible (kg)</label>
+                <input type="number" class="form-input" id="addQuantity" value="200" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Date de récolte</label>
+                <input type="date" class="form-input" id="addDate" value="2024-05-25" />
+              </div>
+
+              <button type="submit" class="btn-primary-action" id="btnPublishProduct">
+                Publier le produit
+              </button>
+            </form>
+          </section>
+
+          <!-- ===================================================================
+               12. MES PRODUITS (CATALOGUE VENDEUR)
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-my-products" data-theme="light">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-seller-dashboard">←</button>
+              <h2>Mes produits</h2>
+              <button class="header-right-action" id="btnGoAddProductTop"></button>
+            </header>
+
+            <div class="category-chips-row">
+              <button class="cat-chip active">Tout</button>
+              <button class="cat-chip">Actifs</button>
+              <button class="cat-chip">Suspendus</button>
+            </div>
+
+            <div class="products-grid">
+              <div class="product-item-card">
+                <img src="assets/images/tomatoes.png" class="product-thumb-img" alt="Tomates" />
+                <div class="product-info-wrap">
+                  <span class="product-name-txt">Tomates fraîche</span>
+                  <span class="product-price-txt">250 FCFA / kg</span>
+                  <span class="product-stock-txt">200 kg disponibles</span>
+                </div>
+                <label class="switch-toggle"><input type="checkbox" checked /><span class="slider-round"></span></label>
+              </div>
+
+              <div class="product-item-card">
+                <img src="https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=150" class="product-thumb-img" alt="Maïs" />
+                <div class="product-info-wrap">
+                  <span class="product-name-txt">Maïs</span>
+                  <span class="product-price-txt">100 FCFA / kg</span>
+                  <span class="product-stock-txt">300 kg disponibles</span>
+                </div>
+                <label class="switch-toggle"><input type="checkbox" checked /><span class="slider-round"></span></label>
+              </div>
+
+              <div class="product-item-card">
+                <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=150" class="product-thumb-img" alt="Poulet" />
+                <div class="product-info-wrap">
+                  <span class="product-name-txt">Poulet local</span>
+                  <span class="product-price-txt">2 500 FCFA / unité</span>
+                  <span class="product-stock-txt">50 unités disponibles</span>
+                </div>
+                <label class="switch-toggle"><input type="checkbox" checked /><span class="slider-round"></span></label>
+              </div>
+            </div>
+
+            <button class="btn-primary-action" id="btnFloatAddProduct" style="margin-top: 18px;">
+              + Ajouter un produit
+            </button>
+          </section>
+
+          <!-- ===================================================================
+               13. COMMANDE (ACHETEUR)
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-order-summary" data-theme="light">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-product-detail">←</button>
+              <h2>Votre commande</h2>
+              <div style="width: 32px;"></div>
+            </header>
+
+            <div class="order-summary-box">
+              <div style="display: flex; gap: 12px; align-items: center;">
+                <img src="assets/images/tomatoes.png" style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover;" alt="Tomates" />
+                <div>
+                  <strong style="font-size: 14px;">Tomates fraîche</strong>
+                  <div style="font-size: 12px; color: var(--primary); font-weight: 700;">250 FCFA / kg</div>
+                </div>
+              </div>
+
+              <div class="quantity-stepper">
+                <button class="stepper-btn" id="btnQtyMinus">-</button>
+                <strong id="orderQtyDisplay">100kg</strong>
+                <button class="stepper-btn" id="btnQtyPlus">+</button>
+              </div>
+
+              <div class="bill-row"><span>Sous-total</span><span id="orderSubtotal">25 000 FCFA</span></div>
+              <div class="bill-row"><span>Frais de livraison</span><span>2 000 FCFA</span></div>
+              <div class="bill-row total"><span>Total</span><span id="orderTotal" style="color: var(--primary);">27 000 FCFA</span></div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 14px;">
+              <label class="form-label">Adresse de livraison</label>
+              <div class="spec-badge">
+                <strong>Restaurant Le Gourmet</strong>
+                <span style="color: var(--text-muted); font-size: 11.5px;">Quartier Bastos, Yaoundé, Cameroun</span>
+              </div>
+            </div>
+
+            <button class="btn-primary-action" id="btnConfirmOrder">
+              Confirmer la commande
+            </button>
+          </section>
+
+          <!-- ===================================================================
+               14. PAIEMENT SÉCURISÉ (ESCROW)
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-payment-escrow" data-theme="light">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-order-summary">←</button>
+              <h2>Paiement sécurisé</h2>
+              <div style="width: 32px;"></div>
+            </header>
+
+            <span style="font-size: 12px; color: var(--text-muted);">Montant à payer</span>
+            <div style="font-family: var(--font-heading); font-size: 24px; font-weight: 800; color: var(--text-main); margin-bottom: 16px;">
+              27 000 FCFA
+            </div>
+
+            <label class="form-label" style="margin-bottom: 8px;">Mode de paiement</label>
+            <div class="payment-method-card selected" data-pay="momo">
+              <span></span>
+              <div style="flex: 1;">
+                <strong style="font-size: 13px;">Mobile Money</strong>
+                <p style="font-size: 11px; color: var(--text-muted);">MTN MoMo / Orange Money</p>
+              </div>
+              <span></span>
+            </div>
+
+            <div class="payment-method-card" data-pay="card">
+              <span></span>
+              <div style="flex: 1;">
+                <strong style="font-size: 13px;">Carte bancaire</strong>
+                <p style="font-size: 11px; color: var(--text-muted);">Visa / Mastercard</p>
+              </div>
+            </div>
+
+            <div class="payment-method-card" data-pay="bank">
+              <span></span>
+              <div style="flex: 1;">
+                <strong style="font-size: 13px;">Virement bancaire</strong>
+                <p style="font-size: 11px; color: var(--text-muted);">Compte professionnel</p>
+              </div>
+            </div>
+
+            <div class="escrow-badge-pill" style="margin-top: 14px;">
+              <span></span>
+              <span>Les fonds sont sécurisés sous séquestre jusqu'à la confirmation de livraison.</span>
+            </div>
+
+            <button class="btn-primary-action" id="btnPayNow">
+              Payer maintenant
+            </button>
+          </section>
+
+          <!-- ===================================================================
+               15. SUIVI DE COMMANDE
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-order-tracking" data-theme="light">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-buyer-dashboard">←</button>
+              <h2>Commande #1254</h2>
+              <span style="font-size: 11px; font-weight: 700; color: var(--warning); background: var(--warning-soft); padding: 3px 8px; border-radius: 999px;">En cours</span>
+            </header>
+
+            <div class="timeline-stepper">
+              <div class="timeline-step-item">
+                <div class="step-marker-dot"></div>
+                <div class="step-title">Commande confirmée</div>
+                <div class="step-time">25 Mai 2024 – 10:30</div>
+              </div>
+              <div class="timeline-step-item">
+                <div class="step-marker-dot"></div>
+                <div class="step-title">Paiement reçu (Sécurisé Escrow)</div>
+                <div class="step-time">25 Mai 2024 – 10:32</div>
+              </div>
+              <div class="timeline-step-item">
+                <div class="step-marker-dot"></div>
+                <div class="step-title">En préparation</div>
+                <div class="step-time">25 Mai 2024 – 11:00</div>
+              </div>
+              <div class="timeline-step-item">
+                <div class="step-marker-dot" style="background: var(--accent-gold);"></div>
+                <div class="step-title" style="color: var(--accent-gold-dark);">En livraison</div>
+                <div class="step-time">En cours...</div>
+              </div>
+              <div class="timeline-step-item">
+                <div class="step-marker-dot pending"></div>
+                <div class="step-title" style="color: var(--text-light);">Livrée</div>
+              </div>
+            </div>
+
+            <button class="btn-welcome-secondary" id="btnOpenInvoiceModal" style="border: 1px solid var(--border-color); color: var(--primary); margin-bottom: 10px;">
+               Voir la Facture Officielle Escrow
+            </button>
+            <button class="btn-primary-action" id="btnOrderFinished">
+              Voir les détails
+            </button>
+          </section>
+
+          <!-- ===================================================================
+               16. IA DIAGNOSTIC PLANTE
+               =================================================================== -->
+          <section class="screen-view" id="view-ai-diag" data-theme="dark" style="padding: 0; padding-top: 44px; overflow: hidden; background: #080f08;">
+            <header class="screen-header-bar" style="padding: 10px 16px; background: #080f08; color: #fff; z-index: 10; border-bottom: 1px solid rgba(74, 222, 128, 0.12); margin-bottom: 0;">
+              <button class="nav-back-btn" data-back="view-seller-dashboard" style="color: #fff; background: rgba(255, 255, 255, 0.1); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer;">←</button>
+              <h2 style="font-size: 16px; font-weight: 700;">NaturIA Expert</h2>
+              <div style="width: 32px;"></div>
+            </header>
+            <iframe src="api/index.html" style="width: 100%; height: calc(100% - 52px); border: none;"></iframe>
+          </section>
+
+          <!-- ===================================================================
+               17. RÉSULTAT DIAGNOSTIC IA (Remplacé par NaturIA Expert)
+               =================================================================== -->
+          <section class="screen-view" id="view-ai-result" data-theme="dark" style="padding: 0; padding-top: 44px; overflow: hidden; background: #080f08;">
+            <header class="screen-header-bar" style="padding: 10px 16px; background: #080f08; color: #fff; z-index: 10; border-bottom: 1px solid rgba(74, 222, 128, 0.12); margin-bottom: 0;">
+              <button class="nav-back-btn" data-back="view-seller-dashboard" style="color: #fff; background: rgba(255, 255, 255, 0.1); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer;">←</button>
+              <h2 style="font-size: 16px; font-weight: 700;">NaturIA Expert</h2>
+              <div style="width: 32px;"></div>
+            </header>
+            <iframe src="api/index.html" style="width: 100%; height: calc(100% - 52px); border: none;"></iframe>
+          </section>
+
+          <!-- ===================================================================
+               18. IA TRADUCTION & VOIX
+               =================================================================== -->
+          <section class="screen-view" id="view-ai-translate" data-theme="dark" style="padding: 0; padding-top: 44px; overflow: hidden; background: #080f08;">
+            <header class="screen-header-bar" style="padding: 10px 16px; background: #080f08; color: #fff; z-index: 10; border-bottom: 1px solid rgba(74, 222, 128, 0.12); margin-bottom: 0;">
+              <button class="nav-back-btn" data-back="view-chat" style="color: #fff; background: rgba(255, 255, 255, 0.1); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer;">←</button>
+              <h2 style="font-size: 16px; font-weight: 700;">NaturIA Expert</h2>
+              <div style="width: 32px;"></div>
+            </header>
+            <iframe src="api/index.html" style="width: 100%; height: calc(100% - 52px); border: none;"></iframe>
+          </section>
+
+          <!-- ===================================================================
+               19. NOTIFICATIONS
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-notifications" data-theme="light">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-seller-dashboard">←</button>
+              <h2>Notifications</h2>
+              <button class="header-right-action" title="Marquer comme lu"></button>
+            </header>
+
+            <div class="notifications-list">
+              <div class="notification-card">
+                <div class="notif-icon-wrap"></div>
+                <div style="flex: 1;">
+                  <strong style="font-size: 13px;">Commande #1254 confirmée</strong>
+                  <p style="font-size: 11.5px; color: var(--text-muted);">Votre commande a été confirmée.</p>
+                  <span style="font-size: 10px; color: var(--text-light);">10:30</span>
+                </div>
+              </div>
+
+              <div class="notification-card">
+                <div class="notif-icon-wrap" style="background: var(--success-soft); color: var(--success);"></div>
+                <div style="flex: 1;">
+                  <strong style="font-size: 13px;">Paiement reçu</strong>
+                  <p style="font-size: 11.5px; color: var(--text-muted);">Votre paiement de 27 000 FCFA a été sécurisé.</p>
+                  <span style="font-size: 10px; color: var(--text-light);">10:32</span>
+                </div>
+              </div>
+
+              <div class="notification-card">
+                <div class="notif-icon-wrap" style="background: var(--warning-soft); color: var(--accent-gold-dark);">️</div>
+                <div style="flex: 1;">
+                  <strong style="font-size: 13px;">Nouvelle offre près de vous</strong>
+                  <p style="font-size: 11.5px; color: var(--text-muted);">Maïs à 180 FCFA / kg disponible à 2 km.</p>
+                  <span style="font-size: 10px; color: var(--text-light);">09:15</span>
+                </div>
+              </div>
+
+              <div class="notification-card">
+                <div class="notif-icon-wrap"></div>
+                <div style="flex: 1;">
+                  <strong style="font-size: 13px;">Message de Ferme de la Vallée</strong>
+                  <p style="font-size: 11.5px; color: var(--text-muted);">Nous préparons votre commande.</p>
+                  <span style="font-size: 10px; color: var(--text-light);">08:45</span>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn-welcome-secondary" id="btnMarkAllNotifs" style="margin-top: 18px; border: 1px solid var(--border-color); color: var(--text-main);">
+              Tout marquer comme lu
+            </button>
+          </section>
+
+          <!-- ===================================================================
+               20. PROFIL & PARAMÈTRES
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-profile" data-theme="light">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-seller-dashboard">←</button>
+              <h2>Mon profil</h2>
+              <button class="header-right-action">️</button>
+            </header>
+
+            <div style="display: flex; gap: 14px; align-items: center; margin-bottom: 18px;">
+              <img src="assets/images/farmer.png" style="width: 58px; height: 58px; border-radius: 50%; object-fit: cover;" alt="Avatar" />
+              <div>
+                <h3 style="font-size: 17px; font-weight: 800; color: var(--text-main);">Jean Dupont</h3>
+                <p style="font-size: 12.5px; color: var(--text-muted);">Agriculteur · Yaoundé</p>
+              </div>
+            </div>
+
+            <div class="profile-menu-list">
+              <div class="profile-menu-item">
+                <span> Informations personnelles</span>
+                <span>›</span>
+              </div>
+              <div class="profile-menu-item">
+                <span> Mon profil vendeur</span>
+                <span>›</span>
+              </div>
+              <div class="profile-menu-item">
+                <span> Moyens de paiement</span>
+                <span>›</span>
+              </div>
+              <div class="profile-menu-item">
+                <span> Adresses de livraison</span>
+                <span>›</span>
+              </div>
+              <div class="profile-menu-item">
+                <span>️ Paramètres</span>
+                <span>›</span>
+              </div>
+              <div class="profile-menu-item" id="btnLogoutApp" style="color: var(--danger);">
+                <span> Déconnexion</span>
+                <span>›</span>
+              </div>
+            </div>
+          </section>
+
+        </div> <!-- /views-scroll-container -->
+
+        <!-- ===================================================================
+             BOTTOM NAVIGATION BAR
+             =================================================================== -->
+        <nav class="bottom-app-nav" id="bottomAppNav" style="display: none;">
+          <button class="nav-tab-btn active" data-target="view-seller-dashboard" id="tabNavHome">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>Accueil</span>
+          </button>
+          <button class="nav-tab-btn" data-target="view-marketplace" id="tabNavMarket">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <span>Produits</span>
+          </button>
+          <button class="nav-tab-btn" data-target="view-map" id="tabNavMap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+            <span>Ventes / Carte</span>
+          </button>
+          <button class="nav-tab-btn" data-target="view-profile" id="tabNavProfile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Profil</span>
+          </button>
+        </nav>
+
+        <!-- Interactive Toast Popup -->
+        <div class="toast-msg" id="appToast">Bienvenue sur AgroElevage Link !</div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MODAL: FACTURE OFFICIELLE ESCROW
+       =================================================================== -->
+  <div class="modal-backdrop" id="invoiceModal">
+    <div class="invoice-paper-card">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+        <div>
+          <h3 style="color: var(--primary); font-size: 16px; font-weight: 800;">AgroElevage Link</h3>
+          <p style="color: var(--text-muted); font-size: 10px;">Plateforme Agricole & B2B Sécurisée</p>
+        </div>
+        <button class="nav-back-btn" id="btnCloseInvoiceModal" style="width: 24px; height: 24px; font-size: 16px;"></button>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 12px; background: var(--bg-subtle); padding: 8px; border-radius: 8px;">
+        <div>
+          <strong>FACTURE #INV-2024-1254</strong><br/>
+          <span>Date : 25 Mai 2024</span>
+        </div>
+        <div style="text-align: right;">
+          <span style="color: var(--success); font-weight: 700;">STATUT : PAYÉ (ESCROW)</span>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 10.5px; margin-bottom: 12px;">
+        <div>
+          <strong style="color: var(--primary);">Vendeur :</strong><br/>
+          Ferme de la Vallée<br/>
+          Yaoundé, Cameroun
+        </div>
+        <div>
+          <strong style="color: var(--primary);">Acheteur :</strong><br/>
+          Restaurant Le Gourmet<br/>
+          Quartier Bastos, Yaoundé
+        </div>
+      </div>
+
+      <table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 12px;">
+        <thead>
+          <tr style="background: var(--bg-subtle); text-align: left;">
+            <th style="padding: 6px 4px;">Article</th>
+            <th style="padding: 6px 4px;">Qté</th>
+            <th style="padding: 6px 4px;">Prix</th>
+            <th style="padding: 6px 4px; text-align: right;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 6px 4px; border-bottom: 1px solid var(--border-color);">Tomates fraîches</td>
+            <td style="padding: 6px 4px; border-bottom: 1px solid var(--border-color);">100 kg</td>
+            <td style="padding: 6px 4px; border-bottom: 1px solid var(--border-color);">250 F</td>
+            <td style="padding: 6px 4px; border-bottom: 1px solid var(--border-color); text-align: right;">25 000 F</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 4px;">Livraison directe</td>
+            <td style="padding: 6px 4px;">1</td>
+            <td style="padding: 6px 4px;">2 000 F</td>
+            <td style="padding: 6px 4px; text-align: right;">2 000 F</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr style="font-weight: 800; font-size: 12px; border-top: 2px solid var(--border-color);">
+            <td colspan="3" style="padding: 8px 4px; text-align: right;">TOTAL PAYÉ :</td>
+            <td style="padding: 8px 4px; text-align: right; color: var(--primary);">27 000 FCFA</td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="invoice-stamp">ESCROW SÉCURISÉ</div>
+        <button class="btn-primary-action" onclick="window.print()" style="width: auto; padding: 6px 14px; font-size: 11.5px; height: 32px;">
+          ️ Imprimer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet Map JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <!-- Chart.js for Dashboards -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- App Script -->
+  <script src="js/app.js"></script>
+</body>
+</html>

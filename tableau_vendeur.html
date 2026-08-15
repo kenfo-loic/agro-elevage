@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tableau de Bord Vendeur — AgroElevage Link</title>
+  <meta name="description" content="Espace de gestion des récoltes, ventes, commandes et portefeuilles pour producteurs agricoles et éleveurs." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css?v=3" />
+</head>
+<body>
+  <!-- ===================================================================
+       WEB APPLICATION SHELL (PURE FULLSCREEN WEB APP)
+       =================================================================== -->
+  <div class="web-app-shell">
+    
+    <!-- Shared Web Sidebar (Injected by layout.js) -->
+    <div id="sidebar-root"></div>
+
+    <!-- Main Content Area -->
+    <div class="web-main-container">
+      
+      <!-- Top Navigation Bar -->
+      <header class="web-topbar">
+        <div class="web-topbar-left">
+          <button class="web-menu-toggle" id="btnToggleMobileMenu" title="Ouvrir le menu de navigation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg> <span>Menu</span></button>
+          <span class="web-page-heading-title">Tableau de Bord Vendeur</span>
+        </div>
+
+        <div class="web-topbar-search">
+          <span class="web-search-lens-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+          <input type="text" class="web-global-search-input" placeholder="Rechercher des ventes, produits, commandes..." />
+        </div>
+
+        <div class="web-topbar-right">
+          <a href="paiement_escrow.html" class="web-wallet-pill" title="Consulter mon portefeuille">
+            <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></span>
+            <span class="wallet-badge-txt">128 500 FCFA</span>
+            <span class="wallet-lbl-txt">• Portefeuille Séquestre</span>
+          </a>
+
+          <a href="notifications.html" class="web-topbar-btn-circle" title="Notifications">
+            <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span>
+            <span class="web-notif-dot"></span>
+          </a>
+
+          <a href="profil.html" class="web-topbar-btn-circle" title="Profil">
+            <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Main Content Body -->
+      <main class="web-content-body">
+        
+        <!-- Welcome Hero Banner -->
+        <div class="web-card" style="background: linear-gradient(135deg, #14532d 0%, #15803d 60%, #16a34a 100%); color: #ffffff; margin-bottom: 24px; position: relative; overflow: hidden;">
+          <div style="position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div>
+              <span style="font-size: 12px; background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 20px; font-weight: 700;">ESPACE PRODUCTEUR CERTIFIÉ</span>
+              <h1 style="font-family: var(--font-heading); font-size: 24px; font-weight: 800; margin: 8px 0 4px;">Bonjour, Kenfo Loic</h1>
+              <p style="font-size: 13.5px; opacity: 0.9;">Ferme de la Vallée • Yaoundé, Cameroun • Toutes vos transactions sont protégées par Escrow Sécurisé.</p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <a href="ajouter_produit.html" class="btn-primary-action" style="background: #ffffff; color: var(--primary-dark); font-weight: 800; height: 42px; width: auto; padding: 0 20px; text-decoration: none; border-radius: 9999px;">
+                Ajouter un Produit
+              </a>
+              <a href="naturia_expert.html" class="btn-primary-action" style="background: rgba(255,255,255,0.15); color: #ffffff; border: 1px solid rgba(255,255,255,0.3); height: 42px; width: auto; padding: 0 18px; text-decoration: none; border-radius: 9999px;">
+                NaturIA Expert
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1. KPI Stats Grid (4 columns on Desktop) -->
+        <div class="web-grid-4">
+          <div class="web-card" style="display: flex; align-items: center; gap: 14px;">
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 22px;"></div>
+            <div>
+              <div style="font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: var(--text-main);">12</div>
+              <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Produits au Catalogue</div>
+            </div>
+          </div>
+
+          <div class="web-card" style="display: flex; align-items: center; gap: 14px;">
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: #fef3c7; color: #d97706; display: flex; align-items: center; justify-content: center; font-size: 22px;"></div>
+            <div>
+              <div style="font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: var(--text-main);">5</div>
+              <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Commandes en cours</div>
+            </div>
+          </div>
+
+          <div class="web-card" style="display: flex; align-items: center; gap: 14px;">
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: #e0e7ff; color: #4338ca; display: flex; align-items: center; justify-content: center; font-size: 22px;"></div>
+            <div>
+              <div style="font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: var(--text-main);">2.5 T</div>
+              <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Stock Total Récolté</div>
+            </div>
+          </div>
+
+          <div class="web-card" style="display: flex; align-items: center; gap: 14px;">
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: #dcfce7; color: #15803d; display: flex; align-items: center; justify-content: center; font-size: 22px;"></div>
+            <div>
+              <div style="font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: var(--primary);">250 000 F</div>
+              <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Ventes du Mois</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Fast Actions Grid -->
+        <h3 style="font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: var(--text-main); margin-bottom: 14px;">Actions Rapides</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 24px;">
+          <a href="ajouter_produit.html" class="web-card" style="text-decoration: none; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+            <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px;"></div>
+            <span style="font-family: var(--font-heading); font-size: 13.5px; font-weight: 700; color: var(--text-main);">Ajouter Produit</span>
+          </a>
+          <a href="mes_produits.html" class="web-card" style="text-decoration: none; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+            <div style="width: 44px; height: 44px; border-radius: 50%; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 20px;"></div>
+            <span style="font-family: var(--font-heading); font-size: 13.5px; font-weight: 700; color: var(--text-main);">Mes Produits</span>
+          </a>
+          <a href="passer_commande.html" class="web-card" style="text-decoration: none; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+            <div style="width: 44px; height: 44px; border-radius: 50%; background: #fef3c7; color: #d97706; display: flex; align-items: center; justify-content: center; font-size: 20px;"></div>
+            <span style="font-family: var(--font-heading); font-size: 13.5px; font-weight: 700; color: var(--text-main);">Commandes</span>
+          </a>
+          <a href="paiement_escrow.html" class="web-card" style="text-decoration: none; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+            <div style="width: 44px; height: 44px; border-radius: 50%; background: #dcfce7; color: #16a34a; display: flex; align-items: center; justify-content: center; font-size: 20px;"></div>
+            <span style="font-family: var(--font-heading); font-size: 13.5px; font-weight: 700; color: var(--text-main);">Portefeuille Escrow</span>
+          </a>
+          <a href="naturia_expert.html" class="web-card" style="text-decoration: none; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; border-color: #86efac; background: #f0fdf4;">
+            <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--primary); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 20px;"></div>
+            <span style="font-family: var(--font-heading); font-size: 13.5px; font-weight: 700; color: var(--primary-dark);">NaturIA Expert</span>
+          </a>
+        </div>
+
+        <!-- 3. Sales Chart and Recent Transactions (2 Columns on Desktop) -->
+        <div class="web-grid-2">
+          
+          <!-- Sales Graph Box -->
+          <div class="web-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <div>
+                <h3 style="font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: var(--text-main);">Évolution des Ventes</h3>
+                <span style="font-size: 12px; color: var(--text-muted);">Revenus cumulés sur les 6 derniers mois</span>
+              </div>
+              <span class="sales-growth-pill">+15% ce mois </span>
+            </div>
+            <div style="position: relative; height: 260px;">
+              <canvas id="sellerSalesChartCanvas"></canvas>
+            </div>
+          </div>
+
+          <!-- Recent Orders Card -->
+          <div class="web-card" style="display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <h3 style="font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: var(--text-main);">Dernières Commandes</h3>
+              <a href="suivi_commande.html" style="font-size: 12px; color: var(--primary); font-weight: 700; text-decoration: none;">Voir tout ›</a>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 12px; flex: 1;">
+              <div style="display: flex; align-items: center; gap: 12px; padding: 10px; background: var(--bg-subtle); border-radius: 10px; border-left: 4px solid var(--accent-gold);">
+                <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=100" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;" alt="Tomates" />
+                <div style="flex: 1; min-width: 0;">
+                  <div style="font-weight: 700; font-size: 13px;">Tomates fraîches (100 kg)</div>
+                  <div style="font-size: 11.5px; color: var(--text-muted);">Restaurant Le Gourmet • Bastos</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-weight: 800; font-size: 13px; color: var(--primary);">27 000 F</div>
+                  <span style="font-size: 10px; font-weight: 700; color: var(--success); background: #dcfce7; padding: 2px 6px; border-radius: 4px;">Séquestre</span>
+                </div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 12px; padding: 10px; background: var(--bg-subtle); border-radius: 10px; border-left: 4px solid var(--primary);">
+                <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=100" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;" alt="Pommes de terre" />
+                <div style="flex: 1; min-width: 0;">
+                  <div style="font-weight: 700; font-size: 13px;">Pommes de terre (200 kg)</div>
+                  <div style="font-size: 11.5px; color: var(--text-muted);">Hôtel Hilton • Yaoundé</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-weight: 800; font-size: 13px; color: var(--primary);">64 000 F</div>
+                  <span style="font-size: 10px; font-weight: 700; color: #2563eb; background: #dbeafe; padding: 2px 6px; border-radius: 4px;">Livré</span>
+                </div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 12px; padding: 10px; background: var(--bg-subtle); border-radius: 10px; border-left: 4px solid #94a3b8;">
+                <img src="https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=100" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;" alt="Ananas" />
+                <div style="flex: 1; min-width: 0;">
+                  <div style="font-weight: 700; font-size: 13px;">Ananas Pain de Sucre (50 pcs)</div>
+                  <div style="font-size: 11.5px; color: var(--text-muted);">Marché Mfoundi</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-weight: 800; font-size: 13px; color: var(--primary);">25 000 F</div>
+                  <span style="font-size: 10px; font-weight: 700; color: #64748b; background: #e2e8f0; padding: 2px 6px; border-radius: 4px;">Clôturé</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+
+      <!-- Interactive Toast -->
+      <div class="toast-msg" id="appToast">Bienvenue sur AgroElevage Link !</div>
+
+    </div>
+  </div>
+
+  <!-- Chart.js for Dashboards -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Navigation & Layout Helpers -->
+  <script src="js/layout.js"></script>
+  <script src="js/mpa_app.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const ctx = document.getElementById('sellerSalesChartCanvas');
+      if (ctx) {
+        new Chart(ctx.getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin'],
+            datasets: [{
+              label: 'Ventes (FCFA)',
+              data: [120000, 150000, 180000, 140000, 210000, 250000],
+              borderColor: '#15803d',
+              backgroundColor: 'rgba(21, 128, 61, 0.1)',
+              borderWidth: 3,
+              pointBackgroundColor: '#15803d',
+              fill: true,
+              tension: 0.4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                ticks: {
+                  callback: (value) => value.toLocaleString('fr-FR') + ' F'
+                }
+              },
+              x: {
+                grid: { display: false }
+              }
+            }
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

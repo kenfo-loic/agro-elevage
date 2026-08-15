@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carte & Géolocalisation B2B — AgroElevage Link</title>
+  <meta name="description" content="Localisez les producteurs agricoles, hôtels B2B, restaurants, usines de transformation et hubs logistiques à proximité." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="css/style.css?v=3" />
+
+  <style>
+    .map-web-layout {
+      display: grid;
+      grid-template-columns: 390px 1fr;
+      gap: 20px;
+      height: calc(100vh - 140px);
+      min-height: 580px;
+    }
+
+    .map-filter-btn {
+      padding: 6px 12px;
+      font-size: 11.5px;
+      font-weight: 700;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .map-filter-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);
+    }
+
+    .producer-item {
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .producer-item:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .search-suggestion-item:hover {
+      background: var(--primary-soft);
+    }
+
+    @media (max-width: 960px) {
+      .map-web-layout {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+      #leafletMapContainer {
+        height: 440px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===================================================================
+       WEB APPLICATION SHELL (PURE FULLSCREEN WEB APP)
+       =================================================================== -->
+  <div class="web-app-shell">
+    
+    <!-- Shared Web Sidebar (Injected by layout.js) -->
+    <div id="sidebar-root"></div>
+
+    <!-- Main Content Area -->
+    <div class="web-main-container">
+      
+      <!-- Top Navigation Bar -->
+      <header class="web-topbar">
+        <div class="web-topbar-left">
+          <button class="web-menu-toggle" id="btnToggleMobileMenu" title="Ouvrir le menu de navigation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg> <span>Menu</span></button>
+          <span class="web-page-heading-title">Carte & Acteurs B2B Géolocalisés</span>
+        </div>
+
+        <div class="web-topbar-search">
+          <span class="web-search-lens-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+          <input type="text" class="web-global-search-input" id="searchMapInput" placeholder="Rechercher une ferme, hôtel, usine, restaurant..." />
+        </div>
+
+        <div class="web-topbar-right">
+          <a href="marketplace.html" class="btn-primary-action" style="height: 38px; width: auto; padding: 0 16px; font-size: 13px; gap: 6px; text-decoration: none;">
+            <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg></span> <span>Marketplace</span>
+          </a>
+
+          <a href="notifications.html" class="web-topbar-btn-circle" title="Notifications">
+            <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span>
+            <span class="web-notif-dot"></span>
+          </a>
+
+          <a href="profil.html" class="web-topbar-btn-circle" title="Profil">
+            <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Main Content Body -->
+      <main class="web-content-body" style="padding-bottom: 24px;">
+        
+        <div class="map-web-layout">
+          
+          <!-- Left Column: Producers & B2B Actors List -->
+          <div class="web-card" style="display: flex; flex-direction: column; padding: 18px; overflow: hidden;">
+            <div style="margin-bottom: 12px;">
+              <h2 style="font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: var(--text-main);">Acteurs B2B & Cartographie</h2>
+              <p style="font-size: 12px; color: var(--text-muted);">Recherchez et géolocalisez un établissement sur la carte</p>
+            </div>
+
+            <!-- Dedicated Enterprise Search Input Box -->
+            <div style="position: relative; margin-bottom: 12px;">
+              <div class="login-input-wrap" style="background: var(--bg-subtle); border-radius: 10px; border: 1.5px solid var(--border-color);">
+                <span class="login-input-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </span>
+                <input type="text" class="form-input login-input-field" id="inputSearchEnterprise" placeholder="Tapez le nom d'une entreprise (ex: Hilton, SOCATRA...)" style="height: 42px; padding-left: 38px; padding-right: 36px; font-size: 12.5px; background: transparent; border: none;" autocomplete="off" />
+                <button type="button" id="btnClearMapSearch" style="position: absolute; right: 10px; background: none; border: none; color: var(--text-muted); cursor: pointer; display: none; font-size: 15px; font-weight: 700;">✕</button>
+              </div>
+
+              <!-- Autocomplete Suggestion Dropdown -->
+              <div id="searchSuggestionsBox" style="position: absolute; top: 46px; left: 0; right: 0; background: var(--bg-card); border: 1.5px solid var(--border-color); border-radius: 10px; box-shadow: var(--shadow-lg); z-index: 1000; max-height: 240px; overflow-y: auto; display: none;">
+              </div>
+            </div>
+
+            <!-- Filter Pills Row -->
+            <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 10px;" id="mapCategoryFilterContainer">
+              <button class="map-filter-btn active" data-cat="all">Tout (18)</button>
+              <button class="map-filter-btn" data-cat="ferme">Fermes (5)</button>
+              <button class="map-filter-btn" data-cat="hotel">Hôtels (4)</button>
+              <button class="map-filter-btn" data-cat="restaurant">Restaurants (4)</button>
+              <button class="map-filter-btn" data-cat="usine">Transformation (4)</button>
+              <button class="map-filter-btn" data-cat="logistique">Logistique (1)</button>
+            </div>
+
+            <!-- Dynamic List of Cards -->
+            <div style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 4px;" id="producersMapList">
+              <!-- Dynamically populated via JS -->
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive Leaflet Map Canvas -->
+          <div class="web-card" style="padding: 0; overflow: hidden; position: relative; border-radius: var(--radius-card);">
+            <div id="leafletMapContainer" style="width: 100%; height: 100%; min-height: 520px;"></div>
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- Leaflet Map JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Navigation & Layout Helpers -->
+  <script src="js/layout.js"></script>
+  <script src="js/mpa_app.js"></script>
+
+  <script>
+    let mapInstance = null;
+    let markersList = [];
+    let currentFilter = 'all';
+
+    const locationsData = [
+      // 1. PRODUCTEURS & FERMES
+      {
+        id: 1,
+        cat: 'ferme',
+        badge: 'Producteur Agricole',
+        name: 'Ferme de la Vallée',
+        sub: 'Tomates Roma, Piments, Maïs doux',
+        loc: 'Yaoundé Nord, Olembé (5 km)',
+        rating: '4.9',
+        lat: 3.8967,
+        lng: 11.5167,
+        color: '#15803d',
+        img: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=120'
+      },
+      {
+        id: 2,
+        cat: 'ferme',
+        badge: 'Élevage Avicole',
+        name: 'Élevage Avicole Mbouda',
+        sub: 'Poulets Goliath, Pondeuses, Œufs frais',
+        loc: 'Biyem-Assi (12 km)',
+        rating: '4.8',
+        lat: 3.8480,
+        lng: 11.5021,
+        color: '#15803d',
+        img: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=120'
+      },
+      {
+        id: 3,
+        cat: 'ferme',
+        badge: 'Plantation Fruitière',
+        name: 'Plantations du Noun',
+        sub: 'Avocats Hass, Ananas Victoria, Papayes',
+        loc: 'Obala (28 km)',
+        rating: '5.0',
+        lat: 3.9150,
+        lng: 11.5300,
+        color: '#15803d',
+        img: 'https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=120'
+      },
+      {
+        id: 4,
+        cat: 'ferme',
+        badge: 'Coopérative Tubercules',
+        name: 'GIC Tubercules & Racines',
+        sub: 'Manioc frais, Igname, Patate douce',
+        loc: 'Mbalmayo (38 km)',
+        rating: '4.7',
+        lat: 3.8200,
+        lng: 11.4800,
+        color: '#15803d',
+        img: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=120'
+      },
+      {
+        id: 5,
+        cat: 'ferme',
+        badge: 'Porcin & Pisciculture',
+        name: 'Ferme Porcine & Piscicole du Nyong',
+        sub: 'Porcs de race, Tilapia & Clarias vivants',
+        loc: 'Ahala (8 km)',
+        rating: '4.9',
+        lat: 3.8150,
+        lng: 11.5100,
+        color: '#15803d',
+        img: 'https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=120'
+      },
+
+      // 2. HÔTELS & RÉSIDENCES B2B
+      {
+        id: 6,
+        cat: 'hotel',
+        badge: 'Hôtel 5 Etoiles (Acheteur B2B)',
+        name: 'Hôtel Hilton Yaoundé',
+        sub: 'Acheteur B2B Fruits, Légumes & Viandes bio',
+        loc: 'Centre-Ville, Bd 20 Mai (2 km)',
+        rating: '5.0',
+        lat: 3.8642,
+        lng: 11.5175,
+        color: '#2563eb',
+        img: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=120'
+      },
+      {
+        id: 7,
+        cat: 'hotel',
+        badge: 'Hôtel & Restauration B2B',
+        name: 'Hôtel Mont Febe',
+        sub: 'Commandes hebdomadaires Légumes & Volailles',
+        loc: 'Mont Febe (6 km)',
+        rating: '4.8',
+        lat: 3.9020,
+        lng: 11.4980,
+        color: '#2563eb',
+        img: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=120'
+      },
+      {
+        id: 8,
+        cat: 'hotel',
+        badge: 'Hôtel 4 Etoiles',
+        name: 'Djeuga Palace Hôtel',
+        sub: 'Approvisionnement hebdomadaire produits bio',
+        loc: 'Warda (3 km)',
+        rating: '4.9',
+        lat: 3.8680,
+        lng: 11.5130,
+        color: '#2563eb',
+        img: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=120'
+      },
+      {
+        id: 9,
+        cat: 'hotel',
+        badge: 'Complexe Hôtelier',
+        name: 'Kribi Beach Resort & Spa (Centre B2B)',
+        sub: 'Grand acheteur Poissons, Crustacés & Fruits',
+        loc: 'Zone Logistique Sud (15 km)',
+        rating: '4.9',
+        lat: 3.8350,
+        lng: 11.5250,
+        color: '#2563eb',
+        img: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=120'
+      },
+
+      // 3. RESTAURANTS & TRAITEURS
+      {
+        id: 10,
+        cat: 'restaurant',
+        badge: 'Restaurant Gastronomique',
+        name: 'Restaurant Le Gourmet',
+        sub: 'Acheteur régulier : 100 kg Tomates Roma/semaine',
+        loc: 'Bastos (4 km)',
+        rating: '4.9',
+        lat: 3.8820,
+        lng: 11.5140,
+        color: '#d97706',
+        img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=120'
+      },
+      {
+        id: 11,
+        cat: 'restaurant',
+        badge: 'Spécialités Grillades',
+        name: 'La Chaumière Gourmande',
+        sub: 'Achats Viandes fraîches, Plantains & Condiments',
+        loc: 'Hippodrome (3 km)',
+        rating: '4.7',
+        lat: 3.8690,
+        lng: 11.5210,
+        color: '#d97706',
+        img: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=120'
+      },
+      {
+        id: 12,
+        cat: 'restaurant',
+        badge: 'Traiteur & Restauration',
+        name: 'Le Baffou Restaurant B2B',
+        sub: 'Restauration entreprise, Achats de légumes en gros',
+        loc: 'Elig-Essono (3 km)',
+        rating: '4.8',
+        lat: 3.8750,
+        lng: 11.5270,
+        color: '#d97706',
+        img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=120'
+      },
+      {
+        id: 13,
+        cat: 'restaurant',
+        badge: 'Restaurant Fusion',
+        name: 'Chez Wou Traiteur',
+        sub: 'Ingrédients certifiés, Légumes frais & Herbes',
+        loc: 'Bastos (5 km)',
+        rating: '4.9',
+        lat: 3.8880,
+        lng: 11.5110,
+        color: '#d97706',
+        img: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=120'
+      },
+
+      // 4. ENTREPRISES DE TRANSFORMATION
+      {
+        id: 14,
+        cat: 'usine',
+        badge: 'Transformation Manioc & Garri',
+        name: 'SOCATRA (Usine Manioc & Garri)',
+        sub: 'Achat de Manioc brut (10-50 Tonnes/mois)',
+        loc: 'Zone Magzi Nsam (7 km)',
+        rating: '4.9',
+        lat: 3.8310,
+        lng: 11.5050,
+        color: '#9333ea',
+        img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=120'
+      },
+      {
+        id: 15,
+        cat: 'usine',
+        badge: 'Jus & Conserves',
+        name: 'Agro-Industrie du Cameroun (Jus Minka)',
+        sub: 'Transformation Ananas, Mangues & Papayes',
+        loc: 'Minka (10 km)',
+        rating: '5.0',
+        lat: 3.8550,
+        lng: 11.5450,
+        color: '#9333ea',
+        img: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=120'
+      },
+      {
+        id: 16,
+        cat: 'usine',
+        badge: 'Séchage & Conditionnement',
+        name: 'CAMAGRI Cacao & Café Export',
+        sub: 'Achat Cacao brut & Séchage industriel',
+        loc: 'Emana (8 km)',
+        rating: '4.8',
+        lat: 3.9050,
+        lng: 11.5220,
+        color: '#9333ea',
+        img: 'https://images.unsplash.com/photo-1527661591475-527312dd65f5?w=120'
+      },
+      {
+        id: 17,
+        cat: 'usine',
+        badge: 'Laiterie Industrielle',
+        name: 'LaitCAM (Transformation Laitière)',
+        sub: 'Collecte Lait frais & Yaourts artisanaux',
+        loc: 'Nkolbisson (9 km)',
+        rating: '4.7',
+        lat: 3.8710,
+        lng: 11.4680,
+        color: '#9333ea',
+        img: 'https://images.unsplash.com/photo-1527153857715-3908f2bae5e8?w=120'
+      },
+
+      // 5. LOGISTIQUE & ENTREPÔTS
+      {
+        id: 18,
+        cat: 'logistique',
+        badge: 'Entrepôt Frigorifique',
+        name: 'Entrepôt Frigorifique AgroLink Express',
+        sub: 'Stockage sous chaîne de froid 500 Tonnes',
+        loc: 'Gare Routière Mvan (9 km)',
+        rating: '5.0',
+        lat: 3.8250,
+        lng: 11.5190,
+        color: '#0d9488',
+        img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=120'
+      }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const mapContainer = document.getElementById('leafletMapContainer');
+      if (!mapContainer) return;
+
+      // Initialize Leaflet Map centered on Yaoundé
+      mapInstance = L.map('leafletMapContainer').setView([3.8667, 11.5167], 12);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(mapInstance);
+
+      renderMapElements('all');
+
+      // Category filter buttons
+      document.querySelectorAll('.map-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.map-filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const cat = btn.getAttribute('data-cat');
+          currentFilter = cat;
+          const searchVal = (document.getElementById('inputSearchEnterprise')?.value || '').toLowerCase().trim();
+          renderMapElements(cat, searchVal);
+        });
+      });
+
+      // Dedicated Enterprise Search Input logic with Autocomplete
+      const inputSearch = document.getElementById('inputSearchEnterprise');
+      const suggestionsBox = document.getElementById('searchSuggestionsBox');
+      const btnClear = document.getElementById('btnClearMapSearch');
+      const globalTopbarSearch = document.getElementById('searchMapInput');
+
+      function handleSearchInput(query) {
+        if (btnClear) btnClear.style.display = query ? 'block' : 'none';
+
+        renderMapElements(currentFilter, query);
+
+        if (query.length > 0) {
+          const matches = locationsData.filter(loc => 
+            loc.name.toLowerCase().includes(query) || 
+            loc.sub.toLowerCase().includes(query) || 
+            loc.badge.toLowerCase().includes(query) ||
+            loc.loc.toLowerCase().includes(query)
+          );
+
+          if (matches.length > 0) {
+            suggestionsBox.style.display = 'block';
+            suggestionsBox.innerHTML = matches.map(loc => `
+              <div class="search-suggestion-item" style="padding: 10px 14px; border-bottom: 1px solid var(--border-color); cursor: pointer; display: flex; align-items: center; justify-content: space-between;" onclick="selectEnterprise(${loc.id})">
+                <div>
+                  <strong style="font-size: 13px; color: var(--text-main); font-family: var(--font-heading);">${loc.name}</strong>
+                  <div style="font-size: 11px; color: var(--text-muted);">${loc.badge} • ${loc.loc}</div>
+                </div>
+                <span style="font-size: 11px; font-weight: 800; color: ${loc.color};">Localiser →</span>
+              </div>
+            `).join('');
+          } else {
+            suggestionsBox.style.display = 'block';
+            suggestionsBox.innerHTML = '<div style="padding: 12px; font-size: 12px; color: var(--text-muted); text-align: center;">Aucune entreprise trouvée pour "' + query + '"</div>';
+          }
+        } else {
+          suggestionsBox.style.display = 'none';
+        }
+      }
+
+      if (inputSearch) {
+        inputSearch.addEventListener('input', (e) => {
+          handleSearchInput(e.target.value.toLowerCase().trim());
+        });
+
+        inputSearch.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            const query = inputSearch.value.toLowerCase().trim();
+            const firstMatch = locationsData.find(loc => 
+              loc.name.toLowerCase().includes(query) || 
+              loc.sub.toLowerCase().includes(query) ||
+              loc.badge.toLowerCase().includes(query)
+            );
+            if (firstMatch) {
+              selectEnterprise(firstMatch.id);
+            }
+          }
+        });
+      }
+
+      if (globalTopbarSearch) {
+        globalTopbarSearch.addEventListener('input', (e) => {
+          const query = e.target.value.toLowerCase().trim();
+          if (inputSearch) inputSearch.value = e.target.value;
+          handleSearchInput(query);
+        });
+      }
+
+      if (btnClear) {
+        btnClear.addEventListener('click', () => {
+          if (inputSearch) inputSearch.value = '';
+          if (globalTopbarSearch) globalTopbarSearch.value = '';
+          btnClear.style.display = 'none';
+          suggestionsBox.style.display = 'none';
+          renderMapElements(currentFilter, '');
+        });
+      }
+    });
+
+    window.selectEnterprise = function(id) {
+      const loc = locationsData.find(l => l.id === id);
+      const inputSearch = document.getElementById('inputSearchEnterprise');
+      const suggestionsBox = document.getElementById('searchSuggestionsBox');
+      const btnClear = document.getElementById('btnClearMapSearch');
+
+      if (loc) {
+        if (inputSearch) inputSearch.value = loc.name;
+        if (suggestionsBox) suggestionsBox.style.display = 'none';
+        if (btnClear) btnClear.style.display = 'block';
+
+        // Fly to location on Leaflet map & open Popup
+        focusMap(loc.lat, loc.lng, loc.id);
+      }
+    };
+
+    // Close suggestions box when clicking outside
+    document.addEventListener('click', (e) => {
+      const suggestionsBox = document.getElementById('searchSuggestionsBox');
+      if (suggestionsBox && !e.target.closest('#inputSearchEnterprise') && !e.target.closest('#searchSuggestionsBox')) {
+        suggestionsBox.style.display = 'none';
+      }
+    });
+
+    function renderMapElements(categoryFilter = 'all', searchQuery = '') {
+      const listContainer = document.getElementById('producersMapList');
+      if (!listContainer || !mapInstance) return;
+
+      // Clear existing markers
+      markersList.forEach(m => mapInstance.removeLayer(m.marker));
+      markersList = [];
+
+      const filtered = locationsData.filter(loc => {
+        const matchesCat = (categoryFilter === 'all' || loc.cat === categoryFilter);
+        const matchesSearch = !searchQuery || 
+          loc.name.toLowerCase().includes(searchQuery) || 
+          loc.sub.toLowerCase().includes(searchQuery) || 
+          loc.loc.toLowerCase().includes(searchQuery) ||
+          loc.badge.toLowerCase().includes(searchQuery);
+        return matchesCat && matchesSearch;
+      });
+
+      // Render Sidebar List
+      if (filtered.length === 0) {
+        listContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px;">Aucun établissement trouvé.</div>';
+      } else {
+        listContainer.innerHTML = filtered.map(loc => `
+          <div class="web-card producer-item" style="padding: 12px; cursor: pointer; border-left: 4px solid ${loc.color};" onclick="focusMap(${loc.lat}, ${loc.lng}, ${loc.id})">
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <img src="${loc.img}" style="width: 48px; height: 48px; border-radius: 8px; object-fit: cover;" alt="${loc.name}" />
+              <div style="flex: 1; min-width: 0;">
+                <div style="font-size: 10.5px; font-weight: 800; color: ${loc.color}; text-transform: uppercase; letter-spacing: 0.3px;">${loc.badge}</div>
+                <div style="font-weight: 800; font-size: 13px; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${loc.name}</div>
+                <div style="font-size: 11.5px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${loc.sub}</div>
+                <div style="font-size: 11px; font-weight: 700; color: var(--text-main); margin-top: 2px;">${loc.loc} • Note ${loc.rating}/5</div>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Add Circle Markers to Leaflet Map
+      filtered.forEach(loc => {
+        const marker = L.circleMarker([loc.lat, loc.lng], {
+          radius: 9,
+          fillColor: loc.color,
+          color: "#ffffff",
+          weight: 2.5,
+          opacity: 1,
+          fillOpacity: 0.9
+        }).addTo(mapInstance);
+
+        const popupContent = `
+          <div style="font-family: var(--font-body); width: 200px;">
+            <img src="${loc.img}" style="width: 100%; height: 90px; border-radius: 6px; object-fit: cover; margin-bottom: 6px;" />
+            <span style="font-size: 10px; font-weight: 800; color: ${loc.color}; text-transform: uppercase;">${loc.badge}</span>
+            <h4 style="font-size: 13px; font-weight: 800; margin: 2px 0 4px; color: #1e293b;">${loc.name}</h4>
+            <p style="font-size: 11.5px; color: #64748b; margin-bottom: 8px;">${loc.sub}</p>
+            <div style="font-size: 11px; font-weight: 700; color: #059669; margin-bottom: 8px;">${loc.loc}</div>
+            <a href="marketplace.html" style="display: block; text-align: center; background: #059669; color: #ffffff; padding: 6px; border-radius: 6px; font-size: 11.5px; font-weight: 800; text-decoration: none;">Voir les offres B2B ›</a>
+          </div>
+        `;
+
+        marker.bindPopup(popupContent);
+        markersList.push({ id: loc.id, loc, marker });
+      });
+    }
+
+    function focusMap(lat, lng, id) {
+      if (!mapInstance) return;
+      mapInstance.flyTo([lat, lng], 14, { duration: 1 });
+      const found = markersList.find(m => m.id === id);
+      if (found) {
+        found.marker.openPopup();
+      }
+    }
+  </script>
+</body>
+</html>

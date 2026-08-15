@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Passer Commande — AgroElevage Link</title>
+  <meta name="description" content="Configurez votre commande directe avec nos producteurs, ajustez la quantité et choisissez la livraison." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css?v=3" />
+</head>
+<body>
+  <!-- ===================================================================
+       WEB APPLICATION SHELL (PURE FULLSCREEN WEB APP)
+       =================================================================== -->
+  <div class="web-app-shell">
+    
+    <!-- Shared Web Sidebar (Injected by layout.js) -->
+    <div id="sidebar-root"></div>
+
+    <!-- Main Content Area -->
+    <div class="web-main-container">
+      
+      <!-- Top Navigation Bar -->
+      <header class="web-topbar">
+        <div class="web-topbar-left">
+          <button class="web-menu-toggle" id="btnToggleMobileMenu" title="Ouvrir le menu de navigation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg> <span>Menu</span></button>
+          <span class="web-page-heading-title"> Passer une Commande</span>
+        </div>
+
+        <div class="web-topbar-right">
+          <a href="marketplace.html" class="btn-secondary" style="height: 38px; padding: 0 14px; font-size: 13px; font-weight: 700; text-decoration: none; border-radius: 8px; border: 1px solid var(--border-color); background: #ffffff; display: flex; align-items: center; gap: 6px;">
+            <span>←</span> <span>Retour Marketplace</span>
+          </a>
+
+          <a href="notifications.html" class="web-topbar-btn-circle" title="Notifications">
+            <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span>
+            <span class="web-notif-dot"></span>
+          </a>
+
+          <a href="profil.html" class="web-topbar-btn-circle" title="Profil">
+            <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Main Content Body -->
+      <main class="web-content-body">
+        
+        <div class="web-grid-2">
+          
+          <!-- Left Column: Product Selection & Quantities -->
+          <div class="web-card">
+            <h2 style="font-family: var(--font-heading); font-size: 18px; font-weight: 800; color: var(--text-main); margin-bottom: 16px;">Configuration de la Commande</h2>
+
+            <!-- Selected Product Header -->
+            <div style="display: flex; gap: 14px; align-items: center; background: var(--bg-subtle); padding: 16px; border-radius: 12px; margin-bottom: 20px;">
+              <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=160" style="width: 72px; height: 72px; border-radius: 10px; object-fit: cover;" alt="Tomates" />
+              <div>
+                <span style="font-size: 11px; background: #dcfce7; color: #15803d; font-weight: 800; padding: 2px 8px; border-radius: 4px;">Maraîchage</span>
+                <h3 style="font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: var(--text-main); margin: 4px 0 2px;">Tomates fraîches Roma</h3>
+                <p style="font-size: 12.5px; color: var(--text-muted);">Vendu par <strong>Ferme de la Vallée</strong> (Yaoundé) • Prix : <strong>250 FCFA / kg</strong></p>
+              </div>
+            </div>
+
+            <!-- Stepper Quantity -->
+            <div style="margin-bottom: 24px;">
+              <label class="form-label" style="font-weight: 700; margin-bottom: 8px; display: block;">Quantité désirée (kg)</label>
+              <div style="display: flex; align-items: center; gap: 14px; background: #ffffff; border: 1.5px solid var(--border-color); border-radius: 12px; padding: 10px 16px; width: fit-content;">
+                <button class="btn-step-circle" id="btnQtyMinus" style="width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--bg-subtle); font-size: 18px; font-weight: 800; cursor: pointer;">-</button>
+                <div style="text-align: center; min-width: 80px;">
+                  <span style="font-family: var(--font-heading); font-size: 20px; font-weight: 800;" id="orderQtyDisplay">100</span>
+                  <span style="font-size: 13px; color: var(--text-muted); font-weight: 600;"> kg</span>
+                </div>
+                <button class="btn-step-circle" id="btnQtyPlus" style="width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--bg-subtle); font-size: 18px; font-weight: 800; cursor: pointer;">+</button>
+              </div>
+            </div>
+
+            <!-- Delivery Address Form -->
+            <div style="margin-bottom: 20px;">
+              <label class="form-label" style="font-weight: 700; margin-bottom: 6px; display: block;">Lieu de livraison</label>
+              <div style="border: 1.5px solid var(--border-color); border-radius: 12px; padding: 14px; background: var(--bg-subtle);">
+                <div style="font-weight: 800; font-size: 13.5px; color: var(--text-main);">Restaurant Le Gourmet</div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Rue Joseph Essono Balla, Quartier Bastos, Yaoundé</div>
+                <div style="font-size: 11.5px; color: var(--primary); font-weight: 700; margin-top: 4px;"> Livraison directe par camionnette réfrigérée (2 000 FCFA)</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Price Breakdown & Next Step -->
+          <div class="web-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <h3 style="font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: var(--text-main); margin-bottom: 16px;">Calcul du Montant</h3>
+
+              <div style="background: var(--bg-subtle); padding: 18px; border-radius: 12px; display: flex; flex-direction: column; gap: 12px; font-size: 13px; margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--text-muted);">Prix unitaire</span>
+                  <span style="font-weight: 600;">250 FCFA / kg</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--text-muted);">Sous-total récolte (<span id="qtyRecapTxt">100</span> kg)</span>
+                  <span style="font-weight: 700;" id="orderSubtotal">25 000 FCFA</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--text-muted);">Frais de transport réfrigéré</span>
+                  <span style="font-weight: 700;">2 000 FCFA</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-top: 1.5px dashed var(--border-color); padding-top: 12px; font-size: 16px; font-weight: 800;">
+                  <span>Total TTC</span>
+                  <span style="color: var(--primary);" id="orderTotal">27 000 FCFA</span>
+                </div>
+              </div>
+
+              <!-- Escrow Guarantee Pill -->
+              <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 12px; border-radius: 10px; display: flex; gap: 10px; align-items: center; margin-bottom: 20px;">
+                <span style="font-size: 20px;">️</span>
+                <span style="font-size: 12px; color: var(--primary-dark); font-weight: 600;">Paiement 100% protégé par Séquestre Escrow Mobile Money.</span>
+              </div>
+            </div>
+
+            <a href="paiement_escrow.html" class="btn-primary-action" id="btnConfirmOrder" style="height: 48px; font-size: 15px; font-weight: 800; text-decoration: none; border-radius: 9999px;">
+              Procéder au Paiement Sécurisé →
+            </a>
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- Navigation & Layout Helpers -->
+  <script src="js/layout.js"></script>
+  <script src="js/mpa_app.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      let qty = 100;
+      const unitPrice = 250;
+      const transportFee = 2000;
+
+      const qtyDisplay = document.getElementById('orderQtyDisplay');
+      const qtyRecap = document.getElementById('qtyRecapTxt');
+      const subtotalElem = document.getElementById('orderSubtotal');
+      const totalElem = document.getElementById('orderTotal');
+
+      function updateBill() {
+        if (qtyDisplay) qtyDisplay.textContent = qty;
+        if (qtyRecap) qtyRecap.textContent = qty;
+        const sub = qty * unitPrice;
+        if (subtotalElem) subtotalElem.textContent = sub.toLocaleString('fr-FR') + ' FCFA';
+        if (totalElem) totalElem.textContent = (sub + transportFee).toLocaleString('fr-FR') + ' FCFA';
+      }
+
+      document.getElementById('btnQtyMinus')?.addEventListener('click', () => {
+        if (qty > 10) { qty -= 10; updateBill(); }
+      });
+
+      document.getElementById('btnQtyPlus')?.addEventListener('click', () => {
+        if (qty < 500) { qty += 10; updateBill(); }
+      });
+    });
+  </script>
+</body>
+</html>

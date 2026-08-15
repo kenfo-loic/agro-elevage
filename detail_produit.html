@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Détail du Produit — AgroElevage Link</title>
+  <meta name="description" content="Fiche technique détaillée de la récolte, certifications, conditions de culture et commande sécurisée par séquestre." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css?v=3" />
+</head>
+<body>
+  <!-- ===================================================================
+       WEB APPLICATION SHELL (PURE FULLSCREEN WEB APP)
+       =================================================================== -->
+  <div class="web-app-shell">
+    
+    <!-- Shared Web Sidebar (Injected by layout.js) -->
+    <div id="sidebar-root"></div>
+
+    <!-- Main Content Area -->
+    <div class="web-main-container">
+      
+      <!-- Top Navigation Bar -->
+      <header class="web-topbar">
+        <div class="web-topbar-left">
+          <button class="web-menu-toggle" id="btnToggleMobileMenu" title="Ouvrir le menu de navigation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg> <span>Menu</span></button>
+          <span class="web-page-heading-title"> Fiche Produit Détaillée</span>
+        </div>
+
+        <div class="web-topbar-right">
+          <a href="marketplace.html" class="btn-secondary" style="height: 38px; padding: 0 14px; font-size: 13px; font-weight: 700; text-decoration: none; border-radius: 8px; border: 1px solid var(--border-color); background: #ffffff; display: flex; align-items: center; gap: 6px;">
+            <span>←</span> <span>Retour Marketplace</span>
+          </a>
+
+          <a href="notifications.html" class="web-topbar-btn-circle" title="Notifications">
+            <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span>
+            <span class="web-notif-dot"></span>
+          </a>
+
+          <a href="profil.html" class="web-topbar-btn-circle" title="Profil">
+            <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Main Content Body -->
+      <main class="web-content-body">
+        
+        <div class="web-grid-2">
+          
+          <!-- Left Column: Big Product Image & Gallery -->
+          <div class="web-card" style="padding: 16px;">
+            <div style="position: relative; height: 380px; border-radius: 14px; overflow: hidden; margin-bottom: 14px;">
+              <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=800" style="width: 100%; height: 100%; object-fit: cover;" alt="Tomates Roma" />
+              <span style="position: absolute; top: 14px; left: 14px; background: rgba(0,0,0,0.7); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 999px;">Maraîchage Certifié</span>
+              <span style="position: absolute; top: 14px; right: 14px; background: #dcfce7; color: #15803d; font-size: 12px; font-weight: 800; padding: 4px 12px; border-radius: 999px;">En Stock Disponible</span>
+            </div>
+
+            <!-- Agricultural Guarantees -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+              <div style="background: var(--bg-subtle); padding: 12px; border-radius: 10px; text-align: center;">
+                <span style="font-size: 20px;"></span>
+                <div style="font-size: 12px; font-weight: 700; color: var(--text-main); margin-top: 4px;">Culture 100% Bio</div>
+              </div>
+              <div style="background: var(--bg-subtle); padding: 12px; border-radius: 10px; text-align: center;">
+                <span style="font-size: 20px;"></span>
+                <div style="font-size: 12px; font-weight: 700; color: var(--text-main); margin-top: 4px;">Livraison 24h</div>
+              </div>
+              <div style="background: var(--bg-subtle); padding: 12px; border-radius: 10px; text-align: center;">
+                <span style="font-size: 20px;">️</span>
+                <div style="font-size: 12px; font-weight: 700; color: var(--text-main); margin-top: 4px;">Paiement Escrow</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Product Specs, Pricing & Order CTA -->
+          <div class="web-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                <div>
+                  <h1 style="font-family: var(--font-heading); font-size: 24px; font-weight: 800; color: var(--text-main);">Tomates fraîches Roma</h1>
+                  <p style="font-size: 13px; color: var(--text-muted);">Variété charnue et ferme, idéale pour la restauration et les sauces fraîches.</p>
+                </div>
+                <button class="web-topbar-btn-circle" title="Ajouter aux favoris"></button>
+              </div>
+
+              <!-- Price Box -->
+              <div style="background: var(--primary-soft); border: 1px solid var(--primary-border); border-radius: 12px; padding: 16px; margin: 16px 0;">
+                <div style="font-size: 12px; color: var(--primary-dark); font-weight: 700;">PRIX PROFESSIONNEL B2B</div>
+                <div style="font-family: var(--font-heading); font-size: 26px; font-weight: 900; color: var(--primary);">
+                  250 FCFA <span style="font-size: 14px; font-weight: 500; color: var(--text-muted);">/ kilogramme</span>
+                </div>
+              </div>
+
+              <!-- Producer Info -->
+              <div style="display: flex; gap: 14px; align-items: center; background: var(--bg-subtle); padding: 14px; border-radius: 12px; margin-bottom: 20px;">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary);" alt="Producteur" />
+                <div style="flex: 1;">
+                  <strong style="font-size: 14px;">Ferme de la Vallée</strong>
+                  <div style="font-size: 12px; color: var(--text-muted);">Exploitation certifiée • Yaoundé Nord (5 km)</div>
+                  <div style="font-size: 12px; color: #f59e0b; font-weight: 700; margin-top: 2px;"> 4.9 (48 avis vérifiés)</div>
+                </div>
+                <a href="carte_et_geoloc.html" style="font-size: 12px; color: var(--primary); font-weight: 700; text-decoration: none;">Voir sur carte ›</a>
+              </div>
+
+              <!-- Technical Specifications Grid -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; font-size: 13px;">
+                <div style="border: 1px solid var(--border-color); padding: 12px; border-radius: 10px;">
+                  <span style="color: var(--text-muted); font-size: 11px;">Stock disponible :</span>
+                  <div style="font-weight: 800; font-size: 15px; color: var(--text-main);">200 kg</div>
+                </div>
+                <div style="border: 1px solid var(--border-color); padding: 12px; border-radius: 10px;">
+                  <span style="color: var(--text-muted); font-size: 11px;">Date de récolte :</span>
+                  <div style="font-weight: 800; font-size: 15px; color: var(--text-main);">25 Mai 2024</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CTA Button -->
+            <a href="passer_commande.html" class="btn-primary-action" style="height: 48px; font-size: 16px; font-weight: 800; text-decoration: none; border-radius: 9999px;">
+               Passer Commande avec Garantie Escrow →
+            </a>
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- Navigation & Layout Helpers -->
+  <script src="js/layout.js"></script>
+  <script src="js/mpa_app.js"></script>
+</body>
+</html>

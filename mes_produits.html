@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>AgroElevage Link — Mes Produits (Catalogue Vendeur)</title>
+  <meta name="description" content="Gérez votre catalogue de récoltes et cheptels, ajustez vos stocks et suivez vos ventes en temps réel." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css?v=3" />
+</head>
+<body>
+  <div class="web-app-shell">
+    <!-- Shared Web Sidebar injected by layout.js -->
+    <div id="sidebar-root"></div>
+
+    <!-- Main Content Layout -->
+    <div class="web-main-container">
+      
+      <!-- Top Navigation Bar -->
+      <header class="web-topbar">
+        <div class="web-topbar-left">
+          <button class="web-menu-toggle" id="btnToggleMobileMenu" title="Ouvrir le menu de navigation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg> <span>Menu</span></button>
+          <span class="web-page-heading-title">Mes Produits & Inventaire</span>
+        </div>
+
+        <div class="web-topbar-search">
+          <span class="web-search-lens-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+          <input type="text" class="web-global-search-input" id="searchMyProducts" placeholder="Rechercher par nom, catégorie, lieu..." />
+        </div>
+
+        <div class="web-topbar-right">
+          <a href="ajouter_produit.html" class="btn-primary-action" style="height: 38px; width: auto; padding: 0 16px; font-size: 13px; gap: 6px; text-decoration: none;">
+            <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></span> <span>Nouveau Produit</span>
+          </a>
+          <a href="notifications.html" class="web-topbar-btn-circle" title="Notifications" style="text-decoration: none;">
+            <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span>
+            <span class="web-notif-dot"></span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Scrollable Main Content -->
+      <main class="web-content-body">
+        <section class="screen-view app-screen-layout active" id="view-my-products">
+            
+            <!-- Screen Header Bar -->
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" onclick="window.location.href='tableau_vendeur.html'" title="Retour au tableau de bord">←</button>
+              <div style="text-align: center;">
+                <h2>Mes produits</h2>
+                <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;" id="txtTotalProductsCount">Catalogue en ligne</span>
+              </div>
+              <button class="header-right-action" onclick="window.location.href='ajouter_produit.html'" title="Ajouter un nouveau produit"></button>
+            </header>
+
+            <!-- 1. Inventory KPI Metrics Grid -->
+            <div class="inventory-kpi-grid">
+              <div class="kpi-stat-card">
+                <div class="kpi-icon-bubble kpi-bubble-green"></div>
+                <div class="kpi-info-col">
+                  <span class="kpi-value-num" id="kpiTotal">6</span>
+                  <span class="kpi-title-lbl">Total Produits</span>
+                </div>
+              </div>
+
+              <div class="kpi-stat-card">
+                <div class="kpi-icon-bubble kpi-bubble-blue"></div>
+                <div class="kpi-info-col">
+                  <span class="kpi-value-num" id="kpiActive">5</span>
+                  <span class="kpi-title-lbl">En Vente</span>
+                </div>
+              </div>
+
+              <div class="kpi-stat-card">
+                <div class="kpi-icon-bubble kpi-bubble-amber"></div>
+                <div class="kpi-info-col">
+                  <span class="kpi-value-num" id="kpiLowStock">1</span>
+                  <span class="kpi-title-lbl">Stock Faible</span>
+                </div>
+              </div>
+
+              <div class="kpi-stat-card">
+                <div class="kpi-icon-bubble kpi-bubble-purple"></div>
+                <div class="kpi-info-col">
+                  <span class="kpi-value-num" id="kpiValuation">3.8M F</span>
+                  <span class="kpi-title-lbl">Valeur Stock</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Search Bar -->
+            <div class="product-search-bar">
+              <span class="product-search-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+              <input type="text" class="product-search-input" id="searchMyProducts" placeholder="Rechercher par nom, catégorie, lieu..." />
+              <button class="product-search-clear" id="btnClearSearch" style="display: none;"></button>
+            </div>
+
+            <!-- 3. Status Tabs (Segmented Control) -->
+            <div class="status-tabs-row" id="statusTabsRow">
+              <button class="status-tab-btn active" data-status="all">Tous (<span id="countTabAll">6</span>)</button>
+              <button class="status-tab-btn" data-status="active"> En ligne (<span id="countTabActive">5</span>)</button>
+              <button class="status-tab-btn" data-status="paused"> Suspendus (<span id="countTabPaused">1</span>)</button>
+              <button class="status-tab-btn" data-status="low"> Stock faible (<span id="countTabLow">1</span>)</button>
+            </div>
+
+            <!-- 4. Category Filter Chips -->
+            <div class="category-chips-scroll" id="catChipsRow">
+              <button class="cat-filter-chip active" data-cat="all">Toutes catégories</button>
+              <button class="cat-filter-chip" data-cat="maraichage">Maraîchage</button>
+              <button class="cat-filter-chip" data-cat="tubercules">Tubercules</button>
+              <button class="cat-filter-chip" data-cat="cereales">Céréales</button>
+              <button class="cat-filter-chip" data-cat="elevage">Élevage & Volailles</button>
+              <button class="cat-filter-chip" data-cat="fruits">Fruits & Vergers</button>
+            </div>
+
+            <!-- 5. Products List Container -->
+            <div class="seller-products-list" id="sellerProductsContainer">
+              <!-- Rendered dynamically by JavaScript -->
+            </div>
+
+            <!-- 6. Empty State (Shown when no items match) -->
+            <div class="empty-catalog-state" id="emptyCatalogState" style="display: none;">
+              <div class="empty-state-icon"></div>
+              <h3 class="empty-state-title">Aucun produit trouvé</h3>
+              <p class="empty-state-desc">Aucun article ne correspond à votre recherche ou à vos filtres actuels.</p>
+              <button class="btn-primary-action" id="btnResetFilters" style="width: auto; padding: 0 20px; height: 38px; font-size: 13px; margin: 0 auto;">
+                Réinitialiser les filtres
+              </button>
+            </div>
+
+            <!-- 7. Primary Action: Add Product CTA -->
+            <button class="btn-primary-action" onclick="window.location.href='ajouter_produit.html'" style="margin-top: 10px; margin-bottom: 24px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              <span style="font-size: 18px;"></span>
+              <span>Ajouter un nouveau produit</span>
+            </button>
+
+          </section>
+      </main>
+
+      <!-- Interactive Toast Popup -->
+      <div class="toast-msg" id="appToast">Mise à jour effectuée !</div>
+
+    </div> <!-- /web-main-container -->
+  </div> <!-- /web-app-shell -->
+
+  <!-- ===================================================================
+       MODAL: AJUSTEMENT RAPIDE DU STOCK
+       =================================================================== -->
+  <div class="stock-adjust-modal" id="stockAdjustModal">
+    <div class="stock-adjust-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <h3 style="font-size: 15px; font-weight: 800; color: var(--text-main);" id="modalProdTitle">Ajuster le stock</h3>
+        <button class="nav-back-btn" id="btnCloseStockModal" style="width: 26px; height: 26px; font-size: 14px;"></button>
+      </div>
+      <p style="font-size: 12px; color: var(--text-muted);" id="modalProdSub">Modifiez la quantité disponible en direct</p>
+
+      <div class="stock-stepper-control">
+        <button class="btn-step-circle" id="btnModalQtyMinus">-</button>
+        <div style="text-align: center;">
+          <span class="stock-step-value-txt" id="modalQtyVal">120</span>
+          <div style="font-size: 11px; color: var(--text-muted);" id="modalUnitVal">cagettes</div>
+        </div>
+        <button class="btn-step-circle" id="btnModalQtyPlus">+</button>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label style="font-size: 11.5px; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 4px;">Prix unitaire (FCFA)</label>
+        <input type="number" class="form-input" id="modalPriceInput" style="height: 38px; font-weight: 700;" value="12500" />
+      </div>
+
+      <div style="display: flex; gap: 8px;">
+        <button class="btn-primary-action" id="btnSaveStockModal" style="height: 40px; font-size: 13px;">
+          Enregistrer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- API Client -->
+  <script src="js/api-client.js"></script>
+
+  <!-- Page 12 Logic Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // --- Sample Real Product Data (Matches Backend Seeding) ---
+      let productsList = [
+        {
+          id: 1,
+          name: "Tomates Fraîches de Foumbot (Cagette)",
+          category: "maraichage",
+          categoryLabel: "Maraîchage",
+          price: 12500,
+          unit: "cagette 25kg",
+          stock: 120,
+          maxStock: 150,
+          minOrder: 2,
+          location: "Foumbot, Ouest",
+          isOrganic: true,
+          isAvailable: true,
+          imageUrl: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=200"
+        },
+        {
+          id: 2,
+          name: "Banane Plantain Gros Michel (Régime)",
+          category: "tubercules",
+          categoryLabel: "Tubercules",
+          price: 4500,
+          unit: "régime",
+          stock: 85,
+          maxStock: 100,
+          minOrder: 5,
+          location: "Njombé, Moungo",
+          isOrganic: true,
+          isAvailable: true,
+          imageUrl: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=200"
+        },
+        {
+          id: 3,
+          name: "Poulets Fermiers de Chair (2.2kg+)",
+          category: "elevage",
+          categoryLabel: "Élevage",
+          price: 3800,
+          unit: "tête",
+          stock: 250,
+          maxStock: 300,
+          minOrder: 10,
+          location: "Bafoussam, Ouest",
+          isOrganic: false,
+          isAvailable: true,
+          imageUrl: "https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=200"
+        },
+        {
+          id: 4,
+          name: "Sac de Maïs Jaune Séché 50kg",
+          category: "cereales",
+          categoryLabel: "Céréales",
+          price: 17000,
+          unit: "sac 50kg",
+          stock: 300,
+          maxStock: 400,
+          minOrder: 10,
+          location: "Garoua, Nord",
+          isOrganic: false,
+          isAvailable: true,
+          imageUrl: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=200"
+        },
+        {
+          id: 5,
+          name: "Piment Rouge Extra Fort de Penja",
+          category: "maraichage",
+          categoryLabel: "Maraîchage",
+          price: 1500,
+          unit: "kg",
+          stock: 8,
+          maxStock: 80,
+          minOrder: 2,
+          location: "Penja, Littoral",
+          isOrganic: true,
+          isAvailable: true,
+          imageUrl: "https://images.unsplash.com/photo-1588252303782-cb80119abd6d?w=200"
+        },
+        {
+          id: 6,
+          name: "Plateau de 30 Œufs Frais (Calibre L)",
+          category: "elevage",
+          categoryLabel: "Élevage",
+          price: 2200,
+          unit: "plateau (30)",
+          stock: 0,
+          maxStock: 200,
+          minOrder: 5,
+          location: "Bafoussam, Ouest",
+          isOrganic: false,
+          isAvailable: false,
+          imageUrl: "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=200"
+        }
+      ];
+
+      // State Filters
+      let currentStatusFilter = 'all'; // 'all' | 'active' | 'paused' | 'low'
+      let currentCategoryFilter = 'all';
+      let currentSearchQuery = '';
+      let editingProductId = null;
+
+      // DOM Elements
+      const container = document.getElementById('sellerProductsContainer');
+      const emptyState = document.getElementById('emptyCatalogState');
+      const searchInput = document.getElementById('searchMyProducts');
+      const btnClearSearch = document.getElementById('btnClearSearch');
+      const toast = document.getElementById('appToast');
+      const statusTime = document.getElementById('statusTime');
+
+      // KPIs
+      const kpiTotal = document.getElementById('kpiTotal');
+      const kpiActive = document.getElementById('kpiActive');
+      const kpiLowStock = document.getElementById('kpiLowStock');
+      const kpiValuation = document.getElementById('kpiValuation');
+      const txtTotalCount = document.getElementById('txtTotalProductsCount');
+
+      // Tabs counts
+      const countTabAll = document.getElementById('countTabAll');
+      const countTabActive = document.getElementById('countTabActive');
+      const countTabPaused = document.getElementById('countTabPaused');
+      const countTabLow = document.getElementById('countTabLow');
+
+      // Modal Elements
+      const stockModal = document.getElementById('stockAdjustModal');
+      const modalProdTitle = document.getElementById('modalProdTitle');
+      const modalProdSub = document.getElementById('modalProdSub');
+      const modalQtyVal = document.getElementById('modalQtyVal');
+      const modalUnitVal = document.getElementById('modalUnitVal');
+      const modalPriceInput = document.getElementById('modalPriceInput');
+      const btnModalQtyMinus = document.getElementById('btnModalQtyMinus');
+      const btnModalQtyPlus = document.getElementById('btnModalQtyPlus');
+      const btnSaveStockModal = document.getElementById('btnSaveStockModal');
+      const btnCloseStockModal = document.getElementById('btnCloseStockModal');
+
+      // Clock
+      function updateClock() {
+        const now = new Date();
+        if (statusTime) {
+          statusTime.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+        }
+      }
+      updateClock();
+      setInterval(updateClock, 30000);
+
+      // Toast Notification
+      function showToast(msg) {
+        if (!toast) return;
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2600);
+      }
+
+      function loadLocalUserProducts() {
+        const userProducts = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
+        if (userProducts.length === 0) return;
+        const converted = userProducts.map(p => ({
+          id: p.id,
+          name: p.name,
+          category: p.category || 'maraichage',
+          categoryLabel: p.categoryLabel || 'Maraîchage',
+          categoryIcon: '',
+          price: p.price,
+          unit: 'kg',
+          stock: p.quantity,
+          maxStock: Math.max(p.quantity * 1.5, 100),
+          minOrder: 1,
+          location: p.location || 'Yaoundé',
+          isOrganic: true,
+          isAvailable: true,
+          whatsapp: p.whatsapp || '+237 690 12 34 56',
+          imageUrl: p.image || 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=200'
+        }));
+        productsList = [...converted, ...productsList];
+      }
+
+      // Try fetching real products from backend if token present
+      async function loadFromBackend() {
+        if (window.AgroApi && window.AgroApi.isAuthenticated()) {
+          try {
+            const data = await window.AgroApi.getSellerMyProducts();
+            if (data && data.products && data.products.length > 0) {
+              productsList = data.products.map(p => ({
+                id: p.id,
+                name: p.name,
+                category: p.category,
+                categoryLabel: p.category.charAt(0).toUpperCase() + p.category.slice(1),
+                categoryIcon: getCategoryIcon(p.category),
+                price: p.price,
+                unit: p.unit,
+                stock: p.stock_quantity,
+                maxStock: Math.max(p.stock_quantity * 1.3, 50),
+                minOrder: p.min_order_quantity || 1,
+                location: p.location || 'Cameroun',
+                isOrganic: !!p.is_organic,
+                isAvailable: !!p.is_available,
+                whatsapp: p.whatsapp || '+237 690 12 34 56',
+                imageUrl: p.image_url || 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=200'
+              }));
+              renderAll();
+            }
+          } catch (e) {
+            console.log('[Page 12] Using local demo catalogue items.');
+          }
+        }
+      }
+
+      function getCategoryIcon(cat) {
+        return '';
+      }
+
+      // Update KPI Statistics
+      function updateKPIs() {
+        const total = productsList.length;
+        const active = productsList.filter(p => p.isAvailable && p.stock > 0).length;
+        const low = productsList.filter(p => p.stock > 0 && p.stock <= 10).length;
+        const paused = productsList.filter(p => !p.isAvailable || p.stock === 0).length;
+        const totalValuation = productsList.reduce((sum, p) => sum + (p.price * p.stock), 0);
+
+        if (kpiTotal) kpiTotal.textContent = total;
+        if (kpiActive) kpiActive.textContent = active;
+        if (kpiLowStock) kpiLowStock.textContent = low;
+        if (kpiValuation) {
+          kpiValuation.textContent = totalValuation >= 1000000 
+            ? (totalValuation / 1000000).toFixed(1) + 'M F' 
+            : (totalValuation / 1000).toFixed(0) + 'k F';
+        }
+
+        if (txtTotalCount) txtTotalCount.textContent = `${active} en vente • ${total} articles`;
+
+        if (countTabAll) countTabAll.textContent = total;
+        if (countTabActive) countTabActive.textContent = active;
+        if (countTabPaused) countTabPaused.textContent = paused;
+        if (countTabLow) countTabLow.textContent = low;
+      }
+
+      // Filter and Render Products
+      function renderProducts() {
+        if (!container) return;
+
+        let filtered = productsList.filter(p => {
+          // Status filter
+          if (currentStatusFilter === 'active' && (!p.isAvailable || p.stock === 0)) return false;
+          if (currentStatusFilter === 'paused' && (p.isAvailable && p.stock > 0)) return false;
+          if (currentStatusFilter === 'low' && (p.stock <= 0 || p.stock > 10)) return false;
+
+          // Category filter
+          if (currentCategoryFilter !== 'all' && p.category !== currentCategoryFilter) return false;
+
+          // Search query
+          if (currentSearchQuery) {
+            const query = currentSearchQuery.toLowerCase();
+            const matchName = p.name.toLowerCase().includes(query);
+            const matchCat = p.category.toLowerCase().includes(query);
+            const matchLoc = p.location.toLowerCase().includes(query);
+            if (!matchName && !matchCat && !matchLoc) return false;
+          }
+
+          return true;
+        });
+
+        if (filtered.length === 0) {
+          container.innerHTML = '';
+          if (emptyState) emptyState.style.display = 'block';
+          return;
+        }
+
+        if (emptyState) emptyState.style.display = 'none';
+
+        container.innerHTML = filtered.map(p => {
+          const isLow = p.stock > 0 && p.stock <= 10;
+          const isOut = p.stock <= 0;
+          const pct = Math.min(100, Math.max(6, Math.round((p.stock / p.maxStock) * 100)));
+
+          let pillClass = 'pill-in-stock';
+          let pillText = `En stock (${p.stock} ${p.unit.split(' ')[0]})`;
+          let fillClass = 'fill-green';
+
+          if (isOut) {
+            pillClass = 'pill-out-of-stock';
+            pillText = 'Rupture de stock';
+            fillClass = 'fill-red';
+          } else if (isLow) {
+            pillClass = 'pill-low-stock';
+            pillText = `Stock faible (${p.stock} restant${p.stock > 1 ? 's' : ''})`;
+            fillClass = 'fill-amber';
+          }
+
+          return `
+            <div class="seller-prod-card ${!p.isAvailable ? 'status-inactive' : ''}" id="prodCard-${p.id}">
+              <div class="prod-card-top-row">
+                <div class="prod-thumb-container">
+                  <img src="${p.imageUrl}" alt="${p.name}" />
+                  ${p.isOrganic ? '<span class="badge-organic-corner">Certifié Bio</span>' : ''}
+                </div>
+
+                <div class="prod-main-details">
+                  <div class="prod-category-tag">${p.categoryLabel}</div>
+                  <h3 class="prod-title-text" title="${p.name}">${p.name}</h3>
+                  <div class="prod-price-text">
+                    ${p.price.toLocaleString('fr-FR')} FCFA <span class="prod-price-unit">/ ${p.unit}</span>
+                  </div>
+                  <div class="prod-location-text">${p.location}</div>
+                </div>
+              </div>
+
+              <!-- Stock Progress Section -->
+              <div class="prod-stock-section">
+                <div class="stock-labels-row">
+                  <span class="stock-status-pill ${pillClass}">${pillText}</span>
+                  <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Min: ${p.minOrder}</span>
+                </div>
+                <div class="stock-meter-track">
+                  <div class="stock-meter-fill ${fillClass}" style="width: ${p.isAvailable ? pct : 0}%;"></div>
+                </div>
+              </div>
+
+              <!-- Action Bar Footer -->
+              <div class="card-actions-row">
+                <div class="switch-visibility-wrap">
+                  <label class="switch-toggle">
+                    <input type="checkbox" ${p.isAvailable ? 'checked' : ''} onchange="toggleProductAvailability('${p.id}', this.checked)" />
+                    <span class="slider-round"></span>
+                  </label>
+                  <span>${p.isAvailable ? 'En ligne' : 'Masqué'}</span>
+                </div>
+
+                <div class="btn-group-actions">
+                  <a href="https://wa.me/${(p.whatsapp || '+237690123456').replace(/[^\d+]/g, '')}?text=${encodeURIComponent('Bonjour, je vous contacte au sujet de votre produit ' + p.name + ' sur AgroElevage Link.')}" target="_blank" class="btn-action-tool" style="background: #25d366; color: #fff; border: none; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 0 10px; font-weight: 700;" title="Ouvrir WhatsApp">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    WhatsApp
+                  </a>
+                  <button class="btn-action-tool" onclick="editProduct('${p.id}')" title="Modifier le produit">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Modifier
+                  </button>
+                  <button class="btn-action-tool" onclick="openStockModal('${p.id}')" title="Ajuster le stock rapidement">
+                     <span>Stock</span>
+                  </button>
+                  <button class="btn-action-tool btn-action-delete" onclick="deleteProduct('${p.id}')" title="Supprimer">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      function renderAll() {
+        updateKPIs();
+        renderProducts();
+      }
+
+      // --- Interactive Global Handlers ---
+
+      // 1. Toggle Visibility (En Ligne / Suspendu)
+      window.toggleProductAvailability = function(id, isChecked) {
+        const prod = productsList.find(p => p.id === id);
+        if (prod) {
+          prod.isAvailable = isChecked;
+          if (typeof window.addUserNotification === 'function') {
+            window.addUserNotification('Disponibilité produit modifiée', isChecked ? `Vous avez publié "${prod.name}" en ligne sur la marketplace.` : `Vous avez masqué "${prod.name}" de la marketplace.`, 'product', 'mes_produits.html');
+          } else {
+            showToast(isChecked ? `"${prod.name}" est maintenant visible aux acheteurs !` : `"${prod.name}" a été masqué de la marketplace.`);
+          }
+          
+          // Call API if connected
+          if (window.AgroApi && window.AgroApi.isAuthenticated()) {
+            window.AgroApi.request(`/products/${id}`, {
+              method: 'PUT',
+              body: JSON.stringify({ is_available: isChecked ? 1 : 0 })
+            }).catch(() => {});
+          }
+
+          renderAll();
+        }
+      };
+
+      // 2. Delete Product (Synchronized across all pages via localStorage)
+      window.deleteProduct = function(id) {
+        const prod = productsList.find(p => String(p.id) === String(id));
+        if (!prod) return;
+
+        if (confirm(`Voulez-vous vraiment supprimer "${prod.name}" ? Il sera définitivement retiré de toutes les pages.`)) {
+          productsList = productsList.filter(p => String(p.id) !== String(id));
+
+          // Sync localStorage
+          let localList = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
+          localList = localList.filter(p => String(p.id) !== String(id));
+          localStorage.setItem('agroelevage_products', JSON.stringify(localList));
+
+          if (typeof window.addUserNotification === 'function') {
+            window.addUserNotification('Produit supprimé', `Vous avez supprimé le produit "${prod.name}" de votre catalogue.`, 'danger', 'mes_produits.html');
+          } else {
+            showToast(`"${prod.name}" a été supprimé de toutes les pages !`);
+          }
+
+          if (window.AgroApi && window.AgroApi.isAuthenticated()) {
+            window.AgroApi.deleteProduct(id).catch(() => {});
+          }
+
+          renderAll();
+        }
+      };
+
+      // 3. Edit Product (Redirects to add page with query param edit_id)
+      window.editProduct = function(id) {
+        window.location.href = `ajouter_produit.html?edit_id=${encodeURIComponent(id)}`;
+      };
+
+      // 4. Quick Stock Adjust Modal Handlers
+      window.openStockModal = function(id) {
+        const prod = productsList.find(p => p.id === id);
+        if (!prod) return;
+        editingProductId = id;
+
+        if (modalProdTitle) modalProdTitle.textContent = `Ajuster le stock`;
+        if (modalProdSub) modalProdSub.textContent = prod.name;
+        if (modalQtyVal) modalQtyVal.textContent = prod.stock;
+        if (modalUnitVal) modalUnitVal.textContent = prod.unit;
+        if (modalPriceInput) modalPriceInput.value = prod.price;
+
+        if (stockModal) stockModal.classList.add('open');
+      };
+
+      if (btnCloseStockModal && stockModal) {
+        btnCloseStockModal.addEventListener('click', () => {
+          stockModal.classList.remove('open');
+        });
+      }
+
+      if (btnModalQtyMinus && modalQtyVal) {
+        btnModalQtyMinus.addEventListener('click', () => {
+          let curr = parseInt(modalQtyVal.textContent, 10) || 0;
+          if (curr > 0) modalQtyVal.textContent = Math.max(0, curr - 5);
+        });
+      }
+
+      if (btnModalQtyPlus && modalQtyVal) {
+        btnModalQtyPlus.addEventListener('click', () => {
+          let curr = parseInt(modalQtyVal.textContent, 10) || 0;
+          modalQtyVal.textContent = curr + 5;
+        });
+      }
+
+      if (btnSaveStockModal && stockModal) {
+        btnSaveStockModal.addEventListener('click', () => {
+          const prod = productsList.find(p => p.id === editingProductId);
+          if (prod) {
+            const oldStock = prod.stock;
+            const newStock = parseInt(modalQtyVal.textContent, 10) || 0;
+            const newPrice = parseFloat(modalPriceInput.value) || prod.price;
+            prod.stock = newStock;
+            prod.price = newPrice;
+            if (newStock > prod.maxStock) prod.maxStock = newStock;
+
+            if (typeof window.addUserNotification === 'function') {
+              if (newStock > oldStock) {
+                window.addUserNotification('Stock augmenté', `Vous avez augmenté le stock de "${prod.name}" de ${oldStock} à ${newStock} ${prod.unit}.`, 'stock', 'mes_produits.html');
+              } else if (newStock < oldStock) {
+                window.addUserNotification('Stock diminué', `Vous avez diminué le stock de "${prod.name}" de ${oldStock} à ${newStock} ${prod.unit}.`, 'stock', 'mes_produits.html');
+              } else {
+                window.addUserNotification('Prix/Stock modifié', `Vous avez mis à jour le prix/stock de "${prod.name}" (${newStock} ${prod.unit} à ${newPrice} FCFA).`, 'stock', 'mes_produits.html');
+              }
+            } else {
+              showToast(`Stock de "${prod.name}" mis à jour (${newStock} ${prod.unit}) !`);
+            }
+
+            if (window.AgroApi && window.AgroApi.isAuthenticated()) {
+              window.AgroApi.request(`/products/${prod.id}`, {
+                method: 'PUT',
+                body: JSON.stringify({ stock_quantity: newStock, price: newPrice })
+              }).catch(() => {});
+            }
+
+            stockModal.classList.remove('open');
+            renderAll();
+          }
+        });
+      }
+
+      // 5. Search Filters across all search inputs
+      const allSearchInputs = document.querySelectorAll('#searchMyProducts, .web-global-search-input');
+      allSearchInputs.forEach(input => {
+        input.addEventListener('input', (e) => {
+          currentSearchQuery = e.target.value.trim();
+          allSearchInputs.forEach(other => {
+            if (other !== e.target) other.value = e.target.value;
+          });
+          if (btnClearSearch) btnClearSearch.style.display = currentSearchQuery ? 'flex' : 'none';
+          renderProducts();
+        });
+      });
+
+      if (btnClearSearch) {
+        btnClearSearch.addEventListener('click', () => {
+          allSearchInputs.forEach(input => input.value = '');
+          currentSearchQuery = '';
+          btnClearSearch.style.display = 'none';
+          renderProducts();
+        });
+      }
+
+      // Check URL query param
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialSearch = urlParams.get('search');
+      if (initialSearch) {
+        currentSearchQuery = initialSearch.trim();
+        allSearchInputs.forEach(input => input.value = initialSearch);
+      }
+
+      // 6. Status Tabs Filtering
+      const statusTabs = document.querySelectorAll('.status-tab-btn');
+      statusTabs.forEach(btn => {
+        btn.addEventListener('click', () => {
+          statusTabs.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentStatusFilter = btn.dataset.status;
+          renderProducts();
+        });
+      });
+
+      // 7. Category Chips Filtering
+      const catChips = document.querySelectorAll('.cat-filter-chip');
+      catChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          catChips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          currentCategoryFilter = chip.dataset.cat;
+          renderProducts();
+        });
+      });
+
+      // 8. Reset Filters Button
+      const btnReset = document.getElementById('btnResetFilters');
+      if (btnReset) {
+        btnReset.addEventListener('click', () => {
+          currentStatusFilter = 'all';
+          currentCategoryFilter = 'all';
+          currentSearchQuery = '';
+          if (searchInput) searchInput.value = '';
+          if (btnClearSearch) btnClearSearch.style.display = 'none';
+          statusTabs.forEach(b => b.classList.toggle('active', b.dataset.status === 'all'));
+          catChips.forEach(c => c.classList.toggle('active', c.dataset.cat === 'all'));
+          renderAll();
+        });
+      }
+
+      // Initialize
+      loadLocalUserProducts();
+      renderAll();
+      loadFromBackend();
+    });
+  </script>
+
+  <!-- Navigation & Layout Helpers -->
+  <script src="js/layout.js"></script>
+  <script src="js/mpa_app.js"></script>
+</body>
+</html>

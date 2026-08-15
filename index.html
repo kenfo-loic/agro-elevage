@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>AgroElevage Link — Plateforme B2B Sécurisée</title>
+  <meta name="description" content="Plateforme intelligente de mise en relation directe entre producteurs agricoles, éleveurs, restaurants et acheteurs professionnels." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="css/style.css?v=3" />
+</head>
+<body>
+  <!-- ===================================================================
+       WEB APPLICATION SHELL (PURE FULLSCREEN WEB APP)
+       =================================================================== -->
+  <div class="web-app-shell">
+    
+    <!-- Shared Web Sidebar (Injected by layout.js for direct page navigation) -->
+    <div id="sidebar-root"></div>
+
+    <!-- 2. Main Web Layout Container -->
+    <div class="web-main-container">
+      
+      <!-- Top Navigation Bar -->
+      <header class="web-topbar">
+        <div class="web-topbar-left">
+          <button class="web-menu-toggle" id="btnToggleMobileMenu" title="Ouvrir le menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+            <span>Menu</span>
+          </button>
+          <span class="web-page-heading-title" id="webCurrentPageTitle">Accueil</span>
+        </div>
+
+        <!-- Global Search Bar -->
+        <div class="web-topbar-search">
+          <span class="web-search-lens-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+          <input type="text" class="web-global-search-input" id="globalWebSearch" placeholder="Rechercher des récoltes, cheptels, commandes, éleveurs..." />
+        </div>
+
+        <!-- Right Quick Actions -->
+        <div class="web-topbar-right">
+          <!-- Escrow Wallet Badge -->
+          <button type="button" class="web-wallet-pill" data-target="view-payment-escrow" title="Consulter mon portefeuille et séquestre">
+            <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></span>
+            <span class="wallet-badge-txt" id="topbarWalletBalance">128 500 FCFA</span>
+            <span class="wallet-lbl-txt">• Portefeuille Séquestre</span>
+          </button>
+
+          <!-- Notifications Bell Button -->
+          <button class="web-topbar-btn-circle" data-target="view-notifications" title="Notifications">
+            <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span>
+            <span class="web-notif-dot"></span>
+          </button>
+
+          <!-- Profile / Settings Button -->
+          <button class="web-topbar-btn-circle" data-target="view-profile" title="Paramètres du compte">
+            <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Scrollable Main Content Area -->
+      <main class="web-content-body">
+        
+        <!-- ===================================================================
+             01. ÉCRAN D'ACCUEIL (WELCOME & SÉLECTION DU MODULE)
+             =================================================================== -->
+        <section class="screen-view active welcome-screen" id="view-welcome" data-theme="dark">
+          <div class="welcome-overlay"></div>
+          <div class="sun-ray-effect"></div>
+
+          <header class="welcome-header">
+            <div class="logo-badge-container">
+              <img src="assets/images/logo.png" alt="AgroElevage Link Logo" class="logo-badge-img" style="border-radius: 50%; object-fit: cover;" />
+            </div>
+            <h1 class="welcome-app-title">AgroElevage <span class="link-accent">Link</span></h1>
+            <p class="welcome-subtitle">Connecter nos terres aux grandes tables</p>
+          </header>
+
+          <section class="welcome-body">
+            <p class="welcome-description">
+              La plateforme qui rapproche les producteurs agricoles et les acheteurs professionnels.
+            </p>
+          </section>
+
+          <footer class="welcome-actions">
+            <button class="btn-welcome-primary" id="btnWelcomeLogin">
+              <span>Se connecter</span>
+            </button>
+            <button class="btn-welcome-secondary" id="btnWelcomeRegister">
+              <span>S'inscrire</span>
+            </button>
+          </footer>
+
+          <!-- ===== LOGIN MODAL OVERLAY (sur fond de la page d'accueil) ===== -->
+          <div class="login-modal-backdrop" id="loginModalBackdrop"></div>
+          <div class="login-modal-card" id="loginModalCard" aria-modal="true" role="dialog" aria-labelledby="loginModalTitle">
+            <button class="login-modal-close" id="btnCloseLoginModal" title="Fermer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+
+            <div class="login-modal-logo">
+              <img src="assets/images/logo.png" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;" alt="Logo" />
+            </div>
+
+            <h2 class="login-modal-title" id="loginModalTitle">Bon retour !</h2>
+            <p class="login-modal-subtitle">Connectez-vous à votre espace AgroElevage Link</p>
+
+            <form class="login-modal-form" id="loginForm" onsubmit="event.preventDefault();">
+              <div class="login-field-group">
+                <label class="login-field-label" for="loginEmail">Adresse e-mail</label>
+                <div class="login-input-wrap">
+                  <span class="login-input-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                  </span>
+                  <input type="email" id="loginEmail" name="email" class="login-input-field" placeholder="exemple@domaine.com" autocomplete="email" required />
+                </div>
+              </div>
+
+              <div class="login-field-group">
+                <label class="login-field-label" for="loginPassword">Mot de passe</label>
+                <div class="login-input-wrap">
+                  <span class="login-input-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  </span>
+                  <input type="password" id="loginPassword" name="password" class="login-input-field" placeholder="Votre mot de passe" autocomplete="current-password" required />
+                  <button type="button" class="login-toggle-pwd" id="btnTogglePassword" title="Afficher/Masquer">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="login-options-row">
+                <label class="login-remember-label">
+                  <input type="checkbox" id="loginRememberMe" class="login-checkbox" />
+                  <span class="login-checkbox-custom"></span>
+                  <span>Se souvenir de moi</span>
+                </label>
+                <button type="button" class="login-forgot-link" id="btnForgotPassword">Mot de passe oublié ?</button>
+              </div>
+
+              <button type="submit" class="login-submit-btn" id="btnSubmitLogin">
+                <span>Se connecter</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </button>
+            </form>
+
+            <p class="login-register-prompt">
+              Pas encore de compte ?
+              <button type="button" class="login-register-link" id="btnGoRegisterFromLogin">Créer un compte</button>
+            </p>
+          </div>
+          <!-- ===== FIN LOGIN MODAL ===== -->
+
+          <!-- ===== REGISTER MODAL OVERLAY (sur fond de la page d'accueil) ===== -->
+          <div class="login-modal-backdrop" id="registerModalBackdrop"></div>
+          <div class="login-modal-card register-modal-card" id="registerModalCard" aria-modal="true" role="dialog" aria-labelledby="registerModalTitle">
+            <button class="login-modal-close" id="btnCloseRegisterModal" title="Fermer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+
+            <div class="login-modal-logo">
+              <img src="assets/images/logo.png" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;" alt="Logo" />
+            </div>
+
+            <h2 class="login-modal-title" id="registerModalTitle">Créer un compte</h2>
+            <p class="login-modal-subtitle">Rejoignez la communauté AgroElevage Link</p>
+
+            <form class="login-modal-form" id="registerModalForm" onsubmit="event.preventDefault();">
+
+              <!-- Nom & Prénom côte à côte -->
+              <div class="register-row-2">
+                <div class="login-field-group">
+                  <label class="login-field-label" for="regNom">Nom</label>
+                  <div class="login-input-wrap">
+                    <span class="login-input-icon">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </span>
+                    <input type="text" id="regNom" name="nom" class="login-input-field" placeholder="Kenfo" required />
+                  </div>
+                </div>
+                <div class="login-field-group">
+                  <label class="login-field-label" for="regPrenom">Prénom</label>
+                  <div class="login-input-wrap">
+                    <span class="login-input-icon">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </span>
+                    <input type="text" id="regPrenom" name="prenom" class="login-input-field" placeholder="Loic" required />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="login-field-group">
+                <label class="login-field-label" for="regEmail">Adresse e-mail</label>
+                <div class="login-input-wrap">
+                  <span class="login-input-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                  </span>
+                  <input type="email" id="regEmail" name="email" class="login-input-field" placeholder="kenfoloic3@gmail.com" autocomplete="email" required />
+                </div>
+              </div>
+
+              <!-- Téléphone -->
+              <div class="login-field-group">
+                <label class="login-field-label" for="regPhone">Numéro de téléphone</label>
+                <div class="login-input-wrap">
+                  <span class="login-input-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.65 3.42 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.69a16 16 0 0 0 6.29 6.29l.96-.86a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  </span>
+                  <input type="tel" id="regPhone" name="telephone" class="login-input-field" placeholder="+237 693 412 317" autocomplete="tel" required />
+                </div>
+              </div>
+
+              <!-- Date de naissance & Localisation -->
+              <div class="register-row-2">
+                <div class="login-field-group">
+                  <label class="login-field-label" for="regBirthdate">Date de naissance</label>
+                  <div class="login-input-wrap">
+                    <span class="login-input-icon">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
+                    </span>
+                    <input type="date" id="regBirthdate" name="birthdate" class="login-input-field" required />
+                  </div>
+                </div>
+                <div class="login-field-group">
+                  <label class="login-field-label" for="regLocation">Localisation</label>
+                  <div class="login-input-wrap">
+                    <span class="login-input-icon">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+                    </span>
+                    <input type="text" id="regLocation" name="localisation" class="login-input-field" placeholder="Yaoundé, Cameroun" required />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Mot de passe & Confirmer le mot de passe -->
+              <div class="register-row-2">
+                <div class="login-field-group">
+                  <label class="login-field-label" for="regModalPassword">Mot de passe</label>
+                  <div class="login-input-wrap">
+                    <span class="login-input-icon">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </span>
+                    <input type="password" id="regModalPassword" name="password" class="login-input-field" placeholder="••••••••" required />
+                    <button type="button" class="login-toggle-pwd" id="btnToggleRegPwd" title="Afficher/Masquer le mot de passe">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="login-field-group">
+                  <label class="login-field-label" for="regModalConfirmPassword">Confirmer mot de passe</label>
+                  <div class="login-input-wrap">
+                    <span class="login-input-icon">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </span>
+                    <input type="password" id="regModalConfirmPassword" name="confirm_password" class="login-input-field" placeholder="••••••••" required />
+                    <button type="button" class="login-toggle-pwd" id="btnToggleRegConfirmPwd" title="Afficher/Masquer le mot de passe">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="login-submit-btn" id="btnSubmitRegister" style="background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dark)); box-shadow: 0 4px 14px rgba(245,158,11,0.4);">
+                <span>Créer mon compte</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </button>
+            </form>
+
+            <p class="login-register-prompt">
+              Déjà un compte ?
+              <button type="button" class="login-register-link" id="btnGoLoginFromRegister">Se connecter</button>
+            </p>
+          </div>
+          <!-- ===== FIN REGISTER MODAL ===== -->
+
+        </section>
+
+          <!-- ===================================================================
+               05. TABLEAU DE BORD VENDEUR
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-seller-dashboard">
+            <div class="dashboard-user-bar">
+              <div>
+                <h1 class="user-greeting-title">Bonjour, Jean </h1>
+                <p class="user-role-badge">Agriculteur</p>
+              </div>
+              <button class="nav-back-btn" id="btnSellerNotif" title="Notifications"></button>
+            </div>
+
+            <h2 class="section-title">Statistiques</h2>
+            <div class="metrics-row">
+              <div class="metric-card">
+                <div class="metric-value">12</div>
+                <div class="metric-label">Produits</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value">5</div>
+                <div class="metric-label">Commandes</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value">250 g</div>
+                <div class="metric-label">Stock total</div>
+              </div>
+            </div>
+
+            <h2 class="section-title">Actions rapides</h2>
+            <div class="quick-actions-grid">
+              <div class="quick-action-item" id="actSellerAddProd">
+                <div class="action-icon-circle"></div>
+                <span class="action-label">Ajouter produit</span>
+              </div>
+              <div class="quick-action-item" id="actSellerMyProds">
+                <div class="action-icon-circle"></div>
+                <span class="action-label">Mes produits</span>
+              </div>
+              <div class="quick-action-item" id="actSellerOrders">
+                <div class="action-icon-circle"></div>
+                <span class="action-label">Commandes</span>
+              </div>
+              <div class="quick-action-item" id="actSellerNaturIA" style="background: rgba(34, 197, 94, 0.1); color: var(--primary-dark);">
+                <div class="action-icon-circle" style="background: var(--primary);"></div>
+                <span class="action-label">NaturIA Expert</span>
+              </div>
+            </div>
+
+            <div class="sales-chart-box">
+              <span style="font-size: 11.5px; color: var(--text-muted); font-weight: 600;">Aperçu des ventes</span>
+              <div class="sales-chart-header">
+                <div>
+                  <span style="font-size: 11px; color: var(--text-muted);">Ventes ce mois</span>
+                  <div class="sales-amount-big">250 000 FCFA</div>
+                </div>
+                <span class="sales-growth-pill">+15% vs mois dernier </span>
+              </div>
+              <canvas id="sellerSalesChartCanvas" height="110"></canvas>
+            </div>
+          </section>
+
+          <!-- ===================================================================
+               06. TABLEAU DE BORD (ACHETEUR / RESTAURANT)
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-buyer-dashboard">
+            <div class="dashboard-user-bar">
+              <div>
+                <h1 class="user-greeting-title">Bonjour, Restaurant </h1>
+                <p class="user-role-badge">Le Gourmet</p>
+              </div>
+              <button class="nav-back-btn" id="btnBuyerNotif" title="Notifications"></button>
+            </div>
+
+            <h2 class="section-title">Statistiques</h2>
+            <div class="metrics-row">
+              <div class="metric-card">
+                <div class="metric-value">8</div>
+                <div class="metric-label">Commandes</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value">3</div>
+                <div class="metric-label">Fournisseurs</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value">125 g</div>
+                <div class="metric-label">Achats</div>
+              </div>
+            </div>
+
+            <h2 class="section-title">Actions rapides</h2>
+            <div class="quick-actions-grid">
+              <div class="quick-action-item" id="actBuyerSearch">
+                <div class="action-icon-circle"></div>
+                <span class="action-label">Rechercher</span>
+              </div>
+              <div class="quick-action-item" id="actBuyerOrders">
+                <div class="action-icon-circle"></div>
+                <span class="action-label">Commandes</span>
+              </div>
+              <div class="quick-action-item" id="actBuyerFavorites">
+                <div class="action-icon-circle"></div>
+                <span class="action-label">Favoris</span>
+              </div>
+              <div class="quick-action-item" id="actBuyerNaturIA" style="background: rgba(34, 197, 94, 0.1); color: var(--primary-dark);">
+                <div class="action-icon-circle" style="background: var(--primary);"></div>
+                <span class="action-label">NaturIA Expert</span>
+              </div>
+            </div>
+
+            <h2 class="section-title">Commandes récentes</h2>
+            <div class="recent-order-card" id="cardBuyerRecentOrder">
+              <img src="assets/images/tomatoes.png" class="order-thumb-img" alt="Tomates" />
+              <div style="flex: 1;">
+                <div style="display: flex; justify-content: space-between;">
+                  <strong style="font-size: 13.5px;">Commande #1254</strong>
+                  <span style="font-size: 10.5px; color: var(--warning); font-weight: 700; background: var(--warning-soft); padding: 2px 6px; border-radius: 4px;">En cours</span>
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">250 g de Tomates</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===================================================================
+               07. MARKETPLACE / RECHERCHE
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-marketplace">
+            <div class="search-filter-bar">
+              <div class="search-input-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                <input type="text" class="form-input" id="inputMarketSearch" placeholder="Rechercher un produit..." />
+              </div>
+              <button class="nav-back-btn" id="btnFilterMarket" style="border: 1px solid var(--border-color); border-radius: 12px;"></button>
+            </div>
+
+            <div class="category-chips-row" id="marketCategoryChips">
+              <button class="cat-chip active" data-cat="all">Tout</button>
+              <button class="cat-chip" data-cat="legumes">Légumes</button>
+              <button class="cat-chip" data-cat="fruits">Fruits</button>
+              <button class="cat-chip" data-cat="volailles">Volailles</button>
+              <button class="cat-chip" data-cat="cereales">Céréales</button>
+              <button class="cat-chip" data-cat="laitiers">Laitiers</button>
+            </div>
+
+            <div class="products-grid" id="marketProductsGrid">
+              <!-- Item 1 -->
+              <div class="product-item-card" data-prod="tomates">
+                <img src="assets/images/tomatoes.png" class="product-thumb-img" alt="Tomates" />
+                <div class="product-info-wrap">
+                  <span class="product-name-txt">Tomates fraîche</span>
+                  <span class="product-price-txt">250 FCFA / kg</span>
+                  <span class="product-stock-txt">Disponible: 200 kg</span>
+                </div>
+                <label class="switch-toggle" onclick="event.stopPropagation()">
+                  <input type="checkbox" checked />
+                  <span class="slider-round"></span>
+                </label>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="product-item-card" data-prod="poulet">
+                <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=150" class="product-thumb-img" alt="Poulet" />
+                <div class="product-info-wrap">
+                  <span class="product-name-txt">Poulet local</span>
+                  <span class="product-price-txt">2 500 FCFA / unité</span>
+                  <span class="product-stock-txt">Disponible: 50 unités</span>
+                </div>
+                <label class="switch-toggle" onclick="event.stopPropagation()">
+                  <input type="checkbox" checked />
+                  <span class="slider-round"></span>
+                </label>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="product-item-card" data-prod="mais">
+                <img src="https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=150" class="product-thumb-img" alt="Maïs" />
+                <div class="product-info-wrap">
+                  <span class="product-name-txt">Maïs</span>
+                  <span class="product-price-txt">100 FCFA / kg</span>
+                  <span class="product-stock-txt">Disponible: 300 kg</span>
+                </div>
+                <label class="switch-toggle" onclick="event.stopPropagation()">
+                  <input type="checkbox" checked />
+                  <span class="slider-round"></span>
+                </label>
+              </div>
+
+              <!-- Item 4 -->
+              <div class="product-item-card" data-prod="lait">
+                <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=150" class="product-thumb-img" alt="Lait" />
+                <div class="product-info-wrap">
+                  <span class="product-name-txt">Lait frais</span>
+                  <span class="product-price-txt">1 000 FCFA / litre</span>
+                  <span class="product-stock-txt">Disponible: 100 litres</span>
+                </div>
+                <label class="switch-toggle" onclick="event.stopPropagation()">
+                  <input type="checkbox" checked />
+                  <span class="slider-round"></span>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===================================================================
+               08. DÉTAIL D'UN PRODUIT
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-product-detail">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-marketplace">←</button>
+              <h2>Détail Produit</h2>
+              <button class="header-right-action" title="Favori"></button>
+            </header>
+
+            <div class="detail-hero-banner">
+              <img src="assets/images/tomatoes.png" class="detail-hero-img" alt="Tomates" />
+            </div>
+
+            <div class="detail-price-row">
+              <div>
+                <h1 style="font-size: 20px; font-weight: 800; color: var(--text-main);">Tomates fraîche</h1>
+                <div style="font-size: 18px; font-weight: 800; color: var(--primary);">250 <span style="font-size: 13px; font-weight: 600; color: var(--text-muted);">FCFA / kg</span></div>
+              </div>
+            </div>
+
+            <div class="detail-seller-box">
+              <img src="assets/images/farmer.png" class="seller-avatar-img" alt="Ferme" />
+              <div style="flex: 1;">
+                <strong style="font-size: 13.5px;">Par: Ferme de la Vallée</strong>
+                <div style="font-size: 11.5px; color: var(--accent-gold-dark);">⭐ 4.8 (24)</div>
+              </div>
+            </div>
+
+            <div class="spec-badges-row">
+              <div class="spec-badge">
+                <span style="color: var(--text-muted);">Quantité disponible</span>
+                <strong>200 kg</strong>
+              </div>
+              <div class="spec-badge">
+                <span style="color: var(--text-muted);">Date de récolte</span>
+                <strong>25 Mai 2024</strong>
+              </div>
+            </div>
+
+            <div class="spec-badge" style="margin-bottom: 20px;">
+              <span style="color: var(--text-muted);">Localisation</span>
+              <strong>Yaoundé, Cameroun (5 km)</strong>
+            </div>
+            <button class="btn-primary-action" id="btnOrderProduct">
+              Passer commande
+            </button>
+          </section>
+
+          <!-- ===================================================================
+               09. CARTE & GÉOLOCALISATION
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-map">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-buyer-dashboard">←</button>
+              <h2>Carte des producteurs</h2>
+              <div style="width: 32px;"></div>
+            </header>
+
+            <div class="map-view-container" id="leafletMapContainer"></div>
+
+            <div class="map-card-popup" id="mapProducerCard">
+              <img src="assets/images/farmer.png" style="width: 48px; height: 48px; border-radius: 10px; object-fit: cover;" alt="Ferme" />
+              <div style="flex: 1;">
+                <strong style="font-size: 13.5px;">Ferme de la Vallée</strong>
+                <p style="font-size: 11.5px; color: var(--text-muted);">Tomates, Maïs, Concombres</p>
+                <span style="font-size: 11px; color: var(--primary); font-weight: 700;"> 5 km de vous</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===================================================================
+               11. AJOUT DE PRODUIT (VENDEUR)
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-add-product">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-seller-dashboard">←</button>
+              <h2>Ajouter un produit</h2>
+              <div style="width: 32px;"></div>
+            </header>
+
+            <h1 class="form-card-title">Informations du produit</h1>
+
+            <form class="register-form" id="addProductForm" onsubmit="event.preventDefault();">
+              <div class="form-group">
+                <label class="form-label">Photo du produit</label>
+                <label class="photo-upload-box" style="width: 100%; height: 120px; border: 2px dashed var(--border-color); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); cursor: pointer; background: var(--bg-input); transition: border-color 0.2s;">
+                  <span style="font-size: 28px; margin-bottom: 8px;"></span>
+                  <span style="font-size: 13px; font-weight: 600;">Appuyez pour ajouter une photo</span>
+                  <input type="file" accept="image/*" style="display: none;" />
+                </label>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Catégorie</label>
+                <select class="form-input" id="addCategory">
+                  <option>Légumes</option>
+                  <option>Fruits</option>
+                  <option>Volailles</option>
+                  <option>Céréales</option>
+                  <option>Produits laitiers</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Nom du produit</label>
+                <input type="text" class="form-input" id="addName" value="Tomates fraîche" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Prix unitaire (FCFA / kg)</label>
+                <input type="number" class="form-input" id="addPrice" value="250" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Quantité disponible (kg)</label>
+                <input type="number" class="form-input" id="addQuantity" value="200" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Date de récolte</label>
+                <input type="date" class="form-input" id="addDate" value="2024-05-25" />
+              </div>
+
+              <button type="submit" class="btn-primary-action" id="btnPublishProduct">
+                Publier le produit
+              </button>
+            </form>
+          </section>
+
+          <!-- ===================================================================
+               12. MES PRODUITS (CATALOGUE VENDEUR)
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-my-products">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-seller-dashboard">←</button>
+              <div style="text-align: center;">
+                <h2>Mes produits</h2>
+                <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;" id="spaTxtTotalProducts">Catalogue en ligne</span>
+              </div>
+              <button class="header-right-action" data-target="view-add-product" id="btnGoAddProductTop"></button>
+            </header>
+
+            <!-- 1. Inventory KPI Metrics Grid -->
+            <div class="inventory-kpi-grid">
+              <div class="kpi-stat-card">
+                <div class="kpi-icon-bubble kpi-bubble-green"></div>
+                <div class="kpi-info-col">
+                  <span class="kpi-value-num" id="spaKpiTotal">6</span>
+                  <span class="kpi-title-lbl">Total Produits</span>
+                </div>
+              </div>
+
+              <div class="kpi-stat-card">
+                <div class="kpi-icon-bubble kpi-bubble-blue"></div>
+                <div class="kpi-info-col">
+                  <span class="kpi-value-num" id="spaKpiActive">5</span>
+                  <span class="kpi-title-lbl">En Vente</span>
+                </div>
+              </div>
+
+              <div class="kpi-stat-card">
+                <div class="kpi-icon-bubble kpi-bubble-amber"></div>
+                <div class="kpi-info-col">
+                  <span class="kpi-value-num" id="spaKpiLowStock">1</span>
+                  <span class="kpi-title-lbl">Stock Faible</span>
+                </div>
+              </div>
+
+              <div class="kpi-stat-card">
+                <div class="kpi-icon-bubble kpi-bubble-purple"></div>
+                <div class="kpi-info-col">
+                  <span class="kpi-value-num" id="spaKpiValuation">3.8M F</span>
+                  <span class="kpi-title-lbl">Valeur Stock</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Search Bar -->
+            <div class="product-search-bar">
+              <span class="product-search-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+              <input type="text" class="product-search-input" id="spaSearchMyProducts" placeholder="Rechercher par nom, catégorie, lieu..." />
+            </div>
+
+            <!-- 3. Status Tabs -->
+            <div class="status-tabs-row" id="spaStatusTabsRow">
+              <button class="status-tab-btn active" data-status="all">Tous (6)</button>
+              <button class="status-tab-btn" data-status="active"> En ligne (5)</button>
+              <button class="status-tab-btn" data-status="paused"> Suspendus (1)</button>
+              <button class="status-tab-btn" data-status="low"> Stock faible (1)</button>
+            </div>
+
+            <!-- 4. Category Chips -->
+            <div class="category-chips-scroll" id="spaCatChipsRow">
+              <button class="cat-filter-chip active" data-cat="all">Toutes catégories</button>
+              <button class="cat-filter-chip" data-cat="maraichage">Maraîchage</button>
+              <button class="cat-filter-chip" data-cat="tubercules">Tubercules</button>
+              <button class="cat-filter-chip" data-cat="cereales">Céréales</button>
+              <button class="cat-filter-chip" data-cat="elevage">Élevage & Volailles</button>
+              <button class="cat-filter-chip" data-cat="fruits">Fruits & Vergers</button>
+            </div>
+
+            <!-- 5. Products List Container -->
+            <div class="seller-products-list" id="spaProductsListContainer">
+              <div class="seller-prod-card" data-cat="maraichage">
+                <div class="prod-card-top-row">
+                  <div class="prod-thumb-container">
+                    <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=200" alt="Tomates" />
+                    <span class="badge-organic-corner">Bio</span>
+                  </div>
+                  <div class="prod-main-details">
+                    <div class="prod-category-tag">Maraîchage</div>
+                    <h3 class="prod-title-text">Tomates Fraîches de Foumbot</h3>
+                    <div class="prod-price-text">12 500 FCFA <span class="prod-price-unit">/ cagette 25kg</span></div>
+                    <div class="prod-location-text"> Foumbot, Ouest</div>
+                  </div>
+                </div>
+                <div class="prod-stock-section">
+                  <div class="stock-labels-row">
+                    <span class="stock-status-pill pill-in-stock">En stock (120 cagettes)</span>
+                    <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Min: 2</span>
+                  </div>
+                  <div class="stock-meter-track">
+                    <div class="stock-meter-fill fill-green" style="width: 80%;"></div>
+                  </div>
+                </div>
+                <div class="card-actions-row">
+                  <div class="switch-visibility-wrap">
+                    <label class="switch-toggle"><input type="checkbox" checked /><span class="slider-round"></span></label>
+                    <span>En ligne</span>
+                  </div>
+                  <div class="btn-group-actions">
+                    <button class="btn-action-tool"><span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span> <span>Stock</span></button>
+                    <button class="btn-action-tool"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></span></button>
+                    <button class="btn-action-tool btn-action-delete"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></span></button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="seller-prod-card" data-cat="tubercules">
+                <div class="prod-card-top-row">
+                  <div class="prod-thumb-container">
+                    <img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=200" alt="Plantain" />
+                    <span class="badge-organic-corner">Bio</span>
+                  </div>
+                  <div class="prod-main-details">
+                    <div class="prod-category-tag">Tubercules</div>
+                    <h3 class="prod-title-text">Banane Plantain Gros Michel</h3>
+                    <div class="prod-price-text">4 500 FCFA <span class="prod-price-unit">/ régime</span></div>
+                    <div class="prod-location-text"> Njombé, Moungo</div>
+                  </div>
+                </div>
+                <div class="prod-stock-section">
+                  <div class="stock-labels-row">
+                    <span class="stock-status-pill pill-in-stock">En stock (85 régimes)</span>
+                    <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Min: 5</span>
+                  </div>
+                  <div class="stock-meter-track">
+                    <div class="stock-meter-fill fill-green" style="width: 85%;"></div>
+                  </div>
+                </div>
+                <div class="card-actions-row">
+                  <div class="switch-visibility-wrap">
+                    <label class="switch-toggle"><input type="checkbox" checked /><span class="slider-round"></span></label>
+                    <span>En ligne</span>
+                  </div>
+                  <div class="btn-group-actions">
+                    <button class="btn-action-tool"><span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span> <span>Stock</span></button>
+                    <button class="btn-action-tool"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></span></button>
+                    <button class="btn-action-tool btn-action-delete"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></span></button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="seller-prod-card" data-cat="elevage">
+                <div class="prod-card-top-row">
+                  <div class="prod-thumb-container">
+                    <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=200" alt="Poulet" />
+                  </div>
+                  <div class="prod-main-details">
+                    <div class="prod-category-tag">Élevage</div>
+                    <h3 class="prod-title-text">Poulets Fermiers de Chair (2.2kg+)</h3>
+                    <div class="prod-price-text">3 800 FCFA <span class="prod-price-unit">/ tête</span></div>
+                    <div class="prod-location-text"> Bafoussam, Ouest</div>
+                  </div>
+                </div>
+                <div class="prod-stock-section">
+                  <div class="stock-labels-row">
+                    <span class="stock-status-pill pill-in-stock">En stock (250 têtes)</span>
+                    <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Min: 10</span>
+                  </div>
+                  <div class="stock-meter-track">
+                    <div class="stock-meter-fill fill-green" style="width: 83%;"></div>
+                  </div>
+                </div>
+                <div class="card-actions-row">
+                  <div class="switch-visibility-wrap">
+                    <label class="switch-toggle"><input type="checkbox" checked /><span class="slider-round"></span></label>
+                    <span>En ligne</span>
+                  </div>
+                  <div class="btn-group-actions">
+                    <button class="btn-action-tool"><span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span> <span>Stock</span></button>
+                    <button class="btn-action-tool"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></span></button>
+                    <button class="btn-action-tool btn-action-delete"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn-primary-action" data-target="view-add-product" id="btnFloatAddProduct" style="margin-top: 10px; margin-bottom: 24px;">
+              + Ajouter un produit
+            </button>
+          </section>
+
+          <!-- ===================================================================
+               13. COMMANDE (ACHETEUR)
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-order-summary">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-product-detail">←</button>
+              <h2>Votre commande</h2>
+              <div style="width: 32px;"></div>
+            </header>
+
+            <div class="order-summary-box">
+              <div style="display: flex; gap: 12px; align-items: center;">
+                <img src="assets/images/tomatoes.png" style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover;" alt="Tomates" />
+                <div>
+                  <strong style="font-size: 14px;">Tomates fraîche</strong>
+                  <div style="font-size: 12px; color: var(--primary); font-weight: 700;">250 FCFA / kg</div>
+                </div>
+              </div>
+
+              <div class="quantity-stepper">
+                <button class="stepper-btn" id="btnQtyMinus">-</button>
+                <strong id="orderQtyDisplay">100kg</strong>
+                <button class="stepper-btn" id="btnQtyPlus">+</button>
+              </div>
+
+              <div class="bill-row"><span>Sous-total</span><span id="orderSubtotal">25 000 FCFA</span></div>
+              <div class="bill-row"><span>Frais de livraison</span><span>2 000 FCFA</span></div>
+              <div class="bill-row total"><span>Total</span><span id="orderTotal" style="color: var(--primary);">27 000 FCFA</span></div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 14px;">
+              <label class="form-label">Adresse de livraison</label>
+              <div class="spec-badge">
+                <strong>Restaurant Le Gourmet</strong>
+                <span style="color: var(--text-muted); font-size: 11.5px;">Quartier Bastos, Yaoundé, Cameroun</span>
+              </div>
+            </div>
+
+            <button class="btn-primary-action" id="btnConfirmOrder">
+              Confirmer la commande
+            </button>
+          </section>
+
+          <!-- ===================================================================
+               14. PAIEMENT SÉCURISÉ (ESCROW)
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-payment-escrow">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-order-summary">←</button>
+              <h2>Paiement sécurisé</h2>
+              <div style="width: 32px;"></div>
+            </header>
+
+            <span style="font-size: 12px; color: var(--text-muted);">Montant à payer</span>
+            <div style="font-family: var(--font-heading); font-size: 24px; font-weight: 800; color: var(--text-main); margin-bottom: 16px;">
+              27 000 FCFA
+            </div>
+
+            <label class="form-label" style="margin-bottom: 8px;">Mode de paiement</label>
+            <div class="payment-method-card selected" data-pay="momo">
+              <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+              <div style="flex: 1;">
+                <strong style="font-size: 13px;">Mobile Money</strong>
+                <p style="font-size: 11px; color: var(--text-muted);">MTN MoMo / Orange Money</p>
+              </div>
+              
+            </div>
+
+            <div class="payment-method-card" data-pay="card">
+              <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg></span>
+              <div style="flex: 1;">
+                <strong style="font-size: 13px;">Carte bancaire</strong>
+                <p style="font-size: 11px; color: var(--text-muted);">Visa / Mastercard</p>
+              </div>
+            </div>
+
+            <div class="payment-method-card" data-pay="bank">
+              <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v2H3z"/><path d="M5 11v7"/><path d="M9 11v7"/><path d="M15 11v7"/><path d="M19 11v7"/><path d="M2 20h20v2H2z"/></svg></span>
+              <div style="flex: 1;">
+                <strong style="font-size: 13px;">Virement bancaire</strong>
+                <p style="font-size: 11px; color: var(--text-muted);">Compte professionnel</p>
+              </div>
+            </div>
+
+            <div class="escrow-badge-pill" style="margin-top: 14px;">
+              <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+              <span>Les fonds sont sécurisés sous séquestre jusqu'à la confirmation de livraison.</span>
+            </div>
+
+            <button class="btn-primary-action" id="btnPayNow">
+              Payer maintenant
+            </button>
+          </section>
+
+          <!-- ===================================================================
+               15. SUIVI DE COMMANDE
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-order-tracking">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-buyer-dashboard">←</button>
+              <h2>Commande #1254</h2>
+              <span style="font-size: 11px; font-weight: 700; color: var(--warning); background: var(--warning-soft); padding: 3px 8px; border-radius: 999px;">En cours</span>
+            </header>
+
+            <div class="timeline-stepper">
+              <div class="timeline-step-item">
+                <div class="step-marker-dot"></div>
+                <div class="step-title">Commande confirmée</div>
+                <div class="step-time">25 Mai 2024 – 10:30</div>
+              </div>
+              <div class="timeline-step-item">
+                <div class="step-marker-dot"></div>
+                <div class="step-title">Paiement reçu (Sécurisé Escrow)</div>
+                <div class="step-time">25 Mai 2024 – 10:32</div>
+              </div>
+              <div class="timeline-step-item">
+                <div class="step-marker-dot"></div>
+                <div class="step-title">En préparation</div>
+                <div class="step-time">25 Mai 2024 – 11:00</div>
+              </div>
+              <div class="timeline-step-item">
+                <div class="step-marker-dot" style="background: var(--accent-gold);"></div>
+                <div class="step-title" style="color: var(--accent-gold-dark);">En livraison</div>
+                <div class="step-time">En cours...</div>
+              </div>
+              <div class="timeline-step-item">
+                <div class="step-marker-dot pending"></div>
+                <div class="step-title" style="color: var(--text-light);">Livrée</div>
+              </div>
+            </div>
+
+            <button class="btn-welcome-secondary" id="btnOpenInvoiceModal" style="border: 1px solid var(--border-color); color: var(--primary); margin-bottom: 10px;">
+               Voir la Facture Officielle Escrow
+            </button>
+            <button class="btn-primary-action" id="btnOrderFinished">
+              Voir les détails
+            </button>
+          </section>
+
+          <!-- ===================================================================
+               16. IA DIAGNOSTIC PLANTE
+               =================================================================== -->
+          <section class="screen-view" id="view-ai-diag" data-theme="dark" style="padding: 0; padding-top: 44px; overflow: hidden; background: #080f08;">
+            <header class="screen-header-bar" style="padding: 10px 16px; background: #080f08; color: #fff; z-index: 10; border-bottom: 1px solid rgba(74, 222, 128, 0.12); margin-bottom: 0;">
+              <button class="nav-back-btn" data-back="view-seller-dashboard" style="color: #fff; background: rgba(255, 255, 255, 0.1); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer;">←</button>
+              <h2 style="font-size: 16px; font-weight: 700;">NaturIA Expert</h2>
+              <div style="width: 32px;"></div>
+            </header>
+            <iframe src="api/index.html" style="width: 100%; height: calc(100% - 52px); border: none;"></iframe>
+          </section>
+
+          <!-- ===================================================================
+               18. IA TRADUCTION & VOIX (NaturIA Expert)
+               =================================================================== -->
+          <section class="screen-view" id="view-ai-translate" data-theme="dark" style="padding: 0; padding-top: 44px; overflow: hidden; background: #080f08;">
+            <header class="screen-header-bar" style="padding: 10px 16px; background: #080f08; color: #fff; z-index: 10; border-bottom: 1px solid rgba(74, 222, 128, 0.12); margin-bottom: 0;">
+              <button class="nav-back-btn" data-back="view-chat" style="color: #fff; background: rgba(255, 255, 255, 0.1); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer;">←</button>
+              <h2 style="font-size: 16px; font-weight: 700;">NaturIA Expert</h2>
+              <div style="width: 32px;"></div>
+            </header>
+            <iframe src="api/index.html" style="width: 100%; height: calc(100% - 52px); border: none;"></iframe>
+          </section>
+
+          <!-- ===================================================================
+               19. NOTIFICATIONS
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-notifications">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-seller-dashboard">←</button>
+              <h2>Notifications</h2>
+              <button class="header-right-action" title="Marquer comme lu"></button>
+            </header>
+
+            <div class="notifications-list">
+              <div class="notification-card">
+                <div class="notif-icon-wrap"></div>
+                <div style="flex: 1;">
+                  <strong style="font-size: 13px;">Commande #1254 confirmée</strong>
+                  <p style="font-size: 11.5px; color: var(--text-muted);">Votre commande a été confirmée.</p>
+                  <span style="font-size: 10px; color: var(--text-light);">10:30</span>
+                </div>
+              </div>
+
+              <div class="notification-card">
+                <div class="notif-icon-wrap" style="background: var(--success-soft); color: var(--success);"></div>
+                <div style="flex: 1;">
+                  <strong style="font-size: 13px;">Paiement reçu</strong>
+                  <p style="font-size: 11.5px; color: var(--text-muted);">Votre paiement de 27 000 FCFA a été sécurisé.</p>
+                  <span style="font-size: 10px; color: var(--text-light);">10:32</span>
+                </div>
+              </div>
+
+              <div class="notification-card">
+                <div class="notif-icon-wrap" style="background: var(--warning-soft); color: var(--accent-gold-dark);"></div>
+                <div style="flex: 1;">
+                  <strong style="font-size: 13px;">Nouvelle offre près de vous</strong>
+                  <p style="font-size: 11.5px; color: var(--text-muted);">Maïs à 180 FCFA / kg disponible à 2 km.</p>
+                  <span style="font-size: 10px; color: var(--text-light);">09:15</span>
+                </div>
+              </div>
+
+              <div class="notification-card">
+                <div class="notif-icon-wrap"></div>
+                <div style="flex: 1;">
+                  <strong style="font-size: 13px;">Message de Ferme de la Vallée</strong>
+                  <p style="font-size: 11.5px; color: var(--text-muted);">Nous préparons votre commande.</p>
+                  <span style="font-size: 10px; color: var(--text-light);">08:45</span>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn-welcome-secondary" id="btnMarkAllNotifs" style="margin-top: 18px; border: 1px solid var(--border-color); color: var(--text-main);">
+              Tout marquer comme lu
+            </button>
+          </section>
+
+          <!-- ===================================================================
+               20. PROFIL & PARAMÈTRES
+               =================================================================== -->
+          <section class="screen-view app-screen-layout" id="view-profile">
+            <header class="screen-header-bar">
+              <button class="nav-back-btn" data-back="view-seller-dashboard">←</button>
+              <h2>Mon profil</h2>
+              <button class="header-right-action"></button>
+            </header>
+
+            <div style="display: flex; gap: 14px; align-items: center; margin-bottom: 18px;">
+              <img src="assets/images/farmer.png" style="width: 58px; height: 58px; border-radius: 50%; object-fit: cover;" alt="Avatar" />
+              <div>
+                <h3 style="font-size: 17px; font-weight: 800; color: var(--text-main);">Jean Dupont</h3>
+                <p style="font-size: 12.5px; color: var(--text-muted);">Agriculteur · Yaoundé</p>
+              </div>
+            </div>
+
+            <div class="profile-menu-list">
+              <div class="profile-menu-item">
+                <span> Informations personnelles</span>
+                <span>›</span>
+              </div>
+              <div class="profile-menu-item">
+                <span> Mon profil vendeur</span>
+                <span>›</span>
+              </div>
+              <div class="profile-menu-item">
+                <span> Moyens de paiement</span>
+                <span>›</span>
+              </div>
+              <div class="profile-menu-item">
+                <span> Adresses de livraison</span>
+                <span>›</span>
+              </div>
+              <div class="profile-menu-item">
+                <span> Paramètres</span>
+                <span>›</span>
+              </div>
+              <div class="profile-menu-item" id="btnLogoutApp" style="color: var(--danger);">
+                <span> Déconnexion</span>
+                <span>›</span>
+              </div>
+            </div>
+          </section>
+
+      </main> <!-- /web-content-body -->
+
+      <!-- Interactive Toast Popup -->
+      <div class="toast-msg" id="appToast">Bienvenue sur AgroElevage Link !</div>
+
+    </div> <!-- /web-main-container -->
+
+    <!-- Mobile Sticky Bottom Navigation -->
+    <nav class="mobile-bottom-nav" id="mobileBottomNav">
+    <button class="mobile-nav-btn active" data-target="view-seller-dashboard">
+      <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg></span>
+      <span>Tableau</span>
+    </button>
+    <button class="mobile-nav-btn" data-target="view-marketplace">
+      <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg></span>
+      <span>Marché</span>
+    </button>
+    <button class="mobile-nav-btn" data-target="view-inventory">
+      <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span>
+      <span>Produits</span>
+    </button>
+    <button class="mobile-nav-btn" data-target="view-ai-expert">
+      <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span>
+      <span>NaturIA</span>
+    </button>
+    <button class="mobile-nav-btn" data-target="view-profile-settings">
+      <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+      <span>Profil</span>
+    </button>
+  </nav>
+  </div> <!-- /web-app-shell -->
+
+  
+
+  <!-- ===================================================================
+       MODAL: FACTURE OFFICIELLE ESCROW
+       =================================================================== -->
+  <div class="modal-backdrop" id="invoiceModal">
+    <div class="invoice-paper-card">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+        <div>
+          <h3 style="color: var(--primary); font-size: 16px; font-weight: 800;">AgroElevage Link</h3>
+          <p style="color: var(--text-muted); font-size: 10px;">Plateforme Agricole & B2B Sécurisée</p>
+        </div>
+        <button class="nav-back-btn" id="btnCloseInvoiceModal" style="width: 24px; height: 24px; font-size: 16px;"></button>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 12px; background: var(--bg-subtle); padding: 8px; border-radius: 8px;">
+        <div>
+          <strong>FACTURE #INV-2024-1254</strong><br/>
+          <span>Date : 25 Mai 2024</span>
+        </div>
+        <div style="text-align: right;">
+          <span style="color: var(--success); font-weight: 700;">STATUT : PAYÉ (ESCROW)</span>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 10.5px; margin-bottom: 12px;">
+        <div>
+          <strong style="color: var(--primary);">Vendeur :</strong><br/>
+          Ferme de la Vallée<br/>
+          Yaoundé, Cameroun
+        </div>
+        <div>
+          <strong style="color: var(--primary);">Acheteur :</strong><br/>
+          Restaurant Le Gourmet<br/>
+          Quartier Bastos, Yaoundé
+        </div>
+      </div>
+
+      <table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 12px;">
+        <thead>
+          <tr style="background: var(--bg-subtle); text-align: left;">
+            <th style="padding: 6px 4px;">Article</th>
+            <th style="padding: 6px 4px;">Qté</th>
+            <th style="padding: 6px 4px;">Prix</th>
+            <th style="padding: 6px 4px; text-align: right;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 6px 4px; border-bottom: 1px solid var(--border-color);">Tomates fraîches</td>
+            <td style="padding: 6px 4px; border-bottom: 1px solid var(--border-color);">100 kg</td>
+            <td style="padding: 6px 4px; border-bottom: 1px solid var(--border-color);">250 F</td>
+            <td style="padding: 6px 4px; border-bottom: 1px solid var(--border-color); text-align: right;">25 000 F</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 4px;">Livraison directe</td>
+            <td style="padding: 6px 4px;">1</td>
+            <td style="padding: 6px 4px;">2 000 F</td>
+            <td style="padding: 6px 4px; text-align: right;">2 000 F</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr style="font-weight: 800; font-size: 12px; border-top: 2px solid var(--border-color);">
+            <td colspan="3" style="padding: 8px 4px; text-align: right;">TOTAL PAYÉ :</td>
+            <td style="padding: 8px 4px; text-align: right; color: var(--primary);">27 000 FCFA</td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="invoice-stamp">ESCROW SÉCURISÉ</div>
+        <button class="btn-primary-action" onclick="window.print()" style="width: auto; padding: 6px 14px; font-size: 11.5px; height: 32px;">
+          ️ Imprimer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet Map JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <!-- Chart.js for Dashboards -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Layout Helpers & Navigation -->
+  <script src="js/layout.js"></script>
+
+  <!-- App Script -->
+  <script src="js/app.js"></script>
+</body>
+</html>
+

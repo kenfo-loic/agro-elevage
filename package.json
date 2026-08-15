@@ -1,0 +1,36 @@
+{
+  "name": "agroelevage-backend",
+  "version": "1.0.0",
+  "description": "Backend REST API & Escrow platform for AgroElevage Link & NaturIA",
+  "main": "server/server.js",
+
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node --watch server/server.js",
+    "seed": "node server/services/seedService.js",
+    "test": "node server/tests/api-test.js"
+  },
+  "keywords": [
+    "agriculture",
+    "elevage",
+    "marketplace",
+    "escrow",
+    "mobile-money",
+    "momo",
+    "orange-money",
+    "ai",
+    "mistral",
+    "cameroon"
+  ],
+  "author": "AgroElevage Team",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1"
+  }
+}
