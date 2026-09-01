@@ -8,30 +8,267 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/style.css?v=3" />
+
   <style>
-    .naturia-iframe-container {
-      width: 100%;
-      height: calc(100vh - 100px);
-      border-radius: var(--radius-card);
-      overflow: hidden;
-      box-shadow: var(--shadow-card);
-      border: 1px solid var(--border-color);
-      background: #080f08;
+    .naturia-app-layout {
+      display: grid;
+      grid-template-columns: 310px 1fr;
+      gap: 20px;
+      height: calc(100vh - 120px);
+      min-height: 560px;
     }
-    .naturia-iframe {
-      width: 100%;
-      height: 100%;
+
+    /* Left Quick Topic Sidebar */
+    .naturia-topic-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+
+    .naturia-chip-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .naturia-chip-btn:hover {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      transform: translateY(-1px);
+    }
+
+    /* Main Chat Frame */
+    .naturia-chat-frame {
+      display: flex;
+      flex-direction: column;
+      border-radius: var(--radius-card);
+      border: 1.5px solid var(--border-color);
+      background: var(--bg-card);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .naturia-chat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border-color);
+      background: var(--bg-subtle);
+    }
+
+    .naturia-chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      scroll-behavior: smooth;
+    }
+
+    /* Message Bubbles */
+    .msg-row {
+      display: flex;
+      gap: 12px;
+      max-width: 86%;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    .msg-row.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .msg-row.ai {
+      align-self: flex-start;
+    }
+
+    .msg-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .msg-avatar.ai-av {
+      background: linear-gradient(135deg, #22c55e, #15803d);
+      color: #ffffff;
+    }
+
+    .msg-avatar.user-av {
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      border: 1.5px solid var(--primary-border);
+    }
+
+    .msg-content {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 14px 18px;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+
+    .msg-row.user .msg-content {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary-dark);
+      border-bottom-right-radius: 4px;
+    }
+
+    .msg-row.ai .msg-content {
+      border-bottom-left-radius: 4px;
+    }
+
+    .msg-content h3, .msg-content h4 {
+      font-family: var(--font-heading);
+      margin: 6px 0 8px;
+      color: var(--primary-dark);
+    }
+
+    .msg-row.user .msg-content h3 {
+      color: #ffffff;
+    }
+
+    .msg-content ul, .msg-content ol {
+      margin: 8px 0 8px 18px;
+    }
+
+    .msg-content li {
+      margin-bottom: 4px;
+    }
+
+    .msg-content strong {
+      font-weight: 800;
+    }
+
+    /* Input Footer */
+    .naturia-input-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-subtle);
+    }
+
+    .naturia-input-wrapper {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: 16px;
+      padding: 8px 12px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .naturia-input-wrapper:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+    }
+
+    .naturia-textarea {
+      flex: 1;
       border: none;
+      background: transparent;
+      outline: none;
+      resize: none;
+      font-family: inherit;
+      font-size: 13.5px;
+      color: var(--text-main);
+      max-height: 120px;
+      min-height: 24px;
+      line-height: 1.5;
+    }
+
+    .btn-naturia-send {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .btn-naturia-send:hover:not(:disabled) {
+      background: var(--primary-dark);
+      transform: scale(1.05);
+    }
+
+    .btn-naturia-send:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Typing Dots */
+    .typing-indicator-box {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 10px 14px;
+      background: var(--bg-subtle);
+      border-radius: 16px;
+      width: fit-content;
+    }
+
+    .typing-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--primary);
+      border-radius: 50%;
+      animation: pulseDot 1.2s infinite ease-in-out;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes pulseDot {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+      40% { transform: scale(1.1); opacity: 1; }
+    }
+
+    @media (max-width: 900px) {
+      .naturia-app-layout {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+      .naturia-topic-panel {
+        display: none;
+      }
+      .naturia-chat-frame {
+        height: 620px;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- ===================================================================
-       WEB APPLICATION SHELL (PURE FULLSCREEN WEB APP)
-       =================================================================== -->
   <div class="web-app-shell">
     
     <!-- Shared Web Sidebar (Injected by layout.js) -->
@@ -44,12 +281,12 @@
       <header class="web-topbar">
         <div class="web-topbar-left">
           <button class="web-menu-toggle" id="btnToggleMobileMenu" title="Ouvrir le menu de navigation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg> <span>Menu</span></button>
-          <span class="web-page-heading-title"> NaturIA Expert (Assistant IA Agronome)</span>
+          <span class="web-page-heading-title">🌱 NaturIA Expert (Diagnostic & Conseil IA)</span>
         </div>
 
         <div class="web-topbar-right">
           <span style="font-size: 11.5px; background: #dcfce7; color: #15803d; font-weight: 800; padding: 4px 10px; border-radius: 999px;">
-             Modèle IA Actif
+            ● IA Active & En Ligne
           </span>
 
           <a href="notifications.html" class="web-topbar-btn-circle" title="Notifications">
@@ -64,10 +301,101 @@
       </header>
 
       <!-- Main Content Body -->
-      <main class="web-content-body" style="padding: 16px 24px;">
-        <div class="naturia-iframe-container">
-          <iframe src="api/index.html" class="naturia-iframe" title="NaturIA Expert Assistant"></iframe>
+      <main class="web-content-body" style="padding: 16px 20px;">
+        
+        <div class="naturia-app-layout">
+          
+          <!-- Left Column: Fast Topic Quick Selection -->
+          <div class="naturia-topic-panel">
+            <div class="web-card" style="padding: 16px;">
+              <h3 style="font-family: var(--font-heading); font-size: 14px; font-weight: 800; color: var(--text-main); margin-bottom: 4px;">🎯 Diagnostics Rapides</h3>
+              <p style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 12px;">Cliquez pour lancer une analyse instantanée :</p>
+              
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <button class="naturia-chip-btn" data-ask="Comment soigner la coccidiose chez les poussins de chair ?">
+                  <span>🐔</span> <span>Coccidiose Volailles</span>
+                </button>
+                <button class="naturia-chip-btn" data-ask="Quels sont les symptômes et préventions de la peste porcine africaine (PPA) ?">
+                  <span>🐖</span> <span>Peste Porcine (PPA)</span>
+                </button>
+                <button class="naturia-chip-btn" data-ask="Comment traiter le mildiou et les taches noires sur mes tomates ?">
+                  <span>🍅</span> <span>Mildiou de la Tomate</span>
+                </button>
+                <button class="naturia-chip-btn" data-ask="Comment éliminer les chenilles légionnaires sur le maïs ?">
+                  <span>🌽</span> <span>Chenille du Maïs</span>
+                </button>
+                <button class="naturia-chip-btn" data-ask="Pourquoi les feuilles de mes plants jaunissent et comment y remédier ?">
+                  <span>🍃</span> <span>Jaunissement & NPK</span>
+                </button>
+                <button class="naturia-chip-btn" data-ask="Comment préparer un purin d'ortie et du savon noir anti-pucerons ?">
+                  <span>🧪</span> <span>Recettes Bio & Purins</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="web-card" style="padding: 14px; background: rgba(5, 150, 105, 0.04); border-color: var(--primary-border);">
+              <strong style="font-size: 12px; color: var(--primary-dark); display: block; margin-bottom: 4px;">ℹ️ Conseil Agronomique</strong>
+              <p style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">
+                NaturIA analyse les symptômes des maladies aviaires, porcines, maraîchères et formule des protocoles curatifs et bio.
+              </p>
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive Chat Interface -->
+          <div class="naturia-chat-frame">
+            
+            <div class="naturia-chat-header">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #22c55e, #15803d); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 800;">
+                  🌱
+                </div>
+                <div>
+                  <div style="font-family: var(--font-heading); font-size: 14px; font-weight: 800; color: var(--text-main);">NaturIA Expert IA</div>
+                  <div style="font-size: 11px; color: #15803d; font-weight: 700;">Agronomie, Élevage & Santé Animale</div>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 8px;">
+                <button id="btnNaturiaVoice" style="background: none; border: 1px solid var(--border-color); border-radius: 8px; padding: 5px 10px; font-size: 11.5px; font-weight: 700; color: var(--text-main); cursor: pointer; display: flex; align-items: center; gap: 4px;" title="Activer / Désactiver la lecture vocale">
+                  <span id="voiceIcon">🔊</span> <span>Lecture Vocale</span>
+                </button>
+                <button id="btnClearNaturiaChat" style="background: none; border: 1px solid var(--border-color); border-radius: 8px; padding: 5px 10px; font-size: 11.5px; font-weight: 700; color: var(--text-muted); cursor: pointer;" title="Effacer la conversation">
+                  🗑️ Effacer
+                </button>
+              </div>
+            </div>
+
+            <!-- Messages Stream -->
+            <div class="naturia-chat-messages" id="naturiaMessages">
+              
+              <!-- Welcome Initial Message -->
+              <div class="msg-row ai">
+                <div class="msg-avatar ai-av">🌱</div>
+                <div class="msg-content">
+                  <h3>Bonjour ! Je suis NaturIA, votre expert agronomique et vétérinaire.</h3>
+                  <p>Comment se portent vos cultures et vos animaux aujourd'hui ?</p>
+                  <p style="margin-top: 6px; font-size: 12.5px; color: var(--text-muted);">
+                    💡 <em>Exemples de questions : « Mes poulets ont des fientes sanglantes », « Feuilles de tomates avec taches noires », « Recette de bio-engrais »...</em>
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Input Bar -->
+            <div class="naturia-input-footer">
+              <div class="naturia-input-wrapper">
+                <textarea id="naturiaInput" class="naturia-textarea" rows="1" placeholder="Posez une question sur vos plantes ou animaux..."></textarea>
+                <button id="btnNaturiaSend" class="btn-naturia-send" title="Envoyer le message">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
         </div>
+
       </main>
 
     </div>
@@ -76,5 +404,264 @@
   <!-- Navigation & Layout Helpers -->
   <script src="js/layout.js"></script>
   <script src="js/mpa_app.js"></script>
+
+  <!-- NaturIA Native AI Engine -->
+  <script>
+    const messagesContainer = document.getElementById('naturiaMessages');
+    const inputField = document.getElementById('naturiaInput');
+    const sendButton = document.getElementById('btnNaturiaSend');
+    const clearButton = document.getElementById('btnClearNaturiaChat');
+    const voiceButton = document.getElementById('btnNaturiaVoice');
+
+    let voiceEnabled = false;
+
+    // Toggle Voice readout
+    if (voiceButton) {
+      voiceButton.addEventListener('click', () => {
+        voiceEnabled = !voiceEnabled;
+        voiceButton.style.borderColor = voiceEnabled ? 'var(--primary)' : 'var(--border-color)';
+        voiceButton.style.color = voiceEnabled ? 'var(--primary-dark)' : 'var(--text-main)';
+        document.getElementById('voiceIcon').textContent = voiceEnabled ? '📢' : '🔊';
+        if (typeof showToast === 'function') {
+          showToast(voiceEnabled ? 'Lecture vocale activée.' : 'Lecture vocale désactivée.');
+        }
+      });
+    }
+
+    // Auto-grow textarea
+    inputField.addEventListener('input', () => {
+      inputField.style.height = 'auto';
+      inputField.style.height = Math.min(inputField.scrollHeight, 120) + 'px';
+      sendButton.disabled = !inputField.value.trim();
+    });
+
+    inputField.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        submitMessage();
+      }
+    });
+
+    sendButton.addEventListener('click', submitMessage);
+
+    // Topic quick chips
+    document.querySelectorAll('.naturia-chip-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const question = btn.getAttribute('data-ask');
+        if (question) {
+          inputField.value = question;
+          submitMessage();
+        }
+      });
+    });
+
+    // Clear chat
+    clearButton.addEventListener('click', () => {
+      messagesContainer.innerHTML = `
+        <div class="msg-row ai">
+          <div class="msg-avatar ai-av">🌱</div>
+          <div class="msg-content">
+            <h3>Conversation réinitialisée.</h3>
+            <p>Posez-moi votre question sur vos cultures ou votre élevage.</p>
+          </div>
+        </div>
+      `;
+    });
+
+    function submitMessage() {
+      const text = inputField.value.trim();
+      if (!text) return;
+
+      // Append User message
+      appendMsg('user', text);
+      inputField.value = '';
+      inputField.style.height = 'auto';
+      sendButton.disabled = true;
+
+      // Show typing indicator
+      const typingIndicator = document.createElement('div');
+      typingIndicator.className = 'msg-row ai';
+      typingIndicator.id = 'typingRow';
+      typingIndicator.innerHTML = `
+        <div class="msg-avatar ai-av">🌱</div>
+        <div class="typing-indicator-box">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      `;
+      messagesContainer.appendChild(typingIndicator);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+      // Generate AI expert response
+      setTimeout(() => {
+        typingIndicator.remove();
+        const aiResponse = generateNaturIAExpertResponse(text);
+        appendMsg('ai', aiResponse);
+
+        if (voiceEnabled && 'speechSynthesis' in window) {
+          const cleanText = aiResponse.replace(/###|##|#|\*|_|💊|🛡️|🚨|🐔|🐖|🍅|🌽|🍃|⚡/g, '');
+          const utterance = new SpeechSynthesisUtterance(cleanText);
+          utterance.lang = 'fr-FR';
+          window.speechSynthesis.speak(utterance);
+        }
+      }, 500);
+    }
+
+    function appendMsg(role, rawContent) {
+      const row = document.createElement('div');
+      row.className = `msg-row ${role}`;
+
+      const avatar = document.createElement('div');
+      avatar.className = `msg-avatar ${role === 'ai' ? 'ai-av' : 'user-av'}`;
+      avatar.textContent = role === 'ai' ? '🌱' : '👤';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'msg-content';
+      bubble.innerHTML = formatMarkdown(rawContent);
+
+      row.appendChild(avatar);
+      row.appendChild(bubble);
+      messagesContainer.appendChild(row);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function formatMarkdown(text) {
+      let html = text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      // Headers
+      html = html.replace(/### (.+)/g, '<h3>$1</h3>');
+      html = html.replace(/#### (.+)/g, '<h4 style="color:var(--primary);margin:8px 0 4px;">$1</h4>');
+
+      // Bold & Italic
+      html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+      // Lists
+      html = html.replace(/^\* (.+)/gm, '<li>$1</li>');
+      html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+
+      // Paragraphs
+      return html.replace(/\n\n/g, '<br/><br/>').replace(/\n/g, '<br/>');
+    }
+
+    // --- INTEGRATED EXPERT AGRICULTURAL & VETERINARY KNOWLEDGE BASE ---
+    function generateNaturIAExpertResponse(query) {
+      const text = query.toLowerCase();
+
+      if (text.includes("coccidios") || (text.includes("poussin") && text.includes("sang")) || text.includes("fientes rouge")) {
+        return `### 🐔 Diagnostic : Coccidiose Aviaire (Suspicion Forte)
+
+**Symptômes identifiés :** Fientes sanguinolentes/brunâtres, plumes hérissées, prostration, baisse d'appétit et mortalité rapide (souvent entre 15 et 45 jours).
+
+#### 💊 1. Traitement d'Urgence :
+* **Anticoccidien curatif :** **Amprolium** (1g/L d'eau) ou *Toltrazuril (Baycox)* pendant **3 à 5 jours consécutifs**.
+* **Vitamine K3 & Électrolytes :** Ajouter un complexe polyvitaminé riche en Vitamine K pour stopper les hémorragies intestinales.
+
+#### 🛡️ 2. Mesures de Biosécurité & Prévention :
+* Changer immédiatement la litière humide (la litière sèche en copeaux de bois bloque la reproduction du parasite).
+* Nettoyer et javelliser les abreuvoirs quotidiennement.`;
+      }
+
+      if (text.includes("newcastle") || text.includes("pseudo-peste") || text.includes("torticolis") || (text.includes("poulet") && (text.includes("toux") || text.includes("respiratoire")))) {
+        return `### 🐔 Diagnostic : Maladie de Newcastle (Pseudo-Peste Aviaire)
+
+**Symptômes :** Râles respiratoires, fientes verdâtres très liquides, torticolis, ailes pendantes, mortalité élevée.
+
+#### ⚠️ 1. Mesures Immédiates :
+* **Isolement :** Isoler d'urgence les sujets présentant des symptômes du reste du cheptel.
+* **Soutien respiratoire & antibiotique :** Administrer de l'*Oxytétracycline 20%* ou *Doxycycline* pour empêcher les surinfections pulmonaires.
+
+#### 💉 2. Protocole Vaccinal Préventif :
+* **J1 à J7 :** Vaccin HB1 / Clone 30 (goutte oculaire).
+* **J21 :** Rappel La Sota dans l'eau de boisson non chlorée.`;
+      }
+
+      if (text.includes("porc") || text.includes("cochon") || text.includes("peste porcine") || text.includes("ppa") || text.includes("truie")) {
+        return `### 🐖 Expertise Élevage Porcin & Santé
+
+#### 🚨 1. Peste Porcine Africaine (PPA) - Mesures Vitales :
+* **Symptômes :** Fièvre aiguë (41-42°C), rougeurs et plaques violacées sur les oreilles, le groin et l'abdomen, vomissements, mortalité subite.
+* **Règle absolue :** Il n'existe pas de vaccin. **Interdiction formelle** de nourrir les porcs avec des restes de cuisine non bouillis (eaux grasses) et mise en place d'un sas de désinfection des bottes à l'entrée.
+
+#### 🥗 2. Rations Alimentaires Recommandées :
+* **Porcelets sevrés :** 18 à 20% de protéines brutes (Farine de poisson, tourteau de soja, maïs, CMV).
+* **Engraissement :** 70% source d'énergie (Maïs/Son de blé) + 30% protéines (Soja/Coton/Palmiste) + sel et minéraux.`;
+      }
+
+      if (text.includes("mildiou") || (text.includes("tomate") && (text.includes("tache") || text.includes("feuille")))) {
+        return `### 🍅 Diagnostic : Mildiou de la Tomate (*Phytophthora*)
+
+**Symptômes :** Taches brunâtres/noires huileuses sur les feuilles avec feutrage blanc au revers, tiges noircies et fruits marbrés.
+
+#### 🌿 1. Traitement Curatif & Bio :
+* **Bio :** Pulvériser une solution de **Bicarbonate de soude** (5g par litre d'eau) + 1 cuillère à café de savon noir, ou purin de prêle.
+* **Conventionnel :** Fongicide systémique (*Mancozèbe*, *Cymoxanil* ou *Métalaxyl*) en respectant le délai avant récolte.
+
+#### 🛡️ 2. Prévention :
+* Ne jamais mouiller les feuilles lors de l'arrosage (privilégier le goutte-à-goutte ou l'arrosage au pied).
+* Éliminer et brûler les feuilles basses contaminées.`;
+      }
+
+      if (text.includes("chenille") || text.includes("légionnaire") || (text.includes("maïs") && text.includes("feuille"))) {
+        return `### 🌽 Diagnostic : Chenille Légionnaire d'Automne (*Spodoptera*)
+
+**Symptômes :** Perforations en "coups de fusil" sur les jeunes feuilles et déjections sous forme de sciure au cœur du cornet de maïs.
+
+#### 🌿 1. Traitement Biologique :
+* **Poudre de Neem :** 50g de graines de neem pilées par litre d'eau, macérer 12h, filtrer et verser directement dans le cornet.
+* **Cendre de bois :** Saupoudrer une pincée de cendre fine sèche dans le cornet de chaque pied de maïs.
+
+#### ⚡ 2. Traitement Conventionnel :
+* *Emamectine benzoate* ou *Chlorantraniliprole* tôt le matin ou au crépuscule.`;
+      }
+
+      if (text.includes("jaune") || text.includes("jauniss") || text.includes("carence") || text.includes("engrais") || text.includes("npk")) {
+        return `### 🍃 Diagnostic : Carences Nutritionnelles & Jaunissement Foliaire
+
+#### 🔍 1. Identification Précise :
+* **Feuilles du bas jaunes :** Carence en **Azote (N)**. *Solution : Purin d'ortie, fientes de volailles compostées ou urée.*
+* **Nervures vertes et limbe jaune :** Carence en **Fer (Chlorose)** ou en **Magnésium**. *Solution : Chélate de fer ou sel d'Epsom.*
+* **Bords des feuilles brûlés / nécrosés :** Carence en **Potassium (K)**. *Solution : Cendre de bois tamisée ou sulfate de potassium.*
+* **Feuilles molles et jaunissement général :** **Asphyxie racinaire** due à un excès d'eau et un mauvais drainage.`;
+      }
+
+      if (text.includes("bio") || text.includes("purin") || text.includes("compost") || text.includes("puceron") || text.includes("savon")) {
+        return `### 🧪 Recettes de Traitements & Bio-Fertilisants Maison
+
+#### 1. Purin d'Ortie / Tithonia (Stimulant & Engrais Foliaire) :
+* 1 kg de feuilles fraîches hachées dans 10 Litres d'eau.
+* Macérer 8 à 10 jours en remuant quotidiennement jusqu'à fin de fermentation.
+* Diluer à **10% (1L de purin pour 9L d'eau)** en arrosage au pied.
+
+#### 2. Solution Anti-Pucerons au Savon Noir :
+* 2 cuillères à soupe de savon noir liquide + 1 cuillère à café d'huile végétale dans 1L d'eau tiède.
+* Pulvériser directement sur les pucerons en fin de journée.`;
+      }
+
+      if (text.includes("bonjour") || text.includes("salut") || text.includes("hello")) {
+        return `### 🌾 Bonjour ! Je suis à votre écoute.
+
+Que souhaitez-vous diagnostiquer aujourd'hui ?
+* **Élevage & Santé Animale :** Volailles, porcins, bovins, petits ruminants.
+* **Cultures & Maraîchage :** Tomate, maïs, bananier, piments, café/cacao.
+* **Fertilisation & Recettes Bio :** Engrais organiques, compost et bio-pesticides.`;
+      }
+
+      return `### 🌿 Analyse & Conseils NaturIA Expert
+
+Merci pour votre question. 
+
+#### 📋 Recommandations Immédiates :
+* **Observation :** Examinez si les symptômes touchent les feuilles, les tiges, ou le comportement des animaux.
+* **Isolation :** Isolez les sujets ou plants malades pour éviter la propagation sur la parcelle ou le poulailler.
+* **Équilibre :** Assurez un arrosage régulier sans excès et un apport équilibré en nutriments (NPK) ou vitamines.
+
+*Pour un protocole sur-mesure, précisez-moi la culture ou l'animal concerné ainsi que les symptômes visibles !*`;
+    }
+  </script>
 </body>
 </html>
