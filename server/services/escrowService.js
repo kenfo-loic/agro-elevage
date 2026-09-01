@@ -52,7 +52,7 @@ class EscrowService {
       // 4. Send Notifications
       NotificationService.create({
         userId: order.buyer_id,
-        title: 'Paiement Séquestre Validé 🔒',
+        title: 'Paiement Séquestre Validé ',
         message: `Votre paiement de ${order.total_amount.toLocaleString('fr-FR')} FCFA pour la commande ${order.order_number} est sécurisé en séquestre. Les fonds ne seront versés au vendeur qu'après votre confirmation de livraison.`,
         type: 'escrow',
         referenceId: orderId
@@ -60,7 +60,7 @@ class EscrowService {
 
       NotificationService.create({
         userId: order.seller_id,
-        title: 'Paiement Sécurisé Reçu 💰',
+        title: 'Paiement Sécurisé Reçu ',
         message: `La commande ${order.order_number} (${order.subtotal.toLocaleString('fr-FR')} FCFA) a été payée et sécurisée en séquestre. Vous pouvez préparer et expédier les produits en toute sérénité.`,
         type: 'order',
         referenceId: orderId
@@ -102,7 +102,7 @@ class EscrowService {
 
     NotificationService.create({
       userId: order.buyer_id,
-      title: 'Commande Expédiée 🚚',
+      title: 'Commande Expédiée ',
       message: `Votre commande ${order.order_number} est en route ! Code de suivi : ${generatedTracking}.`,
       type: 'order',
       referenceId: orderId
@@ -158,7 +158,7 @@ class EscrowService {
       // 4. Dispatch Notifications
       NotificationService.create({
         userId: order.seller_id,
-        title: 'Fonds Débloqués sur votre Portefeuille 🎉',
+        title: 'Fonds Débloqués sur votre Portefeuille ',
         message: `L'acheteur a confirmé la réception de la commande ${order.order_number}. La somme de ${payoutAmount.toLocaleString('fr-FR')} FCFA a été créditée sur votre solde disponible.`,
         type: 'escrow',
         referenceId: orderId
@@ -166,7 +166,7 @@ class EscrowService {
 
       NotificationService.create({
         userId: order.buyer_id,
-        title: 'Transaction Clôturée avec Succès ✅',
+        title: 'Transaction Clôturée avec Succès ',
         message: `Merci d'avoir confirmé la réception de la commande ${order.order_number}. Votre confirmation a libéré les fonds au producteur.`,
         type: 'order',
         referenceId: orderId
@@ -204,7 +204,7 @@ class EscrowService {
 
     NotificationService.create({
       userId: order.buyer_id,
-      title: 'Litige Ouvert ⚠️',
+      title: 'Litige Ouvert ',
       message: `Un litige a été ouvert pour la commande ${order.order_number}. Les fonds restent protégés en séquestre pendant la médiation.`,
       type: 'escrow',
       referenceId: orderId
@@ -212,7 +212,7 @@ class EscrowService {
 
     NotificationService.create({
       userId: order.seller_id,
-      title: 'Litige Ouvert ⚠️',
+      title: 'Litige Ouvert ',
       message: `Un litige a été ouvert pour la commande ${order.order_number}. Motif : ${reason}. Le support AgroElevage examine le dossier.`,
       type: 'escrow',
       referenceId: orderId

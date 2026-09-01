@@ -11,11 +11,11 @@ try {
 
 const server = app.listen(config.port, () => {
   console.log('====================================================');
-  console.log(`🚀 AgroElevage Link & NaturIA Server Running!`);
-  console.log(`📡 URL Locale : http://localhost:${config.port}`);
-  console.log(`📊 API Root   : http://localhost:${config.port}/api`);
-  console.log(`📦 Database   : SQLite (${config.dbPath})`);
-  console.log(`🤖 IA NaturIA : Activé (Mistral API + Moteur Agronomique)`);
+  console.log(` AgroElevage Link & NaturIA Server Running!`);
+  console.log(` URL Locale : http://localhost:${config.port}`);
+  console.log(` API Root   : http://localhost:${config.port}/api`);
+  console.log(` Database   : SQLite (${config.dbPath})`);
+  console.log(` IA NaturIA : Activé (Mistral API + Moteur Agronomique)`);
   console.log('====================================================');
 });
 

@@ -49,7 +49,7 @@ function request(path, options = {}) {
 
 async function runTests() {
   console.log('====================================================');
-  console.log('🧪 LANCEMENT DES TESTS D\'INTÉGRATION BACK-END AGROELEVAGE');
+  console.log(' LANCEMENT DES TESTS D\'INTÉGRATION BACK-END AGROELEVAGE');
   console.log('====================================================');
 
   try {
@@ -72,10 +72,10 @@ async function runTests() {
 
   function assert(condition, testName, extra = '') {
     if (condition) {
-      console.log(`  ✅ [PASS] ${testName}`);
+      console.log(`   [PASS] ${testName}`);
       testsPassed++;
     } else {
-      console.error(`  ❌ [FAIL] ${testName} ${extra}`);
+      console.error(`   [FAIL] ${testName} ${extra}`);
       testsFailed++;
     }
   }
@@ -257,7 +257,7 @@ async function runTests() {
     if (server) {
       server.close(() => {
         console.log('\n====================================================');
-        console.log(`📊 RÉSULTAT FINAL DES TESTS : ${testsPassed} PASSÉ(S) / ${testsFailed} ÉCHOUÉ(S)`);
+        console.log(` RÉSULTAT FINAL DES TESTS : ${testsPassed} PASSÉ(S) / ${testsFailed} ÉCHOUÉ(S)`);
         console.log('====================================================');
         if (testsFailed > 0) process.exit(1);
       });

@@ -125,7 +125,7 @@
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                 </span>
                 <input type="text" class="form-input login-input-field" id="inputSearchEnterprise" placeholder="Tapez le nom d'une entreprise (ex: Hilton, SOCATRA...)" style="height: 42px; padding-left: 38px; padding-right: 36px; font-size: 12.5px; background: transparent; border: none;" autocomplete="off" />
-                <button type="button" id="btnClearMapSearch" style="position: absolute; right: 10px; background: none; border: none; color: var(--text-muted); cursor: pointer; display: none; font-size: 15px; font-weight: 700;">✕</button>
+                <button type="button" id="btnClearMapSearch" style="position: absolute; right: 10px; background: none; border: none; color: var(--text-muted); cursor: pointer; display: none; font-size: 15px; font-weight: 700;"></button>
               </div>
 
               <!-- Autocomplete Suggestion Dropdown -->
@@ -153,7 +153,7 @@
           <div class="web-card" style="padding: 0; overflow: hidden; position: relative; border-radius: var(--radius-card); border: 1.5px solid var(--border-color);">
             <!-- Live Geolocation GPS Trigger Button -->
             <button id="btnLocateUserGPS" style="position: absolute; top: 16px; right: 16px; z-index: 1000; background: #ffffff; color: #1e293b; border: 1.5px solid var(--border-color); border-radius: 9999px; padding: 8px 16px; font-size: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.15); transition: all 0.2s;" title="Activer la géolocalisation GPS réelle">
-              <span style="font-size: 14px;">📍</span> <span>Me géolocaliser (GPS)</span>
+              <span style="font-size: 14px;"></span> <span>Me géolocaliser (GPS)</span>
             </button>
             <div id="leafletMapContainer" style="width: 100%; height: 100%; min-height: 540px;"></div>
           </div>
@@ -495,7 +495,7 @@
             userLocationMarker = L.marker([userLat, userLng], { icon: userIcon }).addTo(mapInstance);
             userLocationMarker.bindPopup(`
               <div style="font-family: var(--font-body); padding: 4px; min-width: 160px;">
-                <strong style="color: #2563eb; font-size: 13px; display: block; margin-bottom: 2px;">📍 Votre Position GPS</strong>
+                <strong style="color: #2563eb; font-size: 13px; display: block; margin-bottom: 2px;"> Votre Position GPS</strong>
                 <span style="font-size: 11px; color: #15803d; font-weight: 700;">Précision : ±${Math.round(pos.coords.accuracy)} m</span>
               </div>
             `).openPopup();
@@ -516,7 +516,7 @@
             renderMapElements(currentFilter, currentSearch);
 
             if (btnGPS) {
-              btnGPS.innerHTML = '<span>✅</span> <span>Position GPS Active</span>';
+              btnGPS.innerHTML = '<span></span> <span>Position GPS Active</span>';
               btnGPS.style.background = '#dcfce7';
               btnGPS.style.color = '#15803d';
               btnGPS.style.borderColor = '#86efac';
@@ -530,7 +530,7 @@
           (err) => {
             console.warn('Erreur GPS :', err.message);
             if (btnGPS) {
-              btnGPS.innerHTML = '<span>📍</span> <span>Me géolocaliser (GPS)</span>';
+              btnGPS.innerHTML = '<span></span> <span>Me géolocaliser (GPS)</span>';
               btnGPS.style.opacity = '1';
             }
             if (typeof showToast === 'function') {
@@ -690,7 +690,7 @@
                 <div style="font-weight: 800; font-size: 13px; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${loc.name}</div>
                 <div style="font-size: 11.5px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${loc.sub}</div>
                 <div style="font-size: 11px; font-weight: 700; color: ${loc.distanceKm !== undefined ? 'var(--primary)' : 'var(--text-main)'}; margin-top: 2px;">
-                  ${loc.distanceKm !== undefined ? '📍 À ' + loc.distanceKm + ' km de vous' : loc.loc} • Note ${loc.rating}/5
+                  ${loc.distanceKm !== undefined ? ' À ' + loc.distanceKm + ' km de vous' : loc.loc} • Note ${loc.rating}/5
                 </div>
               </div>
             </div>
@@ -716,7 +716,7 @@
             <h4 style="font-size: 13px; font-weight: 800; margin: 2px 0 4px; color: #1e293b;">${loc.name}</h4>
             <p style="font-size: 11.5px; color: #64748b; margin-bottom: 6px;">${loc.sub}</p>
             <div style="font-size: 11px; font-weight: 700; color: #059669; margin-bottom: 8px;">
-              ${loc.distanceKm !== undefined ? '📍 À ' + loc.distanceKm + ' km de vous' : loc.loc}
+              ${loc.distanceKm !== undefined ? ' À ' + loc.distanceKm + ' km de vous' : loc.loc}
             </div>
             <a href="marketplace.html" style="display: block; text-align: center; background: #059669; color: #ffffff; padding: 6px; border-radius: 6px; font-size: 11.5px; font-weight: 800; text-decoration: none;">Voir les offres B2B ›</a>
           </div>

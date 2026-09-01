@@ -162,7 +162,7 @@ class EscrowController {
 
       NotificationService.create({
         userId: req.user.id,
-        title: 'Retrait Mobile Money Effectué 💸',
+        title: 'Retrait Mobile Money Effectué ',
         message: `Votre virement de ${withdrawAmount.toLocaleString('fr-FR')} FCFA vers le compte ${operator} (${phone || req.user.phone}) a été exécuté.`,
         type: 'escrow'
       });

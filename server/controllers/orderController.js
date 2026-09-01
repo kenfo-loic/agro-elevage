@@ -71,7 +71,7 @@ class OrderController {
       // Notify seller
       NotificationService.create({
         userId: product.seller_id,
-        title: 'Nouvelle Commande Reçue 📦',
+        title: 'Nouvelle Commande Reçue ',
         message: `${req.user.name} a commandé ${qty} ${product.unit} de "${product.name}" (${totalAmount.toLocaleString('fr-FR')} FCFA). En attente de paiement séquestre.`,
         type: 'order',
         referenceId: orderId
@@ -193,7 +193,7 @@ class OrderController {
 
       NotificationService.create({
         userId: order.seller_id,
-        title: 'Commande Annulée ❌',
+        title: 'Commande Annulée ',
         message: `La commande ${order.order_number} a été annulée.`,
         type: 'order',
         referenceId: id

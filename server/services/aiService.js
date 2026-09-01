@@ -129,14 +129,14 @@ class AIService {
     for (const kb of LOCAL_KNOWLEDGE_BASE) {
       const match = kb.keywords.some(kw => lower.includes(kw));
       if (match) {
-        const reply = `🌿 **Diagnostic & Recommandation NaturIA**\n\n` +
+        const reply = ` **Diagnostic & Recommandation NaturIA**\n\n` +
           `**Pathologie identifiée** : ${kb.title} (${kb.crop})\n` +
           `**Gravité** : ${kb.severity.toUpperCase()}\n\n` +
-          `**📋 Actions Immédiates :**\n${kb.recommendations}\n\n` +
-          `**🌱 Solution Biologique / Locale :**\n${kb.organic}\n\n` +
-          `**🧪 Traitement Conventionnel :**\n${kb.conventional}\n\n` +
-          `**🛡️ Mesures Préventives :**\n${kb.preventive}\n\n` +
-          `*⚠️ Rappel : Pour un cas sévère, contactez un conseiller agricole ou vétérinaire local.*`;
+          `** Actions Immédiates :**\n${kb.recommendations}\n\n` +
+          `** Solution Biologique / Locale :**\n${kb.organic}\n\n` +
+          `** Traitement Conventionnel :**\n${kb.conventional}\n\n` +
+          `** Mesures Préventives :**\n${kb.preventive}\n\n` +
+          `* Rappel : Pour un cas sévère, contactez un conseiller agricole ou vétérinaire local.*`;
 
         return { reply, source: 'expert_knowledge_engine', sessionId };
       }
@@ -148,7 +148,7 @@ class AIService {
       `- L'espèce exacte (ex: Tomates, Bananiers, Poulets de chair, Porcs)\n` +
       `- Les symptômes observés (taches, couleur, baisse de ponte, diarrhée, lésions...)\n` +
       `- La durée d'apparition et le nombre de sujets ou plants touchés ?\n\n` +
-      `Vous pouvez aussi uploader une photo dans l'onglet **IA Diagnostic** pour une analyse visuelle immédiate ! 📸`;
+      `Vous pouvez aussi uploader une photo dans l'onglet **IA Diagnostic** pour une analyse visuelle immédiate ! `;
 
     return { reply: genericReply, source: 'expert_assistant', sessionId };
   }

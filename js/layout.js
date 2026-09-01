@@ -72,7 +72,9 @@ const webSidebarHTML = `
 
     <div class="web-sidebar-footer">
       <div class="web-user-profile-summary">
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="web-user-avatar-img" id="sidebarUserAvatarImg" alt="Avatar" />
+        <div class="web-user-avatar-img" id="sidebarUserAvatarImg" style="width: 36px; height: 36px; border-radius: 50%; background: var(--primary-soft); color: var(--primary-dark); display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--primary-border); flex-shrink: 0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
         <div class="web-user-info-text">
           <span class="web-user-name-txt">Kenfo Loic</span>
           <span class="web-user-role-txt">Producteur Certifié</span>
@@ -378,13 +380,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const email = localStorage.getItem('ago_user_email') || user?.email || 'kenfoloic3@gmail.com';
     const phone = localStorage.getItem('ago_user_phone') || user?.phone || '+237 693 412 317';
     const location = localStorage.getItem('ago_user_location') || user?.location || 'Yaoundé, Cameroun';
-    const avatar = localStorage.getItem('ago_user_avatar') || user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100';
+    const avatar = localStorage.getItem('ago_user_avatar') || user?.avatar || '';
 
     // 1. Update Sidebar Name, Role and Avatar
     document.querySelectorAll('.web-user-name-txt').forEach(el => el.textContent = name);
     document.querySelectorAll('.web-user-role-txt').forEach(el => el.textContent = role);
-    document.querySelectorAll('.web-user-avatar-img, #sidebarUserAvatarImg').forEach(el => {
-      if (avatar) el.src = avatar;
+    document.querySelectorAll('.web-user-avatar-img').forEach(el => {
+      if (avatar && el.tagName === 'IMG') el.src = avatar;
     });
 
     // 2. Update Profile Page Cards & Header Displays
@@ -395,7 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (profileDisplayName) profileDisplayName.textContent = name;
     if (profileDisplayRole) profileDisplayRole.textContent = `${role} • Exploitation Agricole`;
-    if (profileDisplayLocation) profileDisplayLocation.textContent = `📍 ${location}`;
+    if (profileDisplayLocation) profileDisplayLocation.textContent = ` ${location}`;
     if (profileAvatarImg && avatar) profileAvatarImg.src = avatar;
 
     // 3. Update Profile Form Inputs if present (and not currently focused)
@@ -563,12 +565,12 @@ window.updateNotificationBadges = function() {
 // --- CENTRALIZED REAL SMS & WHATSAPP NOTIFICATION SYSTEM ---
 window.openWhatsAppDirect = function(phone = '+237 693 412 317', title = 'Notification AgroElevage Link', message = '') {
   const cleanPhone = (phone || '').replace(/[^\d]/g, '') || '237693412317';
-  const waFormattedText = `🔔 *AGROELEVAGE LINK — ALERTE COMMANDE*
+  const waFormattedText = ` *AGROELEVAGE LINK — ALERTE COMMANDE*
 
-📋 *${title}*
+ *${title}*
 ${message}
 
-🌐 Plateforme : ${window.location.href}`;
+ Plateforme : ${window.location.href}`;
 
   const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(waFormattedText)}`;
   window.open(waUrl, '_blank');
@@ -583,13 +585,13 @@ window.sendSmsWhatsappNotification = function(phone = '+237 693 412 317', title 
   }
 
   const cleanPhone = (phone || '').replace(/[^\d]/g, '') || '237693412317';
-  const waFormattedText = `🔔 *AGROELEVAGE LINK — NOTIFICATION*
+  const waFormattedText = ` *AGROELEVAGE LINK — NOTIFICATION*
 
-📋 *${title}*
+ *${title}*
 ${message}
 
-📱 Destinataire : +${cleanPhone}
-🌐 Accès rapide : ${window.location.origin + '/' + link}`;
+ Destinataire : +${cleanPhone}
+ Accès rapide : ${window.location.origin + '/' + link}`;
 
   const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(waFormattedText)}`;
 
@@ -651,23 +653,23 @@ ${message}
     <div style="display: flex; align-items: center; justify-content: space-between;">
       <div style="display: flex; align-items: center; gap: 10px;">
         <div style="width: 32px; height: 32px; border-radius: 10px; background: #25d366; display: flex; align-items: center; justify-content: center; font-size: 16px;">
-          💬
+          
         </div>
         <div>
           <strong style="font-size: 13px; letter-spacing: 0.5px; text-transform: uppercase; color: #a7f3d0; display: block;">Message WhatsApp</strong>
           <div style="font-size: 11px; color: #e2e8f0; opacity: 0.95;">Numéro : <strong>+${cleanPhone}</strong></div>
         </div>
       </div>
-      <button id="btnCloseSmsBanner" style="background: transparent; border: none; color: #ffffff; cursor: pointer; font-size: 16px; opacity: 0.7; padding: 2px;">✕</button>
+      <button id="btnCloseSmsBanner" style="background: transparent; border: none; color: #ffffff; cursor: pointer; font-size: 16px; opacity: 0.7; padding: 2px;"></button>
     </div>
     <div style="background: rgba(0,0,0,0.22); padding: 10px 12px; border-radius: 8px; border-left: 3px solid #25d366;">
       <strong style="font-size: 13px; display: block; margin-bottom: 3px; color: #ffffff;">${title}</strong>
       <p style="font-size: 12px; margin: 0; line-height: 1.4; color: #f0fdf4;">${message}</p>
     </div>
     <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 11px; padding-top: 4px;">
-      <span style="opacity: 0.85; font-size: 11px;">🟢 Prêt pour WhatsApp</span>
+      <span style="opacity: 0.85; font-size: 11px;"> Prêt pour WhatsApp</span>
       <a href="${waUrl}" target="_blank" id="btnOpenWaDirect" style="background: #25d366; color: #022c22; text-decoration: none; font-weight: 800; padding: 6px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(37,211,102,0.4);">
-        <span>💬 Ouvrir mon WhatsApp</span> →
+        <span> Ouvrir mon WhatsApp</span> →
       </a>
     </div>
   `;

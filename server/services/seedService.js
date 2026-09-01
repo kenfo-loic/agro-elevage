@@ -275,7 +275,7 @@ function seedDatabase() {
 
   insertNotif.run(
     alainBuyerId,
-    'Commande expédiée 🚚',
+    'Commande expédiée ',
     'Votre commande CMD-2026-0801 (Tomates de Foumbot) a été expédiée par Paul Nguema. Fonds sécurisés en séquestre.',
     'order',
     order1,
@@ -284,7 +284,7 @@ function seedDatabase() {
 
   insertNotif.run(
     paulId,
-    'Séquestre confirmé 🔒',
+    'Séquestre confirmé ',
     '55 250 FCFA sont sécurisés en séquestre pour votre commande CMD-2026-0801. Vous recevrez les fonds dès confirmation de livraison.',
     'escrow',
     order1,
@@ -293,7 +293,7 @@ function seedDatabase() {
 
   insertNotif.run(
     paulId,
-    'Alerte Météo Ouest 🌦️',
+    'Alerte Météo Ouest ',
     'Fortes pluies attendues dans la région de Foumbot ce week-end. Pensez à drainer vos parcelles maraîchères.',
     'system',
     null,
