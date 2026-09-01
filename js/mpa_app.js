@@ -129,12 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const actSellerAddProd = document.getElementById('actSellerAddProd');
   const actSellerMyProds = document.getElementById('actSellerMyProds');
   const actSellerOrders = document.getElementById('actSellerOrders');
-  const actSellerNaturIA = document.getElementById('actSellerNaturIA');
-  const btnSellerNotif = document.getElementById('btnSellerNotif');
-
   if (actSellerAddProd) actSellerAddProd.addEventListener('click', () => window.location.href = 'ajouter_produit.html');
   if (actSellerMyProds) actSellerMyProds.addEventListener('click', () => window.location.href = 'mes_produits.html');
   if (actSellerOrders) actSellerOrders.addEventListener('click', () => window.location.href = 'marketplace.html');
-  if (actSellerNaturIA) actSellerNaturIA.addEventListener('click', () => window.location.href = 'naturia_expert.html');
   if (btnSellerNotif) btnSellerNotif.addEventListener('click', () => window.location.href = 'notifications.html');
 });

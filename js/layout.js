@@ -61,8 +61,7 @@ const webSidebarHTML = `
       <a href="passer_commande.html" class="web-nav-item" data-page="passer_commande.html"><span class="web-nav-icon">${SVG.order}</span> <span>Passer Commande</span></a>
       <a href="paiement_escrow.html" class="web-nav-item" data-page="paiement_escrow.html"><span class="web-nav-icon">${SVG.shield}</span> <span>Paiement Séquestre</span></a>
 
-      <div class="web-nav-group-title">Intelligence & Carto</div>
-      <a href="naturia_expert.html" class="web-nav-item" data-page="naturia_expert.html"><span class="web-nav-icon">${SVG.ai}</span> <span>NaturIA Expert IA</span></a>
+      <div class="web-nav-group-title">Localisation & Logistique</div>
       <a href="carte_et_geoloc.html" class="web-nav-item" data-page="carte_et_geoloc.html"><span class="web-nav-icon">${SVG.map}</span> <span>Carte & Géoloc</span></a>
 
       <div class="web-nav-group-title">Mon Compte</div>
@@ -98,9 +97,9 @@ const webSidebarHTML = `
       <span class="icon">${SVG.package}</span>
       <span>Produits</span>
     </a>
-    <a href="naturia_expert.html" class="mobile-nav-btn" data-mobile="naturia_expert.html">
-      <span class="icon">${SVG.ai}</span>
-      <span>NaturIA</span>
+    <a href="carte_et_geoloc.html" class="mobile-nav-btn" data-mobile="carte_et_geoloc.html">
+      <span class="icon">${SVG.map}</span>
+      <span>Carte</span>
     </a>
     <a href="profil.html" class="mobile-nav-btn" data-mobile="profil.html">
       <span class="icon">${SVG.user}</span>
