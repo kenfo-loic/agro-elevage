@@ -477,19 +477,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Logout click handler: Clears session and shows notification
-  document.querySelectorAll('.web-logout-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      localStorage.removeItem('ago_logged_in');
-      localStorage.removeItem('agroelevage_user');
-      localStorage.removeItem('agroelevage_token');
+  // Centralized Logout click handler: Clears session and redirects directly to home page without sending any message
+  function performLogout(e) {
+    if (e) e.preventDefault();
+    localStorage.removeItem('ago_logged_in');
+    localStorage.removeItem('agroelevage_user');
+    localStorage.removeItem('agroelevage_token');
+    localStorage.removeItem('ago_user_fullname');
+    localStorage.removeItem('ago_user_email');
+    localStorage.removeItem('ago_user_phone');
+    localStorage.removeItem('ago_user_role');
+    localStorage.removeItem('ago_user_location');
+    localStorage.removeItem('ago_user_avatar');
 
-      if (typeof showToast === 'function') {
-        showToast('Déconnexion effectuée.');
-      }
-      window.syncUserProfileUI();
-    });
+    // Redirect directly to home page without displaying any message
+    window.location.href = 'index.html';
+  }
+
+  window.performLogout = performLogout;
+
+  document.querySelectorAll('.web-logout-btn, #btnLogoutApp, #btnLogoutSession').forEach(btn => {
+    btn.addEventListener('click', performLogout);
   });
 
   // Initialize notification badge update on DOM load

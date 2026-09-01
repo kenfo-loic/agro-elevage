@@ -770,11 +770,12 @@ document.addEventListener('DOMContentLoaded', () => {
     showToast('Toutes les notifications sont marquées comme lues.');
   });
 
-  document.getElementById('btnLogoutApp')?.addEventListener('click', () => {
-    localStorage.removeItem('ago_logged_in');
-    localStorage.removeItem('agroelevage_user');
-    localStorage.removeItem('agroelevage_token');
-    showToast('Déconnexion effectuée. À bientôt !');
-    showView('view-welcome');
+  document.getElementById('btnLogoutApp')?.addEventListener('click', (e) => {
+    if (typeof window.performLogout === 'function') {
+      window.performLogout(e);
+    } else {
+      localStorage.clear();
+      window.location.href = 'index.html';
+    }
   });
 });
