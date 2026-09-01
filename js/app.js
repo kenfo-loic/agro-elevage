@@ -758,10 +758,6 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.removeItem('agroelevage_user');
     localStorage.removeItem('agroelevage_token');
     showToast('Déconnexion effectuée. À bientôt !');
-    if (typeof window.openLoginModal === 'function') {
-      window.openLoginModal();
-    } else {
-      window.location.href = 'index.html?require_login=true';
-    }
+    showView('view-welcome');
   });
 });

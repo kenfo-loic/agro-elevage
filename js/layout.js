@@ -1,19 +1,4 @@
-// Global Authentication & Login Modal Guard
-(function checkAuthGuard() {
-  const publicPages = ['index.html', 'connexion.html', 'inscription.html', 'verification_otp.html'];
-  const pathParts = window.location.pathname.split('/');
-  const currentPage = (pathParts.pop() || 'index.html').toLowerCase();
-
-  const isLoggedIn = localStorage.getItem('ago_logged_in') === 'true' ||
-                     localStorage.getItem('agroelevage_token') !== null ||
-                     localStorage.getItem('agroelevage_user') !== null;
-
-  if (!isLoggedIn && !publicPages.includes(currentPage)) {
-    // Redirect unauthenticated access to index.html with login prompt modal
-    window.location.href = 'index.html?require_login=true';
-    return;
-  }
-})();
+// Global Layout & Login Modal Helpers
 
 window.openLoginModal = function() {
   const backdrop = document.getElementById('loginModalBackdrop');
@@ -396,31 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const checkLoggedInStatus = () => localStorage.getItem('ago_logged_in') === 'true' ||
-                                   localStorage.getItem('agroelevage_token') !== null ||
-                                   localStorage.getItem('agroelevage_user') !== null;
-
-  // Automatically open Login Modal if require_login is set in URL
-  if (!checkLoggedInStatus() && window.location.search.includes('require_login')) {
-    setTimeout(() => {
-      window.openLoginModal();
-    }, 400);
-  }
-
-  // Intercept navigation links when not logged in
-  document.querySelectorAll('.web-nav-item, .mobile-nav-btn, .web-topbar-btn-circle, .web-wallet-pill').forEach(link => {
-    link.addEventListener('click', (e) => {
-      if (!checkLoggedInStatus()) {
-        const href = link.getAttribute('href');
-        if (href && (href.includes('Connexion.html') || href.includes('inscription.html'))) return;
-        e.preventDefault();
-        e.stopPropagation();
-        window.openLoginModal();
-      }
-    });
-  });
-
-  // Logout click handler: Clears session and pops up the Login Modal ("Bon retour !")
+  // Logout click handler: Clears session and shows notification
   document.querySelectorAll('.web-logout-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -428,11 +389,10 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.removeItem('agroelevage_user');
       localStorage.removeItem('agroelevage_token');
 
-      const isIndex = window.location.pathname.split('/').pop().toLowerCase() === 'index.html' || window.location.pathname.split('/').pop() === '';
-      if (isIndex) {
-        window.openLoginModal();
+      if (typeof showToast === 'function') {
+        showToast('Déconnexion effectuée.');
       } else {
-        window.location.href = 'index.html?require_login=true';
+        window.location.href = 'index.html';
       }
     });
   });
