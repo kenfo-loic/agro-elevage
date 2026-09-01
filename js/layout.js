@@ -396,8 +396,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const profileAvatarImg = document.getElementById('profileAvatarImg');
 
     if (profileDisplayName) profileDisplayName.textContent = name;
-    if (profileDisplayRole) profileDisplayRole.textContent = `${role} • Exploitation Agricole`;
-    if (profileDisplayLocation) profileDisplayLocation.textContent = ` ${location}`;
+    if (profileDisplayRole) profileDisplayRole.textContent = role;
+    if (profileDisplayLocation) profileDisplayLocation.textContent = location;
     if (profileAvatarImg && avatar) profileAvatarImg.src = avatar;
 
     // 3. Update Profile Form Inputs if present (and not currently focused)
