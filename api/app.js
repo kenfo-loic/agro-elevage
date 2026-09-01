@@ -199,19 +199,160 @@ async function sendMessage() {
 }
 
 // ────────────────────────────────────────
-// MOCK AI FALLBACK (PROTOTYPE)
+// ADVANCED NATURIA AGRO & VET AI ENGINE
 // ────────────────────────────────────────
 function generateMockAiResponse(userText) {
   const text = userText.toLowerCase();
-  if (text.includes("chat") || text.includes("chien") || text.includes("lapin") || text.includes("animal")) {
-    return "Bien sûr ! En ce qui concerne les animaux, il est important de surveiller leur alimentation et leur comportement. Si votre animal présente des symptômes inhabituels (comme des vomissements ou de la léthargie), cela pourrait indiquer une **maladie** sous-jacente. Assurez-vous de lui fournir de l'eau fraîche et un environnement calme.";
-  } else if (text.includes("plante") || text.includes("feuille") || text.includes("tomate") || text.includes("jardin")) {
-    return "Pour vos plantes, le jaunissement des feuilles peut indiquer un excès d'eau, une carence en azote ou une **infection** fongique (comme le mildiou). Je recommande de vérifier le drainage du sol et d'appliquer un **traitement** adapté si des taches apparaissent.";
-  } else if (text.includes("bonjour") || text.includes("salut")) {
-    return "Bonjour ! Je suis NaturIA, votre expert en santé animale et végétale. Que puis-je faire pour vos plantes ou vos animaux aujourd'hui ?";
-  } else {
-    return "C'est une excellente question. En tant qu'expert de la nature (animaux et plantes), je vous conseille de toujours observer attentivement les signes cliniques ou visuels. Pouvez-vous me donner plus de détails sur le sujet (plante ou animal concerné) ?";
+
+  // 1. POULTRY & VOLAILLES (Coccidiose, Newcastle, Gumboro, Alimentation)
+  if (text.includes("coccidios") || (text.includes("poussin") && text.includes("sang")) || text.includes("fientes rouge")) {
+    return `### 🐔 Diagnostic : Coccidiose Aviaire (Suspicion Forte)
+
+**Symptômes typiques :** Fientes sanguinolentes ou brunâtres, plumage ébouriffé, prostration, baisse d'appétit et mortalité chez les poussins/poulets de chair (15 à 45 jours).
+
+#### 💊 1. Traitement d'Urgence :
+* **Anticoccidien curatif :** Administrer de l'**Amprolium** (ou *Toltrazuril* / *Sulfadimidine*) dans l'eau de boisson pendant **3 à 5 jours consécutifs**.
+* **Vitamines K & Electrolytes :** Ajouter un complexe polyvitaminé riche en Vitamine K3 pour stopper les micro-hémorragies intestinales.
+
+#### 🛡️ 2. Mesures de Biosécurité & Prévention :
+* Changer immédiatement la litière humide (la litière sèche empêche la sporulation des oocystes).
+* Désinfecter les abreuvoirs quotidiennement avec une solution javellisée (10 ml/L).
+* Distribuer une litière sèche en copeaux de bois (épaisseur 5 à 7 cm).`;
   }
+
+  if (text.includes("newcastle") || text.includes("pseudo-peste") || text.includes("torticolis") || (text.includes("poulet") && (text.includes("toux") || text.includes("respiratoire")))) {
+    return `### 🐔 Diagnostic : Maladie de Newcastle (Pseudo-Peste Aviaire)
+
+**Symptômes :** Détresse respiratoire (râles), diarrhée verdâtre liquide, torticolis ou paralysie des pattes, chute brutale de ponte.
+
+#### ⚠️ 1. Conduite à Tenir Immédiate :
+* **Isolement strict :** Isoler les sujets atteints sans attendre.
+* **Aucun traitement antiviral spécifique :** Le traitement est préventif (vaccination).
+* **Soutien de couverture :** Administrer des antibiotiques à large spectre (*Oxytétracycline* ou *Doxycycline*) pour éviter les surinfections bactériennes pulmonaires, combinés à un complexe vitaminique (*Anti-stress*).
+
+#### 💉 2. Protocole Vaccinal Recommandé :
+* **J1 à J7 :** Vaccin HB1 / Hitchner B1 ou Clone 30 (goutte oculaire ou eau).
+* **J21 :** Rappel La Sota.
+* **Maintien strict du pédiluve** à l'entrée du poulailler.`;
+  }
+
+  if (text.includes("gumboro") || text.includes("bursite")) {
+    return `### 🐔 Diagnostic : Maladie de Gumboro (Bursite Infectieuse)
+
+**Symptômes :** Prostration soudaine, fientes blanchâtres plâtreuses, déshydratation rapide, pic de mortalité vers 3 à 6 semaines.
+
+#### 🌿 1. Traitement de Soutien :
+* Acidifier l'eau de boisson (vinaigre de cidre : 5 ml/L) pour soulager les reins.
+* Cure d'électrolytes + diurétiques pour favoriser l'élimination des toxines rénales.
+* Protéger contre les surinfections avec une cure antibiotique douce.
+
+#### 💉 2. Prévention :
+* Vaccination obligatoire à J10-J14 (Gumboro IBD intermédiaire) puis rappel à J18-J21 selon la pression sanitaire de la zone.`;
+  }
+
+  // 2. PORCINS (Peste Porcine Africaine, Rouget, Alimentation)
+  if (text.includes("porc") || text.includes("cochon") || text.includes("peste porcine") || text.includes("truie") || text.includes("porcelet")) {
+    return `### 🐖 Expertise Élevage Porcin & Santé
+
+**Points de vigilance clés :**
+
+#### 🚨 1. Peste Porcine Africaine (PPA) - Alerte Vigilance :
+* **Symptômes :** Forte fièvre (41-42°C), taches violacées/rougeâtres sur les oreilles, ventre et pattes, vomissements, mortalité foudroyante.
+* **Règle absolue :** Il n'existe pas de vaccin homologué. **Interdiction totale** de donner des restes de repas non bouillis (eaux grasses) et verrouillage strict des entrées d'élevage (sas sanitaire et désinfection des bottes/véhicules).
+
+#### 🥗 2. Alimentation Optimale des Porcs :
+* **Porcelets sevrés :** Aliment à 18-20% de protéines brutes (tourteau de soja, farine de poisson, maïs, concentré minéral vitaminé).
+* **Porcs à l'engraissement :** Ratio 70% énergie (Maïs/Son de blé/Manioc séché) + 30% protéines (Soja/Coton/Tourteau de palmiste) + 1% sel et CMV.`;
+  }
+
+  // 3. CULTURES MARAÎCHÈRES (Tomates, Piments, Maïs, Mildiou)
+  if (text.includes("mildiou") || (text.includes("tomate") && (text.includes("tache") || text.includes("feuille")))) {
+    return `### 🍅 Diagnostic : Mildiou de la Tomate (*Phytophthora infestans*)
+
+**Symptômes :** Taches brunes/noires huileuses sur les feuilles avec duvet blanchâtre au revers, tiges nécrosées et fruits marbrés de brun.
+
+#### 🌿 1. Traitements Curatifs & Biologiques :
+* **Biologique :** Pulvériser une solution de **Bicarbonate de soude** (5g/L d'eau) mélangée à 1 cuillère à café de savon noir, ou du **Purin de Prêle / Huile essentielle de Tea Tree**.
+* **Conventionnel :** Fongicide systémique à base de *Mancozèbe*, *Cymoxanil* ou *Métalaxyl* (respecter le délai avant récolte DAR).
+
+#### 🛡️ 2. Bonnes Pratiques Culturales :
+* Ne **jamais arroser les feuilles**, privilégier l'arrosage au pied (goutte-à-goutte).
+* Tailler les feuilles basses touchant le sol pour aérer le plant.
+* Pailler le sol (herbe sèche ou paille) pour éviter les éclaboussures de terre.`;
+  }
+
+  if (text.includes("chenille") || text.includes("légionnaire") || (text.includes("maïs") && text.includes("feuille"))) {
+    return `### 🌽 Diagnostic : Chenille Légionnaire d'Automne (*Spodoptera frugiperda*)
+
+**Symptômes :** Perforations en "coups de fusil" sur les jeunes feuilles de maïs, déjections ressemblant à de la sciure dans le cornet central.
+
+#### 🌿 1. Solutions Bio & Agroécologiques :
+* **Extrait de graines de Neem (Azadirachtine) :** 50g de poudre de neem pilée / litre d'eau, macérer 12h, filtrer et pulvériser directement dans le cornet.
+* **Cendre de bois fine ou sable fin :** Déposer une pincée de cendre sèche dans le cornet du maïs pour étouffer les jeunes larves.
+* **Bio-insecticide :** *Bacillus thuringiensis* (Bt) au stade précoce.
+
+#### ⚡ 2. Traitement Conventionnel :
+* *Emamectine benzoate* (dosage 10-20g/ha) ou *Chlorantraniliprole*, à pulvériser tôt le matin ou en fin d'après-midi.`;
+  }
+
+  // 4. JAUNISSEMENT DES FEUILLES & CARENCE
+  if (text.includes("jaune") || text.includes("jauniss") || text.includes("carence") || text.includes("engrais") || text.includes("npk")) {
+    return `### 🌿 Diagnostic : Carences Nutritionnelles & Jaunissement Foliaire
+
+Pour identifier précisément la cause :
+
+#### 🔍 1. Guide de Diagnostic Visuel :
+* **Feuilles du bas jaunissent en premier :** Carence en **Azote (N)**. La plante transfère son azote vers les jeunes pousses. *Solution : Apport de purin d'ortie, fiente compostée ou urée 46%.*
+* **Jaunissement entre les nervures (nervures restent vertes) :** Carence en **Fer (Chlorose)** ou en **Magnésium (Mg)**. *Solution : Chélate de fer ou sulfate de magnésium (Sel d'Epsom).*
+* **Bord des feuilles brûlé ou enroulé :** Carence en **Potassium (K)** ou excès de salinité. *Solution : Cendre de bois bien tamisée ou sulfate de potassium.*
+* **Feuilles jaunissent uniformément et sol détrempé :** **Asphyxie racinaire** (excès d'eau). Laisser sécher le sol et améliorer le drainage.`;
+  }
+
+  // 5. BIO-PESTICIDES & COMPOST
+  if (text.includes("bio") || text.includes("compost") || text.includes("puceron") || text.includes("engrais naturel") || text.includes("purin")) {
+    return `### 🍃 Recette & Guide : Bio-Fertilisants et Traitements Naturels
+
+#### 🧪 1. Recette du Purin d'Ortie / Tithonia (Engrais & Stimulant) :
+1. Récolter **1 kg de plantes fraîches** (Ortie ou *Tithonia diversifolia*).
+2. Hacher grossièrement et placer dans un seau en plastique avec **10 Litres d'eau de pluie**.
+3. Laisser macérer 7 à 10 jours en remuant chaque jour jusqu'à disparition des bulles.
+4. **Utilisation :** Diluer à 10% (1L de purin pour 9L d'eau) en arrosage au sol ou 5% en pulvérisation foliaire.
+
+#### 🐜 2. Anti-Pucerons et Cochenilles au Savon Noir :
+* Diluer **2 cuillères à soupe de savon noir liquide** + 1 cuillère à café d'huile végétale dans **1 Litre d'eau tiède**.
+* Pulvériser directement sur les colonies d'insectes en fin de journée.`;
+  }
+
+  // 6. GENERAL GREETINGS & AMICAL
+  if (text.includes("bonjour") || text.includes("salut") || text.includes("hello") || text.includes("qui es-tu") || text.includes("qui est tu")) {
+    return `### 🌾 Bonjour ! Je suis **NaturIA Expert**, votre assistant intelligent agronomique & vétérinaire.
+
+Je peux vous accompagner dans :
+* **La santé animale & l'élevage :** Diagnostics des volailles, porcs, bovins, petits ruminants, prévention et prophylaxie.
+* **La santé végétale & maraîchage :** Identification des maladies (tomate, maïs, bananier, légumes), carences nutritives et ravageurs.
+* **Les traitements naturels & bio :** Recettes de purins, bio-pesticides, compostage et engrais organiques.
+* **L'optimisation des rendements :** Densité de semis, irrigation et fertilisation raisonnée.
+
+*Posez-moi votre question ou décrivez les symptômes observés sur vos plantes ou animaux !*`;
+  }
+
+  // 7. DEFAULT EXPERT REASONING
+  return `### 🌿 Analyse NaturIA Expert : Conseil Personnalisé
+
+Merci pour votre question relative à votre exploitation.
+
+#### 📋 1. Recommandations Techniques :
+* **Observation attentive :** Vérifiez l'étendue des signes (sur les feuilles, racines, tiges ou comportement des animaux).
+* **Isolation / Quarantaine :** Si vous suspectez une maladie contagieuse, isolez immédiatement les sujets ou plants infectés du reste de la parcelle/bâtiment.
+* **Équilibre hydrique & nutritif :** Veillez à un sol bien drainé et à une alimentation équilibrée en macro et oligo-éléments.
+
+#### 💡 2. Pour affiner le diagnostic :
+Pour vous donner un protocole de traitement exact avec posologie :
+1. De quelle **culture ou espèce animale** s'agit-il ?
+2. Quels sont les **symptômes visibles** (couleur des taches, fientes, lésions, baisse d'appétit) ?
+3. Depuis combien de **jours** observez-vous ce problème ?
+
+*Je reste à votre disposition pour vous guider pas à pas.*`;
 }
 
 // ────────────────────────────────────────
