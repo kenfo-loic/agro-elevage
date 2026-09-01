@@ -249,11 +249,19 @@ document.addEventListener('DOMContentLoaded', () => {
       if (remember) localStorage.setItem('ago_remembered_email', loginId);
 
       localStorage.setItem('agroelevage_user', JSON.stringify(loggedUser));
+      localStorage.setItem('ago_user_fullname', loggedUser.name || '');
+      localStorage.setItem('ago_user_email', loggedUser.email || '');
+      localStorage.setItem('ago_user_phone', loggedUser.phone || '+237 693 412 317');
+      localStorage.setItem('ago_user_role', loggedUser.role || 'Producteur Certifié');
+      localStorage.setItem('ago_user_location', loggedUser.location || 'Yaoundé, Cameroun');
       localStorage.setItem('ago_logged_in', 'true');
+
+      if (typeof window.syncUserProfileUI === 'function') {
+        window.syncUserProfileUI();
+      }
 
       closeLoginModal();
       showToast(`Connexion réussie ! Bienvenue ${loggedUser.name || ''}.`);
-      showView((loggedUser.role || currentRole) === 'vendeur' ? 'view-seller-dashboard' : 'view-buyer-dashboard');
     });
   }
 
@@ -402,15 +410,24 @@ document.addEventListener('DOMContentLoaded', () => {
       regUsers.push(newUser);
       localStorage.setItem('agroelevage_registered_users', JSON.stringify(regUsers));
       localStorage.setItem('agroelevage_user', JSON.stringify(newUser));
+      localStorage.setItem('ago_user_fullname', fullName);
+      localStorage.setItem('ago_user_email', email);
+      localStorage.setItem('ago_user_phone', phone);
+      localStorage.setItem('ago_user_role', currentRole === 'vendeur' ? 'Producteur Certifié' : 'Acheteur / Restaurant');
+      localStorage.setItem('ago_user_location', location);
       localStorage.setItem('ago_logged_in', 'true');
 
+      if (typeof window.syncUserProfileUI === 'function') {
+        window.syncUserProfileUI();
+      }
+
       if (typeof window.addUserNotification === 'function') {
-        window.addUserNotification('Création de Compte', `Bienvenue ${fullName} ! Votre compte a été enregistré en base de données avec succès.`, 'user');
+        window.addUserNotification('Création de Compte', `Bienvenue ${fullName} ! Votre compte a été enregistré avec succès.`, 'user');
       }
 
       closeRegisterModal();
       showToast(`Bienvenue ${fullName} ! Votre compte a été créé avec succès.`);
-      showView(currentRole === 'vendeur' ? 'view-seller-dashboard' : 'view-buyer-dashboard');
+      showView('view-marketplace');
     });
   }
 

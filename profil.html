@@ -60,11 +60,11 @@
               </div>
               <div>
                 <div style="display: flex; align-items: center; gap: 8px;">
-                  <h2 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--text-main);">Kenfo Loic</h2>
+                  <h2 id="profileDisplayName" style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--text-main);">Kenfo Loic</h2>
                   <span style="background: #dcfce7; color: #15803d; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 999px;">Vérifié</span>
                 </div>
-                <p style="font-size: 13px; color: var(--text-muted); margin: 2px 0 4px;">Ferme de la Vallée • Producteur Agricole</p>
-                <span style="font-size: 12px; color: var(--primary); font-weight: 700;"> Yaoundé, Cameroun • Membre depuis Jan 2024</span>
+                <p id="profileDisplayRole" style="font-size: 13px; color: var(--text-muted); margin: 2px 0 4px;">Ferme de la Vallée • Producteur Agricole</p>
+                <span id="profileDisplayLocation" style="font-size: 12px; color: var(--primary); font-weight: 700;"> Yaoundé, Cameroun • Membre depuis Jan 2024</span>
               </div>
             </div>
 
@@ -400,13 +400,32 @@
       if (form) {
         form.addEventListener('submit', (e) => {
           e.preventDefault();
-          if (inputName) localStorage.setItem('ago_user_fullname', inputName.value.trim());
-          if (inputPhone) localStorage.setItem('ago_user_phone', inputPhone.value.trim());
-          if (inputEmail) localStorage.setItem('ago_user_email', inputEmail.value.trim());
-          if (inputLocation) localStorage.setItem('ago_user_location', inputLocation.value.trim());
+          const newName = inputName ? inputName.value.trim() : 'Kenfo Loic';
+          const newPhone = inputPhone ? inputPhone.value.trim() : '+237 693 412 317';
+          const newEmail = inputEmail ? inputEmail.value.trim() : 'kenfoloic3@gmail.com';
+          const newLocation = inputLocation ? inputLocation.value.trim() : 'Yaoundé, Cameroun';
+
+          localStorage.setItem('ago_user_fullname', newName);
+          localStorage.setItem('ago_user_phone', newPhone);
+          localStorage.setItem('ago_user_email', newEmail);
+          localStorage.setItem('ago_user_location', newLocation);
+
+          let userObj = {};
+          try {
+            userObj = JSON.parse(localStorage.getItem('agroelevage_user') || '{}');
+          } catch(e) {}
+          userObj.name = newName;
+          userObj.phone = newPhone;
+          userObj.email = newEmail;
+          userObj.location = newLocation;
+          localStorage.setItem('agroelevage_user', JSON.stringify(userObj));
+
+          if (typeof window.syncUserProfileUI === 'function') {
+            window.syncUserProfileUI();
+          }
 
           if (typeof window.addUserNotification === 'function') {
-            window.addUserNotification('Informations de profil modifiées', `Profil mis à jour : ${inputName?.value} • ${inputPhone?.value} • ${inputLocation?.value}`, 'profile', 'profil.html');
+            window.addUserNotification('Informations de profil modifiées', `Profil mis à jour : ${newName} • ${newPhone} • ${newLocation}`, 'profile', 'profil.html');
           } else if (toast) {
             toast.textContent = 'Modifications enregistrées avec succès !';
             toast.classList.add('show');

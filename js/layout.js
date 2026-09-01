@@ -366,17 +366,112 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // --- DYNAMIC USER PROFILE SYNC ACROSS ALL PAGES ---
+  window.syncUserProfileUI = function() {
+    let user = null;
+    try {
+      user = JSON.parse(localStorage.getItem('agroelevage_user') || 'null');
+    } catch (e) {}
+
+    const name = localStorage.getItem('ago_user_fullname') || user?.name || 'Kenfo Loic';
+    const role = localStorage.getItem('ago_user_role') || user?.role || 'Producteur Certifié';
+    const email = localStorage.getItem('ago_user_email') || user?.email || 'kenfoloic3@gmail.com';
+    const phone = localStorage.getItem('ago_user_phone') || user?.phone || '+237 693 412 317';
+    const location = localStorage.getItem('ago_user_location') || user?.location || 'Yaoundé, Cameroun';
+    const avatar = localStorage.getItem('ago_user_avatar') || user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100';
+
+    // 1. Update Sidebar Name, Role and Avatar
+    document.querySelectorAll('.web-user-name-txt').forEach(el => el.textContent = name);
+    document.querySelectorAll('.web-user-role-txt').forEach(el => el.textContent = role);
+    document.querySelectorAll('.web-user-avatar-img, #sidebarUserAvatarImg').forEach(el => {
+      if (avatar) el.src = avatar;
+    });
+
+    // 2. Update Profile Page Cards & Header Displays
+    const profileDisplayName = document.getElementById('profileDisplayName');
+    const profileDisplayRole = document.getElementById('profileDisplayRole');
+    const profileDisplayLocation = document.getElementById('profileDisplayLocation');
+    const profileAvatarImg = document.getElementById('profileAvatarImg');
+
+    if (profileDisplayName) profileDisplayName.textContent = name;
+    if (profileDisplayRole) profileDisplayRole.textContent = `${role} • Exploitation Agricole`;
+    if (profileDisplayLocation) profileDisplayLocation.textContent = `📍 ${location}`;
+    if (profileAvatarImg && avatar) profileAvatarImg.src = avatar;
+
+    // 3. Update Profile Form Inputs if present (and not currently focused)
+    const inputName = document.getElementById('profileFullName');
+    const inputPhone = document.getElementById('profilePhone');
+    const inputEmail = document.getElementById('profileEmail');
+    const inputLocation = document.getElementById('profileLocation');
+
+    if (inputName && !inputName.matches(':focus')) inputName.value = name;
+    if (inputPhone && !inputPhone.matches(':focus')) inputPhone.value = phone;
+    if (inputEmail && !inputEmail.matches(':focus')) inputEmail.value = email;
+    if (inputLocation && !inputLocation.matches(':focus')) inputLocation.value = location;
+  };
+
+  // Perform initial UI sync
+  window.syncUserProfileUI();
+
   if (loginForm) {
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      const loginVal = document.getElementById('loginEmail')?.value.trim() || '';
+
+      let regUsers = [];
+      try {
+        regUsers = JSON.parse(localStorage.getItem('agroelevage_registered_users') || '[]');
+      } catch (err) {}
+
+      let matched = regUsers.find(u => 
+        u.email?.toLowerCase() === loginVal.toLowerCase() || 
+        u.phone === loginVal || 
+        u.name?.toLowerCase() === loginVal.toLowerCase()
+      );
+
+      let finalName = '';
+      let finalRole = 'Producteur Certifié';
+      let finalPhone = '+237 693 412 317';
+      let finalEmail = loginVal || 'kenfoloic3@gmail.com';
+      let finalLocation = 'Yaoundé, Cameroun';
+
+      if (matched) {
+        finalName = matched.name;
+        finalRole = matched.role || finalRole;
+        finalPhone = matched.phone || finalPhone;
+        finalEmail = matched.email || finalEmail;
+        finalLocation = matched.location || finalLocation;
+      } else {
+        if (loginVal.includes('@')) {
+          const part = loginVal.split('@')[0];
+          finalName = part.charAt(0).toUpperCase() + part.slice(1).replace(/[._-]/g, ' ');
+        } else if (loginVal) {
+          finalName = loginVal;
+        } else {
+          finalName = 'Kenfo Loic';
+        }
+      }
+
+      const loggedUser = {
+        name: finalName,
+        email: finalEmail,
+        phone: finalPhone,
+        role: finalRole,
+        location: finalLocation
+      };
+
       localStorage.setItem('ago_logged_in', 'true');
-      localStorage.setItem('agroelevage_user', JSON.stringify({
-        name: 'Kenfo Loic',
-        role: 'Producteur Certifié'
-      }));
+      localStorage.setItem('ago_user_fullname', finalName);
+      localStorage.setItem('ago_user_email', finalEmail);
+      localStorage.setItem('ago_user_phone', finalPhone);
+      localStorage.setItem('ago_user_role', finalRole);
+      localStorage.setItem('ago_user_location', finalLocation);
+      localStorage.setItem('agroelevage_user', JSON.stringify(loggedUser));
+
+      window.syncUserProfileUI();
       window.closeLoginModal();
       if (typeof showToast === 'function') {
-        showToast('Connexion réussie ! Bienvenue.');
+        showToast(`Connexion réussie ! Bienvenue ${finalName}.`);
       }
     });
   }
@@ -391,9 +486,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (typeof showToast === 'function') {
         showToast('Déconnexion effectuée.');
-      } else {
-        window.location.href = 'index.html';
       }
+      window.syncUserProfileUI();
     });
   });
 

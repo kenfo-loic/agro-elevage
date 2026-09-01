@@ -54,11 +54,11 @@
               <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160" style="width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary-border);" alt="Avatar" />
               <div>
                 <div style="display: flex; align-items: center; gap: 8px;">
-                  <h2 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--text-main);">Kenfo Loic</h2>
+                  <h2 id="profileDisplayName" style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--text-main);">Kenfo Loic</h2>
                   <span style="background: #dcfce7; color: #15803d; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 999px;"> Vérifié</span>
                 </div>
-                <p style="font-size: 13px; color: var(--text-muted); margin: 2px 0 4px;">Ferme de la Vallée • Producteur Agricole</p>
-                <span style="font-size: 12px; color: var(--primary); font-weight: 700;"> Yaoundé, Cameroun • Membre depuis Jan 2024</span>
+                <p id="profileDisplayRole" style="font-size: 13px; color: var(--text-muted); margin: 2px 0 4px;">Ferme de la Vallée • Producteur Agricole</p>
+                <span id="profileDisplayLocation" style="font-size: 12px; color: var(--primary); font-weight: 700;"> Yaoundé, Cameroun • Membre depuis Jan 2024</span>
               </div>
             </div>
 
@@ -72,7 +72,7 @@
                     <span class="login-input-icon">
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                     </span>
-                    <input type="text" class="form-input login-input-field" placeholder="Kenfo Loic" style="height: 42px; padding-left: 38px;" />
+                    <input type="text" id="profileFullName" class="form-input login-input-field" placeholder="Kenfo Loic" value="Kenfo Loic" style="height: 42px; padding-left: 38px;" />
                   </div>
                 </div>
                 <div class="form-group">
@@ -81,7 +81,7 @@
                     <span class="login-input-icon">
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.65 3.42 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.69a16 16 0 0 0 6.29 6.29l.96-.86a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     </span>
-                    <input type="tel" class="form-input login-input-field" placeholder="+237 693 412 317" style="height: 42px; padding-left: 38px;" />
+                    <input type="tel" id="profilePhone" class="form-input login-input-field" placeholder="+237 693 412 317" value="+237 693 412 317" style="height: 42px; padding-left: 38px;" />
                   </div>
                 </div>
               </div>
@@ -92,7 +92,7 @@
                   <span class="login-input-icon">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                   </span>
-                  <input type="email" class="form-input login-input-field" placeholder="kenfoloic3@gmail.com" style="height: 42px; padding-left: 38px;" />
+                  <input type="email" id="profileEmail" class="form-input login-input-field" placeholder="kenfoloic3@gmail.com" value="kenfoloic3@gmail.com" style="height: 42px; padding-left: 38px;" />
                 </div>
               </div>
 
@@ -102,7 +102,7 @@
                   <span class="login-input-icon">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
                   </span>
-                  <input type="text" class="form-input login-input-field" placeholder="Quartier Olembé, Yaoundé Nord, Cameroun" style="height: 42px; padding-left: 38px;" />
+                  <input type="text" id="profileLocation" class="form-input login-input-field" placeholder="Quartier Olembé, Yaoundé Nord, Cameroun" value="Quartier Olembé, Yaoundé Nord, Cameroun" style="height: 42px; padding-left: 38px;" />
                 </div>
               </div>
 
@@ -343,11 +343,44 @@
       }
 
       if (form) {
-        form.addEventListener('submit', () => {
-          if (toast) toast.classList.add('show');
-          setTimeout(() => {
-            if (toast) toast.classList.remove('show'), 2500;
-          });
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const inputName = document.getElementById('profileFullName');
+          const inputPhone = document.getElementById('profilePhone');
+          const inputEmail = document.getElementById('profileEmail');
+          const inputLocation = document.getElementById('profileLocation');
+
+          const newName = inputName ? inputName.value.trim() : 'Kenfo Loic';
+          const newPhone = inputPhone ? inputPhone.value.trim() : '+237 693 412 317';
+          const newEmail = inputEmail ? inputEmail.value.trim() : 'kenfoloic3@gmail.com';
+          const newLocation = inputLocation ? inputLocation.value.trim() : 'Yaoundé, Cameroun';
+
+          localStorage.setItem('ago_user_fullname', newName);
+          localStorage.setItem('ago_user_phone', newPhone);
+          localStorage.setItem('ago_user_email', newEmail);
+          localStorage.setItem('ago_user_location', newLocation);
+
+          let userObj = {};
+          try {
+            userObj = JSON.parse(localStorage.getItem('agroelevage_user') || '{}');
+          } catch(e) {}
+          userObj.name = newName;
+          userObj.phone = newPhone;
+          userObj.email = newEmail;
+          userObj.location = newLocation;
+          localStorage.setItem('agroelevage_user', JSON.stringify(userObj));
+
+          if (typeof window.syncUserProfileUI === 'function') {
+            window.syncUserProfileUI();
+          }
+
+          if (toast) {
+            toast.textContent = 'Profil mis à jour avec succès !';
+            toast.classList.add('show');
+            setTimeout(() => {
+              if (toast) toast.classList.remove('show');
+            }, 2500);
+          }
         });
       }
     });

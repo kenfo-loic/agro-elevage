@@ -69,11 +69,26 @@
     document.getElementById('otpWebForm').addEventListener('submit', function(e) {
       e.preventDefault();
       localStorage.setItem('ago_logged_in', 'true');
-      localStorage.setItem('agroelevage_user', JSON.stringify({
-        name: 'Kenfo Loic',
-        phone: '+237 693 412 317',
-        role: 'Producteur Certifié'
-      }));
+      let currentUser = null;
+      try {
+        currentUser = JSON.parse(localStorage.getItem('agroelevage_user') || 'null');
+      } catch (e) {}
+
+      if (!currentUser) {
+        currentUser = {
+          name: localStorage.getItem('ago_user_fullname') || 'Kenfo Loic',
+          phone: localStorage.getItem('ago_user_phone') || '+237 693 412 317',
+          role: localStorage.getItem('ago_user_role') || 'Producteur Certifié',
+          email: localStorage.getItem('ago_user_email') || 'kenfoloic3@gmail.com',
+          location: localStorage.getItem('ago_user_location') || 'Yaoundé, Cameroun'
+        };
+      }
+      localStorage.setItem('agroelevage_user', JSON.stringify(currentUser));
+      localStorage.setItem('ago_user_fullname', currentUser.name);
+      localStorage.setItem('ago_user_phone', currentUser.phone);
+      localStorage.setItem('ago_user_role', currentUser.role);
+      localStorage.setItem('ago_user_email', currentUser.email);
+      localStorage.setItem('ago_user_location', currentUser.location);
       window.location.href = 'index.html';
     });
   </script>
