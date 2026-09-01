@@ -48,15 +48,12 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const viewHtmlPages = {
-    'view-seller-dashboard': 'tableau_vendeur.html',
-    'view-buyer-dashboard': 'tableau_acheteur.html',
     'view-marketplace': 'marketplace.html',
     'view-inventory': 'mes_produits.html',
     'view-my-products': 'mes_produits.html',
     'view-add-product': 'ajouter_produit.html',
     'view-order-summary': 'passer_commande.html',
     'view-payment-escrow': 'paiement_escrow.html',
-    'view-order-tracking': 'suivi_commande.html',
     'view-ai-expert': 'naturia_expert.html',
     'view-ai-diag': 'ia_diagnostic.html',
     'view-map': 'carte_et_geoloc.html',

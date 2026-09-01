@@ -32,8 +32,8 @@
         </div>
 
         <div class="web-topbar-right">
-          <a href="tableau_vendeur.html" class="btn-secondary" style="height: 38px; padding: 0 14px; font-size: 13px; font-weight: 700; text-decoration: none; border-radius: 8px; border: 1px solid var(--border-color); background: #ffffff; display: flex; align-items: center; gap: 6px;">
-            <span>Mon Tableau</span>
+          <a href="mes_produits.html" class="btn-secondary" style="height: 38px; padding: 0 14px; font-size: 13px; font-weight: 700; text-decoration: none; border-radius: 8px; border: 1px solid var(--border-color); background: #ffffff; display: flex; align-items: center; gap: 6px;">
+            <span>Mes Produits</span>
           </a>
 
           <a href="notifications.html" class="web-topbar-btn-circle" title="Notifications">
@@ -78,16 +78,16 @@
                     <span class="login-input-icon">
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                     </span>
-                    <input type="text" class="form-input login-input-field" placeholder="Kenfo Loic" style="height: 42px; padding-left: 38px;" />
+                    <input type="text" id="profileFullName" class="form-input login-input-field" placeholder="Kenfo Loic" value="Kenfo Loic" style="height: 42px; padding-left: 38px;" />
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="form-label" style="font-weight: 700;">Numéro de téléphone</label>
+                  <label class="form-label" style="font-weight: 700;">Numéro de téléphone (WhatsApp)</label>
                   <div class="login-input-wrap">
                     <span class="login-input-icon">
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.65 3.42 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.69a16 16 0 0 0 6.29 6.29l.96-.86a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     </span>
-                    <input type="tel" class="form-input login-input-field" placeholder="+237 693 412 317" style="height: 42px; padding-left: 38px;" />
+                    <input type="tel" id="profilePhone" class="form-input login-input-field" placeholder="+237 693 412 317" value="+237 693 412 317" style="height: 42px; padding-left: 38px;" />
                   </div>
                 </div>
               </div>
@@ -98,7 +98,7 @@
                   <span class="login-input-icon">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                   </span>
-                  <input type="email" class="form-input login-input-field" placeholder="kenfoloic3@gmail.com" style="height: 42px; padding-left: 38px;" />
+                  <input type="email" id="profileEmail" class="form-input login-input-field" placeholder="kenfoloic3@gmail.com" value="kenfoloic3@gmail.com" style="height: 42px; padding-left: 38px;" />
                 </div>
               </div>
 
@@ -108,7 +108,7 @@
                   <span class="login-input-icon">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
                   </span>
-                  <input type="text" class="form-input login-input-field" placeholder="Quartier Olembé, Yaoundé Nord, Cameroun" style="height: 42px; padding-left: 38px;" />
+                  <input type="text" id="profileLocation" class="form-input login-input-field" placeholder="Quartier Olembé, Yaoundé Nord, Cameroun" value="Quartier Olembé, Yaoundé Nord, Cameroun" style="height: 42px; padding-left: 38px;" />
                 </div>
               </div>
 
@@ -157,24 +157,40 @@
               <h3 style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 14px;">Préférences & Sécurité</h3>
               
               <div style="display: flex; flex-direction: column; gap: 12px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-subtle); border-radius: 10px;">
-                  <div>
-                    <strong style="font-size: 13px;">Alertes SMS & WhatsApp</strong>
-                    <p style="font-size: 11.5px; color: var(--text-muted);">Recevoir les notifications de commande par SMS</p>
+                <!-- SMS & WhatsApp Alerts -->
+                <div style="display: flex; flex-direction: column; gap: 8px; padding: 14px; background: var(--bg-subtle); border-radius: 12px; border: 1px solid var(--border-subtle);">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <strong style="font-size: 13.5px; color: var(--text-main);">Alertes SMS & WhatsApp</strong>
+                        <span id="smsBadgeStatus" style="font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 9999px; background: #dcfce7; color: #15803d;">Actif</span>
+                      </div>
+                      <p style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">Recevoir les notifications de commande par SMS (+237 693 412 317) & WhatsApp</p>
+                    </div>
+                    <label class="switch-toggle">
+                      <input type="checkbox" id="toggleSmsWhatsappAlerts" checked />
+                      <span class="slider-round"></span>
+                    </label>
                   </div>
-                  <label class="switch-toggle">
-                    <input type="checkbox" checked />
-                    <span class="slider-round"></span>
-                  </label>
+                  
+                  <div style="display: flex; justify-content: flex-start; margin-top: 4px; border-top: 1px dashed var(--border-color); padding-top: 8px;">
+                    <button type="button" id="btnTestSmsAlert" style="padding: 6px 12px; font-size: 11.5px; font-weight: 700; background: #ffffff; color: var(--primary); border: 1px solid var(--primary-border); border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.2s;">
+                      <span>📱</span> <span>Tester l'alerte SMS & WhatsApp</span>
+                    </button>
+                  </div>
                 </div>
 
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-subtle); border-radius: 10px;">
+                <!-- Two-Factor Escrow -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px; background: var(--bg-subtle); border-radius: 12px; border: 1px solid var(--border-subtle);">
                   <div>
-                    <strong style="font-size: 13px;">Validation Escrow à deux facteurs</strong>
-                    <p style="font-size: 11.5px; color: var(--text-muted);">Confirmation par code OTP pour tout déblocage de fonds</p>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <strong style="font-size: 13.5px; color: var(--text-main);">Validation Escrow à deux facteurs</strong>
+                      <span id="twoFactorBadgeStatus" style="font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 9999px; background: #dcfce7; color: #15803d;">Actif</span>
+                    </div>
+                    <p style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">Confirmation par code OTP pour tout déblocage de fonds</p>
                   </div>
                   <label class="switch-toggle">
-                    <input type="checkbox" checked />
+                    <input type="checkbox" id="toggleTwoFactorEscrow" checked />
                     <span class="slider-round"></span>
                   </label>
                 </div>
@@ -277,11 +293,120 @@
       if (btnThemeLight) btnThemeLight.addEventListener('click', () => applyTheme('light'));
       if (btnThemeDark) btnThemeDark.addEventListener('click', () => applyTheme('dark'));
 
+      // SMS & WhatsApp Alerts Toggle
+      const toggleSms = document.getElementById('toggleSmsWhatsappAlerts');
+      const smsBadge = document.getElementById('smsBadgeStatus');
+      const btnTestSms = document.getElementById('btnTestSmsAlert');
+
+      const savedSmsState = localStorage.getItem('ago_sms_whatsapp_alerts') !== 'false';
+      if (toggleSms) {
+        toggleSms.checked = savedSmsState;
+        updateSmsBadge(savedSmsState);
+
+        toggleSms.addEventListener('change', () => {
+          const isEnabled = toggleSms.checked;
+          localStorage.setItem('ago_sms_whatsapp_alerts', isEnabled);
+          updateSmsBadge(isEnabled);
+
+          if (isEnabled) {
+            if (typeof window.addUserNotification === 'function') {
+              window.addUserNotification('Alertes SMS & WhatsApp activées', 'Vous recevrez désormais les notifications instantanées de commandes et paiements par SMS et WhatsApp au +237 693 412 317.', 'info', 'profil.html');
+            }
+          } else {
+            if (toast) {
+              toast.textContent = 'Alertes SMS & WhatsApp désactivées.';
+              toast.classList.add('show');
+              setTimeout(() => toast.classList.remove('show'), 2500);
+            }
+          }
+        });
+      }
+
+      function updateSmsBadge(active) {
+        if (!smsBadge) return;
+        if (active) {
+          smsBadge.textContent = 'Actif';
+          smsBadge.style.background = '#dcfce7';
+          smsBadge.style.color = '#15803d';
+        } else {
+          smsBadge.textContent = 'Inactif';
+          smsBadge.style.background = '#fee2e2';
+          smsBadge.style.color = '#b91c1c';
+        }
+      }
+
+      if (btnTestSms) {
+        btnTestSms.addEventListener('click', () => {
+          const phoneInput = document.getElementById('profilePhone');
+          const targetPhone = (phoneInput && phoneInput.value.trim()) || '+237 693 412 317';
+          
+          if (typeof window.sendSmsWhatsappNotification === 'function') {
+            window.sendSmsWhatsappNotification(
+              targetPhone,
+              'Commande Confirmée #CMD-8492',
+              'Nouvelle commande reçue : 100 kg Tomates fraîches (27 000 FCFA). Fonds sécurisés sous Séquestre Escrow Mobile Money.',
+              'marketplace.html'
+            );
+          }
+        });
+      }
+
+      // Two-Factor Escrow Toggle
+      const toggle2FA = document.getElementById('toggleTwoFactorEscrow');
+      const twoFABadge = document.getElementById('twoFactorBadgeStatus');
+      const saved2FA = localStorage.getItem('ago_two_factor_escrow') !== 'false';
+
+      if (toggle2FA) {
+        toggle2FA.checked = saved2FA;
+        update2FABadge(saved2FA);
+
+        toggle2FA.addEventListener('change', () => {
+          const isEnabled = toggle2FA.checked;
+          localStorage.setItem('ago_two_factor_escrow', isEnabled);
+          update2FABadge(isEnabled);
+
+          if (toast) {
+            toast.textContent = isEnabled ? 'Validation Escrow 2FA activée.' : 'Validation Escrow 2FA désactivée.';
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+          }
+        });
+      }
+
+      function update2FABadge(active) {
+        if (!twoFABadge) return;
+        if (active) {
+          twoFABadge.textContent = 'Actif';
+          twoFABadge.style.background = '#dcfce7';
+          twoFABadge.style.color = '#15803d';
+        } else {
+          twoFABadge.textContent = 'Inactif';
+          twoFABadge.style.background = '#fee2e2';
+          twoFABadge.style.color = '#b91c1c';
+        }
+      }
+
+      // Load saved profile data
+      const inputName = document.getElementById('profileFullName');
+      const inputPhone = document.getElementById('profilePhone');
+      const inputEmail = document.getElementById('profileEmail');
+      const inputLocation = document.getElementById('profileLocation');
+
+      if (inputName) inputName.value = localStorage.getItem('ago_user_fullname') || 'Kenfo Loic';
+      if (inputPhone) inputPhone.value = localStorage.getItem('ago_user_phone') || '+237 693 412 317';
+      if (inputEmail) inputEmail.value = localStorage.getItem('ago_user_email') || 'kenfoloic3@gmail.com';
+      if (inputLocation) inputLocation.value = localStorage.getItem('ago_user_location') || 'Quartier Olembé, Yaoundé Nord, Cameroun';
+
       if (form) {
         form.addEventListener('submit', (e) => {
           e.preventDefault();
+          if (inputName) localStorage.setItem('ago_user_fullname', inputName.value.trim());
+          if (inputPhone) localStorage.setItem('ago_user_phone', inputPhone.value.trim());
+          if (inputEmail) localStorage.setItem('ago_user_email', inputEmail.value.trim());
+          if (inputLocation) localStorage.setItem('ago_user_location', inputLocation.value.trim());
+
           if (typeof window.addUserNotification === 'function') {
-            window.addUserNotification('Informations de profil modifiées', 'Vous avez mis à jour vos informations personnelles (Nom, Téléphone, Email de contact, Localisation).', 'profile', 'profil.html');
+            window.addUserNotification('Informations de profil modifiées', `Profil mis à jour : ${inputName?.value} • ${inputPhone?.value} • ${inputLocation?.value}`, 'profile', 'profil.html');
           } else if (toast) {
             toast.textContent = 'Modifications enregistrées avec succès !';
             toast.classList.add('show');

@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (actSellerAddProd) actSellerAddProd.addEventListener('click', () => window.location.href = 'ajouter_produit.html');
   if (actSellerMyProds) actSellerMyProds.addEventListener('click', () => window.location.href = 'mes_produits.html');
-  if (actSellerOrders) actSellerOrders.addEventListener('click', () => window.location.href = 'suivi_commande.html');
+  if (actSellerOrders) actSellerOrders.addEventListener('click', () => window.location.href = 'marketplace.html');
   if (actSellerNaturIA) actSellerNaturIA.addEventListener('click', () => window.location.href = 'naturia_expert.html');
   if (btnSellerNotif) btnSellerNotif.addEventListener('click', () => window.location.href = 'notifications.html');
 });

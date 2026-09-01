@@ -164,6 +164,18 @@
       document.getElementById('btnQtyPlus')?.addEventListener('click', () => {
         if (qty < 500) { qty += 10; updateBill(); }
       });
+
+      document.getElementById('btnConfirmOrder')?.addEventListener('click', (e) => {
+        if (typeof window.sendSmsWhatsappNotification === 'function') {
+          const total = (qty * unitPrice + transportFee).toLocaleString('fr-FR');
+          window.sendSmsWhatsappNotification(
+            '+237 693 412 317',
+            'Commande Initiée',
+            `Nouvelle commande de ${qty} kg de Tomates fraîches (${total} FCFA) en attente de paiement sécurisé.`,
+            'paiement_escrow.html'
+          );
+        }
+      });
     });
   </script>
 </body>

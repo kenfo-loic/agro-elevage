@@ -238,11 +238,24 @@
           setTimeout(() => {
             btnPay.textContent = ' Paiement Bloqué en Séquestre';
             btnPay.style.background = '#16a34a';
+
+            // Send SMS & Real WhatsApp Notification
+            const userPhone = localStorage.getItem('ago_user_phone') || '+237 693 412 317';
+            if (typeof window.sendSmsWhatsappNotification === 'function') {
+              window.sendSmsWhatsappNotification(
+                userPhone,
+                'Paiement Séquestre Validé #CMD-8492',
+                'Votre paiement de 27 000 FCFA pour 100 kg Tomates est bloqué sous séquestre Mobile Money. Le vendeur a été notifié pour expédition.',
+                'marketplace.html',
+                true
+              );
+            }
+
             if (toast) {
               toast.classList.add('show');
               setTimeout(() => {
-                window.location.href = 'suivi_commande.html';
-              }, 1500);
+                window.location.href = 'marketplace.html';
+              }, 2500);
             }
           }, 1200);
         });

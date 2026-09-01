@@ -66,10 +66,8 @@ const webSidebarHTML = `
     </div>
 
     <nav class="web-sidebar-nav" id="sidebarLinks">
-      <div class="web-nav-group-title">Espaces & Tableaux</div>
-      <a href="index.html" class="web-nav-item" data-page="index.html"><span class="web-nav-icon">${SVG.home}</span> <span>Accueil SPA</span></a>
-      <a href="tableau_vendeur.html" class="web-nav-item" data-page="tableau_vendeur.html"><span class="web-nav-icon">${SVG.dashboard}</span> <span>Tableau Vendeur</span></a>
-      <a href="tableau_acheteur.html" class="web-nav-item" data-page="tableau_acheteur.html"><span class="web-nav-icon">${SVG.buyerDashboard}</span> <span>Tableau Acheteur</span></a>
+      <div class="web-nav-group-title">Navigation Principale</div>
+      <a href="index.html" class="web-nav-item" data-page="index.html"><span class="web-nav-icon">${SVG.home}</span> <span>Accueil</span></a>
 
       <div class="web-nav-group-title">Commerce & Transactions</div>
       <a href="marketplace.html" class="web-nav-item" data-page="marketplace.html"><span class="web-nav-icon">${SVG.cart}</span> <span>Marketplace B2B</span></a>
@@ -77,7 +75,6 @@ const webSidebarHTML = `
       <a href="ajouter_produit.html" class="web-nav-item" data-page="ajouter_produit.html"><span class="web-nav-icon">${SVG.plus}</span> <span>Ajouter un Produit</span></a>
       <a href="passer_commande.html" class="web-nav-item" data-page="passer_commande.html"><span class="web-nav-icon">${SVG.order}</span> <span>Passer Commande</span></a>
       <a href="paiement_escrow.html" class="web-nav-item" data-page="paiement_escrow.html"><span class="web-nav-icon">${SVG.shield}</span> <span>Paiement Séquestre</span></a>
-      <a href="suivi_commande.html" class="web-nav-item" data-page="suivi_commande.html"><span class="web-nav-icon">${SVG.truck}</span> <span>Suivi Commande</span></a>
 
       <div class="web-nav-group-title">Intelligence & Carto</div>
       <a href="naturia_expert.html" class="web-nav-item" data-page="naturia_expert.html"><span class="web-nav-icon">${SVG.ai}</span> <span>NaturIA Expert IA</span></a>
@@ -102,9 +99,9 @@ const webSidebarHTML = `
 
   <!-- Mobile Sticky Bottom Navigation (Touch optimized for phones & small tablets) -->
   <nav class="mobile-bottom-nav" id="mobileBottomNav">
-    <a href="tableau_vendeur.html" class="mobile-nav-btn" data-mobile="tableau_vendeur.html">
-      <span class="icon">${SVG.dashboard}</span>
-      <span>Tableau</span>
+    <a href="index.html" class="mobile-nav-btn" data-mobile="index.html">
+      <span class="icon">${SVG.home}</span>
+      <span>Accueil</span>
     </a>
     <a href="marketplace.html" class="mobile-nav-btn" data-mobile="marketplace.html">
       <span class="icon">${SVG.cart}</span>
@@ -509,13 +506,161 @@ window.updateNotificationBadges = function() {
   });
 };
 
+// --- CENTRALIZED REAL SMS & WHATSAPP NOTIFICATION SYSTEM ---
+window.openWhatsAppDirect = function(phone = '+237 693 412 317', title = 'Notification AgroElevage Link', message = '') {
+  const cleanPhone = (phone || '').replace(/[^\d]/g, '') || '237693412317';
+  const waFormattedText = `🔔 *AGROELEVAGE LINK — ALERTE COMMANDE*
+
+📋 *${title}*
+${message}
+
+🌐 Plateforme : ${window.location.href}`;
+
+  const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(waFormattedText)}`;
+  window.open(waUrl, '_blank');
+  return waUrl;
+};
+
+window.sendSmsWhatsappNotification = function(phone = '+237 693 412 317', title = 'Nouvelle Commande', message = '', link = 'notifications.html', openWhatsApp = true) {
+  const isSmsEnabled = localStorage.getItem('ago_sms_whatsapp_alerts') !== 'false';
+  if (!isSmsEnabled) {
+    console.log('[SMS & WhatsApp] Alertes désactivées par l\'utilisateur.');
+    return false;
+  }
+
+  const cleanPhone = (phone || '').replace(/[^\d]/g, '') || '237693412317';
+  const waFormattedText = `🔔 *AGROELEVAGE LINK — NOTIFICATION*
+
+📋 *${title}*
+${message}
+
+📱 Destinataire : +${cleanPhone}
+🌐 Accès rapide : ${window.location.origin + '/' + link}`;
+
+  const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(waFormattedText)}`;
+
+  // Record in notifications center
+  window.addUserNotification(
+    `[WhatsApp & SMS] ${title}`,
+    `Message WhatsApp envoyé au +${cleanPhone} : ${message}`,
+    'order',
+    link
+  );
+
+  // Play subtle audio chime
+  try {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+    osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.1); // A5
+    gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.35);
+  } catch (e) {
+    // Audio context may be restricted before gesture
+  }
+
+  // Create or reuse visual push banner
+  let banner = document.getElementById('smsPushNotificationBanner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'smsPushNotificationBanner';
+    banner.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      max-width: 420px;
+      width: calc(100vw - 40px);
+      background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+      color: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.18);
+      padding: 16px 18px;
+      z-index: 999999;
+      font-family: 'Inter', -apple-system, sans-serif;
+      transform: translateY(-120%);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    `;
+    document.body.appendChild(banner);
+  }
+
+  banner.innerHTML = `
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="width: 32px; height: 32px; border-radius: 10px; background: #25d366; display: flex; align-items: center; justify-content: center; font-size: 16px;">
+          💬
+        </div>
+        <div>
+          <strong style="font-size: 13px; letter-spacing: 0.5px; text-transform: uppercase; color: #a7f3d0; display: block;">Message WhatsApp</strong>
+          <div style="font-size: 11px; color: #e2e8f0; opacity: 0.95;">Numéro : <strong>+${cleanPhone}</strong></div>
+        </div>
+      </div>
+      <button id="btnCloseSmsBanner" style="background: transparent; border: none; color: #ffffff; cursor: pointer; font-size: 16px; opacity: 0.7; padding: 2px;">✕</button>
+    </div>
+    <div style="background: rgba(0,0,0,0.22); padding: 10px 12px; border-radius: 8px; border-left: 3px solid #25d366;">
+      <strong style="font-size: 13px; display: block; margin-bottom: 3px; color: #ffffff;">${title}</strong>
+      <p style="font-size: 12px; margin: 0; line-height: 1.4; color: #f0fdf4;">${message}</p>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 11px; padding-top: 4px;">
+      <span style="opacity: 0.85; font-size: 11px;">🟢 Prêt pour WhatsApp</span>
+      <a href="${waUrl}" target="_blank" id="btnOpenWaDirect" style="background: #25d366; color: #022c22; text-decoration: none; font-weight: 800; padding: 6px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(37,211,102,0.4);">
+        <span>💬 Ouvrir mon WhatsApp</span> →
+      </a>
+    </div>
+  `;
+
+  // Animate in
+  setTimeout(() => {
+    banner.style.transform = 'translateY(0)';
+    banner.style.opacity = '1';
+  }, 50);
+
+  // Auto open WhatsApp directly in new tab if requested
+  if (openWhatsApp) {
+    try {
+      window.open(waUrl, '_blank');
+    } catch (e) {
+      console.log('Popup prevented, fallback to banner button.');
+    }
+  }
+
+  // Close handler
+  const closeBtn = document.getElementById('btnCloseSmsBanner');
+  if (closeBtn) {
+    closeBtn.onclick = () => {
+      banner.style.transform = 'translateY(-120%)';
+      banner.style.opacity = '0';
+    };
+  }
+
+  // Auto dismiss after 8 seconds
+  if (window._smsBannerTimeout) clearTimeout(window._smsBannerTimeout);
+  window._smsBannerTimeout = setTimeout(() => {
+    if (banner) {
+      banner.style.transform = 'translateY(-120%)';
+      banner.style.opacity = '0';
+    }
+  }, 8000);
+
+  return true;
+};
+
 // Initialize Default Notifications if Empty
 if (!localStorage.getItem('ago_notifications')) {
   const defaultNotifs = [
     {
       id: 'notif_1',
       title: 'Bienvenue sur AgroElevage Link',
-      message: 'Votre compte est actif. Toutes vos activités (modifications de profil, ajout/suppression de produits, ajustements de stock) seront notifiées ici.',
+      message: 'Votre compte est actif. Vos alertes SMS (+237 693 412 317) et WhatsApp sont opérationnelles pour les commandes et paiements.',
       time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
       date: 'Aujourd\'hui',
       type: 'info',
@@ -525,3 +670,4 @@ if (!localStorage.getItem('ago_notifications')) {
   ];
   localStorage.setItem('ago_notifications', JSON.stringify(defaultNotifs));
 }
+
