@@ -55,7 +55,7 @@ const webSidebarHTML = `
       <a href="index.html" class="web-nav-item" data-page="index.html"><span class="web-nav-icon">${SVG.home}</span> <span>Accueil</span></a>
 
       <div class="web-nav-group-title">Commerce & Transactions</div>
-      <a href="marketplace.html" class="web-nav-item" data-page="marketplace.html"><span class="web-nav-icon">${SVG.cart}</span> <span>Marketplace B2B</span></a>
+      <a href="marketplace.html" class="web-nav-item" data-page="marketplace.html"><span class="web-nav-icon">${SVG.cart}</span> <span>Marketplace</span></a>
       <a href="mes_produits.html" class="web-nav-item" data-page="mes_produits.html"><span class="web-nav-icon">${SVG.package}</span> <span>Mes Produits</span></a>
       <a href="ajouter_produit.html" class="web-nav-item" data-page="ajouter_produit.html"><span class="web-nav-icon">${SVG.plus}</span> <span>Ajouter un Produit</span></a>
       <a href="passer_commande.html" class="web-nav-item" data-page="passer_commande.html"><span class="web-nav-icon">${SVG.order}</span> <span>Passer Commande</span></a>

@@ -28,12 +28,12 @@
       <header class="web-topbar">
         <div class="web-topbar-left">
           <button class="web-menu-toggle" id="btnToggleMobileMenu" title="Ouvrir le menu de navigation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg> <span>Menu</span></button>
-          <span class="web-page-heading-title"> Centre de Notifications</span>
+          <span class="web-page-heading-title">Centre de Notifications</span>
         </div>
 
         <div class="web-topbar-right">
           <button class="btn-secondary" id="btnMarkAllNotifs" style="height: 36px; padding: 0 14px; font-size: 12.5px; font-weight: 700; border-radius: 8px; border: 1px solid var(--border-color); background: #ffffff; cursor: pointer;">
-             Marquer tout comme lu
+            Tout marquer comme lu
           </button>
 
           <a href="profil.html" class="web-topbar-btn-circle" title="Profil">
@@ -46,12 +46,12 @@
       <main class="web-content-body">
         
         <div class="web-card" style="max-width: 900px; margin: 0 auto;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
             <div>
               <h2 style="font-family: var(--font-heading); font-size: 18px; font-weight: 800; color: var(--text-main);">Vos Activités & Alertes Récentes</h2>
               <p style="font-size: 12.5px; color: var(--text-muted);">Mises à jour des commandes, modifications de profil, ajouts et suppressions de produits</p>
             </div>
-            <span id="notifHeaderBadge" style="font-size: 12px; background: var(--primary-soft); color: var(--primary-dark); font-weight: 800; padding: 4px 10px; border-radius: 999px;">
+            <span id="notifHeaderBadge" style="font-size: 12px; background: var(--primary-soft); color: var(--primary-dark); font-weight: 800; padding: 4px 12px; border-radius: 999px;">
               0 Nouvelle
             </span>
           </div>
@@ -66,6 +66,37 @@
     </div>
   </div>
 
+  <!-- Modal: Notification Message Reader -->
+  <div class="modal-backdrop" id="notifDetailModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(4px);">
+    <div style="background: #ffffff; border-radius: 16px; max-width: 500px; width: 100%; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; animation: popIn 0.2s ease;">
+      <button id="btnCloseNotifModal" style="position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border-color); background: #ffffff; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+
+      <div style="display: flex; gap: 14px; align-items: center; margin-bottom: 16px;">
+        <div id="modalNotifIcon" style="width: 48px; height: 48px; border-radius: 12px; background: var(--primary-soft); display: flex; align-items: center; justify-content: center; flex-shrink: 0;"></div>
+        <div>
+          <h3 id="modalNotifTitle" style="font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: var(--text-main); margin-bottom: 2px;"></h3>
+          <span id="modalNotifDate" style="font-size: 11.5px; color: var(--text-muted);"></span>
+        </div>
+      </div>
+
+      <div style="background: var(--bg-subtle); padding: 16px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 20px;">
+        <p id="modalNotifMessage" style="font-size: 13.5px; color: var(--text-main); line-height: 1.5; white-space: pre-line; margin: 0;"></p>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button id="btnModalDeleteNotif" style="height: 38px; padding: 0 16px; border-radius: 8px; border: 1px solid #fecaca; background: #fef2f2; color: #dc2626; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+          Supprimer
+        </button>
+        <button id="btnModalCloseAction" class="btn-primary-action" style="height: 38px; width: auto; padding: 0 20px; font-size: 13px; border-radius: 8px;">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Interactive Toast -->
   <div class="toast-msg" id="appToast">Notifications mises à jour</div>
 
@@ -77,6 +108,22 @@
       const listContainer = document.getElementById('notificationsList');
       const badgeCount = document.getElementById('notifHeaderBadge');
       const btnMarkRead = document.getElementById('btnMarkAllNotifs');
+      const modal = document.getElementById('notifDetailModal');
+      const btnCloseModal = document.getElementById('btnCloseNotifModal');
+      const btnCloseAction = document.getElementById('btnModalCloseAction');
+      const btnModalDelete = document.getElementById('btnModalDeleteNotif');
+
+      let currentModalNotifId = null;
+
+      const NOTIF_SVGS = {
+        product: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
+        stock: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
+        profile: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+        danger: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>`,
+        order: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/></svg>`,
+        escrow: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+        info: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>`
+      };
 
       function renderNotifications() {
         const notifs = JSON.parse(localStorage.getItem('ago_notifications') || '[]');
@@ -84,19 +131,11 @@
 
         if (badgeCount) {
           badgeCount.textContent = unreadCount > 0 ? `${unreadCount} Non lue${unreadCount > 1 ? 's' : ''}` : 'Toutes lues';
+          badgeCount.style.background = unreadCount > 0 ? 'var(--primary-soft)' : '#f1f5f9';
+          badgeCount.style.color = unreadCount > 0 ? 'var(--primary-dark)' : 'var(--text-muted)';
         }
 
         if (!listContainer) return;
-
-        const NOTIF_SVGS = {
-          product: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
-          stock: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
-          profile: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
-          danger: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>`,
-          order: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/></svg>`,
-          escrow: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
-          info: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>`
-        };
 
         if (notifs.length === 0) {
           listContainer.innerHTML = '<div style="text-align: center; padding: 40px; color: var(--text-muted); font-size: 13px;">Aucune notification pour le moment. Vos activités (ajouts, modifications, suppressions) s\'afficheront ici.</div>';
@@ -119,24 +158,96 @@
           const cleanMessage = (n.message || '').replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '').trim();
 
           return `
-            <div class="web-card" style="display: flex; gap: 16px; align-items: flex-start; padding: 16px; border-left: 4px solid ${borderClr}; ${n.isRead ? 'background: #ffffff;' : 'background: ' + bgClr + ';'}">
-              <div style="width: 44px; height: 44px; border-radius: 12px; background: var(--bg-subtle); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <div class="web-card notif-card-item" style="display: flex; gap: 14px; align-items: flex-start; padding: 14px 16px; border-left: 4px solid ${borderClr}; ${n.isRead ? 'background: #ffffff;' : 'background: ' + bgClr + ';'} cursor: pointer; transition: all 0.2s;" onclick="openNotificationMessage('${n.id}')">
+              <div style="width: 42px; height: 42px; border-radius: 12px; background: var(--bg-subtle); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                 ${svgIcon}
               </div>
-              <div style="flex: 1;">
-                <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                  <strong style="font-size: 14px; font-family: var(--font-heading);">${cleanTitle}</strong>
-                  <span style="font-size: 11.5px; color: var(--text-muted);">${n.date}, ${n.time}</span>
+              <div style="flex: 1; min-width: 0;">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                  <strong style="font-size: 13.5px; font-family: var(--font-heading); color: var(--text-main);">${cleanTitle}</strong>
+                  <span style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">${n.date || ''} ${n.time ? '· ' + n.time : ''}</span>
                 </div>
-                <p style="font-size: 12.5px; color: var(--text-muted); margin: 3px 0 6px;">${cleanMessage}</p>
-                ${n.link ? `<a href="${n.link}" style="font-size: 12px; color: var(--primary); font-weight: 700; text-decoration: none;">Voir les détails ›</a>` : ''}
+                <p style="font-size: 12.5px; color: var(--text-muted); margin: 3px 0 8px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${cleanMessage}</p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <button type="button" style="background: none; border: none; font-size: 12px; color: var(--primary); font-weight: 800; cursor: pointer; padding: 0; display: inline-flex; align-items: center; gap: 4px;">
+                    Ouvrir le message ›
+                  </button>
+                  <button type="button" onclick="event.stopPropagation(); deleteNotification('${n.id}')" style="background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px 6px; border-radius: 6px; display: flex; align-items: center; gap: 4px; font-size: 11.5px;" title="Supprimer la notification" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#94a3b8'">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                    Supprimer
+                  </button>
+                </div>
               </div>
             </div>
           `;
         }).join('');
       }
 
-      renderNotifications();
+      window.openNotificationMessage = function(id) {
+        let notifs = JSON.parse(localStorage.getItem('ago_notifications') || '[]');
+        const found = notifs.find(n => String(n.id) === String(id));
+        if (!found) return;
+
+        // Mark as read
+        if (!found.isRead) {
+          found.isRead = true;
+          localStorage.setItem('ago_notifications', JSON.stringify(notifs));
+          if (typeof window.updateNotificationBadges === 'function') {
+            window.updateNotificationBadges();
+          }
+          renderNotifications();
+        }
+
+        currentModalNotifId = id;
+
+        const cleanTitle = (found.title || 'Notification').replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '').trim();
+        const cleanMessage = (found.message || '').replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '').trim();
+
+        document.getElementById('modalNotifTitle').textContent = cleanTitle;
+        document.getElementById('modalNotifDate').textContent = `${found.date || ''} ${found.time ? 'à ' + found.time : ''}`;
+        document.getElementById('modalNotifMessage').textContent = cleanMessage;
+        document.getElementById('modalNotifIcon').innerHTML = NOTIF_SVGS[found.type] || NOTIF_SVGS.info;
+
+        if (modal) modal.style.display = 'flex';
+      };
+
+      window.deleteNotification = function(id) {
+        let notifs = JSON.parse(localStorage.getItem('ago_notifications') || '[]');
+        notifs = notifs.filter(n => String(n.id) !== String(id));
+        localStorage.setItem('ago_notifications', JSON.stringify(notifs));
+        if (typeof window.updateNotificationBadges === 'function') {
+          window.updateNotificationBadges();
+        }
+        renderNotifications();
+        if (modal) modal.style.display = 'none';
+
+        const toast = document.getElementById('appToast');
+        if (toast) {
+          toast.textContent = 'Notification supprimée.';
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+      };
+
+      if (btnCloseModal) {
+        btnCloseModal.addEventListener('click', () => {
+          if (modal) modal.style.display = 'none';
+        });
+      }
+
+      if (btnCloseAction) {
+        btnCloseAction.addEventListener('click', () => {
+          if (modal) modal.style.display = 'none';
+        });
+      }
+
+      if (btnModalDelete) {
+        btnModalDelete.addEventListener('click', () => {
+          if (currentModalNotifId) {
+            deleteNotification(currentModalNotifId);
+          }
+        });
+      }
 
       if (btnMarkRead) {
         btnMarkRead.addEventListener('click', () => {
@@ -155,6 +266,8 @@
           }
         });
       }
+
+      renderNotifications();
     });
   </script>
 </body>

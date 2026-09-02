@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'view-otp': 'Vérification OTP',
     'view-seller-dashboard': 'Tableau de Bord Vendeur',
     'view-buyer-dashboard': 'Tableau de Bord Acheteur',
-    'view-marketplace': 'Marketplace B2B',
+    'view-marketplace': 'Marketplace',
     'view-product-detail': 'Détail du Produit',
     'view-map': 'Carte & Producteurs Géolocalisés',
     'view-add-product': 'Ajouter un Produit',
