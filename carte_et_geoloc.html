@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Carte & Géolocalisation — AgroElevage Link</title>
-  <meta name="description" content="Localisez les producteurs agricoles, hôtels, restaurants, usines de transformation et hubs logistiques à proximité." />
+  <title>Carte & Géolocalisation B2B — AgroElevage Link</title>
+  <meta name="description" content="Localisez les producteurs agricoles, hôtels B2B, restaurants, usines de transformation et hubs logistiques à proximité." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -82,7 +82,7 @@
       <header class="web-topbar">
         <div class="web-topbar-left">
           <button class="web-menu-toggle" id="btnToggleMobileMenu" title="Ouvrir le menu de navigation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg> <span>Menu</span></button>
-          <span class="web-page-heading-title">Carte & Acteurs Agricoles Géolocalisés</span>
+          <span class="web-page-heading-title">Carte & Acteurs B2B Géolocalisés</span>
         </div>
 
         <div class="web-topbar-search">
@@ -111,10 +111,10 @@
         
         <div class="map-web-layout">
           
-          <!-- Left Column: Producers & Actors List -->
+          <!-- Left Column: Producers & B2B Actors List -->
           <div class="web-card" style="display: flex; flex-direction: column; padding: 18px; overflow: hidden;">
             <div style="margin-bottom: 12px;">
-              <h2 style="font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: var(--text-main);">Acteurs Agricoles & Cartographie</h2>
+              <h2 style="font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: var(--text-main);">Acteurs B2B & Cartographie</h2>
               <p style="font-size: 12px; color: var(--text-muted);">Recherchez et géolocalisez un établissement sur la carte</p>
             </div>
 
@@ -133,14 +133,14 @@
               </div>
             </div>
 
-            <!-- Category Filter Buttons Scroll -->
-            <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 8px;" id="mapCatFilters">
-              <button class="map-filter-btn active" data-cat="all">Tous (18)</button>
-              <button class="map-filter-btn" data-cat="producteur">Producteurs</button>
-              <button class="map-filter-btn" data-cat="hotel">Hôtels</button>
-              <button class="map-filter-btn" data-cat="restaurant">Restaurants</button>
-              <button class="map-filter-btn" data-cat="usine">Usines</button>
-              <button class="map-filter-btn" data-cat="logistique">Logistique</button>
+            <!-- Filter Pills Row -->
+            <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 10px;" id="mapCategoryFilterContainer">
+              <button class="map-filter-btn active" data-cat="all">Tout (18)</button>
+              <button class="map-filter-btn" data-cat="ferme">Fermes (5)</button>
+              <button class="map-filter-btn" data-cat="hotel">Hôtels (4)</button>
+              <button class="map-filter-btn" data-cat="restaurant">Restaurants (4)</button>
+              <button class="map-filter-btn" data-cat="usine">Transformation (4)</button>
+              <button class="map-filter-btn" data-cat="logistique">Logistique (1)</button>
             </div>
 
             <!-- Dynamic List of Cards -->
@@ -151,6 +151,10 @@
 
           <!-- Right Column: Interactive Leaflet Map Canvas -->
           <div class="web-card" style="padding: 0; overflow: hidden; position: relative; border-radius: var(--radius-card); border: 1.5px solid var(--border-color);">
+            <!-- Live Geolocation GPS Trigger Button -->
+            <button id="btnLocateUserGPS" style="position: absolute; top: 16px; right: 16px; z-index: 1000; background: #ffffff; color: #1e293b; border: 1.5px solid var(--border-color); border-radius: 9999px; padding: 8px 16px; font-size: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.15); transition: all 0.2s;" title="Activer la géolocalisation GPS réelle">
+              <span style="font-size: 14px;"></span> <span>Me géolocaliser (GPS)</span>
+            </button>
             <div id="leafletMapContainer" style="width: 100%; height: 100%; min-height: 540px;"></div>
           </div>
 
@@ -240,12 +244,14 @@
         color: '#15803d',
         img: 'https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=120'
       },
+
+      // 2. HÔTELS & RÉSIDENCES B2B
       {
         id: 6,
         cat: 'hotel',
-        badge: 'Hôtel 5 Etoiles',
+        badge: 'Hôtel 5 Etoiles (Acheteur B2B)',
         name: 'Hôtel Hilton Yaoundé',
-        sub: 'Acheteur Fruits, Légumes & Viandes bio',
+        sub: 'Acheteur B2B Fruits, Légumes & Viandes bio',
         loc: 'Centre-Ville, Bd 20 Mai (2 km)',
         rating: '5.0',
         lat: 3.8642,
@@ -256,7 +262,7 @@
       {
         id: 7,
         cat: 'hotel',
-        badge: 'Hôtel & Restauration',
+        badge: 'Hôtel & Restauration B2B',
         name: 'Hôtel Mont Febe',
         sub: 'Commandes hebdomadaires Légumes & Volailles',
         loc: 'Mont Febe (6 km)',
@@ -283,7 +289,7 @@
         id: 9,
         cat: 'hotel',
         badge: 'Complexe Hôtelier',
-        name: 'Kribi Beach Resort & Spa',
+        name: 'Kribi Beach Resort & Spa (Centre B2B)',
         sub: 'Grand acheteur Poissons, Crustacés & Fruits',
         loc: 'Zone Logistique Sud (15 km)',
         rating: '4.9',
@@ -292,6 +298,8 @@
         color: '#2563eb',
         img: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=120'
       },
+
+      // 3. RESTAURANTS & TRAITEURS
       {
         id: 10,
         cat: 'restaurant',
@@ -322,7 +330,7 @@
         id: 12,
         cat: 'restaurant',
         badge: 'Traiteur & Restauration',
-        name: 'Le Baffou Restaurant',
+        name: 'Le Baffou Restaurant B2B',
         sub: 'Restauration entreprise, Achats de légumes en gros',
         loc: 'Elig-Essono (3 km)',
         rating: '4.8',
@@ -344,15 +352,17 @@
         color: '#d97706',
         img: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=120'
       },
+
+      // 4. ENTREPRISES DE TRANSFORMATION
       {
         id: 14,
         cat: 'usine',
-        badge: 'Brasserie & Malterie',
-        name: 'Boissons du Cameroun (Hub Agro)',
-        sub: 'Acheteur maïs grains, sorgho & manioc',
-        loc: 'Zone Industrielle Koumassi (12 km)',
+        badge: 'Transformation Manioc & Garri',
+        name: 'SOCATRA (Usine Manioc & Garri)',
+        sub: 'Achat de Manioc brut (10-50 Tonnes/mois)',
+        loc: 'Zone Magzi Nsam (7 km)',
         rating: '4.9',
-        lat: 3.8520,
+        lat: 3.8310,
         lng: 11.5050,
         color: '#9333ea',
         img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=120'
@@ -360,42 +370,44 @@
       {
         id: 15,
         cat: 'usine',
-        badge: 'Huilerie & Raffinerie',
-        name: 'Complexe Oléagineux SCR MAYA',
-        sub: 'Transformation huile de palme & soja',
-        loc: 'Zone Industrielle Bassa (14 km)',
-        rating: '4.8',
-        lat: 3.8400,
-        lng: 11.5150,
+        badge: 'Jus & Conserves',
+        name: 'Agro-Industrie du Cameroun (Jus Minka)',
+        sub: 'Transformation Ananas, Mangues & Papayes',
+        loc: 'Minka (10 km)',
+        rating: '5.0',
+        lat: 3.8550,
+        lng: 11.5450,
         color: '#9333ea',
-        img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=120'
+        img: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=120'
       },
       {
         id: 16,
         cat: 'usine',
-        badge: 'Minoterie Industrielle',
-        name: 'Grandes Minoteries du Cameroun',
-        sub: 'Production farine de blé & semoule de maïs',
-        loc: 'Port Autonome (16 km)',
-        rating: '4.7',
-        lat: 3.8300,
-        lng: 11.5300,
+        badge: 'Séchage & Conditionnement',
+        name: 'CAMAGRI Cacao & Café Export',
+        sub: 'Achat Cacao brut & Séchage industriel',
+        loc: 'Emana (8 km)',
+        rating: '4.8',
+        lat: 3.9050,
+        lng: 11.5220,
         color: '#9333ea',
-        img: 'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=120'
+        img: 'https://images.unsplash.com/photo-1527661591475-527312dd65f5?w=120'
       },
       {
         id: 17,
         cat: 'usine',
-        badge: 'Chocolaterie & Cacao',
-        name: 'Chococam Tiger Brands',
-        sub: 'Transformation fèves de cacao & confiserie',
-        loc: 'Zone Industrielle Ouest (11 km)',
-        rating: '4.9',
-        lat: 3.8600,
-        lng: 11.4900,
+        badge: 'Laiterie Industrielle',
+        name: 'LaitCAM (Transformation Laitière)',
+        sub: 'Collecte Lait frais & Yaourts artisanaux',
+        loc: 'Nkolbisson (9 km)',
+        rating: '4.7',
+        lat: 3.8710,
+        lng: 11.4680,
         color: '#9333ea',
-        img: 'https://images.unsplash.com/photo-1548848221-0c2e497ed557?w=120'
+        img: 'https://images.unsplash.com/photo-1527153857715-3908f2bae5e8?w=120'
       },
+
+      // 5. LOGISTIQUE & ENTREPÔTS
       {
         id: 18,
         cat: 'logistique',
@@ -411,28 +423,8 @@
       }
     ];
 
-    function loadUserProductsIntoMap() {
-      const userProds = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
-      if (userProds.length === 0) return;
-      userProds.forEach((p, idx) => {
-        locationsData.unshift({
-          id: p.id || ('user_prod_' + idx),
-          cat: 'producteur',
-          badge: 'Producteur Certifié',
-          name: p.name,
-          sub: `${p.quantity || 100} kg dispo • ${p.price} FCFA`,
-          loc: p.location || 'Ferme locale',
-          rating: '4.9',
-          lat: 3.8680 + (idx * 0.006),
-          lng: 11.5130 + (idx * 0.005),
-          color: '#16a34a',
-          img: p.image || 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=120'
-        });
-      });
-    }
-
     function getDistanceKm(lat1, lon1, lat2, lon2) {
-      const R = 6371; 
+      const R = 6371; // Earth's radius in km
       const dLat = (lat2 - lat1) * Math.PI / 180;
       const dLon = (lon2 - lon1) * Math.PI / 180;
       const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
@@ -442,12 +434,13 @@
       return Math.round(R * c * 10) / 10;
     }
 
+    let userLocationMarker = null;
+
     document.addEventListener('DOMContentLoaded', () => {
       const mapContainer = document.getElementById('leafletMapContainer');
       if (!mapContainer) return;
 
-      loadUserProductsIntoMap();
-
+      // Initialize Leaflet Map centered on Yaoundé (Cameroon)
       mapInstance = L.map('leafletMapContainer', {
         zoomControl: true,
         scrollWheelZoom: true
@@ -455,9 +448,10 @@
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        attribution: '&copy; OpenStreetMap contributors'
+        attribution: '&copy; OpenStreetMap contributors | AgroElevage Link'
       }).addTo(mapInstance);
 
+      // Invalidate map size to prevent gray tiles on deploy / mobile
       setTimeout(() => {
         if (mapInstance) mapInstance.invalidateSize();
       }, 300);
@@ -465,10 +459,111 @@
         if (mapInstance) mapInstance.invalidateSize();
       });
 
+      renderMapElements('all');
+
+      // GPS Geolocation Handler
+      const btnGPS = document.getElementById('btnLocateUserGPS');
+      function triggerGeolocation(showNotification = true) {
+        if (!navigator.geolocation) {
+          if (typeof showToast === 'function') showToast('La géolocalisation n\'est pas supportée par votre navigateur.');
+          return;
+        }
+
+        if (btnGPS) {
+          btnGPS.innerHTML = '<span>⏳</span> <span>Recherche GPS...</span>';
+          btnGPS.style.opacity = '0.8';
+        }
+
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const userLat = pos.coords.latitude;
+            const userLng = pos.coords.longitude;
+
+            if (userLocationMarker) {
+              mapInstance.removeLayer(userLocationMarker);
+            }
+
+            // Custom pulsating blue GPS marker
+            const userIcon = L.divIcon({
+              className: 'gps-user-pulse',
+              html: `
+                <div style="position: relative; width: 24px; height: 24px;">
+                  <div style="position: absolute; inset: -4px; border-radius: 50%; background: #3b82f6; opacity: 0.4; animation: pulse 1.5s infinite;"></div>
+                  <div style="position: absolute; inset: 2px; border-radius: 50%; background: #2563eb; border: 3px solid #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.35);"></div>
+                </div>
+              `,
+              iconSize: [24, 24],
+              iconAnchor: [12, 12]
+            });
+
+            userLocationMarker = L.marker([userLat, userLng], { icon: userIcon }).addTo(mapInstance);
+            userLocationMarker.bindPopup(`
+              <div style="font-family: var(--font-body); padding: 4px; min-width: 160px;">
+                <strong style="color: #2563eb; font-size: 13px; display: block; margin-bottom: 2px;"> Votre Position GPS</strong>
+                <span style="font-size: 11px; color: #15803d; font-weight: 700;">Précision : ±${Math.round(pos.coords.accuracy)} m</span>
+              </div>
+            `).openPopup();
+
+            // Center on user position
+            mapInstance.flyTo([userLat, userLng], 14, { duration: 1.2 });
+
+            // Calculate distance to each location
+            locationsData.forEach(loc => {
+              loc.distanceKm = getDistanceKm(userLat, userLng, loc.lat, loc.lng);
+            });
+
+            // Re-sort locations by proximity
+            locationsData.sort((a, b) => (a.distanceKm || 999) - (b.distanceKm || 999));
+
+            // Re-render sidebar and map markers
+            const currentSearch = (document.getElementById('inputSearchEnterprise')?.value || '').toLowerCase().trim();
+            renderMapElements(currentFilter, currentSearch);
+
+            if (btnGPS) {
+              btnGPS.innerHTML = '<span></span> <span>Position GPS Active</span>';
+              btnGPS.style.background = '#dcfce7';
+              btnGPS.style.color = '#15803d';
+              btnGPS.style.borderColor = '#86efac';
+              btnGPS.style.opacity = '1';
+            }
+
+            if (showNotification && typeof showToast === 'function') {
+              showToast(`Position GPS détectée ! Producteurs triés par proximité.`);
+            }
+          },
+          (err) => {
+            console.warn('Erreur GPS :', err.message);
+            if (btnGPS) {
+              btnGPS.innerHTML = '<span></span> <span>Me géolocaliser (GPS)</span>';
+              btnGPS.style.opacity = '1';
+            }
+            if (typeof showToast === 'function') {
+              showToast('Signal GPS inaccessible ou refusé. Affichage centré sur Yaoundé.');
+            }
+          },
+          { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+        );
+      }
+
+      if (btnGPS) {
+        btnGPS.addEventListener('click', () => triggerGeolocation(true));
+      }
+
+      // Category filter buttons
       document.querySelectorAll('.map-filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           document.querySelectorAll('.map-filter-btn').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
+          const cat = btn.getAttribute('data-cat');
+          currentFilter = cat;
+          const searchVal = (document.getElementById('inputSearchEnterprise')?.value || '').toLowerCase().trim();
+          renderMapElements(cat, searchVal);
+        });
+      });
+
+      // Dedicated Enterprise Search Input logic with Autocomplete
+      const inputSearch = document.getElementById('inputSearchEnterprise');
+      const suggestionsBox = document.getElementById('searchSuggestionsBox');
       const btnClear = document.getElementById('btnClearMapSearch');
       const globalTopbarSearch = document.getElementById('searchMapInput');
 
