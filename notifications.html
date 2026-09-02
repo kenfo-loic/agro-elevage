@@ -125,9 +125,38 @@
         info: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>`
       };
 
+      function getCurrentLoggedUser() {
+        if (typeof window.getAgroCurrentUser === 'function') {
+          return window.getAgroCurrentUser();
+        }
+        let u = null;
+        try { u = JSON.parse(localStorage.getItem('agroelevage_user') || 'null'); } catch(e){}
+        return {
+          phone: (localStorage.getItem('ago_user_phone') || u?.phone || '+237 693 412 317').trim().replace(/[\s+]/g, ''),
+          email: (localStorage.getItem('ago_user_email') || u?.email || 'kenfoloic3@gmail.com').trim().toLowerCase(),
+          name: (localStorage.getItem('ago_user_fullname') || u?.name || 'Kenfo Loic').trim()
+        };
+      }
+
+      function isUserNotif(n, user) {
+        if (!n.recipientPhone && !n.recipientEmail && !n.recipientName) {
+          return (user.name && user.name.toLowerCase().includes('kenfo')) || (user.phone && user.phone.includes('693412317'));
+        }
+        const nPhone = (n.recipientPhone || '').trim().replace(/[\s+]/g, '');
+        const nEmail = (n.recipientEmail || '').trim().toLowerCase();
+        const nName = (n.recipientName || '').trim().toLowerCase();
+
+        if (user.phone && nPhone && (user.phone === nPhone || nPhone.includes(user.phone) || user.phone.includes(nPhone))) return true;
+        if (user.email && nEmail && user.email === nEmail) return true;
+        if (user.name && nName && user.name.toLowerCase() === nName) return true;
+        return false;
+      }
+
       function renderNotifications() {
         const notifs = JSON.parse(localStorage.getItem('ago_notifications') || '[]');
-        const unreadCount = notifs.filter(n => !n.isRead).length;
+        const user = getCurrentLoggedUser();
+        const userNotifs = notifs.filter(n => isUserNotif(n, user));
+        const unreadCount = userNotifs.filter(n => !n.isRead).length;
 
         if (badgeCount) {
           badgeCount.textContent = unreadCount > 0 ? `${unreadCount} Non lue${unreadCount > 1 ? 's' : ''}` : 'Toutes lues';
@@ -137,12 +166,12 @@
 
         if (!listContainer) return;
 
-        if (notifs.length === 0) {
-          listContainer.innerHTML = '<div style="text-align: center; padding: 40px; color: var(--text-muted); font-size: 13px;">Aucune notification pour le moment. Vos activités (ajouts, modifications, suppressions) s\'afficheront ici.</div>';
+        if (userNotifs.length === 0) {
+          listContainer.innerHTML = '<div style="text-align: center; padding: 40px; color: var(--text-muted); font-size: 13px;">Vous n\'avez aucune notification pour le moment. Vos activités personnelles (ajouts, modifications de produits, commandes) s\'afficheront ici.</div>';
           return;
         }
 
-        listContainer.innerHTML = notifs.map(n => {
+        listContainer.innerHTML = userNotifs.map(n => {
           let borderClr = 'var(--primary)';
           let bgClr = '#ffffff';
 
@@ -252,7 +281,12 @@
       if (btnMarkRead) {
         btnMarkRead.addEventListener('click', () => {
           let notifs = JSON.parse(localStorage.getItem('ago_notifications') || '[]');
-          notifs.forEach(n => n.isRead = true);
+          const user = getCurrentLoggedUser();
+          notifs.forEach(n => {
+            if (isUserNotif(n, user)) {
+              n.isRead = true;
+            }
+          });
           localStorage.setItem('ago_notifications', JSON.stringify(notifs));
           if (typeof window.updateNotificationBadges === 'function') {
             window.updateNotificationBadges();
@@ -260,7 +294,7 @@
           renderNotifications();
           const toast = document.getElementById('appToast');
           if (toast) {
-            toast.textContent = 'Toutes les notifications ont été marquées comme lues.';
+            toast.textContent = 'Vos notifications ont été marquées comme lues.';
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 2500);
           }

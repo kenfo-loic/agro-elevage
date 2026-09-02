@@ -506,13 +506,35 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// --- CENTRALIZED CURRENT USER HELPER ---
+window.getAgroCurrentUser = function() {
+  let user = null;
+  try {
+    user = JSON.parse(localStorage.getItem('agroelevage_user') || 'null');
+  } catch (e) {}
+  const phone = (localStorage.getItem('ago_user_phone') || user?.phone || '+237 693 412 317').trim().replace(/[\s+]/g, '');
+  const email = (localStorage.getItem('ago_user_email') || user?.email || 'kenfoloic3@gmail.com').trim().toLowerCase();
+  const name = (localStorage.getItem('ago_user_fullname') || user?.name || 'Kenfo Loic').trim();
+  const rawPhone = localStorage.getItem('ago_user_phone') || user?.phone || '+237 693 412 317';
+  return { phone, email, name, rawPhone };
+};
+
 // --- CENTRALIZED USER NOTIFICATIONS SYSTEM ---
-window.addUserNotification = function(title, message, type = 'info', link = null) {
+window.addUserNotification = function(title, message, type = 'info', link = null, recipient = null) {
   let notifs = JSON.parse(localStorage.getItem('ago_notifications') || '[]');
+  const currentUser = window.getAgroCurrentUser();
+  const targetUser = recipient || currentUser;
+
+  const cleanTitle = (title || '').replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '').trim();
+  const cleanMessage = (message || '').replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '').trim();
+
   const newNotif = {
-    id: 'notif_' + Date.now(),
-    title: title,
-    message: message,
+    id: 'notif_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+    recipientPhone: targetUser.phone || currentUser.phone || '',
+    recipientEmail: targetUser.email || currentUser.email || '',
+    recipientName: targetUser.name || currentUser.name || '',
+    title: cleanTitle,
+    message: cleanMessage,
     time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
     date: 'Aujourd\'hui',
     type: type,
@@ -523,17 +545,12 @@ window.addUserNotification = function(title, message, type = 'info', link = null
   notifs.unshift(newNotif);
   localStorage.setItem('ago_notifications', JSON.stringify(notifs));
 
-  // Update UI Badges
+  // Update UI Badges for active user
   if (typeof updateNotificationBadges === 'function') {
     updateNotificationBadges();
   }
 
   // Display Toast Notification
-  const cleanTitle = (title || '').replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '').trim();
-  const cleanMessage = (message || '').replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '').trim();
-  newNotif.title = cleanTitle;
-  newNotif.message = cleanMessage;
-
   if (typeof showToast === 'function') {
     showToast(`${cleanTitle} : ${cleanMessage}`);
   } else {
@@ -552,7 +569,24 @@ window.addUserNotification = function(title, message, type = 'info', link = null
 
 window.updateNotificationBadges = function() {
   const notifs = JSON.parse(localStorage.getItem('ago_notifications') || '[]');
-  const unreadCount = notifs.filter(n => !n.isRead).length;
+  const user = window.getAgroCurrentUser();
+
+  // Filter ONLY notifications belonging to the logged-in user
+  const userNotifs = notifs.filter(n => {
+    if (!n.recipientPhone && !n.recipientEmail && !n.recipientName) {
+      return (user.name && user.name.toLowerCase().includes('kenfo')) || (user.phone && user.phone.includes('693412317'));
+    }
+    const nPhone = (n.recipientPhone || '').trim().replace(/[\s+]/g, '');
+    const nEmail = (n.recipientEmail || '').trim().toLowerCase();
+    const nName = (n.recipientName || '').trim().toLowerCase();
+
+    if (user.phone && nPhone && (user.phone === nPhone || nPhone.includes(user.phone) || user.phone.includes(nPhone))) return true;
+    if (user.email && nEmail && user.email === nEmail) return true;
+    if (user.name && nName && user.name.toLowerCase() === nName) return true;
+    return false;
+  });
+
+  const unreadCount = userNotifs.filter(n => !n.isRead).length;
 
   document.querySelectorAll('.web-nav-notif-badge, .web-notif-dot').forEach(el => {
     if (el.classList.contains('web-notif-dot')) {

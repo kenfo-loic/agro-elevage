@@ -550,6 +550,16 @@
             prod.price = newPrice;
             if (newStock > prod.maxStock) prod.maxStock = newStock;
 
+            // Sync to agroelevage_products in localStorage
+            let allStored = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
+            const idx = allStored.findIndex(p => String(p.id) === String(prod.id));
+            if (idx !== -1) {
+              allStored[idx].quantity = newStock;
+              allStored[idx].stock = newStock;
+              allStored[idx].price = newPrice;
+              localStorage.setItem('agroelevage_products', JSON.stringify(allStored));
+            }
+
             if (typeof window.addUserNotification === 'function') {
               if (newStock > oldStock) {
                 window.addUserNotification('Stock augmenté', `Vous avez augmenté le stock de "${prod.name}" de ${oldStock} à ${newStock} ${prod.unit}.`, 'stock', 'mes_produits.html');

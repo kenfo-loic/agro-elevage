@@ -223,9 +223,26 @@
       function renderRecentProducts() {
         const container = document.getElementById('recentAddedProductsContainer');
         if (!container) return;
-        const products = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
+        const allProducts = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
+        const user = typeof window.getAgroCurrentUser === 'function' ? window.getAgroCurrentUser() : {
+          phone: (localStorage.getItem('ago_user_phone') || '+237 693 412 317').replace(/[\s+]/g, ''),
+          email: (localStorage.getItem('ago_user_email') || 'kenfoloic3@gmail.com').toLowerCase(),
+          name: (localStorage.getItem('ago_user_fullname') || 'Kenfo Loic').toLowerCase()
+        };
+
+        const products = allProducts.filter(p => {
+          const pPhone = (p.ownerPhone || p.whatsapp || '').trim().replace(/[\s+]/g, '');
+          const pEmail = (p.ownerEmail || '').trim().toLowerCase();
+          const pName = (p.ownerName || '').trim().toLowerCase();
+          if (user.phone && pPhone && (user.phone === pPhone || pPhone.includes(user.phone) || user.phone.includes(pPhone))) return true;
+          if (user.email && pEmail && user.email === pEmail) return true;
+          if (user.name && pName && user.name === pName) return true;
+          if (!p.ownerPhone && !p.ownerEmail && (user.name.includes('kenfo') || user.phone.includes('693412317'))) return true;
+          return false;
+        });
+
         if (products.length === 0) {
-          container.innerHTML = '<p style="font-size: 13px; color: var(--text-muted); grid-column: 1/-1;">Aucun produit personnalisé publié pour l\'instant. Vos nouveaux produits s\'afficheront ici et directement sur la Marketplace.</p>';
+          container.innerHTML = '<p style="font-size: 13px; color: var(--text-muted); grid-column: 1/-1;">Vous n\'avez pas encore de produit publié. Remplissez le formulaire ci-dessus pour ajouter votre premier produit.</p>';
           return;
         }
         container.innerHTML = products.map(p => {
