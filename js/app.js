@@ -501,14 +501,14 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('actSellerAddProd')?.addEventListener('click', () => showView('view-add-product'));
   document.getElementById('actSellerMyProds')?.addEventListener('click', () => showView('view-my-products'));
   document.getElementById('actSellerOrders')?.addEventListener('click', () => showView('view-order-tracking'));
-  document.getElementById('actSellerNaturIA')?.addEventListener('click', () => showView('view-ai-diag'));
+  document.getElementById('actSellerMap')?.addEventListener('click', () => showView('view-map'));
   document.getElementById('btnSellerNotif')?.addEventListener('click', () => showView('view-notifications'));
 
   // Quick Actions Acheteur
   document.getElementById('actBuyerSearch')?.addEventListener('click', () => showView('view-marketplace'));
   document.getElementById('actBuyerOrders')?.addEventListener('click', () => showView('view-order-tracking'));
   document.getElementById('actBuyerFavorites')?.addEventListener('click', () => showView('view-marketplace'));
-  document.getElementById('actBuyerNaturIA')?.addEventListener('click', () => showView('view-ai-diag'));
+  document.getElementById('actBuyerMap')?.addEventListener('click', () => showView('view-map'));
   document.getElementById('btnBuyerNotif')?.addEventListener('click', () => showView('view-notifications'));
   document.getElementById('cardBuyerRecentOrder')?.addEventListener('click', () => showView('view-order-tracking'));
 
