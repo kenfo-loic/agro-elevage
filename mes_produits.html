@@ -54,45 +54,9 @@
               <button class="nav-back-btn" onclick="window.location.href='marketplace.html'" title="Retour au marché">←</button>
               <div style="text-align: center;">
                 <h2>Mes produits</h2>
-                <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;" id="txtTotalProductsCount">Catalogue en ligne</span>
               </div>
               <button class="header-right-action" onclick="window.location.href='ajouter_produit.html'" title="Ajouter un nouveau produit"></button>
             </header>
-
-            <!-- 1. Inventory KPI Metrics Grid -->
-            <div class="inventory-kpi-grid">
-              <div class="kpi-stat-card">
-                <div class="kpi-icon-bubble kpi-bubble-green"></div>
-                <div class="kpi-info-col">
-                  <span class="kpi-value-num" id="kpiTotal">6</span>
-                  <span class="kpi-title-lbl">Total Produits</span>
-                </div>
-              </div>
-
-              <div class="kpi-stat-card">
-                <div class="kpi-icon-bubble kpi-bubble-blue"></div>
-                <div class="kpi-info-col">
-                  <span class="kpi-value-num" id="kpiActive">5</span>
-                  <span class="kpi-title-lbl">En Vente</span>
-                </div>
-              </div>
-
-              <div class="kpi-stat-card">
-                <div class="kpi-icon-bubble kpi-bubble-amber"></div>
-                <div class="kpi-info-col">
-                  <span class="kpi-value-num" id="kpiLowStock">1</span>
-                  <span class="kpi-title-lbl">Stock Faible</span>
-                </div>
-              </div>
-
-              <div class="kpi-stat-card">
-                <div class="kpi-icon-bubble kpi-bubble-purple"></div>
-                <div class="kpi-info-col">
-                  <span class="kpi-value-num" id="kpiValuation">3.8M F</span>
-                  <span class="kpi-title-lbl">Valeur Stock</span>
-                </div>
-              </div>
-            </div>
 
             <!-- 2. Search Bar -->
             <div class="product-search-bar">
@@ -188,99 +152,8 @@
   <!-- Page 12 Logic Script -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // --- Sample Real Product Data (Matches Backend Seeding) ---
-      let productsList = [
-        {
-          id: 1,
-          name: "Tomates Fraîches de Foumbot (Cagette)",
-          category: "maraichage",
-          categoryLabel: "Maraîchage",
-          price: 12500,
-          unit: "cagette 25kg",
-          stock: 120,
-          maxStock: 150,
-          minOrder: 2,
-          location: "Foumbot, Ouest",
-          isOrganic: true,
-          isAvailable: true,
-          imageUrl: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=200"
-        },
-        {
-          id: 2,
-          name: "Banane Plantain Gros Michel (Régime)",
-          category: "tubercules",
-          categoryLabel: "Tubercules",
-          price: 4500,
-          unit: "régime",
-          stock: 85,
-          maxStock: 100,
-          minOrder: 5,
-          location: "Njombé, Moungo",
-          isOrganic: true,
-          isAvailable: true,
-          imageUrl: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=200"
-        },
-        {
-          id: 3,
-          name: "Poulets Fermiers de Chair (2.2kg+)",
-          category: "elevage",
-          categoryLabel: "Élevage",
-          price: 3800,
-          unit: "tête",
-          stock: 250,
-          maxStock: 300,
-          minOrder: 10,
-          location: "Bafoussam, Ouest",
-          isOrganic: false,
-          isAvailable: true,
-          imageUrl: "https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=200"
-        },
-        {
-          id: 4,
-          name: "Sac de Maïs Jaune Séché 50kg",
-          category: "cereales",
-          categoryLabel: "Céréales",
-          price: 17000,
-          unit: "sac 50kg",
-          stock: 300,
-          maxStock: 400,
-          minOrder: 10,
-          location: "Garoua, Nord",
-          isOrganic: false,
-          isAvailable: true,
-          imageUrl: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=200"
-        },
-        {
-          id: 5,
-          name: "Piment Rouge Extra Fort de Penja",
-          category: "maraichage",
-          categoryLabel: "Maraîchage",
-          price: 1500,
-          unit: "kg",
-          stock: 8,
-          maxStock: 80,
-          minOrder: 2,
-          location: "Penja, Littoral",
-          isOrganic: true,
-          isAvailable: true,
-          imageUrl: "https://images.unsplash.com/photo-1588252303782-cb80119abd6d?w=200"
-        },
-        {
-          id: 6,
-          name: "Plateau de 30 Œufs Frais (Calibre L)",
-          category: "elevage",
-          categoryLabel: "Élevage",
-          price: 2200,
-          unit: "plateau (30)",
-          stock: 0,
-          maxStock: 200,
-          minOrder: 5,
-          location: "Bafoussam, Ouest",
-          isOrganic: false,
-          isAvailable: false,
-          imageUrl: "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=200"
-        }
-      ];
+      // Products list owned by the current logged-in user
+      let productsList = [];
 
       // State Filters
       let currentStatusFilter = 'all'; // 'all' | 'active' | 'paused' | 'low'
@@ -295,13 +168,6 @@
       const btnClearSearch = document.getElementById('btnClearSearch');
       const toast = document.getElementById('appToast');
       const statusTime = document.getElementById('statusTime');
-
-      // KPIs
-      const kpiTotal = document.getElementById('kpiTotal');
-      const kpiActive = document.getElementById('kpiActive');
-      const kpiLowStock = document.getElementById('kpiLowStock');
-      const kpiValuation = document.getElementById('kpiValuation');
-      const txtTotalCount = document.getElementById('txtTotalProductsCount');
 
       // Tabs counts
       const countTabAll = document.getElementById('countTabAll');
@@ -339,27 +205,53 @@
         setTimeout(() => toast.classList.remove('show'), 2600);
       }
 
+      function getCurrentUser() {
+        let user = null;
+        try {
+          user = JSON.parse(localStorage.getItem('agroelevage_user') || 'null');
+        } catch (e) {}
+        const phone = (localStorage.getItem('ago_user_phone') || user?.phone || '').trim().replace(/[\s+]/g, '');
+        const email = (localStorage.getItem('ago_user_email') || user?.email || '').trim().toLowerCase();
+        const name = (localStorage.getItem('ago_user_fullname') || user?.name || '').trim().toLowerCase();
+        return { phone, email, name, rawPhone: localStorage.getItem('ago_user_phone') || user?.phone || '' };
+      }
+
       function loadLocalUserProducts() {
-        const userProducts = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
-        if (userProducts.length === 0) return;
-        const converted = userProducts.map(p => ({
+        const user = getCurrentUser();
+        const allStored = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
+        
+        // Filter: ONLY products that belong to the current user
+        const userProducts = allStored.filter(p => {
+          const pPhone = (p.ownerPhone || p.whatsapp || '').trim().replace(/[\s+]/g, '');
+          const pEmail = (p.ownerEmail || '').trim().toLowerCase();
+          const pName = (p.ownerName || '').trim().toLowerCase();
+
+          if (user.phone && pPhone && (user.phone === pPhone || pPhone.includes(user.phone) || user.phone.includes(pPhone))) return true;
+          if (user.email && pEmail && user.email === pEmail) return true;
+          if (user.name && pName && user.name === pName) return true;
+
+          // If product has no owner saved and user is Kenfo Loic (initial default account)
+          if (!p.ownerPhone && !p.ownerEmail && (user.name.includes('kenfo') || user.phone.includes('693412317'))) return true;
+
+          return false;
+        });
+
+        productsList = userProducts.map(p => ({
           id: p.id,
           name: p.name,
           category: p.category || 'maraichage',
           categoryLabel: p.categoryLabel || 'Maraîchage',
-          categoryIcon: '',
           price: p.price,
-          unit: 'kg',
-          stock: p.quantity,
-          maxStock: Math.max(p.quantity * 1.5, 100),
-          minOrder: 1,
+          unit: p.unit || 'kg',
+          stock: p.quantity !== undefined ? p.quantity : (p.stock !== undefined ? p.stock : 0),
+          maxStock: Math.max((p.quantity || p.stock || 100) * 1.5, 100),
+          minOrder: p.minOrder || 1,
           location: p.location || 'Yaoundé',
-          isOrganic: true,
-          isAvailable: true,
-          whatsapp: p.whatsapp || '+237 690 12 34 56',
-          imageUrl: p.image || 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=200'
+          isOrganic: p.isOrganic !== undefined ? p.isOrganic : true,
+          isAvailable: p.isAvailable !== undefined ? p.isAvailable : true,
+          whatsapp: p.whatsapp || p.ownerPhone || '+237 693 412 317',
+          imageUrl: p.image || p.imageUrl || 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=200'
         }));
-        productsList = [...converted, ...productsList];
       }
 
       // Try fetching real products from backend if token present
@@ -449,7 +341,31 @@
 
         if (filtered.length === 0) {
           container.innerHTML = '';
-          if (emptyState) emptyState.style.display = 'block';
+          if (emptyState) {
+            emptyState.style.display = 'block';
+            if (productsList.length === 0) {
+              emptyState.innerHTML = `
+                <div style="width: 68px; height: 68px; border-radius: 50%; background: #f0fdf4; color: #15803d; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; border: 1.5px solid #bbf7d0;">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+                </div>
+                <h3 class="empty-state-title" style="font-family: var(--font-heading); font-size: 19px; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">Vous n'avez aucun produit</h3>
+                <p class="empty-state-desc" style="font-size: 13.5px; color: var(--text-muted); max-width: 320px; margin: 0 auto 20px;">Vous n'avez pas encore publié de produit dans votre catalogue.</p>
+                <a href="ajouter_produit.html" class="btn-primary-action" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; padding: 0 24px; height: 44px; font-size: 14.5px; font-weight: 700; text-decoration: none; border-radius: 9999px; margin: 0 auto;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+                  <span>Ajouter un produit</span>
+                </a>
+              `;
+            } else {
+              emptyState.innerHTML = `
+                <div class="empty-state-icon"></div>
+                <h3 class="empty-state-title">Aucun produit trouvé</h3>
+                <p class="empty-state-desc">Aucun article ne correspond à votre recherche ou filtre actuel.</p>
+                <button class="btn-primary-action" onclick="resetAllFilters()" style="width: auto; padding: 0 20px; height: 38px; font-size: 13px; margin: 0 auto;">
+                  Réinitialiser les filtres
+                </button>
+              `;
+            }
+          }
           return;
         }
 
@@ -514,7 +430,7 @@
                 </div>
 
                 <div class="btn-group-actions">
-                  <a href="https://wa.me/${(p.whatsapp || '+237690123456').replace(/[^\d+]/g, '')}?text=${encodeURIComponent('Bonjour, je vous contacte au sujet de votre produit ' + p.name + ' sur AgroElevage Link.')}" target="_blank" class="btn-action-tool" style="background: #25d366; color: #fff; border: none; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 0 10px; font-weight: 700;" title="Ouvrir WhatsApp">
+                  <a href="https://wa.me/${(p.whatsapp || '+237693412317').replace(/[^\d+]/g, '')}?text=${encodeURIComponent('Bonjour, je vous contacte au sujet de votre produit ' + p.name + ' sur AgroElevage Link.')}" target="_blank" class="btn-action-tool" style="background: #25d366; color: #fff; border: none; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 0 10px; font-weight: 700;" title="Ouvrir WhatsApp">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     WhatsApp
                   </a>

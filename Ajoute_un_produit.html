@@ -159,16 +159,6 @@
 
           </div>
 
-          <!-- Recently Added Products List -->
-          <div class="web-card" style="grid-column: 1 / -1; margin-top: 10px;">
-            <h3 style="font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: var(--text-main); margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
-              <span></span> Vos Produits Publiés sur AgroElevage Link
-            </h3>
-            <div id="recentAddedProductsContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px;">
-              <!-- Dynamic products inserted via JS -->
-            </div>
-          </div>
-
         </div>
 
       </main>
@@ -313,13 +303,19 @@
               };
               localStorage.setItem('agroelevage_products', JSON.stringify(list));
 
-              if (toast) {
+              if (typeof window.addUserNotification === 'function') {
+                window.addUserNotification('Produit modifié', 'Vous avez enregistré les modifications du produit "' + list[idx].name + '".', 'product', 'mes_produits.html');
+              } else if (toast) {
                 toast.textContent = 'Produit "' + list[idx].name + '" mis à jour sur toutes les pages !';
                 toast.classList.add('show');
               }
             }
           } else {
-            // Add New Product
+            // Add New Product with Creator/Owner Identity
+            const currentUserPhone = localStorage.getItem('ago_user_phone') || '+237 693 412 317';
+            const currentUserName = localStorage.getItem('ago_user_fullname') || 'Kenfo Loic';
+            const currentUserEmail = localStorage.getItem('ago_user_email') || 'kenfoloic3@gmail.com';
+
             const newProduct = {
               id: 'prod_' + Date.now(),
               name: nameInput ? nameInput.value : 'Nom du produit',
@@ -328,25 +324,28 @@
               price: parseFloat(priceInput ? priceInput.value : 0) || 0,
               quantity: parseFloat(qtyInput ? qtyInput.value : 0) || 0,
               location: locInput ? locInput.value : 'Lieu de récolte',
-              whatsapp: (whatsappInput ? whatsappInput.value : '+237 690 12 34 56').trim(),
-              image: uploadedImageBase64,
+              whatsapp: (whatsappInput ? whatsappInput.value : currentUserPhone).trim(),
+              image: uploadedImageBase64 || 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400',
+              ownerPhone: currentUserPhone,
+              ownerEmail: currentUserEmail,
+              ownerName: currentUserName,
               date: new Date().toLocaleDateString('fr-FR')
             };
 
             list.unshift(newProduct);
             localStorage.setItem('agroelevage_products', JSON.stringify(list));
 
-            if (toast) {
-              toast.textContent = 'Produit "' + newProduct.name + '" publié avec succès sur toutes les pages !';
+            if (typeof window.addUserNotification === 'function') {
+              window.addUserNotification('Produit ajouté', 'Vous avez publié le nouveau produit "' + newProduct.name + '" (' + newProduct.quantity + ' kg à ' + newProduct.price + ' FCFA).', 'product', 'mes_produits.html');
+            } else if (toast) {
+              toast.textContent = 'Produit "' + newProduct.name + '" publié avec succès !';
               toast.classList.add('show');
             }
           }
 
-          renderRecentProducts();
-
           setTimeout(() => {
             window.location.href = 'mes_produits.html';
-          }, 1200);
+          }, 600);
         });
       }
     });

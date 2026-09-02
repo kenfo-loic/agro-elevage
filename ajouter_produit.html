@@ -311,7 +311,11 @@
               }
             }
           } else {
-            // Add New Product
+            // Add New Product with Creator/Owner Identity
+            const currentUserPhone = localStorage.getItem('ago_user_phone') || '+237 693 412 317';
+            const currentUserName = localStorage.getItem('ago_user_fullname') || 'Kenfo Loic';
+            const currentUserEmail = localStorage.getItem('ago_user_email') || 'kenfoloic3@gmail.com';
+
             const newProduct = {
               id: 'prod_' + Date.now(),
               name: nameInput ? nameInput.value : 'Nom du produit',
@@ -320,8 +324,11 @@
               price: parseFloat(priceInput ? priceInput.value : 0) || 0,
               quantity: parseFloat(qtyInput ? qtyInput.value : 0) || 0,
               location: locInput ? locInput.value : 'Lieu de récolte',
-              whatsapp: (whatsappInput ? whatsappInput.value : '+237 690 12 34 56').trim(),
-              image: uploadedImageBase64,
+              whatsapp: (whatsappInput ? whatsappInput.value : currentUserPhone).trim(),
+              image: uploadedImageBase64 || 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400',
+              ownerPhone: currentUserPhone,
+              ownerEmail: currentUserEmail,
+              ownerName: currentUserName,
               date: new Date().toLocaleDateString('fr-FR')
             };
 
@@ -337,8 +344,8 @@
           }
 
           setTimeout(() => {
-            window.location.href = 'marketplace.html';
-          }, 800);
+            window.location.href = 'mes_produits.html';
+          }, 600);
         });
       }
     });
