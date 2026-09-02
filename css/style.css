@@ -1168,23 +1168,28 @@ html, body {
    ========================================================================== */
 .welcome-screen {
   position: absolute;
-  top: 68px;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 10;
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  padding: 56px 20px 24px 20px;
+  padding: 24px 20px calc(80px + env(safe-area-inset-bottom, 16px)) 20px;
   background-image: url('../assets/images/welcome-bg.png'), url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=800');
   background-size: cover;
   background-position: center bottom;
   background-repeat: no-repeat;
   color: #fff;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
 }
 
 .device-container.mode-fullscreen .welcome-screen {
   max-width: 100%;
-  padding-top: 70px;
+  padding-top: 40px;
 }
 
 .welcome-overlay {
@@ -1347,6 +1352,49 @@ html, body {
 .btn-welcome-secondary:hover {
   background: #f8fafc;
   transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .welcome-screen {
+    top: 0;
+    padding: 24px 16px calc(80px + env(safe-area-inset-bottom, 16px)) 16px;
+    height: 100%;
+    min-height: 100dvh;
+  }
+  .welcome-header {
+    padding-top: 14px;
+  }
+  .logo-badge-container {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 8px;
+  }
+  .welcome-app-title {
+    font-size: 22px;
+    margin-bottom: 2px;
+  }
+  .welcome-subtitle {
+    font-size: 11.5px;
+  }
+  .welcome-body {
+    margin-top: auto;
+    margin-bottom: 14px;
+  }
+  .welcome-description {
+    font-size: 13.5px;
+    max-width: 320px;
+    line-height: 1.35;
+  }
+  .welcome-actions {
+    margin-top: auto;
+    gap: 10px;
+    padding-bottom: 8px;
+  }
+  .btn-welcome-primary,
+  .btn-welcome-secondary {
+    height: 46px;
+    font-size: 15px;
+  }
 }
 
 /* --- Common Top Header Navigation Bar --- */
