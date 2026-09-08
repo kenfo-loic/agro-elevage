@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Espace Administrateur — AgroElevage Link</title>
+  <meta name="description" content="Panneau d'administration global : gestion des utilisateurs, modération des produits et contrôle de la base de données." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css?v=3" />
+  <style>
+    .admin-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fca5a5;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    .admin-stat-card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 16px 20px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .admin-stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .admin-table th {
+      background: var(--bg-subtle);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 700;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .admin-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-subtle);
+      vertical-align: middle;
+    }
+    .admin-table tr:hover td {
+      background: #f8fafc;
+    }
+    .btn-admin-danger {
+      background: #ef4444;
+      color: #ffffff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+    .btn-admin-danger:hover {
+      background: #dc2626;
+      transform: translateY(-1px);
+    }
+    .btn-admin-edit {
+      background: #3b82f6;
+      color: #ffffff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-admin-edit:hover {
+      background: #2563eb;
+      transform: translateY(-1px);
+    }
+    .admin-tab-btn {
+      padding: 10px 18px;
+      border: none;
+      background: transparent;
+      font-family: var(--font-heading);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+    }
+    .admin-tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+  <div class="web-app-shell">
+    <!-- Shared Web Sidebar injected by layout.js -->
+    <div id="sidebar-root"></div>
+
+    <div class="web-main-container">
+      
+      <!-- Top Navigation Bar -->
+      <header class="web-topbar">
+        <div class="web-topbar-left">
+          <button class="web-menu-toggle" id="btnToggleMobileMenu" title="Ouvrir le menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+            <span>Menu</span>
+          </button>
+          <span class="web-page-heading-title">Panneau d'Administration Général</span>
+          <span class="admin-badge">Mode Super Admin</span>
+        </div>
+
+        <div class="web-topbar-right">
+          <a href="https://supabase.com/dashboard/projects" target="_blank" class="btn-secondary" style="height: 38px; font-size: 12.5px; font-weight: 700; text-decoration: none; border-radius: 8px; display: flex; align-items: center; gap: 6px; background: #052e16; color: #86efac; border: 1px solid #16a34a;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg>
+            <span>Ouvrir Supabase Studio</span>
+          </a>
+          <a href="marketplace.html" class="btn-primary-action" style="height: 38px; font-size: 12.5px; text-decoration: none; padding: 0 14px;">
+            <span>Voir Marketplace</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Scrollable Content -->
+      <main class="web-content-body">
+        
+        <!-- KPI Summary Cards -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; margin-bottom: 24px;">
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon" style="background: #e0f2fe; color: #0284c7;">👥</div>
+            <div>
+              <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Utilisateurs Inscrits</div>
+              <div style="font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: var(--text-main);" id="statUsersCount">7</div>
+            </div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon" style="background: #dcfce7; color: #15803d;">🥕</div>
+            <div>
+              <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Produits en Ligne</div>
+              <div style="font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: var(--text-main);" id="statProductsCount">5</div>
+            </div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon" style="background: #fef3c7; color: #d97706;">🔒</div>
+            <div>
+              <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Fonds sous Séquestre</div>
+              <div style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--text-main);">683 250 F</div>
+            </div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon" style="background: #ede9fe; color: #7c3aed;">⚡</div>
+            <div>
+              <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Base PostgreSQL</div>
+              <div style="font-family: var(--font-heading); font-size: 14px; font-weight: 800; color: #15803d;">Active & Connectée</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div style="display: flex; gap: 8px; border-bottom: 2px solid var(--border-color); margin-bottom: 20px;">
+          <button class="admin-tab-btn active" id="tabBtnUsers" onclick="switchAdminTab('users')">👥 Gestion des Utilisateurs</button>
+          <button class="admin-tab-btn" id="tabBtnProducts" onclick="switchAdminTab('products')">🥕 Gestion des Produits (Modifier / Supprimer)</button>
+        </div>
+
+        <!-- TAB 1: GESTION DES UTILISATEURS -->
+        <section id="adminSectionUsers" class="web-card" style="padding: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <h2 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: var(--text-main);">Comptes Utilisateurs Enregistrés</h2>
+              <p style="font-size: 12.5px; color: var(--text-muted);">En tant qu'administrateur, vous pouvez supprimer définitivement ou bloquer n'importe quel compte.</p>
+            </div>
+            <input type="text" id="filterUsersInput" class="form-input" placeholder="Filtrer par nom ou téléphone..." style="max-width: 260px; height: 36px; font-size: 13px;" oninput="renderUsersTable()" />
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nom & Profil</th>
+                  <th>Téléphone</th>
+                  <th>Rôle</th>
+                  <th>Emplacement</th>
+                  <th>Solde Portefeuille</th>
+                  <th>Statut</th>
+                  <th style="text-align: right;">Action Administrateur</th>
+                </tr>
+              </thead>
+              <tbody id="adminUsersTbody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- TAB 2: GESTION DES PRODUITS -->
+        <section id="adminSectionProducts" class="web-card" style="padding: 20px; display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <h2 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: var(--text-main);">Toutes les Récoltes et Cheptels Publiés</h2>
+              <p style="font-size: 12.5px; color: var(--text-muted);">Modifiez les prix/stocks ou supprimez les annonces non conformes de la marketplace.</p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="filterProductsInput" class="form-input" placeholder="Filtrer un produit..." style="max-width: 240px; height: 36px; font-size: 13px;" oninput="renderProductsTable()" />
+              <a href="ajouter_produit.html" class="btn-primary-action" style="height: 36px; padding: 0 14px; font-size: 12.5px; text-decoration: none; white-space: nowrap;">+ Ajouter un produit</a>
+            </div>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Aperçu</th>
+                  <th>Nom du Produit</th>
+                  <th>Catégorie</th>
+                  <th>Prix Unitaire</th>
+                  <th>Stock Dispo</th>
+                  <th>Vendeur / Propriétaire</th>
+                  <th>Lieu</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminProductsTbody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- Toast Popup -->
+      <div class="toast-msg" id="appToast">Action administrateur effectuée !</div>
+    </div>
+  </div>
+
+  <!-- API Client & Scripts -->
+  <script src="js/api-client.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/mpa_app.js"></script>
+
+  <script>
+    // Initial demo users list
+    let defaultUsers = [
+      { id: 1, name: 'Kenfo Loic (Compte Principal)', phone: '+237 693 412 317', email: 'kenfoloic3@gmail.com', role: 'admin', location: 'Yaoundé, Cameroun', wallet: '350 000 FCFA', status: 'Actif' },
+      { id: 2, name: 'Paul Nguema', phone: '+237 690 12 34 56', email: 'paul.nguema@agroelevage.cm', role: 'vendeur (agriculteur)', location: 'Foumbot, Ouest', wallet: '145 000 FCFA', status: 'Actif' },
+      { id: 3, name: 'Marie Tchakounté', phone: '+237 691 23 45 67', email: 'marie.tchakounte@agroelevage.cm', role: 'vendeur (éleveur)', location: 'Bafoussam, Ouest', wallet: '280 000 FCFA', status: 'Actif' },
+      { id: 4, name: 'Ibrahim Bello', phone: '+237 692 34 56 78', email: 'ibrahim.bello@agroelevage.cm', role: 'vendeur (coopérative)', location: 'Garoua, Nord', wallet: '520 000 FCFA', status: 'Actif' },
+      { id: 5, name: 'Emmanuel Manga', phone: '+237 693 45 67 89', email: 'emmanuel.manga@agroelevage.cm', role: 'vendeur (agriculteur)', location: 'Njombé-Penja', wallet: '85 000 FCFA', status: 'Actif' },
+      { id: 6, name: 'Chef Alain Mbarga (Restaurant)', phone: '+237 670 98 76 54', email: 'alain.mbarga@saveurs.cm', role: 'acheteur (restaurateur)', location: 'Bastos, Yaoundé', wallet: '75 000 FCFA', status: 'Actif' }
+    ];
+
+    function showToast(msg) {
+      const toast = document.getElementById('appToast');
+      if (toast) {
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2600);
+      }
+    }
+
+    function switchAdminTab(tab) {
+      document.getElementById('tabBtnUsers').classList.toggle('active', tab === 'users');
+      document.getElementById('tabBtnProducts').classList.toggle('active', tab === 'products');
+      document.getElementById('adminSectionUsers').style.display = tab === 'users' ? 'block' : 'none';
+      document.getElementById('adminSectionProducts').style.display = tab === 'products' ? 'block' : 'none';
+    }
+
+    // --- USERS MANAGEMENT ---
+    function getUsersList() {
+      const stored = localStorage.getItem('agroelevage_admin_users');
+      if (stored) {
+        try { return JSON.parse(stored); } catch (e) {}
+      }
+      return defaultUsers;
+    }
+
+    function saveUsersList(list) {
+      localStorage.setItem('agroelevage_admin_users', JSON.stringify(list));
+    }
+
+    function renderUsersTable() {
+      const tbody = document.getElementById('adminUsersTbody');
+      const filter = (document.getElementById('filterUsersInput').value || '').toLowerCase();
+      const users = getUsersList();
+
+      document.getElementById('statUsersCount').textContent = users.length;
+
+      let html = '';
+      users.forEach(u => {
+        if (filter && !u.name.toLowerCase().includes(filter) && !u.phone.includes(filter)) return;
+
+        const isAdmin = u.role.includes('admin') || u.id === 1;
+        html += `
+          <tr>
+            <td><span style="font-weight: 700; color: var(--text-muted);">#${u.id}</span></td>
+            <td>
+              <div style="font-weight: 700; color: var(--text-main);">${u.name}</div>
+              <div style="font-size: 11.5px; color: var(--text-muted);">${u.email || ''}</div>
+            </td>
+            <td style="font-weight: 600;">${u.phone}</td>
+            <td><span class="badge-role" style="padding: 2px 8px; border-radius: 6px; font-size: 11px; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; font-weight: 700;">${u.role}</span></td>
+            <td style="color: var(--text-muted);">${u.location}</td>
+            <td style="font-weight: 700; color: var(--primary);">${u.wallet || '0 FCFA'}</td>
+            <td><span style="display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; color: ${u.status === 'Bloqué' ? '#ef4444' : '#16a34a'};"><span style="width: 8px; height: 8px; border-radius: 50%; background: ${u.status === 'Bloqué' ? '#ef4444' : '#16a34a'};"></span> ${u.status || 'Actif'}</span></td>
+            <td style="text-align: right;">
+              <div style="display: flex; gap: 6px; justify-content: flex-end;">
+                ${!isAdmin ? `
+                  <button type="button" class="btn-admin-danger" onclick="deleteUserByAdmin(${u.id}, '${u.name.replace(/'/g, "\\'")}')" title="Supprimer définitivement ce compte">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                    Supprimer
+                  </button>
+                ` : `
+                  <span style="font-size: 11.5px; font-weight: 700; color: #15803d; padding: 4px 8px; background: #dcfce7; border-radius: 6px;">Compte Protégé</span>
+                `}
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html || '<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 20px;">Aucun utilisateur trouvé</td></tr>';
+    }
+
+    window.deleteUserByAdmin = function(userId, userName) {
+      if (!confirm(`Confirmez-vous la suppression définitive du compte de "${userName}" et de tous ses produits associés ?`)) {
+        return;
+      }
+
+      let users = getUsersList();
+      users = users.filter(u => u.id !== userId);
+      saveUsersList(users);
+
+      // Also remove any products published by this user from agroelevage_products
+      let prods = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
+      prods = prods.filter(p => p.ownerPhone !== users.find(u => u.id === userId)?.phone);
+      localStorage.setItem('agroelevage_products', JSON.stringify(prods));
+      window.dispatchEvent(new Event('agroelevage_products_updated'));
+
+      renderUsersTable();
+      renderProductsTable();
+      showToast(`Utilisateur "${userName}" supprimé avec succès.`);
+    };
+
+    // --- PRODUCTS MANAGEMENT ---
+    const initialMarketProducts = [
+      { id: 'prod_1', name: 'Tomates fraîches Roma (Cagettes 20kg)', category: 'maraichage', price: 12500, unit: 'cagette', stock: 120, location: 'Foumbot, Ouest', ownerName: 'Paul Nguema', image: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400' },
+      { id: 'prod_2', name: 'Poulets Goliath fermiers vivants', category: 'elevage', price: 3500, unit: 'u', stock: 50, location: 'Bafoussam, Ouest', ownerName: 'Marie Tchakounté', image: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=400' },
+      { id: 'prod_3', name: 'Maïs Blanc Séché (Sacs 50kg)', category: 'cereales', price: 12000, unit: 'sac', stock: 300, location: 'Garoua, Nord', ownerName: 'Ibrahim Bello', image: 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=400' },
+      { id: 'prod_4', name: 'Poivre Blanc de Penja IGP (Sacs 5kg)', category: 'maraichage', price: 35000, unit: 'sac', stock: 45, location: 'Njombé-Penja, Moungo', ownerName: 'Emmanuel Manga', image: 'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=400' },
+      { id: 'prod_5', name: 'Poivrons Verts Bio', category: 'maraichage', price: 850, unit: 'kg', stock: 150, location: 'Yaoundé, Cameroun', ownerName: 'Kenfo Loic (Admin)', image: 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=400' }
+    ];
+
+    function getProductsList() {
+      const stored = localStorage.getItem('agroelevage_products');
+      if (stored) {
+        try {
+          const list = JSON.parse(stored);
+          if (list.length > 0) return list;
+        } catch (e) {}
+      }
+      localStorage.setItem('agroelevage_products', JSON.stringify(initialMarketProducts));
+      return initialMarketProducts;
+    }
+
+    function renderProductsTable() {
+      const tbody = document.getElementById('adminProductsTbody');
+      const filter = (document.getElementById('filterProductsInput').value || '').toLowerCase();
+      const products = getProductsList();
+
+      document.getElementById('statProductsCount').textContent = products.length;
+
+      let html = '';
+      products.forEach(p => {
+        if (filter && !p.name.toLowerCase().includes(filter) && !p.location.toLowerCase().includes(filter)) return;
+
+        html += `
+          <tr>
+            <td>
+              <img src="${p.image || p.imageUrl || 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=100'}" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border-color);" alt="${p.name}" />
+            </td>
+            <td>
+              <div style="font-weight: 700; color: var(--text-main);">${p.name}</div>
+              <div style="font-size: 11.5px; color: var(--text-muted);">ID: ${p.id}</div>
+            </td>
+            <td><span style="padding: 2px 8px; border-radius: 6px; font-size: 11px; background: #f1f5f9; color: var(--text-muted); font-weight: 600;">${p.category || 'maraichage'}</span></td>
+            <td style="font-weight: 800; color: var(--primary);">${(p.price || 0).toLocaleString('fr-FR')} FCFA</td>
+            <td style="font-weight: 600;">${p.quantity || p.stock || 0} ${p.unit || 'kg'}</td>
+            <td style="font-weight: 600; color: var(--text-main);">${p.ownerName || 'Producteur certifié'}</td>
+            <td style="color: var(--text-muted);">${p.location || 'Cameroun'}</td>
+            <td style="text-align: right;">
+              <div style="display: flex; gap: 6px; justify-content: flex-end;">
+                <a href="ajouter_produit.html?edit_id=${p.id}" class="btn-admin-edit" title="Modifier le produit">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                  Modifier
+                </a>
+                <button type="button" class="btn-admin-danger" onclick="deleteProductByAdmin('${p.id}', '${p.name.replace(/'/g, "\\'")}')" title="Supprimer ce produit de la marketplace">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                  Supprimer
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html || '<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 20px;">Aucun produit trouvé</td></tr>';
+    }
+
+    window.deleteProductByAdmin = function(productId, prodName) {
+      if (!confirm(`Voulez-vous supprimer définitivement le produit "${prodName}" de toute la marketplace ?`)) {
+        return;
+      }
+
+      let prods = getProductsList();
+      prods = prods.filter(p => String(p.id) !== String(productId));
+      localStorage.setItem('agroelevage_products', JSON.stringify(prods));
+
+      // Trigger update on marketplace and mes_produits
+      window.dispatchEvent(new Event('agroelevage_products_updated'));
+
+      renderProductsTable();
+      showToast(`Produit "${prodName}" supprimé avec succès.`);
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderUsersTable();
+      renderProductsTable();
+    });
+  </script>
+</body>
+</html>

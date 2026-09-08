@@ -227,6 +227,28 @@
           return;
         }
 
+        const currentUserRole = localStorage.getItem('ago_user_role') || '';
+        const currentUserName = (localStorage.getItem('ago_user_fullname') || '').toLowerCase();
+        const currentUserEmail = (localStorage.getItem('ago_user_email') || '').toLowerCase();
+        const isAdmin = currentUserRole === 'admin' || currentUserName.includes('admin') || currentUserName.includes('kenfo') || currentUserEmail.includes('kenfoloic');
+
+        // Admin banner
+        let adminBanner = document.getElementById('marketplaceAdminBanner');
+        if (isAdmin && !adminBanner) {
+          adminBanner = document.createElement('div');
+          adminBanner.id = 'marketplaceAdminBanner';
+          adminBanner.style.cssText = 'background: #fee2e2; border: 1.5px solid #fca5a5; padding: 10px 16px; border-radius: 10px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;';
+          adminBanner.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: #b91c1c;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>Privilèges Administrateur Actifs : Vous pouvez modifier ou supprimer n'importe quel produit.</span>
+            </div>
+            <a href="admin.html" class="btn-secondary" style="height: 32px; padding: 0 12px; font-size: 12px; font-weight: 700; background: #b91c1c; color: #ffffff; text-decoration: none; border-radius: 6px;">Ouvrir Espace Admin</a>
+          `;
+          const mainBody = document.querySelector('.web-content-body');
+          if (mainBody) mainBody.prepend(adminBanner);
+        }
+
         userProducts.forEach(p => {
           if (p.isAvailable === false) return; // Don't show hidden items
           const cleanWa = (p.whatsapp || '+237690123456').replace(/[^\d+]/g, '');
@@ -234,9 +256,29 @@
           cardHtml.className = 'web-card product-item-card dynamic-user-product';
           cardHtml.setAttribute('data-cat', p.category || 'maraichage');
           cardHtml.setAttribute('data-prod-id', String(p.id));
-          cardHtml.style.cssText = 'padding: 14px; display: flex; flex-direction: column; cursor: pointer; border: 2px solid var(--primary-soft);';
+          cardHtml.style.cssText = 'padding: 14px; display: flex; flex-direction: column; cursor: pointer; border: 2px solid var(--primary-soft); position: relative;';
           cardHtml.onclick = () => window.location.href = 'detail_produit.html';
+          
+          let adminBadgeHtml = '';
+          let adminActionsHtml = '';
+          if (isAdmin) {
+            adminBadgeHtml = `<span style="position: absolute; top: 22px; right: 22px; background: rgba(185, 28, 28, 0.9); color: #fff; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 9999px; z-index: 2;">ADMIN</span>`;
+            adminActionsHtml = `
+              <div style="display: flex; gap: 4px; margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border-color); justify-content: flex-end;" onclick="event.stopPropagation()">
+                <a href="ajouter_produit.html?edit_id=${p.id}" style="padding: 4px 8px; background: #3b82f6; color: #ffffff; border-radius: 4px; font-size: 11px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 3px;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                  Modifier
+                </a>
+                <button type="button" onclick="deleteMarketplaceProductByAdmin('${p.id}', '${(p.name || '').replace(/'/g, "\\'")}')" style="padding: 4px 8px; background: #ef4444; color: #ffffff; border-radius: 4px; font-size: 11px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; gap: 3px;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                  Supprimer
+                </button>
+              </div>
+            `;
+          }
+
           cardHtml.innerHTML = `
+            ${adminBadgeHtml}
             <div style="position: relative; height: 160px; border-radius: 12px; overflow: hidden; margin-bottom: 12px;">
               <img src="${p.image || p.imageUrl || 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400'}" style="width: 100%; height: 100%; object-fit: cover;" alt="${p.name}" />
             </div>
@@ -258,10 +300,25 @@
                   </a>
                 </div>
               </div>
+              ${adminActionsHtml}
             </div>
           `;
           grid.prepend(cardHtml);
         });
+
+        window.deleteMarketplaceProductByAdmin = function(productId, prodName) {
+          if (!confirm(`[ADMIN] Confirmez-vous la suppression du produit "${prodName}" ?`)) return;
+          let list = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
+          list = list.filter(p => String(p.id) !== String(productId));
+          localStorage.setItem('agroelevage_products', JSON.stringify(list));
+          loadUserProducts();
+          const toast = document.getElementById('appToast');
+          if (toast) {
+            toast.textContent = `[Admin] Produit "${prodName}" supprimé avec succès !`;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+          }
+        };
 
         updateProductCount();
       }
