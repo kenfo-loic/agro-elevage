@@ -67,7 +67,7 @@ const webSidebarHTML = `
       <div class="web-nav-group-title">Mon Compte & Contrôle</div>
       <a href="notifications.html" class="web-nav-item" data-page="notifications.html"><span class="web-nav-icon">${SVG.bell}</span> <span>Notifications</span> <span class="web-nav-notif-badge" id="sidebarNotifBadge"></span></a>
       <a href="profil.html" class="web-nav-item" data-page="profil.html"><span class="web-nav-icon">${SVG.settings}</span> <span>Profil & Paramètres</span></a>
-      <a href="admin.html" class="web-nav-item" data-page="admin.html"><span class="web-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span> <span style="font-weight: 700; color: #b91c1c;">Espace Admin</span></a>
+      <a href="admin.html" class="web-nav-item" data-page="admin.html" id="sidebarAdminLink" style="display: none;"><span class="web-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span> <span style="font-weight: 700; color: #b91c1c;">Espace Admin</span></a>
     </nav>
 
     <div class="web-sidebar-footer">
@@ -415,6 +415,19 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.web-user-avatar-img').forEach(el => {
       if (avatar && el.tagName === 'IMG') el.src = avatar;
     });
+
+    // Toggle Espace Admin visibility (STRICTLY for Administrator only)
+    const isAdmin = isLoggedIn && (
+      (role && role.toLowerCase().includes('admin')) ||
+      (name && name.toLowerCase().includes('admin')) ||
+      (email && email.toLowerCase().includes('kenfoloic')) ||
+      (phone && phone.replace(/[\s+]/g, '').includes('693412317')) ||
+      localStorage.getItem('ago_user_role') === 'admin'
+    );
+    const adminSidebarLink = document.getElementById('sidebarAdminLink');
+    if (adminSidebarLink) {
+      adminSidebarLink.style.display = isAdmin ? 'flex' : 'none';
+    }
 
     // 2. Update Profile Page Cards & Header Displays
     const profileDisplayName = document.getElementById('profileDisplayName');

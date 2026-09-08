@@ -274,6 +274,28 @@
   <script src="js/mpa_app.js"></script>
 
   <script>
+    // Strict Admin Access Guard
+    (function checkAdminAccess() {
+      const isLoggedIn = localStorage.getItem('ago_logged_in') === 'true';
+      const role = (localStorage.getItem('ago_user_role') || '').toLowerCase();
+      const name = (localStorage.getItem('ago_user_fullname') || '').toLowerCase();
+      const email = (localStorage.getItem('ago_user_email') || '').toLowerCase();
+      const phone = (localStorage.getItem('ago_user_phone') || '').replace(/[\s+]/g, '');
+
+      const isAuthorizedAdmin = isLoggedIn && (
+        role.includes('admin') ||
+        name.includes('admin') ||
+        name.includes('kenfo') ||
+        email.includes('kenfoloic') ||
+        phone.includes('693412317')
+      );
+
+      if (!isAuthorizedAdmin) {
+        alert('Accès refusé : Cette page est strictement réservée à l\'administrateur.');
+        window.location.href = 'marketplace.html';
+      }
+    })();
+
     // Initial demo users list
     let defaultUsers = [
       { id: 1, name: 'Kenfo Loic (Compte Principal)', phone: '+237 693 412 317', email: 'kenfoloic3@gmail.com', role: 'admin', location: 'Yaoundé, Cameroun', wallet: '350 000 FCFA', status: 'Actif' },
