@@ -79,13 +79,21 @@
               </div>
             </div>
 
-            <!-- Delivery Address Form -->
+            <!-- Delivery Address & Custom Delivery Fee Form -->
             <div style="margin-bottom: 20px;">
-              <label class="form-label" style="font-weight: 700; margin-bottom: 6px; display: block;">Lieu de livraison</label>
+              <label class="form-label" style="font-weight: 700; margin-bottom: 6px; display: block;">Lieu & Frais de livraison</label>
               <div style="border: 1.5px solid var(--border-color); border-radius: 12px; padding: 14px; background: var(--bg-subtle);">
                 <div style="font-weight: 800; font-size: 13.5px; color: var(--text-main);">Restaurant Le Gourmet</div>
-                <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Rue Joseph Essono Balla, Quartier Bastos, Yaoundé</div>
-                <div style="font-size: 11.5px; color: var(--primary); font-weight: 700; margin-top: 4px;"> Livraison directe par camionnette réfrigérée (2 000 FCFA)</div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px; margin-bottom: 12px;">Rue Joseph Essono Balla, Quartier Bastos, Yaoundé</div>
+                
+                <label for="inputDeliveryFee" style="font-size: 12px; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 6px;">Frais de livraison personnalisés (FCFA)</label>
+                <div class="login-input-wrap" style="max-width: 260px; background: #ffffff;">
+                  <span class="login-input-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/></svg>
+                  </span>
+                  <input type="number" id="inputDeliveryFee" class="form-input login-input-field" placeholder="Ex: 2000" value="2000" min="0" step="100" style="height: 40px; padding-left: 38px; font-weight: 700; font-size: 14px;" />
+                </div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Saisissez le montant des frais convenus pour la livraison.</div>
               </div>
             </div>
 
@@ -106,8 +114,8 @@
                   <span style="font-weight: 700;" id="orderSubtotal">25 000 FCFA</span>
                 </div>
                 <div style="display: flex; justify-content: space-between;">
-                  <span style="color: var(--text-muted);">Frais de transport réfrigéré</span>
-                  <span style="font-weight: 700;">2 000 FCFA</span>
+                  <span style="color: var(--text-muted);">Frais de transport & livraison</span>
+                  <span style="font-weight: 700;" id="deliveryFeeDisplay">2 000 FCFA</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; border-top: 1.5px dashed var(--border-color); padding-top: 12px; font-size: 16px; font-weight: 800;">
                   <span>Total TTC</span>
@@ -136,19 +144,41 @@
     document.addEventListener('DOMContentLoaded', () => {
       let qty = 100;
       const unitPrice = 250;
-      const transportFee = 2000;
 
       const qtyDisplay = document.getElementById('orderQtyDisplay');
       const qtyRecap = document.getElementById('qtyRecapTxt');
       const subtotalElem = document.getElementById('orderSubtotal');
+      const deliveryFeeInput = document.getElementById('inputDeliveryFee');
+      const deliveryFeeDisplay = document.getElementById('deliveryFeeDisplay');
       const totalElem = document.getElementById('orderTotal');
 
+      function getTransportFee() {
+        if (!deliveryFeeInput) return 2000;
+        const val = parseFloat(deliveryFeeInput.value);
+        return isNaN(val) || val < 0 ? 0 : val;
+      }
+
       function updateBill() {
+        const transportFee = getTransportFee();
         if (qtyDisplay) qtyDisplay.textContent = qty;
         if (qtyRecap) qtyRecap.textContent = qty;
         const sub = qty * unitPrice;
         if (subtotalElem) subtotalElem.textContent = sub.toLocaleString('fr-FR') + ' FCFA';
+        if (deliveryFeeDisplay) deliveryFeeDisplay.textContent = transportFee.toLocaleString('fr-FR') + ' FCFA';
         if (totalElem) totalElem.textContent = (sub + transportFee).toLocaleString('fr-FR') + ' FCFA';
+
+        // Save state for payment page
+        localStorage.setItem('agroelevage_pending_order', JSON.stringify({
+          qty: qty,
+          unitPrice: unitPrice,
+          transportFee: transportFee,
+          subtotal: sub,
+          total: sub + transportFee
+        }));
+      }
+
+      if (deliveryFeeInput) {
+        deliveryFeeInput.addEventListener('input', updateBill);
       }
 
       document.getElementById('btnQtyMinus')?.addEventListener('click', () => {
@@ -160,16 +190,19 @@
       });
 
       document.getElementById('btnConfirmOrder')?.addEventListener('click', (e) => {
+        const transportFee = getTransportFee();
+        const total = (qty * unitPrice + transportFee).toLocaleString('fr-FR');
         if (typeof window.sendSmsWhatsappNotification === 'function') {
-          const total = (qty * unitPrice + transportFee).toLocaleString('fr-FR');
           window.sendSmsWhatsappNotification(
             '+237 693 412 317',
             'Commande Initiée',
-            `Nouvelle commande de ${qty} kg de Tomates fraîches (${total} FCFA) en attente de paiement sécurisé.`,
+            `Nouvelle commande de ${qty} kg de Tomates fraîches (${total} FCFA) avec frais de livraison de ${transportFee.toLocaleString('fr-FR')} FCFA.`,
             'paiement_escrow.html'
           );
         }
       });
+
+      updateBill();
     });
   </script>
 </body>

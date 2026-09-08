@@ -124,11 +124,11 @@
               <div style="border-top: 1px solid var(--border-color); padding-top: 12px; display: flex; flex-direction: column; gap: 8px; font-size: 12.5px;">
                 <div style="display: flex; justify-content: space-between;">
                   <span style="color: var(--text-muted);">Sous-total récolte</span>
-                  <span style="font-weight: 600;">25 000 FCFA</span>
+                  <span style="font-weight: 600;" id="escrowSubtotal">25 000 FCFA</span>
                 </div>
                 <div style="display: flex; justify-content: space-between;">
                   <span style="color: var(--text-muted);">Frais de transport direct</span>
-                  <span style="font-weight: 600;">2 000 FCFA</span>
+                  <span style="font-weight: 600;" id="escrowTransport">2 000 FCFA</span>
                 </div>
                 <div style="display: flex; justify-content: space-between;">
                   <span style="color: var(--text-muted);">Frais de garantie séquestre</span>
@@ -136,7 +136,7 @@
                 </div>
                 <div style="display: flex; justify-content: space-between; border-top: 1.5px dashed var(--border-color); padding-top: 10px; font-size: 15px; font-weight: 800;">
                   <span>Total à régler</span>
-                  <span style="color: var(--primary);">27 000 FCFA</span>
+                  <span style="color: var(--primary);" id="escrowTotal">27 000 FCFA</span>
                 </div>
               </div>
             </div>
@@ -190,21 +190,21 @@
         <tbody>
           <tr>
             <td style="padding: 8px; border-bottom: 1px solid var(--border-color);">Tomates fraîches</td>
-            <td style="padding: 8px; border-bottom: 1px solid var(--border-color);">100 kg</td>
+            <td style="padding: 8px; border-bottom: 1px solid var(--border-color);" id="invoiceQty">100 kg</td>
             <td style="padding: 8px; border-bottom: 1px solid var(--border-color);">250 F</td>
-            <td style="padding: 8px; border-bottom: 1px solid var(--border-color); text-align: right;">25 000 F</td>
+            <td style="padding: 8px; border-bottom: 1px solid var(--border-color); text-align: right;" id="invoiceSub">25 000 F</td>
           </tr>
           <tr>
             <td style="padding: 8px;">Livraison directe</td>
             <td style="padding: 8px;">1</td>
-            <td style="padding: 8px;">2 000 F</td>
-            <td style="padding: 8px; text-align: right;">2 000 F</td>
+            <td style="padding: 8px;" id="invoiceTransUnit">2 000 F</td>
+            <td style="padding: 8px; text-align: right;" id="invoiceTrans">2 000 F</td>
           </tr>
         </tbody>
         <tfoot>
           <tr style="font-weight: 800; font-size: 13px; border-top: 2px solid var(--border-color);">
             <td colspan="3" style="padding: 10px 8px; text-align: right;">TOTAL PAYÉ :</td>
-            <td style="padding: 10px 8px; text-align: right; color: var(--primary);">27 000 FCFA</td>
+            <td style="padding: 10px 8px; text-align: right; color: var(--primary);" id="invoiceTotal">27 000 FCFA</td>
           </tr>
         </tfoot>
       </table>
@@ -217,6 +217,33 @@
       </div>
     </div>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const saved = JSON.parse(localStorage.getItem('agroelevage_pending_order') || 'null');
+        if (saved) {
+          const subElem = document.getElementById('escrowSubtotal');
+          const transElem = document.getElementById('escrowTransport');
+          const totalElem = document.getElementById('escrowTotal');
+          const invoiceQty = document.getElementById('invoiceQty');
+          const invoiceSub = document.getElementById('invoiceSub');
+          const invoiceTrans = document.getElementById('invoiceTrans');
+          const invoiceTransUnit = document.getElementById('invoiceTransUnit');
+          const invoiceTotal = document.getElementById('invoiceTotal');
+
+          if (subElem) subElem.textContent = (saved.subtotal || 25000).toLocaleString('fr-FR') + ' FCFA';
+          if (transElem) transElem.textContent = (saved.transportFee || 0).toLocaleString('fr-FR') + ' FCFA';
+          if (totalElem) totalElem.textContent = (saved.total || 27000).toLocaleString('fr-FR') + ' FCFA';
+          if (invoiceQty) invoiceQty.textContent = `${saved.qty || 100} kg`;
+          if (invoiceSub) invoiceSub.textContent = `${(saved.subtotal || 25000).toLocaleString('fr-FR')} F`;
+          if (invoiceTrans) invoiceTrans.textContent = `${(saved.transportFee || 0).toLocaleString('fr-FR')} F`;
+          if (invoiceTransUnit) invoiceTransUnit.textContent = `${(saved.transportFee || 0).toLocaleString('fr-FR')} F`;
+          if (invoiceTotal) invoiceTotal.textContent = `${(saved.total || 27000).toLocaleString('fr-FR')} FCFA`;
+        }
+      } catch (e) {}
+    });
+  </script>
 
   <!-- API Client -->
   <script src="js/api-client.js"></script>
