@@ -3,6 +3,12 @@
 window.openLoginModal = function() {
   const backdrop = document.getElementById('loginModalBackdrop');
   const card = document.getElementById('loginModalCard');
+  const emailInput = document.getElementById('loginEmail');
+  const pwdInput = document.getElementById('loginPassword');
+  
+  if (emailInput) emailInput.value = '';
+  if (pwdInput) pwdInput.value = '';
+
   if (backdrop) backdrop.classList.add('open');
   if (card) card.classList.add('open');
 };
@@ -129,7 +135,7 @@ const loginModalHTML = `
           <span class="login-input-icon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
           </span>
-          <input type="email" id="loginEmail" name="email" class="login-input-field" placeholder="exemple@domaine.com" value="kenfoloic3@gmail.com" autocomplete="email" required />
+          <input type="email" id="loginEmail" name="email" class="login-input-field" placeholder="exemple@domaine.com" autocomplete="email" required />
         </div>
       </div>
 
@@ -139,7 +145,7 @@ const loginModalHTML = `
           <span class="login-input-icon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           </span>
-          <input type="password" id="loginPassword" name="password" class="login-input-field" placeholder="Votre mot de passe" value="••••••••" autocomplete="current-password" required />
+          <input type="password" id="loginPassword" name="password" class="login-input-field" placeholder="Votre mot de passe" autocomplete="current-password" required />
           <button type="button" class="login-toggle-pwd" id="btnTogglePassword" title="Afficher/Masquer">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
@@ -148,7 +154,7 @@ const loginModalHTML = `
 
       <div class="login-options-row">
         <label class="login-remember-label">
-          <input type="checkbox" id="loginRememberMe" class="login-checkbox" checked />
+          <input type="checkbox" id="loginRememberMe" class="login-checkbox" />
           <span class="login-checkbox-custom"></span>
           <span>Se souvenir de moi</span>
         </label>
