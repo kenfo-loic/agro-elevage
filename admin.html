@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Espace Administrateur — AgroElevage Link</title>
-  <meta name="description" content="Panneau d'administration global : gestion des utilisateurs, modération des produits et contrôle de la base de données." />
+  <meta name="description" content="Panneau d'administration global : gestion des utilisateurs, modération et modification des produits." />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -121,6 +121,38 @@
       color: var(--primary);
       border-bottom-color: var(--primary);
     }
+
+    /* Modal Styling */
+    .admin-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .admin-modal-backdrop.open {
+      display: flex;
+    }
+    .admin-modal-card {
+      background: #ffffff;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 540px;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      border: 1px solid var(--border-color);
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: modalSlideUp 0.25s ease-out;
+    }
+    @keyframes modalSlideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
   </style>
 </head>
 <body>
@@ -138,13 +170,13 @@
             <span>Menu</span>
           </button>
           <span class="web-page-heading-title">Panneau d'Administration Général</span>
-          <span class="admin-badge">Mode Super Admin</span>
+          <span class="admin-badge">Super Admin</span>
         </div>
 
         <div class="web-topbar-right">
           <a href="https://supabase.com/dashboard/projects" target="_blank" class="btn-secondary" style="height: 38px; font-size: 12.5px; font-weight: 700; text-decoration: none; border-radius: 8px; display: flex; align-items: center; gap: 6px; background: #052e16; color: #86efac; border: 1px solid #16a34a;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg>
-            <span>Ouvrir Supabase Studio</span>
+            <span>Supabase Studio</span>
           </a>
           <a href="marketplace.html" class="btn-primary-action" style="height: 38px; font-size: 12.5px; text-decoration: none; padding: 0 14px;">
             <span>Voir Marketplace</span>
@@ -161,7 +193,7 @@
             <div class="admin-stat-icon" style="background: #e0f2fe; color: #0284c7;">👥</div>
             <div>
               <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Utilisateurs Inscrits</div>
-              <div style="font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: var(--text-main);" id="statUsersCount">7</div>
+              <div style="font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: var(--text-main);" id="statUsersCount">0</div>
             </div>
           </div>
 
@@ -169,7 +201,7 @@
             <div class="admin-stat-icon" style="background: #dcfce7; color: #15803d;">🥕</div>
             <div>
               <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Produits en Ligne</div>
-              <div style="font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: var(--text-main);" id="statProductsCount">5</div>
+              <div style="font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: var(--text-main);" id="statProductsCount">0</div>
             </div>
           </div>
 
@@ -185,14 +217,14 @@
             <div class="admin-stat-icon" style="background: #ede9fe; color: #7c3aed;">⚡</div>
             <div>
               <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Base PostgreSQL</div>
-              <div style="font-family: var(--font-heading); font-size: 14px; font-weight: 800; color: #15803d;">Active & Connectée</div>
+              <div style="font-family: var(--font-heading); font-size: 14px; font-weight: 800; color: #15803d;">Supabase Active</div>
             </div>
           </div>
         </div>
 
         <!-- Navigation Tabs -->
         <div style="display: flex; gap: 8px; border-bottom: 2px solid var(--border-color); margin-bottom: 20px;">
-          <button class="admin-tab-btn active" id="tabBtnUsers" onclick="switchAdminTab('users')">👥 Gestion des Utilisateurs</button>
+          <button class="admin-tab-btn active" id="tabBtnUsers" onclick="switchAdminTab('users')">👥 Gestion des Utilisateurs (Modifier / Supprimer)</button>
           <button class="admin-tab-btn" id="tabBtnProducts" onclick="switchAdminTab('products')">🥕 Gestion des Produits (Modifier / Supprimer)</button>
         </div>
 
@@ -201,7 +233,7 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
             <div>
               <h2 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: var(--text-main);">Comptes Utilisateurs Enregistrés</h2>
-              <p style="font-size: 12.5px; color: var(--text-muted);">En tant qu'administrateur, vous pouvez supprimer définitivement ou bloquer n'importe quel compte.</p>
+              <p style="font-size: 12.5px; color: var(--text-muted);">Vous pouvez modifier les informations de n'importe quel utilisateur ou supprimer définitivement son compte.</p>
             </div>
             <input type="text" id="filterUsersInput" class="form-input" placeholder="Filtrer par nom ou téléphone..." style="max-width: 260px; height: 36px; font-size: 13px;" oninput="renderUsersTable()" />
           </div>
@@ -217,7 +249,7 @@
                   <th>Emplacement</th>
                   <th>Solde Portefeuille</th>
                   <th>Statut</th>
-                  <th style="text-align: right;">Action Administrateur</th>
+                  <th style="text-align: right;">Actions Administrateur</th>
                 </tr>
               </thead>
               <tbody id="adminUsersTbody">
@@ -232,11 +264,11 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
             <div>
               <h2 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: var(--text-main);">Toutes les Récoltes et Cheptels Publiés</h2>
-              <p style="font-size: 12.5px; color: var(--text-muted);">Modifiez les prix/stocks ou supprimez les annonces non conformes de la marketplace.</p>
+              <p style="font-size: 12.5px; color: var(--text-muted);">Modifiez les prix, stocks, catégories et supprimez les annonces non conformes.</p>
             </div>
             <div style="display: flex; gap: 8px;">
               <input type="text" id="filterProductsInput" class="form-input" placeholder="Filtrer un produit..." style="max-width: 240px; height: 36px; font-size: 13px;" oninput="renderProductsTable()" />
-              <a href="ajouter_produit.html" class="btn-primary-action" style="height: 36px; padding: 0 14px; font-size: 12.5px; text-decoration: none; white-space: nowrap;">+ Ajouter un produit</a>
+              <a href="ajouter_produit.html" class="btn-primary-action" style="height: 36px; padding: 0 14px; font-size: 12.5px; text-decoration: none; white-space: nowrap;">+ Nouveau produit</a>
             </div>
           </div>
 
@@ -268,6 +300,145 @@
     </div>
   </div>
 
+  <!-- =========================================================================
+       MODAL 1: MODIFIER UN UTILISATEUR
+       ========================================================================= -->
+  <div class="admin-modal-backdrop" id="modalEditUserBackdrop">
+    <div class="admin-modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: var(--text-main);">Modifier l'Utilisateur</h3>
+        <button type="button" onclick="closeEditUserModal()" style="background:none; border:none; font-size:18px; cursor:pointer; color:var(--text-muted);">&times;</button>
+      </div>
+
+      <form id="formEditUser" onsubmit="event.preventDefault(); saveUserChanges();">
+        <input type="hidden" id="editUserId" />
+        
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label class="form-label" style="font-size: 12px; font-weight: 700;">Nom complet</label>
+          <input type="text" id="editUserName" class="form-input" style="height: 38px;" required />
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+          <div class="form-group">
+            <label class="form-label" style="font-size: 12px; font-weight: 700;">Téléphone</label>
+            <input type="tel" id="editUserPhone" class="form-input" style="height: 38px;" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" style="font-size: 12px; font-weight: 700;">E-mail</label>
+            <input type="email" id="editUserEmail" class="form-input" style="height: 38px;" />
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+          <div class="form-group">
+            <label class="form-label" style="font-size: 12px; font-weight: 700;">Rôle</label>
+            <select id="editUserRole" class="form-input" style="height: 38px;">
+              <option value="vendeur (agriculteur)">Vendeur (Agriculteur)</option>
+              <option value="vendeur (éleveur)">Vendeur (Éleveur)</option>
+              <option value="vendeur (coopérative)">Vendeur (Coopérative)</option>
+              <option value="acheteur (restaurateur)">Acheteur (Restaurateur)</option>
+              <option value="acheteur (grossiste)">Acheteur (Grossiste)</option>
+              <option value="admin">Administrateur</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" style="font-size: 12px; font-weight: 700;">Statut</label>
+            <select id="editUserStatus" class="form-input" style="height: 38px;">
+              <option value="Actif">Actif</option>
+              <option value="Bloqué">Bloqué</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+          <div class="form-group">
+            <label class="form-label" style="font-size: 12px; font-weight: 700;">Emplacement / Ville</label>
+            <input type="text" id="editUserLocation" class="form-input" style="height: 38px;" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" style="font-size: 12px; font-weight: 700;">Solde Portefeuille</label>
+            <input type="text" id="editUserWallet" class="form-input" style="height: 38px;" />
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+          <button type="button" onclick="closeEditUserModal()" class="btn-secondary" style="height: 38px; padding: 0 16px;">Annuler</button>
+          <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px;">Enregistrer les modifications</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 2: MODIFIER UN PRODUIT
+       ========================================================================= -->
+  <div class="admin-modal-backdrop" id="modalEditProdBackdrop">
+    <div class="admin-modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: var(--text-main);">Modifier le Produit</h3>
+        <button type="button" onclick="closeEditProdModal()" style="background:none; border:none; font-size:18px; cursor:pointer; color:var(--text-muted);">&times;</button>
+      </div>
+
+      <form id="formEditProd" onsubmit="event.preventDefault(); saveProdChanges();">
+        <input type="hidden" id="editProdId" />
+
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label class="form-label" style="font-size: 12px; font-weight: 700;">Nom du Produit</label>
+          <input type="text" id="editProdName" class="form-input" style="height: 38px;" required />
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+          <div class="form-group">
+            <label class="form-label" style="font-size: 12px; font-weight: 700;">Catégorie</label>
+            <select id="editProdCategory" class="form-input" style="height: 38px;">
+              <option value="maraichage">Maraîchage</option>
+              <option value="fruits">Fruits & Vergers</option>
+              <option value="elevage">Élevage & Volailles</option>
+              <option value="cereales">Céréales & Grains</option>
+              <option value="tubercules">Tubercules & Racines</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" style="font-size: 12px; font-weight: 700;">Unité</label>
+            <input type="text" id="editProdUnit" class="form-input" placeholder="kg, cagette, sac, u" style="height: 38px;" required />
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+          <div class="form-group">
+            <label class="form-label" style="font-size: 12px; font-weight: 700;">Prix unitaire (FCFA)</label>
+            <input type="number" id="editProdPrice" class="form-input" style="height: 38px;" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" style="font-size: 12px; font-weight: 700;">Quantité en stock</label>
+            <input type="number" id="editProdStock" class="form-input" style="height: 38px;" required />
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+          <div class="form-group">
+            <label class="form-label" style="font-size: 12px; font-weight: 700;">Vendeur / Propriétaire</label>
+            <input type="text" id="editProdOwner" class="form-input" style="height: 38px;" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" style="font-size: 12px; font-weight: 700;">Lieu / Ville</label>
+            <input type="text" id="editProdLocation" class="form-input" style="height: 38px;" />
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label class="form-label" style="font-size: 12px; font-weight: 700;">Lien Image (URL)</label>
+          <input type="text" id="editProdImage" class="form-input" style="height: 38px;" />
+        </div>
+
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+          <button type="button" onclick="closeEditProdModal()" class="btn-secondary" style="height: 38px; padding: 0 16px;">Annuler</button>
+          <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px;">Enregistrer le produit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- API Client & Scripts -->
   <script src="js/api-client.js"></script>
   <script src="js/layout.js"></script>
@@ -296,8 +467,8 @@
       }
     })();
 
-    // Initial demo users list
-    let defaultUsers = [
+    // Initial base seed users
+    const baseDefaultUsers = [
       { id: 1, name: 'Kenfo Loic (Compte Principal)', phone: '+237 693 412 317', email: 'kenfoloic3@gmail.com', role: 'admin', location: 'Yaoundé, Cameroun', wallet: '350 000 FCFA', status: 'Actif' },
       { id: 2, name: 'Paul Nguema', phone: '+237 690 12 34 56', email: 'paul.nguema@agroelevage.cm', role: 'vendeur (agriculteur)', location: 'Foumbot, Ouest', wallet: '145 000 FCFA', status: 'Actif' },
       { id: 3, name: 'Marie Tchakounté', phone: '+237 691 23 45 67', email: 'marie.tchakounte@agroelevage.cm', role: 'vendeur (éleveur)', location: 'Bafoussam, Ouest', wallet: '280 000 FCFA', status: 'Actif' },
@@ -323,67 +494,62 @@
     }
 
     // --- USERS MANAGEMENT ---
+    function getDeletedUserIds() {
+      try {
+        return JSON.parse(localStorage.getItem('agroelevage_deleted_user_ids') || '[]');
+      } catch (e) { return []; }
+    }
+
+    function addDeletedUserId(id, phone) {
+      const list = getDeletedUserIds();
+      if (id && !list.includes(String(id))) list.push(String(id));
+      if (phone && !list.includes(String(phone).trim())) list.push(String(phone).trim());
+      localStorage.setItem('agroelevage_deleted_user_ids', JSON.stringify(list));
+    }
+
     function getUsersList() {
-      let combined = [...defaultUsers];
+      const deleted = getDeletedUserIds();
+      let usersMap = new Map();
 
-      // 1. Merge saved admin users
-      const storedAdminUsers = localStorage.getItem('agroelevage_admin_users');
-      if (storedAdminUsers) {
-        try {
-          const list = JSON.parse(storedAdminUsers);
-          list.forEach(u => {
-            if (!combined.some(c => c.phone === u.phone || (u.email && c.email === u.email))) {
-              combined.push(u);
-            }
-          });
-        } catch (e) {}
-      }
+      // 1. Add base seed users (if not deleted)
+      baseDefaultUsers.forEach(u => {
+        if (!deleted.includes(String(u.id)) && !deleted.includes(String(u.phone).trim())) {
+          usersMap.set(String(u.phone).trim(), { ...u });
+        }
+      });
 
-      // 2. Merge all new registrations from the website
-      const registered = localStorage.getItem('agroelevage_registered_users');
-      if (registered) {
-        try {
-          const list = JSON.parse(registered);
-          list.forEach((u, idx) => {
-            const cleanPhone = (u.phone || '').trim();
-            if (cleanPhone && !combined.some(c => c.phone === cleanPhone || (u.email && c.email === u.email))) {
-              combined.push({
-                id: u.id || (100 + idx),
-                name: u.name || 'Nouvel Utilisateur',
-                phone: cleanPhone,
-                email: u.email || '',
-                role: u.role === 'acheteur' ? 'acheteur (restaurateur)' : 'vendeur (agriculteur)',
-                location: u.location || 'Cameroun',
-                wallet: (u.wallet_balance || 0).toLocaleString('fr-FR') + ' FCFA',
-                status: 'Actif (Nouveau)'
-              });
-            }
-          });
-        } catch (e) {}
-      }
+      // 2. Add saved admin users
+      try {
+        const storedAdmin = JSON.parse(localStorage.getItem('agroelevage_admin_users') || '[]');
+        storedAdmin.forEach(u => {
+          if (!deleted.includes(String(u.id)) && !deleted.includes(String(u.phone).trim())) {
+            usersMap.set(String(u.phone).trim(), { ...u });
+          }
+        });
+      } catch (e) {}
 
-      // 3. Merge active session user if new
-      const currentRaw = localStorage.getItem('agroelevage_user');
-      if (currentRaw) {
-        try {
-          const u = JSON.parse(currentRaw);
-          const cleanPhone = (u.phone || localStorage.getItem('ago_user_phone') || '').trim();
-          if (cleanPhone && !combined.some(c => c.phone === cleanPhone)) {
-            combined.push({
-              id: u.id || Date.now(),
-              name: u.name || localStorage.getItem('ago_user_fullname') || 'Utilisateur Connecté',
+      // 3. Add registered users
+      try {
+        const registered = JSON.parse(localStorage.getItem('agroelevage_registered_users') || '[]');
+        registered.forEach((u, idx) => {
+          const cleanPhone = String(u.phone || '').trim();
+          if (cleanPhone && !deleted.includes(String(u.id)) && !deleted.includes(cleanPhone)) {
+            const existing = usersMap.get(cleanPhone) || {};
+            usersMap.set(cleanPhone, {
+              id: u.id || existing.id || (100 + idx),
+              name: u.name || existing.name || 'Nouvel Utilisateur',
               phone: cleanPhone,
-              email: u.email || localStorage.getItem('ago_user_email') || '',
-              role: u.role || localStorage.getItem('ago_user_role') || 'vendeur',
-              location: u.location || localStorage.getItem('ago_user_location') || 'Yaoundé',
-              wallet: '0 FCFA',
-              status: 'Actif (Connecté)'
+              email: u.email || existing.email || '',
+              role: u.role || existing.role || 'vendeur (agriculteur)',
+              location: u.location || existing.location || 'Cameroun',
+              wallet: u.wallet || existing.wallet || (u.wallet_balance ? u.wallet_balance + ' FCFA' : '0 FCFA'),
+              status: u.status || existing.status || 'Actif'
             });
           }
-        } catch (e) {}
-      }
+        });
+      } catch (e) {}
 
-      return combined;
+      return Array.from(usersMap.values());
     }
 
     function saveUsersList(list) {
@@ -402,7 +568,7 @@
       users.forEach(u => {
         if (filter && !u.name.toLowerCase().includes(filter) && !u.phone.includes(filter)) return;
 
-        const isAdmin = u.role.includes('admin') || u.id === 1;
+        const isSuperAdmin = String(u.id) === '1' || (u.email && u.email.includes('kenfoloic3@gmail.com'));
         html += `
           <tr>
             <td><span style="font-weight: 700; color: var(--text-muted);">#${u.id}</span></td>
@@ -411,19 +577,23 @@
               <div style="font-size: 11.5px; color: var(--text-muted);">${u.email || ''}</div>
             </td>
             <td style="font-weight: 600;">${u.phone}</td>
-            <td><span class="badge-role" style="padding: 2px 8px; border-radius: 6px; font-size: 11px; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; font-weight: 700;">${u.role}</span></td>
-            <td style="color: var(--text-muted);">${u.location}</td>
+            <td><span style="padding: 2px 8px; border-radius: 6px; font-size: 11px; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; font-weight: 700;">${u.role}</span></td>
+            <td style="color: var(--text-muted);">${u.location || 'Cameroun'}</td>
             <td style="font-weight: 700; color: var(--primary);">${u.wallet || '0 FCFA'}</td>
             <td><span style="display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; color: ${u.status === 'Bloqué' ? '#ef4444' : '#16a34a'};"><span style="width: 8px; height: 8px; border-radius: 50%; background: ${u.status === 'Bloqué' ? '#ef4444' : '#16a34a'};"></span> ${u.status || 'Actif'}</span></td>
             <td style="text-align: right;">
               <div style="display: flex; gap: 6px; justify-content: flex-end;">
-                ${!isAdmin ? `
-                  <button type="button" class="btn-admin-danger" onclick="deleteUserByAdmin(${u.id}, '${u.name.replace(/'/g, "\\'")}')" title="Supprimer définitivement ce compte">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                <button type="button" class="btn-admin-edit" onclick="openEditUserModal('${u.id}')" title="Modifier les informations de cet utilisateur">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                  Modifier
+                </button>
+                ${!isSuperAdmin ? `
+                  <button type="button" class="btn-admin-danger" onclick="deleteUserByAdmin('${u.id}', '${u.name.replace(/'/g, "\\'")}', '${u.phone}')" title="Supprimer définitivement ce compte">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
                     Supprimer
                   </button>
                 ` : `
-                  <span style="font-size: 11.5px; font-weight: 700; color: #15803d; padding: 4px 8px; background: #dcfce7; border-radius: 6px;">Compte Protégé</span>
+                  <span style="font-size: 11px; font-weight: 700; color: #15803d; padding: 4px 8px; background: #dcfce7; border-radius: 6px;">Super Admin</span>
                 `}
               </div>
             </td>
@@ -434,45 +604,122 @@
       tbody.innerHTML = html || '<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 20px;">Aucun utilisateur trouvé</td></tr>';
     }
 
-    window.deleteUserByAdmin = function(userId, userName) {
-      if (!confirm(`Confirmez-vous la suppression définitive du compte de "${userName}" et de tous ses produits associés ?`)) {
+    window.openEditUserModal = function(userId) {
+      const users = getUsersList();
+      const user = users.find(u => String(u.id) === String(userId));
+      if (!user) return;
+
+      document.getElementById('editUserId').value = user.id;
+      document.getElementById('editUserName').value = user.name;
+      document.getElementById('editUserPhone').value = user.phone;
+      document.getElementById('editUserEmail').value = user.email || '';
+      document.getElementById('editUserRole').value = user.role;
+      document.getElementById('editUserStatus').value = user.status || 'Actif';
+      document.getElementById('editUserLocation').value = user.location || 'Yaoundé, Cameroun';
+      document.getElementById('editUserWallet').value = user.wallet || '0 FCFA';
+
+      document.getElementById('modalEditUserBackdrop').classList.add('open');
+    };
+
+    window.closeEditUserModal = function() {
+      document.getElementById('modalEditUserBackdrop').classList.remove('open');
+    };
+
+    window.saveUserChanges = function() {
+      const id = document.getElementById('editUserId').value;
+      const name = document.getElementById('editUserName').value.trim();
+      const phone = document.getElementById('editUserPhone').value.trim();
+      const email = document.getElementById('editUserEmail').value.trim();
+      const role = document.getElementById('editUserRole').value;
+      const status = document.getElementById('editUserStatus').value;
+      const location = document.getElementById('editUserLocation').value.trim();
+      const wallet = document.getElementById('editUserWallet').value.trim();
+
+      let users = getUsersList();
+      const idx = users.findIndex(u => String(u.id) === String(id));
+      if (idx !== -1) {
+        users[idx] = { ...users[idx], name, phone, email, role, status, location, wallet };
+      } else {
+        users.push({ id, name, phone, email, role, status, location, wallet });
+      }
+
+      saveUsersList(users);
+      closeEditUserModal();
+      renderUsersTable();
+      showToast(`Utilisateur "${name}" mis à jour avec succès !`);
+      window.dispatchEvent(new Event('agroelevage_users_updated'));
+    };
+
+    window.deleteUserByAdmin = function(userId, userName, userPhone) {
+      if (!confirm(`Confirmez-vous la suppression DÉFINITIVE du compte de "${userName}" (${userPhone}) ?`)) {
         return;
       }
 
-      let users = getUsersList();
-      users = users.filter(u => u.id !== userId);
-      saveUsersList(users);
+      // Add to persistent deleted registry
+      addDeletedUserId(userId, userPhone);
 
-      // Also remove any products published by this user from agroelevage_products
-      let prods = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
-      prods = prods.filter(p => p.ownerPhone !== users.find(u => u.id === userId)?.phone);
+      // Remove from admin and registered stores
+      let adminUsers = JSON.parse(localStorage.getItem('agroelevage_admin_users') || '[]');
+      adminUsers = adminUsers.filter(u => String(u.id) !== String(userId) && u.phone !== userPhone);
+      localStorage.setItem('agroelevage_admin_users', JSON.stringify(adminUsers));
+
+      let regUsers = JSON.parse(localStorage.getItem('agroelevage_registered_users') || '[]');
+      regUsers = regUsers.filter(u => String(u.id) !== String(userId) && u.phone !== userPhone);
+      localStorage.setItem('agroelevage_registered_users', JSON.stringify(regUsers));
+
+      // Remove products published by this user
+      let prods = getProductsList();
+      prods = prods.filter(p => p.ownerPhone !== userPhone && String(p.seller_id) !== String(userId));
       localStorage.setItem('agroelevage_products', JSON.stringify(prods));
-      window.dispatchEvent(new Event('agroelevage_products_updated'));
 
       renderUsersTable();
       renderProductsTable();
-      showToast(`Utilisateur "${userName}" supprimé avec succès.`);
+      showToast(`Compte de "${userName}" supprimé définitivement.`);
+      window.dispatchEvent(new Event('agroelevage_users_updated'));
+      window.dispatchEvent(new Event('agroelevage_products_updated'));
     };
 
     // --- PRODUCTS MANAGEMENT ---
-    const initialMarketProducts = [
-      { id: 'prod_1', name: 'Tomates fraîches Roma (Cagettes 20kg)', category: 'maraichage', price: 12500, unit: 'cagette', stock: 120, location: 'Foumbot, Ouest', ownerName: 'Paul Nguema', image: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400' },
-      { id: 'prod_2', name: 'Poulets Goliath fermiers vivants', category: 'elevage', price: 3500, unit: 'u', stock: 50, location: 'Bafoussam, Ouest', ownerName: 'Marie Tchakounté', image: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=400' },
-      { id: 'prod_3', name: 'Maïs Blanc Séché (Sacs 50kg)', category: 'cereales', price: 12000, unit: 'sac', stock: 300, location: 'Garoua, Nord', ownerName: 'Ibrahim Bello', image: 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=400' },
-      { id: 'prod_4', name: 'Poivre Blanc de Penja IGP (Sacs 5kg)', category: 'maraichage', price: 35000, unit: 'sac', stock: 45, location: 'Njombé-Penja, Moungo', ownerName: 'Emmanuel Manga', image: 'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=400' },
-      { id: 'prod_5', name: 'Poivrons Verts Bio', category: 'maraichage', price: 850, unit: 'kg', stock: 150, location: 'Yaoundé, Cameroun', ownerName: 'Kenfo Loic (Admin)', image: 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=400' }
+    const baseDefaultProducts = [
+      { id: 'prod_1', name: 'Tomates fraîches Roma (Cagettes 20kg)', category: 'maraichage', price: 12500, unit: 'cagette', stock: 120, location: 'Foumbot, Ouest', ownerName: 'Paul Nguema', ownerPhone: '+237 690 12 34 56', image: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400' },
+      { id: 'prod_2', name: 'Poulets Goliath fermiers vivants', category: 'elevage', price: 3500, unit: 'u', stock: 50, location: 'Bafoussam, Ouest', ownerName: 'Marie Tchakounté', ownerPhone: '+237 691 23 45 67', image: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=400' },
+      { id: 'prod_3', name: 'Maïs Blanc Séché (Sacs 50kg)', category: 'cereales', price: 12000, unit: 'sac', stock: 300, location: 'Garoua, Nord', ownerName: 'Ibrahim Bello', ownerPhone: '+237 692 34 56 78', image: 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=400' },
+      { id: 'prod_4', name: 'Poivre Blanc de Penja IGP (Sacs 5kg)', category: 'maraichage', price: 35000, unit: 'sac', stock: 45, location: 'Njombé-Penja, Moungo', ownerName: 'Emmanuel Manga', ownerPhone: '+237 693 45 67 89', image: 'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=400' },
+      { id: 'prod_5', name: 'Poivrons Verts Bio', category: 'maraichage', price: 850, unit: 'kg', stock: 150, location: 'Yaoundé, Cameroun', ownerName: 'Kenfo Loic (Admin)', ownerPhone: '+237 693 412 317', image: 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=400' }
     ];
 
+    function getDeletedProdIds() {
+      try {
+        return JSON.parse(localStorage.getItem('agroelevage_deleted_prod_ids') || '[]');
+      } catch (e) { return []; }
+    }
+
+    function addDeletedProdId(id) {
+      const list = getDeletedProdIds();
+      if (id && !list.includes(String(id))) {
+        list.push(String(id));
+        localStorage.setItem('agroelevage_deleted_prod_ids', JSON.stringify(list));
+      }
+    }
+
     function getProductsList() {
+      const deleted = getDeletedProdIds();
       const stored = localStorage.getItem('agroelevage_products');
+      let list = [];
+
       if (stored) {
         try {
-          const list = JSON.parse(stored);
-          if (list.length > 0) return list;
+          list = JSON.parse(stored);
         } catch (e) {}
       }
-      localStorage.setItem('agroelevage_products', JSON.stringify(initialMarketProducts));
-      return initialMarketProducts;
+
+      if (!list || list.length === 0) {
+        list = [...baseDefaultProducts];
+      }
+
+      // Filter out deleted items
+      list = list.filter(p => !deleted.includes(String(p.id)));
+      return list;
     }
 
     function renderProductsTable() {
@@ -498,16 +745,16 @@
             <td><span style="padding: 2px 8px; border-radius: 6px; font-size: 11px; background: #f1f5f9; color: var(--text-muted); font-weight: 600;">${p.category || 'maraichage'}</span></td>
             <td style="font-weight: 800; color: var(--primary);">${(p.price || 0).toLocaleString('fr-FR')} FCFA</td>
             <td style="font-weight: 600;">${p.quantity || p.stock || 0} ${p.unit || 'kg'}</td>
-            <td style="font-weight: 600; color: var(--text-main);">${p.ownerName || 'Producteur certifié'}</td>
+            <td style="font-weight: 600; color: var(--text-main);">${p.ownerName || 'Producteur'}</td>
             <td style="color: var(--text-muted);">${p.location || 'Cameroun'}</td>
             <td style="text-align: right;">
               <div style="display: flex; gap: 6px; justify-content: flex-end;">
-                <a href="ajouter_produit.html?edit_id=${p.id}" class="btn-admin-edit" title="Modifier le produit">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                <button type="button" class="btn-admin-edit" onclick="openEditProdModal('${p.id}')" title="Modifier le produit">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
                   Modifier
-                </a>
+                </button>
                 <button type="button" class="btn-admin-danger" onclick="deleteProductByAdmin('${p.id}', '${p.name.replace(/'/g, "\\'")}')" title="Supprimer ce produit de la marketplace">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
                   Supprimer
                 </button>
               </div>
@@ -519,20 +766,79 @@
       tbody.innerHTML = html || '<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 20px;">Aucun produit trouvé</td></tr>';
     }
 
+    window.openEditProdModal = function(prodId) {
+      const prods = getProductsList();
+      const prod = prods.find(p => String(p.id) === String(prodId));
+      if (!prod) return;
+
+      document.getElementById('editProdId').value = prod.id;
+      document.getElementById('editProdName').value = prod.name;
+      document.getElementById('editProdCategory').value = prod.category || 'maraichage';
+      document.getElementById('editProdUnit').value = prod.unit || 'kg';
+      document.getElementById('editProdPrice').value = prod.price || 0;
+      document.getElementById('editProdStock').value = prod.quantity !== undefined ? prod.quantity : (prod.stock || 0);
+      document.getElementById('editProdOwner').value = prod.ownerName || '';
+      document.getElementById('editProdLocation').value = prod.location || '';
+      document.getElementById('editProdImage').value = prod.image || prod.imageUrl || '';
+
+      document.getElementById('modalEditProdBackdrop').classList.add('open');
+    };
+
+    window.closeEditProdModal = function() {
+      document.getElementById('modalEditProdBackdrop').classList.remove('open');
+    };
+
+    window.saveProdChanges = function() {
+      const id = document.getElementById('editProdId').value;
+      const name = document.getElementById('editProdName').value.trim();
+      const category = document.getElementById('editProdCategory').value;
+      const unit = document.getElementById('editProdUnit').value.trim();
+      const price = parseFloat(document.getElementById('editProdPrice').value) || 0;
+      const stock = parseFloat(document.getElementById('editProdStock').value) || 0;
+      const ownerName = document.getElementById('editProdOwner').value.trim();
+      const location = document.getElementById('editProdLocation').value.trim();
+      const image = document.getElementById('editProdImage').value.trim();
+
+      let prods = getProductsList();
+      const idx = prods.findIndex(p => String(p.id) === String(id));
+      if (idx !== -1) {
+        prods[idx] = {
+          ...prods[idx],
+          name,
+          category,
+          unit,
+          price,
+          quantity: stock,
+          stock: stock,
+          ownerName,
+          location,
+          image: image || prods[idx].image
+        };
+      } else {
+        prods.push({ id, name, category, unit, price, quantity: stock, stock, ownerName, location, image });
+      }
+
+      localStorage.setItem('agroelevage_products', JSON.stringify(prods));
+      closeEditProdModal();
+      renderProductsTable();
+      showToast(`Produit "${name}" mis à jour avec succès !`);
+      window.dispatchEvent(new Event('agroelevage_products_updated'));
+    };
+
     window.deleteProductByAdmin = function(productId, prodName) {
-      if (!confirm(`Voulez-vous supprimer définitivement le produit "${prodName}" de toute la marketplace ?`)) {
+      if (!confirm(`Confirmez-vous la suppression définitive du produit "${prodName}" de toute la marketplace ?`)) {
         return;
       }
+
+      addDeletedProdId(productId);
 
       let prods = getProductsList();
       prods = prods.filter(p => String(p.id) !== String(productId));
       localStorage.setItem('agroelevage_products', JSON.stringify(prods));
 
-      // Trigger update on marketplace and mes_produits
-      window.dispatchEvent(new Event('agroelevage_products_updated'));
-
       renderProductsTable();
-      showToast(`Produit "${prodName}" supprimé avec succès.`);
+      showToast(`Produit "${prodName}" supprimé définitivement.`);
+      window.dispatchEvent(new Event('agroelevage_products_updated'));
     };
 
     document.addEventListener('DOMContentLoaded', () => {
