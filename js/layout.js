@@ -76,7 +76,6 @@ const webSidebarHTML = `
         </div>
         <div class="web-user-info-text">
           <span class="web-user-name-txt">Kenfo Loic</span>
-          <span class="web-user-role-txt">Producteur Certifié</span>
         </div>
       </div>
       <a href="index.html" class="web-logout-btn" title="Déconnexion">${SVG.logout}</a>
