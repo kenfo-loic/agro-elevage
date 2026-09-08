@@ -1,63 +1,59 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="100%" height="100%">
   <defs>
-    <!-- Background Circle Gradient -->
-    <linearGradient id="logoBg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#22c55e"/>
+    <!-- Background Gradient -->
+    <linearGradient id="aLogoBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#16a34a"/>
       <stop offset="50%" stop-color="#15803d"/>
       <stop offset="100%" stop-color="#052e16"/>
     </linearGradient>
 
-    <!-- Golden Wheat / Sun Gradient -->
-    <linearGradient id="goldGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+    <!-- Golden Accent Gradient -->
+    <linearGradient id="aGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#fef08a"/>
-      <stop offset="40%" stop-color="#facc15"/>
-      <stop offset="100%" stop-color="#ca8a04"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
     </linearGradient>
 
-    <!-- Emerald Leaf Gradient -->
-    <linearGradient id="leafGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+    <!-- Emerald Leaf / Stem Gradient -->
+    <linearGradient id="aLeafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#86efac"/>
-      <stop offset="60%" stop-color="#22c55e"/>
-      <stop offset="100%" stop-color="#166534"/>
+      <stop offset="50%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#15803d"/>
     </linearGradient>
 
     <!-- Drop Shadow Filter -->
-    <filter id="crispShadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.4"/>
+    <filter id="aDropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
     </filter>
   </defs>
 
-  <!-- Outer Glowing Shield/Badge Container -->
-  <rect x="8" y="8" width="144" height="144" rx="42" fill="url(#logoBg)" stroke="#ffffff" stroke-width="4" filter="url(#crispShadow)"/>
+  <!-- Outer Rounded Shield Card with Border -->
+  <rect x="8" y="8" width="144" height="144" rx="40" fill="url(#aLogoBg)" stroke="#ffffff" stroke-width="4.5" filter="url(#aDropShadow)"/>
   
-  <!-- Subtle Internal Ring -->
-  <rect x="14" y="14" width="132" height="132" rx="36" fill="none" stroke="rgba(255, 255, 255, 0.25)" stroke-width="2"/>
+  <!-- Subtle Internal Glow Ring -->
+  <rect x="14" y="14" width="132" height="132" rx="34" fill="none" stroke="rgba(255, 255, 255, 0.2)" stroke-width="2"/>
 
-  <!-- Sun Arc / Sunrise in Background -->
-  <path d="M 40 95 A 40 40 0 0 1 120 95 Z" fill="url(#goldGlow)" opacity="0.95"/>
-  <circle cx="80" cy="95" r="16" fill="#ffffff" opacity="0.9"/>
+  <!-- Stylized Letter "A" Structure -->
+  <!-- Left Leg of 'A' (Emerald Sprout Blade) -->
+  <path d="M 80 28 C 76 28, 70 34, 66 42 L 34 116 C 31 123, 36 128, 44 128 C 49 128, 54 124, 57 118 L 68 94 L 80 94 Z" fill="#ffffff"/>
+  <path d="M 80 28 C 76 28, 70 34, 66 42 L 34 116 C 31 123, 36 128, 44 128 C 49 128, 54 124, 57 118 L 68 94 Z" fill="url(#aLeafGrad)"/>
 
-  <!-- Stylized Livestock Silhouette & Horns (Left/Right balance) -->
-  <path d="M 42 62 C 55 45, 105 45, 118 62 C 112 76, 100 82, 80 84 C 60 82, 48 76, 42 62 Z" fill="#ffffff" opacity="0.95"/>
+  <!-- Right Leg of 'A' (Golden Grain Curve) -->
+  <path d="M 80 28 C 84 28, 90 34, 94 42 L 126 116 C 129 123, 124 128, 116 128 C 111 128, 106 124, 103 118 L 92 94 L 80 94 Z" fill="#ffffff"/>
+  <path d="M 80 28 C 84 28, 90 34, 94 42 L 126 116 C 129 123, 124 128, 116 128 C 111 128, 106 124, 103 118 L 92 94 Z" fill="url(#aGoldGrad)"/>
 
-  <!-- Left Agricultural Sprout / Leaf (Vibrant Bright Green) -->
-  <path d="M 80 118 C 50 114, 40 85, 52 64 C 70 70, 82 88, 80 118 Z" fill="url(#leafGlow)" stroke="#ffffff" stroke-width="2"/>
-  
-  <!-- Right Golden Grain Ear / Elevage (Vibrant Golden Amber) -->
-  <path d="M 80 118 C 110 114, 120 85, 108 64 C 90 70, 78 88, 80 118 Z" fill="url(#goldGlow)" stroke="#ffffff" stroke-width="2"/>
+  <!-- Central Crossbar of 'A' & Organic Seed Leaf -->
+  <path d="M 56 86 Q 80 72 104 86 Q 80 96 56 86 Z" fill="#ffffff"/>
+  <path d="M 58 86 Q 80 74 102 86 Q 80 94 58 86 Z" fill="url(#aGoldGrad)"/>
 
-  <!-- Grain Kernels Detail -->
-  <circle cx="96" cy="74" r="4.5" fill="#ffffff"/>
-  <circle cx="104" cy="85" r="4" fill="#ffffff"/>
-  <circle cx="94" cy="96" r="3.5" fill="#ffffff"/>
+  <!-- Central Growing Leaf inside Top Apex of 'A' -->
+  <path d="M 80 44 C 72 56, 74 68, 80 74 C 86 68, 88 56, 80 44 Z" fill="#ffffff"/>
+  <path d="M 80 46 C 74 56, 75 66, 80 72 C 85 66, 86 56, 80 46 Z" fill="url(#aLeafGrad)"/>
 
-  <!-- Central Connection Link Stem (Pure Bright White) -->
-  <path d="M 80 128 L 80 72" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round"/>
-  
-  <!-- Central Glowing Tech Node (Link) -->
-  <circle cx="80" cy="68" r="8" fill="#ffffff" stroke="#15803d" stroke-width="2.5"/>
-  <circle cx="80" cy="68" r="4" fill="#15803d"/>
+  <!-- Top Apex Highlight Sphere -->
+  <circle cx="80" cy="28" r="5" fill="#ffffff"/>
+  <circle cx="80" cy="28" r="2.5" fill="#22c55e"/>
 
-  <!-- Base Connection Ribbon Arc -->
-  <path d="M 54 126 Q 80 138 106 126" stroke="#fde047" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <!-- Base Connection Link Arc -->
+  <path d="M 48 132 Q 80 144 112 132" stroke="#fde047" stroke-width="4.5" stroke-linecap="round" fill="none"/>
 </svg>

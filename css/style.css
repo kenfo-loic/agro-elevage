@@ -1357,6 +1357,50 @@ html, body {
   transform: translateY(-2px);
 }
 
+@media (min-width: 769px) {
+  .welcome-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    min-height: 100%;
+  }
+  .welcome-header {
+    margin-bottom: 18px;
+    padding-top: 0;
+  }
+  .logo-badge-container {
+    width: 96px;
+    height: 96px;
+    margin-bottom: 16px;
+  }
+  .welcome-app-title {
+    font-size: 32px;
+    margin-bottom: 6px;
+  }
+  .welcome-subtitle {
+    font-size: 15px;
+  }
+  .welcome-body {
+    margin-top: 0;
+    margin-bottom: 28px;
+    align-items: center;
+    text-align: center;
+  }
+  .welcome-description {
+    font-size: 16px;
+    max-width: 460px;
+    text-align: center;
+    line-height: 1.5;
+  }
+  .welcome-actions {
+    max-width: 380px;
+    margin: 0 auto;
+    gap: 14px;
+  }
+}
+
 @media (max-width: 768px) {
   .welcome-screen {
     top: 0;
