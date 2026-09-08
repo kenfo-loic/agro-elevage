@@ -1232,22 +1232,25 @@ html, body {
 
 .logo-badge-container {
   position: relative;
-  width: 74px;
-  height: 74px;
-  margin-bottom: 10px;
-  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.7));
+  width: 86px;
+  height: 86px;
+  margin-bottom: 14px;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.85));
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .logo-badge-container:hover {
-  transform: scale(1.08) rotate(1deg);
+  transform: scale(1.08) translateY(-2px);
 }
 
 .logo-badge-img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 50%;
+  border-radius: 24px;
 }
 
 .welcome-app-title {
@@ -3336,3 +3339,168 @@ input:checked + .slider-round:before {
     grid-template-columns: 1fr;
   }
 }
+
+/* ===================================================================
+   RICH INTERACTIVE ANIMATIONS & MICRO-INTERACTIONS SUITE
+   =================================================================== */
+
+/* Keyframe Animations */
+@keyframes agroFadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes agroScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes agroPulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.4);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 0 0 8px rgba(22, 163, 74, 0);
+  }
+}
+
+@keyframes agroFloatSmooth {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes agroShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes agroSpringBounce {
+  0% { transform: scale(0.9); }
+  50% { transform: scale(1.04); }
+  75% { transform: scale(0.98); }
+  100% { transform: scale(1); }
+}
+
+/* Page & Card Entrance Staggered */
+.web-card,
+.product-item-card,
+.seller-prod-card {
+  animation: agroFadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.web-card:hover,
+.product-item-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+}
+
+.seller-prod-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px -4px rgba(22, 163, 74, 0.12);
+  border-color: var(--primary-border);
+}
+
+/* Tactile Interactive Buttons */
+.btn-primary-action,
+.btn-welcome-primary,
+.btn-welcome-secondary,
+.btn-secondary,
+.btn-action-tool {
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(22, 163, 74, 0.35);
+}
+
+.btn-primary-action:active,
+.btn-secondary:active,
+.btn-action-tool:active,
+.btn-welcome-primary:active,
+.btn-welcome-secondary:active {
+  transform: scale(0.96) !important;
+}
+
+/* Category Filter Chips Animation */
+.cat-chip,
+.cat-filter-chip {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cat-chip:hover,
+.cat-filter-chip:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.cat-chip.active,
+.cat-filter-chip.active {
+  animation: agroSpringBounce 0.3s ease;
+}
+
+/* Live Notification & Pulsing Dots */
+.web-notif-dot {
+  animation: agroPulseGlow 2s infinite ease-in-out;
+}
+
+/* Interactive Navigation Links */
+.web-nav-item {
+  transition: all 0.2s ease;
+}
+
+.web-nav-item:hover {
+  transform: translateX(4px);
+}
+
+.mobile-nav-btn {
+  transition: transform 0.18s ease, color 0.18s ease;
+}
+
+.mobile-nav-btn:active {
+  transform: scale(0.9);
+}
+
+/* Interactive Form Focus Effect */
+.form-input:focus,
+.login-input-field:focus {
+  transform: translateY(-1px);
+  transition: all 0.2s ease;
+}
+
+/* Delete Card Transition */
+.fade-out-delete {
+  transition: all 0.35s ease !important;
+  opacity: 0 !important;
+  transform: scale(0.9) translateY(-10px) !important;
+  max-height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+  overflow: hidden !important;
+}
+

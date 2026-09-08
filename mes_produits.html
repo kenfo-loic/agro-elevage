@@ -432,8 +432,9 @@
                   <button class="btn-action-tool" onclick="openStockModal('${p.id}')" title="Ajuster le stock rapidement">
                      <span>Stock</span>
                   </button>
-                  <button class="btn-action-tool btn-action-delete" onclick="deleteProduct('${p.id}')" title="Supprimer">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                  <button class="btn-action-tool btn-action-delete" onclick="deleteProduct('${p.id}')" title="Supprimer définitivement ce produit">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                    <span>Supprimer</span>
                   </button>
                 </div>
               </div>
@@ -451,9 +452,20 @@
 
       // 1. Toggle Visibility (En Ligne / Suspendu)
       window.toggleProductAvailability = function(id, isChecked) {
-        const prod = productsList.find(p => p.id === id);
+        const prod = productsList.find(p => String(p.id) === String(id));
         if (prod) {
           prod.isAvailable = isChecked;
+          
+          // Sync localStorage
+          let localList = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
+          localList = localList.map(item => {
+            if (String(item.id) === String(id)) {
+              return { ...item, isAvailable: isChecked };
+            }
+            return item;
+          });
+          localStorage.setItem('agroelevage_products', JSON.stringify(localList));
+
           if (typeof window.addUserNotification === 'function') {
             window.addUserNotification('Disponibilité produit modifiée', isChecked ? `Vous avez publié "${prod.name}" en ligne sur la marketplace.` : `Vous avez masqué "${prod.name}" de la marketplace.`, 'product', 'mes_produits.html');
           } else {
@@ -472,30 +484,52 @@
         }
       };
 
-      // 2. Delete Product (Synchronized across all pages via localStorage)
+      // 2. Delete Product (Synchronized across all pages via localStorage & events)
       window.deleteProduct = function(id) {
         const prod = productsList.find(p => String(p.id) === String(id));
         if (!prod) return;
 
-        if (confirm(`Voulez-vous vraiment supprimer "${prod.name}" ? Il sera définitivement retiré de toutes les pages.`)) {
-          productsList = productsList.filter(p => String(p.id) !== String(id));
-
-          // Sync localStorage
-          let localList = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
-          localList = localList.filter(p => String(p.id) !== String(id));
-          localStorage.setItem('agroelevage_products', JSON.stringify(localList));
-
-          if (typeof window.addUserNotification === 'function') {
-            window.addUserNotification('Produit supprimé', `Vous avez supprimé le produit "${prod.name}" de votre catalogue.`, 'danger', 'mes_produits.html');
-          } else {
-            showToast(`"${prod.name}" a été supprimé de toutes les pages !`);
+        if (confirm(`Voulez-vous vraiment supprimer "${prod.name}" ?\n\nCe produit sera définitivement retiré de votre catalogue, de la Marketplace et de la Carte.`)) {
+          const cardEl = document.getElementById(`prodCard-${id}`);
+          if (cardEl) {
+            cardEl.style.transition = 'all 0.35s ease';
+            cardEl.style.transform = 'scale(0.92) translateY(-10px)';
+            cardEl.style.opacity = '0';
+            cardEl.style.maxHeight = '0px';
           }
 
-          if (window.AgroApi && window.AgroApi.isAuthenticated()) {
-            window.AgroApi.deleteProduct(id).catch(() => {});
-          }
+          setTimeout(() => {
+            productsList = productsList.filter(p => String(p.id) !== String(id));
 
-          renderAll();
+            // Sync localStorage (agroelevage_products)
+            let localList = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
+            localList = localList.filter(p => String(p.id) !== String(id) && p.name !== prod.name);
+            localStorage.setItem('agroelevage_products', JSON.stringify(localList));
+
+            // Sync user_products if existing
+            try {
+              let userProds = JSON.parse(localStorage.getItem('user_products') || '[]');
+              userProds = userProds.filter(p => String(p.id) !== String(id) && p.name !== prod.name);
+              localStorage.setItem('user_products', JSON.stringify(userProds));
+            } catch (e) {}
+
+            // Dispatch global event for other open pages/tabs
+            try {
+              window.dispatchEvent(new Event('storage'));
+              window.dispatchEvent(new CustomEvent('agroelevage_products_updated', { detail: { id: id, name: prod.name } }));
+            } catch (e) {}
+
+            if (typeof window.addUserNotification === 'function') {
+              window.addUserNotification('Produit supprimé', `Vous avez définitivement supprimé "${prod.name}" de votre catalogue et de la marketplace.`, 'danger', 'mes_produits.html');
+            }
+            showToast(`"${prod.name}" a été définitivement supprimé partout.`);
+
+            if (window.AgroApi && window.AgroApi.isAuthenticated()) {
+              window.AgroApi.deleteProduct(id).catch(() => {});
+            }
+
+            renderAll();
+          }, 300);
         }
       };
 

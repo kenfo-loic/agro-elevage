@@ -41,7 +41,7 @@ const webSidebarHTML = `
   <aside class="web-sidebar" id="webSidebar">
     <div class="web-sidebar-header">
       <div class="web-brand-logo-wrap" style="background: transparent; box-shadow: none; padding: 0;">
-        <img src="assets/images/logo.png" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" alt="AgroElevage Logo" />
+        <img src="assets/images/logo.svg" style="width: 40px; height: 40px; border-radius: 10px; object-fit: contain;" alt="AgroElevage Logo" />
       </div>
       <div style="flex: 1; min-width: 0;">
         <h1 class="web-brand-title">AgroElevage <span style="color: var(--accent-gold);">Link</span></h1>
@@ -116,7 +116,7 @@ const loginModalHTML = `
     </button>
 
     <div class="login-modal-logo">
-      <img src="assets/images/logo.png" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;" alt="Logo" />
+      <img src="assets/images/logo.svg" style="width: 48px; height: 48px; border-radius: 12px; object-fit: contain;" alt="Logo" />
     </div>
 
     <h2 class="login-modal-title" id="loginModalTitle">Bon retour !</h2>
