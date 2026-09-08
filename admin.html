@@ -302,15 +302,71 @@
 
     // --- USERS MANAGEMENT ---
     function getUsersList() {
-      const stored = localStorage.getItem('agroelevage_admin_users');
-      if (stored) {
-        try { return JSON.parse(stored); } catch (e) {}
+      let combined = [...defaultUsers];
+
+      // 1. Merge saved admin users
+      const storedAdminUsers = localStorage.getItem('agroelevage_admin_users');
+      if (storedAdminUsers) {
+        try {
+          const list = JSON.parse(storedAdminUsers);
+          list.forEach(u => {
+            if (!combined.some(c => c.phone === u.phone || (u.email && c.email === u.email))) {
+              combined.push(u);
+            }
+          });
+        } catch (e) {}
       }
-      return defaultUsers;
+
+      // 2. Merge all new registrations from the website
+      const registered = localStorage.getItem('agroelevage_registered_users');
+      if (registered) {
+        try {
+          const list = JSON.parse(registered);
+          list.forEach((u, idx) => {
+            const cleanPhone = (u.phone || '').trim();
+            if (cleanPhone && !combined.some(c => c.phone === cleanPhone || (u.email && c.email === u.email))) {
+              combined.push({
+                id: u.id || (100 + idx),
+                name: u.name || 'Nouvel Utilisateur',
+                phone: cleanPhone,
+                email: u.email || '',
+                role: u.role === 'acheteur' ? 'acheteur (restaurateur)' : 'vendeur (agriculteur)',
+                location: u.location || 'Cameroun',
+                wallet: (u.wallet_balance || 0).toLocaleString('fr-FR') + ' FCFA',
+                status: 'Actif (Nouveau)'
+              });
+            }
+          });
+        } catch (e) {}
+      }
+
+      // 3. Merge active session user if new
+      const currentRaw = localStorage.getItem('agroelevage_user');
+      if (currentRaw) {
+        try {
+          const u = JSON.parse(currentRaw);
+          const cleanPhone = (u.phone || localStorage.getItem('ago_user_phone') || '').trim();
+          if (cleanPhone && !combined.some(c => c.phone === cleanPhone)) {
+            combined.push({
+              id: u.id || Date.now(),
+              name: u.name || localStorage.getItem('ago_user_fullname') || 'Utilisateur Connecté',
+              phone: cleanPhone,
+              email: u.email || localStorage.getItem('ago_user_email') || '',
+              role: u.role || localStorage.getItem('ago_user_role') || 'vendeur',
+              location: u.location || localStorage.getItem('ago_user_location') || 'Yaoundé',
+              wallet: '0 FCFA',
+              status: 'Actif (Connecté)'
+            });
+          }
+        } catch (e) {}
+      }
+
+      return combined;
     }
 
     function saveUsersList(list) {
       localStorage.setItem('agroelevage_admin_users', JSON.stringify(list));
+      localStorage.setItem('agroelevage_registered_users', JSON.stringify(list));
     }
 
     function renderUsersTable() {
@@ -458,6 +514,13 @@
     };
 
     document.addEventListener('DOMContentLoaded', () => {
+      renderUsersTable();
+      renderProductsTable();
+    });
+
+    window.addEventListener('agroelevage_users_updated', renderUsersTable);
+    window.addEventListener('agroelevage_products_updated', renderProductsTable);
+    window.addEventListener('storage', () => {
       renderUsersTable();
       renderProductsTable();
     });

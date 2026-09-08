@@ -405,10 +405,26 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn('Network API offline, using local storage database store');
       }
 
-      // Save to LocalStorage User Store for Client-Side Offline Persistence
+      // Save to LocalStorage User Store for Client-Side Persistence
       let regUsers = JSON.parse(localStorage.getItem('agroelevage_registered_users') || '[]');
       regUsers.push(newUser);
       localStorage.setItem('agroelevage_registered_users', JSON.stringify(regUsers));
+
+      let adminUsers = JSON.parse(localStorage.getItem('agroelevage_admin_users') || '[]');
+      if (!adminUsers.some(u => u.phone === phone)) {
+        adminUsers.push({
+          id: newUser.id,
+          name: fullName,
+          phone: phone,
+          email: email,
+          role: currentRole === 'acheteur' ? 'acheteur (restaurateur)' : 'vendeur (agriculteur)',
+          location: location,
+          wallet: '0 FCFA',
+          status: 'Actif (Nouveau)'
+        });
+        localStorage.setItem('agroelevage_admin_users', JSON.stringify(adminUsers));
+      }
+
       localStorage.setItem('agroelevage_user', JSON.stringify(newUser));
       localStorage.setItem('ago_user_fullname', fullName);
       localStorage.setItem('ago_user_email', email);
@@ -416,6 +432,8 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('ago_user_role', currentRole === 'vendeur' ? 'Producteur Certifié' : 'Acheteur / Restaurant');
       localStorage.setItem('ago_user_location', location);
       localStorage.setItem('ago_logged_in', 'true');
+
+      window.dispatchEvent(new Event('agroelevage_users_updated'));
 
       if (typeof window.syncUserProfileUI === 'function') {
         window.syncUserProfileUI();
