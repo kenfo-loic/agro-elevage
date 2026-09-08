@@ -10,5 +10,15 @@ module.exports = {
   mistralApiKey: process.env.MISTRAL_API_KEY || 'z57COatI91evfWOECqgbzh5ZSWBiuoMs',
   mistralModel: process.env.MISTRAL_MODEL || 'mistral-large-latest',
   uploadDir: path.resolve(__dirname, '..', 'uploads'),
-  commissionPercent: parseFloat(process.env.DEFAULT_COMMISSION_PERCENT) || 2.5
+  commissionPercent: parseFloat(process.env.DEFAULT_COMMISSION_PERCENT) || 2.5,
+  postgres: {
+    connectionString: process.env.DATABASE_URL,
+    host: process.env.PGHOST || 'localhost',
+    port: parseInt(process.env.PGPORT, 10) || 5432,
+    user: process.env.PGUSER || 'postgres',
+    password: process.env.PGPASSWORD || 'postgres',
+    database: process.env.PGDATABASE || 'agroelevage_db',
+    ssl: process.env.PGSSL === 'true'
+  }
 };
+
