@@ -426,10 +426,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Toggle Espace Admin visibility (STRICTLY for Administrator only)
     const isAdmin = isLoggedIn && (
-      (role && role.toLowerCase().includes('admin')) ||
-      (name && name.toLowerCase().includes('admin')) ||
-      (email && email.toLowerCase().includes('kenfoloic')) ||
-      (phone && phone.replace(/[\s+]/g, '').includes('693412317')) ||
+      (email && email.toLowerCase() === 'agro2026elevage@gmail.com') ||
+      (role && role.toLowerCase() === 'admin') ||
       localStorage.getItem('ago_user_role') === 'admin'
     );
     const adminSidebarLink = document.getElementById('sidebarAdminLink');
@@ -495,17 +493,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const cleanInput = loginVal.toLowerCase().replace(/[\s+]/g, '');
       const allUsers = [...regUsers, ...adminUsers];
 
-      // 3. Check Admin credentials
+      // 3. Check Unique Admin credentials: agro2026elevage@gmail.com / agroagroagro
       const isAdminMatch = (
-        (loginVal.toLowerCase() === 'kenfoloic3@gmail.com' || cleanInput === '237693412317' || cleanInput === '693412317') &&
-        (pwdVal === 'admin_kenfo_2026' || pwdVal === 'password123')
+        loginVal.toLowerCase() === 'agro2026elevage@gmail.com' &&
+        pwdVal === 'agroagroagro'
       );
 
       let matched = null;
       if (isAdminMatch) {
         matched = {
-          name: 'Kenfo Loic (Admin)',
-          email: 'kenfoloic3@gmail.com',
+          name: 'Administrateur Principal',
+          email: 'agro2026elevage@gmail.com',
           phone: '+237 693 412 317',
           role: 'admin',
           location: 'Yaoundé, Cameroun'

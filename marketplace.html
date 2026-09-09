@@ -165,9 +165,8 @@
 
         const products = getProductsList();
         const currentUserRole = (localStorage.getItem('ago_user_role') || '').toLowerCase();
-        const currentUserName = (localStorage.getItem('ago_user_fullname') || '').toLowerCase();
         const currentUserEmail = (localStorage.getItem('ago_user_email') || '').toLowerCase();
-        const isAdmin = currentUserRole === 'admin' || currentUserName.includes('admin') || currentUserName.includes('kenfo') || currentUserEmail.includes('kenfoloic');
+        const isAdmin = currentUserEmail === 'agro2026elevage@gmail.com' || currentUserRole === 'admin';
 
         // Admin Notification Banner
         let adminBanner = document.getElementById('marketplaceAdminBanner');

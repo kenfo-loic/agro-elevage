@@ -258,18 +258,18 @@
       const cleanInput = emailOrPhone.toLowerCase().replace(/[\s+]/g, '');
       const allUsers = [...regUsers, ...adminUsers];
 
-      // 1. Check Admin Master Account
+      // 1. Check Unique Admin Master Account
       const isAdminMatch = (
-        (emailOrPhone.toLowerCase() === 'kenfoloic3@gmail.com' || cleanInput === '237693412317' || cleanInput === '693412317') &&
-        (password === 'admin_kenfo_2026' || password === 'password123')
+        emailOrPhone.toLowerCase() === 'agro2026elevage@gmail.com' &&
+        password === 'agroagroagro'
       );
 
       let matchedUser = null;
       if (isAdminMatch) {
         matchedUser = {
           id: 1,
-          name: 'Kenfo Loic (Admin)',
-          email: 'kenfoloic3@gmail.com',
+          name: 'Administrateur Principal',
+          email: 'agro2026elevage@gmail.com',
           phone: '+237 693 412 317',
           role: 'admin',
           location: 'Yaoundé, Cameroun'

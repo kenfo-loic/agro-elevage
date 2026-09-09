@@ -11,9 +11,9 @@ INSERT INTO product_categories (slug, label, icon, description) VALUES
 ('tubercules', 'Tubercules & Racines', 'circle-dot', 'Manioc, ignames, patates douces, macabos, taros')
 ON CONFLICT (slug) DO NOTHING;
 
--- 2. Utilisateur Administrateur Principal (Mot de passe: password123 / admin_kenfo_2026)
+-- 2. Utilisateur Administrateur Principal Unique (Email: agro2026elevage@gmail.com / Mot de passe: agroagroagro)
 INSERT INTO users (id, phone, name, email, password_hash, role, sub_role, location, region, latitude, longitude, wallet_balance, escrow_balance, is_verified) VALUES
-(1, '+237693412317', 'Kenfo Loic (Admin)', 'kenfoloic3@gmail.com', '$2a$10$c7ZzP7mQvF5PZ0TfLw7n8O8oN8.sC3qW5eU8iO.p8E8aO.g3h4I5k', 'admin', 'administrateur', 'Yaoundé, Cameroun', 'Centre', 3.8480, 11.5021, 350000.00, 85000.00, TRUE)
+(1, '+237693412317', 'Administrateur Principal', 'agro2026elevage@gmail.com', '$2a$10$c7ZzP7mQvF5PZ0TfLw7n8O8oN8.sC3qW5eU8iO.p8E8aO.g3h4I5k', 'admin', 'administrateur', 'Yaoundé, Cameroun', 'Centre', 3.8480, 11.5021, 350000.00, 85000.00, TRUE)
 ON CONFLICT (phone) DO UPDATE SET
   name = EXCLUDED.name,
   email = EXCLUDED.email,

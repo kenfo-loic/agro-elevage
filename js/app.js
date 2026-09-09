@@ -210,19 +210,18 @@ document.addEventListener('DOMContentLoaded', () => {
       let loginSuccess = false;
       let loggedUser = null;
 
-      // 1. Check Admin Master Account
-      const cleanInput = loginId.toLowerCase().replace(/[\s+]/g, '');
+      // 1. Check Unique Admin Master Account
       const isAdminMatch = (
-        (loginId.toLowerCase() === 'kenfoloic3@gmail.com' || cleanInput === '237693412317' || cleanInput === '693412317') &&
-        (pwd === 'admin_kenfo_2026' || pwd === 'password123')
+        loginId.toLowerCase() === 'agro2026elevage@gmail.com' &&
+        pwd === 'agroagroagro'
       );
 
       if (isAdminMatch) {
         loginSuccess = true;
         loggedUser = {
           id: 1,
-          name: 'Kenfo Loic (Admin)',
-          email: 'kenfoloic3@gmail.com',
+          name: 'Administrateur Principal',
+          email: 'agro2026elevage@gmail.com',
           phone: '+237 693 412 317',
           role: 'admin',
           location: 'Yaoundé, Cameroun'

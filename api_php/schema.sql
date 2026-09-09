@@ -80,10 +80,10 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 6. Données de Test Initiales (Compte Administrateur Principal)
+-- 6. Données de Test Initiales (Compte Administrateur Principal Unique)
 INSERT INTO `users` (`id`, `name`, `email`, `phone`, `password`, `location`) VALUES
-(1, 'Kenfo Loic (Admin)', 'kenfoloic3@gmail.com', '+237693412317', '$2a$10$c7ZzP7mQvF5PZ0TfLw7n8O8oN8.sC3qW5eU8iO.p8E8aO.g3h4I5k', 'Yaoundé, Cameroun')
-ON DUPLICATE KEY UPDATE `name`=VALUES(`name`);
+(1, 'Administrateur Principal', 'agro2026elevage@gmail.com', '+237693412317', '$2a$10$c7ZzP7mQvF5PZ0TfLw7n8O8oN8.sC3qW5eU8iO.p8E8aO.g3h4I5k', 'Yaoundé, Cameroun')
+ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `email`=VALUES(`email`);
 
 INSERT INTO `products` (`id`, `seller_id`, `name`, `category`, `price`, `unit`, `stock_quantity`, `location`, `image_url`) VALUES
 (1, 1, 'Tomates fraîches Roma (Cagettes 20kg)', 'maraichage', 12500.00, 'cagette', 120, 'Foumbot, Ouest', 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=500'),
