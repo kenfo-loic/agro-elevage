@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Espace Administrateur — AgroElevage Link</title>
-  <meta name="description" content="Panneau d'administration global : gestion des utilisateurs, modération et modification des produits." />
+  <meta name="description" content="Panneau d'administration global : gestion des utilisateurs, modération des produits et synchronisation base de données PostgreSQL." />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,6 +14,7 @@
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="css/style.css?v=3" />
   <style>
+    /* Responsive Admin Design System */
     .admin-badge {
       display: inline-flex;
       align-items: center;
@@ -26,100 +27,185 @@
       font-size: 11px;
       font-weight: 800;
       text-transform: uppercase;
+      white-space: nowrap;
     }
+
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
     .admin-stat-card {
       background: #ffffff;
-      border-radius: 14px;
-      padding: 16px 20px;
+      border-radius: 12px;
+      padding: 16px;
       border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-sm);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
       display: flex;
       align-items: center;
       gap: 14px;
+      min-width: 0;
     }
+
     .admin-stat-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
       flex-shrink: 0;
     }
+
+    .admin-tabs-nav {
+      display: flex;
+      gap: 6px;
+      border-bottom: 2px solid var(--border-color);
+      margin-bottom: 18px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .admin-tabs-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .admin-tab-btn {
+      padding: 10px 16px;
+      border: none;
+      background: transparent;
+      font-family: var(--font-heading);
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .admin-tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      background: var(--primary-soft);
+      border-radius: 8px 8px 0 0;
+    }
+
+    /* Responsive Table Container */
+    .admin-table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      background: #ffffff;
+    }
+
     .admin-table {
       width: 100%;
+      min-width: 780px;
       border-collapse: collapse;
       font-size: 13px;
     }
     .admin-table th {
-      background: var(--bg-subtle);
-      padding: 10px 14px;
+      background: #f8fafc;
+      padding: 10px 12px;
       text-align: left;
       font-weight: 700;
       color: var(--text-muted);
       border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+      font-size: 12px;
     }
     .admin-table td {
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--border-subtle);
+      padding: 10px 12px;
+      border-bottom: 1px solid #f1f5f9;
       vertical-align: middle;
     }
     .admin-table tr:hover td {
       background: #f8fafc;
     }
+
     .btn-admin-danger {
       background: #ef4444;
       color: #ffffff;
       border: none;
-      padding: 6px 12px;
+      padding: 5px 10px;
       border-radius: 6px;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      white-space: nowrap;
       transition: all 0.2s;
     }
     .btn-admin-danger:hover {
       background: #dc2626;
-      transform: translateY(-1px);
     }
+
     .btn-admin-edit {
       background: #3b82f6;
       color: #ffffff;
       border: none;
-      padding: 6px 12px;
+      padding: 5px 10px;
       border-radius: 6px;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 4px;
       text-decoration: none;
+      white-space: nowrap;
       transition: all 0.2s;
     }
     .btn-admin-edit:hover {
       background: #2563eb;
-      transform: translateY(-1px);
     }
-    .admin-tab-btn {
-      padding: 10px 18px;
-      border: none;
-      background: transparent;
-      font-family: var(--font-heading);
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text-muted);
-      cursor: pointer;
-      border-bottom: 3px solid transparent;
-      transition: all 0.2s;
+
+    /* Database section grid */
+    .db-sync-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
     }
-    .admin-tab-btn.active {
-      color: var(--primary);
-      border-bottom-color: var(--primary);
+
+    .db-config-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .db-config-grid {
+        grid-template-columns: 1fr;
+      }
+      .admin-stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .admin-stat-card {
+        padding: 12px;
+        gap: 10px;
+      }
+      .admin-stat-icon {
+        width: 38px;
+        height: 38px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .admin-stats-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     /* Modal Styling */
@@ -132,25 +218,25 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 16px;
     }
     .admin-modal-backdrop.open {
       display: flex;
     }
     .admin-modal-card {
       background: #ffffff;
-      border-radius: 16px;
+      border-radius: 14px;
       width: 100%;
-      max-width: 540px;
-      padding: 24px;
+      max-width: 520px;
+      padding: 20px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.25);
       border: 1px solid var(--border-color);
       max-height: 90vh;
       overflow-y: auto;
-      animation: modalSlideUp 0.25s ease-out;
+      animation: modalSlideUp 0.2s ease-out;
     }
     @keyframes modalSlideUp {
-      from { transform: translateY(20px); opacity: 0; }
+      from { transform: translateY(15px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
   </style>
@@ -169,17 +255,17 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
             <span>Menu</span>
           </button>
-          <span class="web-page-heading-title">Panneau d'Administration Général</span>
+          <span class="web-page-heading-title">Administration Generale</span>
           <span class="admin-badge">Super Admin</span>
         </div>
 
         <div class="web-topbar-right">
-          <a href="https://supabase.com/dashboard/projects" target="_blank" class="btn-secondary" style="height: 38px; font-size: 12.5px; font-weight: 700; text-decoration: none; border-radius: 8px; display: flex; align-items: center; gap: 6px; background: #052e16; color: #86efac; border: 1px solid #16a34a;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg>
+          <a href="https://supabase.com/dashboard/projects" target="_blank" class="btn-secondary" style="height: 36px; font-size: 12px; font-weight: 700; text-decoration: none; border-radius: 8px; display: flex; align-items: center; gap: 6px; background: #052e16; color: #86efac; border: 1px solid #16a34a;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg>
             <span>Supabase Studio</span>
           </a>
-          <a href="marketplace.html" class="btn-primary-action" style="height: 38px; font-size: 12.5px; text-decoration: none; padding: 0 14px;">
-            <span>Voir Marketplace</span>
+          <a href="marketplace.html" class="btn-primary-action" style="height: 36px; font-size: 12px; text-decoration: none; padding: 0 14px;">
+            <span>Marketplace</span>
           </a>
         </div>
       </header>
@@ -188,70 +274,87 @@
       <main class="web-content-body">
         
         <!-- KPI Summary Cards -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; margin-bottom: 24px;">
+        <div class="admin-stats-grid">
           <div class="admin-stat-card">
-            <div class="admin-stat-icon" style="background: #e0f2fe; color: #0284c7;">👥</div>
+            <div class="admin-stat-icon" style="background: #e0f2fe; color: #0284c7;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
             <div>
-              <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Utilisateurs Inscrits</div>
-              <div style="font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: var(--text-main);" id="statUsersCount">0</div>
+              <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 600;">Utilisateurs Inscrits</div>
+              <div style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--text-main);" id="statUsersCount">0</div>
             </div>
           </div>
 
           <div class="admin-stat-card">
-            <div class="admin-stat-icon" style="background: #dcfce7; color: #15803d;">🥕</div>
+            <div class="admin-stat-icon" style="background: #dcfce7; color: #15803d;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="m2 2 7.58 7.58"/></svg>
+            </div>
             <div>
-              <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Produits en Ligne</div>
-              <div style="font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: var(--text-main);" id="statProductsCount">0</div>
+              <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 600;">Produits en Ligne</div>
+              <div style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--text-main);" id="statProductsCount">0</div>
             </div>
           </div>
 
           <div class="admin-stat-card">
-            <div class="admin-stat-icon" style="background: #fef3c7; color: #d97706;">🔒</div>
+            <div class="admin-stat-icon" style="background: #fef3c7; color: #d97706;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
             <div>
-              <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Fonds sous Séquestre</div>
-              <div style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--text-main);">683 250 F</div>
+              <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 600;">Fonds sous Sequestre</div>
+              <div style="font-family: var(--font-heading); font-size: 18px; font-weight: 800; color: var(--text-main);">683 250 F</div>
             </div>
           </div>
 
           <div class="admin-stat-card">
-            <div class="admin-stat-icon" style="background: #ede9fe; color: #7c3aed;">⚡</div>
+            <div class="admin-stat-icon" style="background: #ede9fe; color: #7c3aed;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+            </div>
             <div>
-              <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Base PostgreSQL</div>
-              <div style="font-family: var(--font-heading); font-size: 14px; font-weight: 800; color: #15803d;">Supabase Active</div>
+              <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 600;">Base PostgreSQL</div>
+              <div style="font-family: var(--font-heading); font-size: 13.5px; font-weight: 800; color: #15803d;">Supabase Active</div>
             </div>
           </div>
         </div>
 
         <!-- Navigation Tabs -->
-        <div style="display: flex; gap: 8px; border-bottom: 2px solid var(--border-color); margin-bottom: 20px; flex-wrap: wrap;">
-          <button class="admin-tab-btn active" id="tabBtnUsers" onclick="switchAdminTab('users')">👥 Gestion des Utilisateurs (Modifier / Supprimer)</button>
-          <button class="admin-tab-btn" id="tabBtnProducts" onclick="switchAdminTab('products')">🥕 Gestion des Produits (Modifier / Supprimer)</button>
-          <button class="admin-tab-btn" id="tabBtnSupabase" onclick="switchAdminTab('supabase')">⚡ Base Supabase (Sync Utilisateurs & Séquestre)</button>
+        <div class="admin-tabs-nav">
+          <button class="admin-tab-btn active" id="tabBtnUsers" onclick="switchAdminTab('users')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Gestion Utilisateurs</span>
+          </button>
+          <button class="admin-tab-btn" id="tabBtnProducts" onclick="switchAdminTab('products')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="m2 2 7.58 7.58"/></svg>
+            <span>Gestion Produits</span>
+          </button>
+          <button class="admin-tab-btn" id="tabBtnSupabase" onclick="switchAdminTab('supabase')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+            <span>Base Supabase</span>
+          </button>
         </div>
 
         <!-- TAB 1: GESTION DES UTILISATEURS -->
-        <section id="adminSectionUsers" class="web-card" style="padding: 20px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+        <section id="adminSectionUsers" class="web-card" style="padding: 18px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
             <div>
-              <h2 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: var(--text-main);">Comptes Utilisateurs Enregistrés</h2>
-              <p style="font-size: 12.5px; color: var(--text-muted);">Vous pouvez modifier les informations de n'importe quel utilisateur ou supprimer définitivement son compte.</p>
+              <h2 style="font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: var(--text-main); margin: 0;">Comptes Utilisateurs Enregistres</h2>
+              <p style="font-size: 12px; color: var(--text-muted); margin: 2px 0 0;">Modification des identifiants, mots de passe et suppression de comptes.</p>
             </div>
-            <input type="text" id="filterUsersInput" class="form-input" placeholder="Filtrer par nom ou téléphone..." style="max-width: 260px; height: 36px; font-size: 13px;" oninput="renderUsersTable()" />
+            <input type="text" id="filterUsersInput" class="form-input" placeholder="Rechercher par nom ou telephone..." style="max-width: 250px; height: 36px; font-size: 12.5px;" oninput="renderUsersTable()" />
           </div>
 
-          <div style="overflow-x: auto;">
+          <div class="admin-table-wrapper">
             <table class="admin-table">
               <thead>
                 <tr>
                   <th>ID</th>
                   <th>Nom & Profil</th>
-                  <th>Téléphone</th>
+                  <th>Telephone</th>
                   <th>Mot de passe</th>
-                  <th>Rôle</th>
+                  <th>Role</th>
                   <th>Emplacement</th>
-                  <th>Solde Portefeuille</th>
+                  <th>Solde</th>
                   <th>Statut</th>
-                  <th style="text-align: right;">Actions Administrateur</th>
+                  <th style="text-align: right;">Actions</th>
                 </tr>
               </thead>
               <tbody id="adminUsersTbody">
@@ -262,28 +365,28 @@
         </section>
 
         <!-- TAB 2: GESTION DES PRODUITS -->
-        <section id="adminSectionProducts" class="web-card" style="padding: 20px; display: none;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+        <section id="adminSectionProducts" class="web-card" style="padding: 18px; display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
             <div>
-              <h2 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: var(--text-main);">Toutes les Récoltes et Cheptels Publiés</h2>
-              <p style="font-size: 12.5px; color: var(--text-muted);">Modifiez les prix, stocks, catégories et supprimez les annonces non conformes.</p>
+              <h2 style="font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: var(--text-main); margin: 0;">Recoltes et Cheptels Publies</h2>
+              <p style="font-size: 12px; color: var(--text-muted); margin: 2px 0 0;">Modification des prix, stocks et suppression des annonces.</p>
             </div>
             <div style="display: flex; gap: 8px;">
-              <input type="text" id="filterProductsInput" class="form-input" placeholder="Filtrer un produit..." style="max-width: 240px; height: 36px; font-size: 13px;" oninput="renderProductsTable()" />
-              <a href="ajouter_produit.html" class="btn-primary-action" style="height: 36px; padding: 0 14px; font-size: 12.5px; text-decoration: none; white-space: nowrap;">+ Nouveau produit</a>
+              <input type="text" id="filterProductsInput" class="form-input" placeholder="Filtrer un produit..." style="max-width: 220px; height: 36px; font-size: 12.5px;" oninput="renderProductsTable()" />
+              <a href="ajouter_produit.html" class="btn-primary-action" style="height: 36px; padding: 0 14px; font-size: 12px; text-decoration: none; white-space: nowrap;">+ Nouveau</a>
             </div>
           </div>
 
-          <div style="overflow-x: auto;">
+          <div class="admin-table-wrapper">
             <table class="admin-table">
               <thead>
                 <tr>
-                  <th>Aperçu</th>
+                  <th>Apercu</th>
                   <th>Nom du Produit</th>
-                  <th>Catégorie</th>
+                  <th>Categorie</th>
                   <th>Prix Unitaire</th>
                   <th>Stock Dispo</th>
-                  <th>Vendeur / Propriétaire</th>
+                  <th>Vendeur / Proprietaire</th>
                   <th>Lieu</th>
                   <th style="text-align: right;">Actions</th>
                 </tr>
@@ -296,73 +399,75 @@
         </section>
 
         <!-- TAB 3: SYNCHRONISATION SUPABASE POSTGRESQL -->
-        <section id="adminSectionSupabase" class="web-card" style="padding: 24px; display: none;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+        <section id="adminSectionSupabase" class="web-card" style="padding: 20px; display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px;">
             <div>
               <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 20px;">⚡</span>
-                <h2 style="font-family: var(--font-heading); font-size: 18px; font-weight: 800; color: var(--text-main); margin: 0;">Synchronisation Directe Supabase Studio</h2>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+                <h2 style="font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: var(--text-main); margin: 0;">Base de Donnees Supabase Studio</h2>
               </div>
-              <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Envoyez instantanément tous les utilisateurs inscrits, les transactions de séquestre Mobile Money et les produits vers vos tables PostgreSQL Supabase.</p>
+              <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Synchronisation des utilisateurs, des transactions de sequestre et des produits vers PostgreSQL.</p>
             </div>
-            <a href="https://supabase.com/dashboard/projects" target="_blank" class="btn-secondary" style="height: 38px; font-size: 12.5px; font-weight: 700; text-decoration: none; border-radius: 8px; display: flex; align-items: center; gap: 6px; background: #052e16; color: #86efac; border: 1px solid #16a34a;">
-              <span>Ouvrir Supabase Studio ↗</span>
+            <a href="https://supabase.com/dashboard/projects" target="_blank" class="btn-secondary" style="height: 36px; font-size: 12px; font-weight: 700; text-decoration: none; border-radius: 8px; display: flex; align-items: center; gap: 6px; background: #052e16; color: #86efac; border: 1px solid #16a34a;">
+              <span>Ouvrir Supabase Studio</span>
             </a>
           </div>
 
-          <!-- Supabase Config Status Cards -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px;">
-            <div style="border: 1.5px solid #bbf7d0; background: #f0fdf4; border-radius: 12px; padding: 16px;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-size: 13px; font-weight: 800; color: #166534;">Table `utilisateurs` / `users`</span>
-                <span style="background: #16a34a; color: #fff; font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 999px;">Prête</span>
+          <!-- Supabase Sync Actions Cards -->
+          <div class="db-sync-cards-grid">
+            <div style="border: 1.5px solid #bbf7d0; background: #f0fdf4; border-radius: 10px; padding: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span style="font-size: 12.5px; font-weight: 800; color: #166534;">Table utilisateurs</span>
+                <span style="background: #16a34a; color: #fff; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 999px;">Prete</span>
               </div>
-              <p style="font-size: 12px; color: #15803d; margin-bottom: 12px;">Synchronise tous les comptes utilisateurs, téléphones, rôles et mots de passe dans Supabase.</p>
-              <button type="button" onclick="adminSyncUsersToSupabase()" id="btnSyncUsersSb" class="btn-primary-action" style="width: 100%; height: 38px; font-size: 12.5px;">
-                👥 Synchroniser les Utilisateurs vers Supabase
+              <p style="font-size: 11.5px; color: #15803d; margin-bottom: 12px; line-height: 1.35;">Pousse tous les comptes, numeros, mots de passe et soldes vers la table utilisateurs.</p>
+              <button type="button" onclick="adminSyncUsersToSupabase()" id="btnSyncUsersSb" class="btn-primary-action" style="width: 100%; height: 36px; font-size: 12px;">
+                Synchroniser Utilisateurs
               </button>
             </div>
 
-            <div style="border: 1.5px solid #fed7aa; background: #fff7ed; border-radius: 12px; padding: 16px;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-size: 13px; font-weight: 800; color: #9a3412;">Table `transactions de séquestre`</span>
-                <span style="background: #ea580c; color: #fff; font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 999px;">Séquestre MoMo</span>
+            <div style="border: 1.5px solid #fed7aa; background: #fff7ed; border-radius: 10px; padding: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span style="font-size: 12.5px; font-weight: 800; color: #9a3412;">Table transactions de sequestre</span>
+                <span style="background: #ea580c; color: #fff; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 999px;">Sequestre</span>
               </div>
-              <p style="font-size: 12px; color: #c2410c; margin-bottom: 12px;">Enregistre et synchronise les paiements bloqués sous séquestre Escrow (MTN & Orange Money).</p>
-              <button type="button" onclick="adminSyncEscrowToSupabase()" id="btnSyncEscrowSb" class="btn-primary-action" style="width: 100%; height: 38px; font-size: 12.5px; background: #ea580c;">
-                🔒 Synchroniser Séquestre vers Supabase
+              <p style="font-size: 11.5px; color: #c2410c; margin-bottom: 12px; line-height: 1.35;">Enregistre les paiements Mobile Money bloques sous sequestre Escrow.</p>
+              <button type="button" onclick="adminSyncEscrowToSupabase()" id="btnSyncEscrowSb" class="btn-primary-action" style="width: 100%; height: 36px; font-size: 12px; background: #ea580c;">
+                Synchroniser Sequestre
               </button>
             </div>
 
-            <div style="border: 1.5px solid #bfdbfe; background: #eff6ff; border-radius: 12px; padding: 16px;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-size: 13px; font-weight: 800; color: #1e40af;">Table `produits` / `products`</span>
-                <span style="background: #2563eb; color: #fff; font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 999px;">Marketplace</span>
+            <div style="border: 1.5px solid #bfdbfe; background: #eff6ff; border-radius: 10px; padding: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span style="font-size: 12.5px; font-weight: 800; color: #1e40af;">Table produits</span>
+                <span style="background: #2563eb; color: #fff; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 999px;">Catalogue</span>
               </div>
-              <p style="font-size: 12px; color: #1d4ed8; margin-bottom: 12px;">Synchronise l'ensemble des annonces et récoltes disponibles sur la marketplace.</p>
-              <button type="button" onclick="adminSyncProductsToSupabase()" id="btnSyncProdsSb" class="btn-primary-action" style="width: 100%; height: 38px; font-size: 12.5px; background: #2563eb;">
-                🥕 Synchroniser Produits vers Supabase
+              <p style="font-size: 11.5px; color: #1d4ed8; margin-bottom: 12px; line-height: 1.35;">Synchronise les annonces, recoltes et cheptels en ligne sur la marketplace.</p>
+              <button type="button" onclick="adminSyncProductsToSupabase()" id="btnSyncProdsSb" class="btn-primary-action" style="width: 100%; height: 36px; font-size: 12px; background: #2563eb;">
+                Synchroniser Produits
               </button>
             </div>
           </div>
 
           <!-- Supabase Credentials Direct Configuration -->
-          <div style="background: var(--bg-subtle); border: 1.5px solid var(--border-color); border-radius: 12px; padding: 18px;">
-            <h3 style="font-size: 14px; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">Configuration de Connexion Directe Supabase</h3>
-            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">Entrez l'URL de votre projet Supabase et votre clé publique anonyme (anon key) pour activer la synchronisation en temps réel.</p>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+          <div style="background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: 10px; padding: 16px;">
+            <h3 style="font-size: 13.5px; font-weight: 800; color: var(--text-main); margin: 0 0 4px;">Configuration de Connexion Supabase</h3>
+            <p style="font-size: 12px; color: var(--text-muted); margin: 0 0 12px;">Saisissez l'URL et la cle publique (anon key) pour activer la synchronisation continue.</p>
+            
+            <div class="db-config-grid">
               <div class="form-group">
-                <label class="form-label" style="font-size: 12px; font-weight: 700;">URL du projet Supabase (Ex: https://xyz.supabase.co)</label>
-                <input type="url" id="sbConfigUrl" class="form-input" style="height: 38px;" placeholder="https://votre-projet.supabase.co" />
+                <label class="form-label" style="font-size: 11.5px; font-weight: 700;">URL du projet Supabase</label>
+                <input type="url" id="sbConfigUrl" class="form-input" style="height: 36px; font-size: 12.5px;" placeholder="https://votre-projet.supabase.co" />
               </div>
               <div class="form-group">
-                <label class="form-label" style="font-size: 12px; font-weight: 700;">Clé Supabase Anon / Public Key</label>
-                <input type="password" id="sbConfigKey" class="form-input" style="height: 38px; font-family: monospace;" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." />
+                <label class="form-label" style="font-size: 11.5px; font-weight: 700;">Cle Supabase Anon / Public Key</label>
+                <input type="password" id="sbConfigKey" class="form-input" style="height: 36px; font-family: monospace; font-size: 12.5px;" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." />
               </div>
             </div>
-            <div style="display: flex; gap: 10px; justify-content: flex-end;">
-              <button type="button" onclick="saveAdminSupabaseConfig()" class="btn-primary-action" style="height: 38px; padding: 0 18px; font-size: 13px;">
-                💾 Enregistrer & Tester la Connexion Supabase
+
+            <div style="display: flex; justify-content: flex-end;">
+              <button type="button" onclick="saveAdminSupabaseConfig()" class="btn-primary-action" style="height: 36px; padding: 0 16px; font-size: 12.5px;">
+                Enregistrer la Configuration
               </button>
             </div>
           </div>
@@ -371,7 +476,7 @@
       </main>
 
       <!-- Toast Popup -->
-      <div class="toast-msg" id="appToast">Action administrateur effectuée !</div>
+      <div class="toast-msg" id="appToast">Action administrateur effectuee !</div>
     </div>
   </div>
 
@@ -380,8 +485,8 @@
        ========================================================================= -->
   <div class="admin-modal-backdrop" id="modalEditUserBackdrop">
     <div class="admin-modal-card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-        <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: var(--text-main);">Modifier l'Utilisateur</h3>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <h3 style="font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: var(--text-main); margin: 0;">Modifier l'Utilisateur</h3>
         <button type="button" onclick="closeEditUserModal()" style="background:none; border:none; font-size:18px; cursor:pointer; color:var(--text-muted);">&times;</button>
       </div>
 
@@ -389,64 +494,66 @@
         <input type="hidden" id="editUserId" />
         
         <div class="form-group" style="margin-bottom: 12px;">
-          <label class="form-label" style="font-size: 12px; font-weight: 700;">Nom complet</label>
-          <input type="text" id="editUserName" class="form-input" style="height: 38px;" required />
+          <label class="form-label" style="font-size: 11.5px; font-weight: 700;">Nom complet</label>
+          <input type="text" id="editUserName" class="form-input" style="height: 36px; font-size: 13px;" required />
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
           <div class="form-group">
-            <label class="form-label" style="font-size: 12px; font-weight: 700;">Téléphone</label>
-            <input type="tel" id="editUserPhone" class="form-input" style="height: 38px;" required />
+            <label class="form-label" style="font-size: 11.5px; font-weight: 700;">Telephone</label>
+            <input type="tel" id="editUserPhone" class="form-input" style="height: 36px; font-size: 13px;" required />
           </div>
           <div class="form-group">
-            <label class="form-label" style="font-size: 12px; font-weight: 700;">E-mail</label>
-            <input type="email" id="editUserEmail" class="form-input" style="height: 38px;" />
+            <label class="form-label" style="font-size: 11.5px; font-weight: 700;">E-mail</label>
+            <input type="email" id="editUserEmail" class="form-input" style="height: 36px; font-size: 13px;" />
           </div>
         </div>
 
         <div class="form-group" style="margin-bottom: 12px;">
-          <label class="form-label" style="font-size: 12px; font-weight: 700;">Mot de passe du compte (Visible par l'Admin)</label>
+          <label class="form-label" style="font-size: 11.5px; font-weight: 700;">Mot de passe du compte</label>
           <div style="position: relative; display: flex; align-items: center;">
-            <input type="text" id="editUserPassword" class="form-input" style="height: 38px; font-family: monospace; font-weight: 700; padding-right: 40px;" placeholder="Mot de passe" required />
-            <span style="position: absolute; right: 10px; font-size: 14px; color: var(--text-muted);">🔑</span>
+            <input type="text" id="editUserPassword" class="form-input" style="height: 36px; font-family: monospace; font-weight: 700; padding-right: 36px; font-size: 13px;" placeholder="Mot de passe" required />
+            <span style="position: absolute; right: 10px; display: flex; align-items: center; color: var(--text-muted);">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </span>
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
           <div class="form-group">
-            <label class="form-label" style="font-size: 12px; font-weight: 700;">Rôle</label>
-            <select id="editUserRole" class="form-input" style="height: 38px;">
+            <label class="form-label" style="font-size: 11.5px; font-weight: 700;">Role</label>
+            <select id="editUserRole" class="form-input" style="height: 36px; font-size: 12.5px;">
               <option value="vendeur (agriculteur)">Vendeur (Agriculteur)</option>
-              <option value="vendeur (éleveur)">Vendeur (Éleveur)</option>
-              <option value="vendeur (coopérative)">Vendeur (Coopérative)</option>
+              <option value="vendeur (éleveur)">Vendeur (Eleveur)</option>
+              <option value="vendeur (coopérative)">Vendeur (Cooperative)</option>
               <option value="acheteur (restaurateur)">Acheteur (Restaurateur)</option>
               <option value="acheteur (grossiste)">Acheteur (Grossiste)</option>
               <option value="admin">Administrateur</option>
             </select>
           </div>
           <div class="form-group">
-            <label class="form-label" style="font-size: 12px; font-weight: 700;">Statut</label>
-            <select id="editUserStatus" class="form-input" style="height: 38px;">
+            <label class="form-label" style="font-size: 11.5px; font-weight: 700;">Statut</label>
+            <select id="editUserStatus" class="form-input" style="height: 36px; font-size: 12.5px;">
               <option value="Actif">Actif</option>
-              <option value="Bloqué">Bloqué</option>
+              <option value="Bloqué">Bloque</option>
             </select>
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
           <div class="form-group">
-            <label class="form-label" style="font-size: 12px; font-weight: 700;">Emplacement / Ville</label>
-            <input type="text" id="editUserLocation" class="form-input" style="height: 38px;" />
+            <label class="form-label" style="font-size: 11.5px; font-weight: 700;">Emplacement / Ville</label>
+            <input type="text" id="editUserLocation" class="form-input" style="height: 36px; font-size: 13px;" />
           </div>
           <div class="form-group">
-            <label class="form-label" style="font-size: 12px; font-weight: 700;">Solde Portefeuille</label>
-            <input type="text" id="editUserWallet" class="form-input" style="height: 38px;" />
+            <label class="form-label" style="font-size: 11.5px; font-weight: 700;">Solde Portefeuille</label>
+            <input type="text" id="editUserWallet" class="form-input" style="height: 36px; font-size: 13px;" />
           </div>
         </div>
 
-        <div style="display: flex; gap: 10px; justify-content: flex-end;">
-          <button type="button" onclick="closeEditUserModal()" class="btn-secondary" style="height: 38px; padding: 0 16px;">Annuler</button>
-          <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px;">Enregistrer les modifications</button>
+        <div style="display: flex; gap: 8px; justify-content: flex-end;">
+          <button type="button" onclick="closeEditUserModal()" class="btn-secondary" style="height: 36px; padding: 0 14px; font-size: 12px;">Annuler</button>
+          <button type="submit" class="btn-primary-action" style="height: 36px; padding: 0 18px; font-size: 12.5px;">Enregistrer les modifications</button>
         </div>
       </form>
     </div>
@@ -457,8 +564,8 @@
        ========================================================================= -->
   <div class="admin-modal-backdrop" id="modalEditProdBackdrop">
     <div class="admin-modal-card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-        <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: var(--text-main);">Modifier le Produit</h3>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <h3 style="font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: var(--text-main); margin: 0;">Modifier le Produit</h3>
         <button type="button" onclick="closeEditProdModal()" style="background:none; border:none; font-size:18px; cursor:pointer; color:var(--text-muted);">&times;</button>
       </div>
 
@@ -466,57 +573,57 @@
         <input type="hidden" id="editProdId" />
 
         <div class="form-group" style="margin-bottom: 12px;">
-          <label class="form-label" style="font-size: 12px; font-weight: 700;">Nom du Produit</label>
-          <input type="text" id="editProdName" class="form-input" style="height: 38px;" required />
+          <label class="form-label" style="font-size: 11.5px; font-weight: 700;">Nom du Produit</label>
+          <input type="text" id="editProdName" class="form-input" style="height: 36px; font-size: 13px;" required />
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
           <div class="form-group">
-            <label class="form-label" style="font-size: 12px; font-weight: 700;">Catégorie</label>
-            <select id="editProdCategory" class="form-input" style="height: 38px;">
-              <option value="maraichage">Maraîchage</option>
+            <label class="form-label" style="font-size: 11.5px; font-weight: 700;">Categorie</label>
+            <select id="editProdCategory" class="form-input" style="height: 36px; font-size: 12.5px;">
+              <option value="maraichage">Maraichage</option>
               <option value="fruits">Fruits & Vergers</option>
-              <option value="elevage">Élevage & Volailles</option>
-              <option value="cereales">Céréales & Grains</option>
+              <option value="elevage">Elevage & Volailles</option>
+              <option value="cereales">Cereales & Grains</option>
               <option value="tubercules">Tubercules & Racines</option>
             </select>
           </div>
           <div class="form-group">
-            <label class="form-label" style="font-size: 12px; font-weight: 700;">Unité</label>
-            <input type="text" id="editProdUnit" class="form-input" placeholder="kg, cagette, sac, u" style="height: 38px;" required />
+            <label class="form-label" style="font-size: 11.5px; font-weight: 700;">Unite</label>
+            <input type="text" id="editProdUnit" class="form-input" placeholder="kg, cagette, sac, u" style="height: 36px; font-size: 13px;" required />
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
           <div class="form-group">
-            <label class="form-label" style="font-size: 12px; font-weight: 700;">Prix unitaire (FCFA)</label>
-            <input type="number" id="editProdPrice" class="form-input" style="height: 38px;" required />
+            <label class="form-label" style="font-size: 11.5px; font-weight: 700;">Prix unitaire (FCFA)</label>
+            <input type="number" id="editProdPrice" class="form-input" style="height: 36px; font-size: 13px;" required />
           </div>
           <div class="form-group">
-            <label class="form-label" style="font-size: 12px; font-weight: 700;">Quantité en stock</label>
-            <input type="number" id="editProdStock" class="form-input" style="height: 38px;" required />
-          </div>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
-          <div class="form-group">
-            <label class="form-label" style="font-size: 12px; font-weight: 700;">Vendeur / Propriétaire</label>
-            <input type="text" id="editProdOwner" class="form-input" style="height: 38px;" />
-          </div>
-          <div class="form-group">
-            <label class="form-label" style="font-size: 12px; font-weight: 700;">Lieu / Ville</label>
-            <input type="text" id="editProdLocation" class="form-input" style="height: 38px;" />
+            <label class="form-label" style="font-size: 11.5px; font-weight: 700;">Quantite en stock</label>
+            <input type="number" id="editProdStock" class="form-input" style="height: 36px; font-size: 13px;" required />
           </div>
         </div>
 
-        <div class="form-group" style="margin-bottom: 20px;">
-          <label class="form-label" style="font-size: 12px; font-weight: 700;">Lien Image (URL)</label>
-          <input type="text" id="editProdImage" class="form-input" style="height: 38px;" />
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+          <div class="form-group">
+            <label class="form-label" style="font-size: 11.5px; font-weight: 700;">Vendeur / Proprietaire</label>
+            <input type="text" id="editProdOwner" class="form-input" style="height: 36px; font-size: 13px;" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" style="font-size: 11.5px; font-weight: 700;">Lieu / Ville</label>
+            <input type="text" id="editProdLocation" class="form-input" style="height: 36px; font-size: 13px;" />
+          </div>
         </div>
 
-        <div style="display: flex; gap: 10px; justify-content: flex-end;">
-          <button type="button" onclick="closeEditProdModal()" class="btn-secondary" style="height: 38px; padding: 0 16px;">Annuler</button>
-          <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px;">Enregistrer le produit</button>
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label class="form-label" style="font-size: 11.5px; font-weight: 700;">Lien Image (URL)</label>
+          <input type="text" id="editProdImage" class="form-input" style="height: 36px; font-size: 13px;" />
+        </div>
+
+        <div style="display: flex; gap: 8px; justify-content: flex-end;">
+          <button type="button" onclick="closeEditProdModal()" class="btn-secondary" style="height: 36px; padding: 0 14px; font-size: 12px;">Annuler</button>
+          <button type="submit" class="btn-primary-action" style="height: 36px; padding: 0 18px; font-size: 12.5px;">Enregistrer le produit</button>
         </div>
       </form>
     </div>
@@ -546,7 +653,7 @@
       );
 
       if (!isAuthorizedAdmin) {
-        alert('Accès refusé : Cette page est strictement réservée à l\'administrateur.');
+        alert('Acces refuse : Cette page est strictement reservee a l\'administrateur.');
         window.location.href = 'marketplace.html';
       }
     })();
@@ -689,7 +796,9 @@
             <td>
               <div style="display: flex; align-items: center; gap: 6px;">
                 <span id="pwd-display-${u.id}" style="font-family: monospace; font-weight: 700; background: #f1f5f9; padding: 2px 7px; border-radius: 6px; font-size: 11.5px; color: #0f172a; border: 1px solid #e2e8f0;">••••••••</span>
-                <button type="button" onclick="togglePasswordVisibility('${u.id}', '${safePassword}')" class="btn-pwd-eye" id="btn-eye-${u.id}" title="Afficher/Masquer le mot de passe" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; padding: 2px 6px; font-size: 12px; display: inline-flex; align-items: center; justify-content: center;">👁️</button>
+                <button type="button" onclick="togglePasswordVisibility('${u.id}', '${safePassword}')" class="btn-pwd-eye" id="btn-eye-${u.id}" title="Afficher/Masquer le mot de passe" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; padding: 3px 6px; font-size: 12px; display: inline-flex; align-items: center; justify-content: center;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
               </div>
             </td>
             <td><span style="padding: 2px 8px; border-radius: 6px; font-size: 11px; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; font-weight: 700;">${u.role}</span></td>
@@ -699,12 +808,12 @@
             <td style="text-align: right;">
               <div style="display: flex; gap: 6px; justify-content: flex-end;">
                 <button type="button" class="btn-admin-edit" onclick="openEditUserModal('${u.id}')" title="Modifier les informations de cet utilisateur">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
                   Modifier
                 </button>
                 ${!isSuperAdmin ? `
-                  <button type="button" class="btn-admin-danger" onclick="deleteUserByAdmin('${u.id}', '${u.name.replace(/'/g, "\\'")}', '${u.phone}')" title="Supprimer définitivement ce compte">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                  <button type="button" class="btn-admin-danger" onclick="deleteUserByAdmin('${u.id}', '${u.name.replace(/'/g, "\\'")}', '${u.phone}')" title="Supprimer definitivement ce compte">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
                     Supprimer
                   </button>
                 ` : `
@@ -716,7 +825,7 @@
         `;
       });
 
-      tbody.innerHTML = html || '<tr><td colspan="9" style="text-align: center; color: var(--text-muted); padding: 20px;">Aucun utilisateur trouvé</td></tr>';
+      tbody.innerHTML = html || '<tr><td colspan="9" style="text-align: center; color: var(--text-muted); padding: 20px;">Aucun utilisateur trouve</td></tr>';
     }
 
     window.openEditUserModal = function(userId) {
@@ -774,19 +883,19 @@
         localStorage.setItem('agroelevage_registered_users', JSON.stringify(regUsers));
       } catch (e) {}
 
-      // Also direct sync to Supabase PostgreSQL table (users / utilisateurs)
+      // Direct sync to Supabase PostgreSQL table (users / utilisateurs)
       if (window.AgroApi && typeof window.AgroApi.syncUserToSupabase === 'function') {
         window.AgroApi.syncUserToSupabase({ name, phone, email, password, role, status, location, wallet });
       }
 
       closeEditUserModal();
       renderUsersTable();
-      showToast(`Utilisateur "${name}" et mot de passe mis à jour avec succès !`);
+      showToast(`Utilisateur "${name}" et mot de passe mis a jour avec succes !`);
       window.dispatchEvent(new Event('agroelevage_users_updated'));
     };
 
     window.deleteUserByAdmin = function(userId, userName, userPhone) {
-      if (!confirm(`Confirmez-vous la suppression DÉFINITIVE du compte de "${userName}" (${userPhone}) ?`)) {
+      if (!confirm(`Confirmez-vous la suppression DEFINITIVE du compte de "${userName}" (${userPhone}) ?`)) {
         return;
       }
 
@@ -809,7 +918,7 @@
 
       renderUsersTable();
       renderProductsTable();
-      showToast(`Compte de "${userName}" supprimé définitivement.`);
+      showToast(`Compte de "${userName}" supprime definitivement.`);
       window.dispatchEvent(new Event('agroelevage_users_updated'));
       window.dispatchEvent(new Event('agroelevage_products_updated'));
     };
@@ -885,11 +994,11 @@
             <td style="text-align: right;">
               <div style="display: flex; gap: 6px; justify-content: flex-end;">
                 <button type="button" class="btn-admin-edit" onclick="openEditProdModal('${p.id}')" title="Modifier le produit">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
                   Modifier
                 </button>
                 <button type="button" class="btn-admin-danger" onclick="deleteProductByAdmin('${p.id}', '${p.name.replace(/'/g, "\\'")}')" title="Supprimer ce produit de la marketplace">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
                   Supprimer
                 </button>
               </div>
@@ -898,7 +1007,7 @@
         `;
       });
 
-      tbody.innerHTML = html || '<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 20px;">Aucun produit trouvé</td></tr>';
+      tbody.innerHTML = html || '<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 20px;">Aucun produit trouve</td></tr>';
     }
 
     window.openEditProdModal = function(prodId) {
@@ -956,12 +1065,12 @@
       localStorage.setItem('agroelevage_products', JSON.stringify(prods));
       closeEditProdModal();
       renderProductsTable();
-      showToast(`Produit "${name}" mis à jour avec succès !`);
+      showToast(`Produit "${name}" mis a jour avec succes !`);
       window.dispatchEvent(new Event('agroelevage_products_updated'));
     };
 
     window.deleteProductByAdmin = function(productId, prodName) {
-      if (!confirm(`Confirmez-vous la suppression définitive du produit "${prodName}" de toute la marketplace ?`)) {
+      if (!confirm(`Confirmez-vous la suppression definitive du produit "${prodName}" de toute la marketplace ?`)) {
         return;
       }
 
@@ -972,14 +1081,14 @@
       localStorage.setItem('agroelevage_products', JSON.stringify(prods));
 
       renderProductsTable();
-      showToast(`Produit "${prodName}" supprimé définitivement.`);
+      showToast(`Produit "${prodName}" supprime definitivement.`);
       window.dispatchEvent(new Event('agroelevage_products_updated'));
     };
 
     // --- SUPABASE DIRECT ADMIN ACTIONS ---
     window.adminSyncUsersToSupabase = async function() {
       const btn = document.getElementById('btnSyncUsersSb');
-      if (btn) { btn.textContent = '⏳ Synchronisation en cours...'; btn.disabled = true; }
+      if (btn) { btn.textContent = 'Synchronisation en cours...'; btn.disabled = true; }
 
       const users = getUsersList();
       let successCount = 0;
@@ -992,27 +1101,27 @@
         }
       }
 
-      if (btn) { btn.textContent = '✅ Utilisateurs Synchronisés !'; btn.disabled = false; }
-      showToast(`⚡ ${successCount} comptes utilisateurs synchronisés avec succès vers Supabase !`);
-      setTimeout(() => { if (btn) btn.textContent = '👥 Synchroniser les Utilisateurs vers Supabase'; }, 3000);
+      if (btn) { btn.textContent = 'Utilisateurs Synchronises !'; btn.disabled = false; }
+      showToast(`${successCount} comptes utilisateurs synchronises avec succes vers Supabase !`);
+      setTimeout(() => { if (btn) btn.textContent = 'Synchroniser Utilisateurs'; }, 3000);
     };
 
     window.adminSyncEscrowToSupabase = async function() {
       const btn = document.getElementById('btnSyncEscrowSb');
-      if (btn) { btn.textContent = '⏳ Enregistrement Séquestre...'; btn.disabled = true; }
+      if (btn) { btn.textContent = 'Enregistrement Sequestre...'; btn.disabled = true; }
 
       if (window.AgroApi && typeof window.AgroApi.syncAllToSupabase === 'function') {
         await window.AgroApi.syncAllToSupabase();
       }
 
-      if (btn) { btn.textContent = '✅ Séquestre Synchronisé !'; btn.disabled = false; }
-      showToast('🔒 Transactions de séquestre Mobile Money synchronisées vers Supabase !');
-      setTimeout(() => { if (btn) btn.textContent = '🔒 Synchroniser Séquestre vers Supabase'; }, 3000);
+      if (btn) { btn.textContent = 'Sequestre Synchronise !'; btn.disabled = false; }
+      showToast('Transactions de sequestre Mobile Money synchronisees vers Supabase !');
+      setTimeout(() => { if (btn) btn.textContent = 'Synchroniser Sequestre'; }, 3000);
     };
 
     window.adminSyncProductsToSupabase = async function() {
       const btn = document.getElementById('btnSyncProdsSb');
-      if (btn) { btn.textContent = '⏳ Synchronisation Produits...'; btn.disabled = true; }
+      if (btn) { btn.textContent = 'Synchronisation Produits...'; btn.disabled = true; }
 
       const prods = getProductsList();
       let count = 0;
@@ -1033,22 +1142,22 @@
         }
       }
 
-      if (btn) { btn.textContent = '✅ Produits Synchronisés !'; btn.disabled = false; }
-      showToast(`🥕 ${count || prods.length} produits synchronisés vers Supabase !`);
-      setTimeout(() => { if (btn) btn.textContent = '🥕 Synchroniser Produits vers Supabase'; }, 3000);
+      if (btn) { btn.textContent = 'Produits Synchronises !'; btn.disabled = false; }
+      showToast(`${count || prods.length} produits synchronises vers Supabase !`);
+      setTimeout(() => { if (btn) btn.textContent = 'Synchroniser Produits'; }, 3000);
     };
 
     window.saveAdminSupabaseConfig = function() {
       const url = document.getElementById('sbConfigUrl')?.value.trim();
       const key = document.getElementById('sbConfigKey')?.value.trim();
       if (!url || !key) {
-        alert('Veuillez entrer l\'URL et la clé anonyme de votre projet Supabase.');
+        alert('Veuillez entrer l\'URL et la cle anonyme de votre projet Supabase.');
         return;
       }
 
       if (window.AgroApi && typeof window.AgroApi.setSupabaseConfig === 'function') {
         window.AgroApi.setSupabaseConfig(url, key);
-        showToast('Connexion Supabase enregistrée avec succès !');
+        showToast('Connexion Supabase enregistree avec succes !');
       }
     };
 
