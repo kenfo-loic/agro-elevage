@@ -289,23 +289,42 @@
             btnPay.textContent = '🔒 Paiement Bloqué en Séquestre';
             btnPay.style.background = '#16a34a';
 
+            // Store in Local Order History
+            const newOrder = {
+              id: 'CMD-' + Math.floor(1000 + Math.random() * 9000),
+              date: new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+              product_name: 'Tomates fraîches Roma',
+              qty: savedOrder.qty || 100,
+              unitPrice: savedOrder.unitPrice || 250,
+              total: savedOrder.total || 27000,
+              phone: userPhone,
+              status: 'Paiement Escrow Sécurisé (En cours d\'expédition)',
+              statusCode: 'escrow_secured'
+            };
+            let ordersList = [];
+            try {
+              ordersList = JSON.parse(localStorage.getItem('agroelevage_user_orders') || '[]');
+            } catch(e) {}
+            ordersList.unshift(newOrder);
+            localStorage.setItem('agroelevage_user_orders', JSON.stringify(ordersList));
+
             // Send SMS & Real WhatsApp Notification
             if (typeof window.sendSmsWhatsappNotification === 'function') {
               window.sendSmsWhatsappNotification(
                 userPhone,
-                'Paiement Séquestre Validé #CMD-8492',
+                'Paiement Séquestre Validé ' + newOrder.id,
                 `Votre paiement de ${(savedOrder.total || 27000).toLocaleString('fr-FR')} FCFA pour ${savedOrder.qty || 100} kg Tomates est bloqué sous séquestre Mobile Money. Le vendeur a été notifié pour expédition.`,
-                'marketplace.html',
+                'profil.html',
                 true
               );
             }
 
             if (toast) {
-              toast.textContent = 'Paiement Séquestre enregistré avec succès dans Supabase !';
+              toast.textContent = 'Commande et Paiement Séquestre enregistrés avec succès !';
               toast.classList.add('show');
               setTimeout(() => {
-                window.location.href = 'marketplace.html';
-              }, 2000);
+                window.location.href = 'profil.html';
+              }, 1800);
             }
           }, 1000);
         });

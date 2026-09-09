@@ -1,83 +1,68 @@
 /* ===================================================================
-   PROFILE SCREEN STYLES (Matching User's Mobile / App Mockup)
+   PROFILE SCREEN STYLES (Responsive for Windows Desktop & Android Mobile)
    =================================================================== */
 
-.profile-app-container {
-  max-width: 540px;
+/* Container & Layout */
+.profile-desktop-container {
+  max-width: 1200px;
   margin: 0 auto;
-  min-height: 100vh;
-  background: #f8fafc;
-  padding-bottom: 100px;
-  position: relative;
-}
-
-/* --- Dark Top Profile Header --- */
-.profile-dark-header {
-  background: linear-gradient(180deg, #18181b 0%, #0f1012 100%);
-  color: #ffffff;
-  padding: 24px 20px 32px 20px;
-  position: relative;
-  border-bottom-left-radius: 28px;
-  border-bottom-right-radius: 28px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  text-align: center;
-}
-
-.profile-topbar-actions {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-bottom: 12px;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.profile-notif-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+/* --- Dark Profile Hero Card --- */
+.profile-dark-header-card {
+  background: linear-gradient(135deg, #18181b 0%, #09090b 100%);
   color: #ffffff;
+  border-radius: 20px;
+  padding: 32px 28px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   position: relative;
-  text-decoration: none;
-  transition: all 0.2s ease;
+  overflow: hidden;
 }
 
-.profile-notif-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  transform: scale(1.05);
-}
-
-.profile-notif-badge-dot {
+.profile-dark-header-card::before {
+  content: '';
   position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #ef4444;
-  border: 1.5px solid #18181b;
+  top: -50px;
+  right: -50px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(0,0,0,0) 70%);
+  pointer-events: none;
+}
+
+.profile-header-user-info {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
 }
 
 .profile-avatar-wrapper {
   position: relative;
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 16px;
+  width: 90px;
+  height: 90px;
+  flex-shrink: 0;
 }
 
 .profile-avatar-circle {
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   background: #ffffff;
   color: #0f172a;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
   border: 3px solid rgba(255, 255, 255, 0.9);
   overflow: hidden;
 }
@@ -92,8 +77,8 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: #3b82f6;
   color: #ffffff;
@@ -102,7 +87,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
   transition: transform 0.2s ease;
 }
 
@@ -110,58 +95,86 @@
   transform: scale(1.1);
 }
 
+.profile-user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .profile-user-name {
   font-family: var(--font-heading);
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 800;
   color: #ffffff;
-  margin: 0 0 4px;
+  margin: 0;
   letter-spacing: -0.3px;
 }
 
 .profile-user-email {
-  font-size: 13.5px;
+  font-size: 14px;
   color: #94a3b8;
   margin: 0;
-  font-weight: 400;
 }
 
-/* --- Main Content Body --- */
-.profile-body-content {
-  padding: 20px 16px;
+.profile-user-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
 }
 
-/* --- Shop Creation Banner Card --- */
+.profile-badge-verified {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.profile-badge-role {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 9999px;
+}
+
+/* --- Banner Card: Créer votre boutique --- */
 .profile-shop-card {
   background: #f0f3ff;
   border: 1.5px solid #dbe4ff;
   border-radius: 18px;
-  padding: 16px;
+  padding: 20px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
   text-decoration: none;
   transition: all 0.22s ease;
-  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.07);
-  margin-bottom: 24px;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.06);
 }
 
 .profile-shop-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.12);
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.12);
   border-color: #c7d2fe;
 }
 
 .profile-shop-card-left {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
 }
 
 .profile-shop-icon-box {
-  width: 50px;
-  height: 50px;
+  width: 52px;
+  height: 52px;
   border-radius: 14px;
   background: #3843d0;
   color: #ffffff;
@@ -174,14 +187,14 @@
 
 .profile-shop-title {
   font-family: var(--font-heading);
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 800;
   color: #1e1b4b;
   margin: 0 0 3px;
 }
 
 .profile-shop-sub {
-  font-size: 12.5px;
+  font-size: 13px;
   color: #6366f1;
   font-weight: 600;
   margin: 0;
@@ -195,26 +208,42 @@
   flex-shrink: 0;
 }
 
-/* --- Section Titles & Group Cards --- */
+/* --- Grid & Group Cards --- */
+.profile-windows-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 24px;
+}
+
+.profile-section-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px;
+  border: 1px solid var(--border-subtle, #e2e8f0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
 .profile-section-title {
   font-family: var(--font-heading);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 800;
   color: #0f172a;
-  margin: 0 0 12px 4px;
+  margin: 0 0 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .profile-items-group {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-bottom: 24px;
 }
 
 .profile-nav-card {
   background: #ffffff;
   border: 1px solid #f1f5f9;
-  border-radius: 16px;
+  border-radius: 14px;
   padding: 14px 16px;
   display: flex;
   align-items: center;
@@ -222,7 +251,7 @@
   cursor: pointer;
   text-decoration: none;
   transition: all 0.18s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
 }
 
 .profile-nav-card:hover {
@@ -239,8 +268,8 @@
 }
 
 .profile-item-icon-box {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   border-radius: 12px;
   background: #f3f4f6;
   color: #1e293b;
@@ -252,7 +281,7 @@
 
 .profile-item-title {
   font-family: var(--font-heading);
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 700;
   color: #0f172a;
   margin: 0 0 2px;
@@ -267,69 +296,6 @@
 
 .profile-item-chevron {
   color: #94a3b8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* --- Floating Pill Mobile Bottom Navigation (Matching Mockup) --- */
-.profile-floating-nav {
-  position: fixed;
-  bottom: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 32px);
-  max-width: 480px;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-radius: 40px;
-  padding: 6px 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  z-index: 1000;
-}
-
-.profile-floating-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #64748b;
-  text-decoration: none;
-  font-size: 11px;
-  font-weight: 600;
-  position: relative;
-  padding: 8px 12px;
-  border-radius: 24px;
-  transition: all 0.2s ease;
-}
-
-.profile-floating-btn.active {
-  background: #ffffff;
-  color: #0f172a;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
-  display: flex;
-  flex-direction: row;
-  gap: 6px;
-  font-weight: 800;
-  padding: 8px 16px;
-}
-
-.profile-floating-badge {
-  position: absolute;
-  top: 4px;
-  right: 8px;
-  background: #ef4444;
-  color: #ffffff;
-  font-size: 9px;
-  font-weight: 800;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -352,7 +318,7 @@
   background: #ffffff;
   border-radius: 20px;
   width: 100%;
-  max-width: 480px;
+  max-width: 500px;
   max-height: 90vh;
   overflow-y: auto;
   padding: 24px;
@@ -363,4 +329,27 @@
 @keyframes modalPopIn {
   from { opacity: 0; transform: scale(0.95) translateY(10px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* --- Mobile / Android Specific Styles (Responsive query) --- */
+@media (max-width: 768px) {
+  .profile-desktop-container {
+    max-width: 100%;
+    padding-bottom: 90px;
+  }
+  .profile-dark-header-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 24px 16px;
+    border-radius: 0 0 24px 24px;
+    margin: -16px -16px 20px -16px;
+  }
+  .profile-header-user-info {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .profile-windows-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 }

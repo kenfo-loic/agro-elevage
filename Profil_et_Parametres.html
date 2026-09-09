@@ -3,416 +3,487 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mon Profil — AgroElevage Link</title>
-  <meta name="description" content="Profil utilisateur, gestion de boutique, informations personnelles et moyens de paiement." />
+  <title>Profil & Paramètres — AgroElevage Link</title>
+  <meta name="description" content="Gérez votre profil, votre boutique en ligne, vos informations de livraison et vos moyens de paiement." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/style.css?v=3" />
-  <link rel="stylesheet" href="css/profil.css?v=1" />
+  <link rel="stylesheet" href="css/profil.css?v=2" />
 </head>
-<body style="background: #f8fafc; margin: 0; padding: 0;">
+<body>
+  <!-- ===================================================================
+       WEB APPLICATION SHELL (DESKTOP WINDOWS & RESPONSIVE ANDROID)
+       =================================================================== -->
+  <div class="web-app-shell">
+    
+    <!-- Shared Web Sidebar (Injected by layout.js) -->
+    <div id="sidebar-root"></div>
 
-  <!-- Mobile App Shell Container -->
-  <div class="profile-app-container">
-
-    <!-- =========================================================================
-         TOP DARK HEADER (Matching User Mockup)
-         ========================================================================= -->
-    <header class="profile-dark-header">
+    <!-- Main Content Area -->
+    <div class="web-main-container">
       
-      <!-- Top Bar Actions (Notification Bell) -->
-      <div class="profile-topbar-actions">
-        <a href="notifications.html" class="profile-notif-btn" title="Notifications">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
-          </svg>
-          <span class="profile-notif-badge-dot"></span>
-        </a>
-      </div>
-
-      <!-- Centered Avatar -->
-      <div class="profile-avatar-wrapper">
-        <div class="profile-avatar-circle" id="profileAvatarCircle">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="#0f172a" stroke="none">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-          </svg>
+      <!-- Top Navigation Bar -->
+      <header class="web-topbar">
+        <div class="web-topbar-left">
+          <button class="web-menu-toggle" id="btnToggleMobileMenu" title="Ouvrir le menu de navigation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg> <span>Menu</span></button>
+          <span class="web-page-heading-title">Mon Profil & Paramètres</span>
         </div>
-        <button type="button" class="profile-avatar-edit-btn" id="btnChangeAvatar" title="Changer de photo">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
-        </button>
-        <input type="file" id="inputAvatarFile" accept="image/*" style="display: none;" />
-      </div>
 
-      <!-- User Information -->
-      <h1 class="profile-user-name" id="profileHeaderName">Kenfo Loic</h1>
-      <p class="profile-user-email" id="profileHeaderEmail">kenfoloic3@gmail.com</p>
+        <div class="web-topbar-right">
+          <a href="mes_produits.html" class="btn-secondary" style="height: 38px; padding: 0 14px; font-size: 13px; font-weight: 700; text-decoration: none; border-radius: 8px; border: 1px solid var(--border-color); background: #ffffff; display: flex; align-items: center; gap: 6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+            <span>Mes Produits</span>
+          </a>
 
-    </header>
+          <a href="notifications.html" class="web-topbar-btn-circle" title="Notifications">
+            <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span>
+            <span class="web-notif-dot"></span>
+          </a>
+        </div>
+      </header>
 
-    <!-- =========================================================================
-         BODY CONTENT
-         ========================================================================= -->
-    <main class="profile-body-content">
+      <!-- Main Content Body -->
+      <main class="web-content-body">
+        
+        <div class="profile-desktop-container">
+          
+          <!-- =========================================================================
+               1. HERO DARK USER CARD (Windows & Android Identity)
+               ========================================================================= -->
+          <div class="profile-dark-header-card">
+            <div class="profile-header-user-info">
+              <!-- Avatar with Edit Button -->
+              <div class="profile-avatar-wrapper">
+                <div class="profile-avatar-circle" id="profileAvatarCircle">
+                  <svg width="44" height="44" viewBox="0 0 24 24" fill="#0f172a" stroke="none">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                  </svg>
+                </div>
+                <button type="button" class="profile-avatar-edit-btn" id="btnChangeAvatar" title="Changer de photo">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                </button>
+                <input type="file" id="inputAvatarFile" accept="image/*" style="display: none;" />
+              </div>
 
-      <!-- --- BANNER: CRÉER VOTRE BOUTIQUE --- -->
-      <div class="profile-shop-card" id="cardOpenShopModal" role="button" tabindex="0">
-        <div class="profile-shop-card-left">
-          <div class="profile-shop-icon-box">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/>
-              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
-              <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/>
-              <path d="M2 7h20"/>
-              <path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12v0a2 2 0 0 1-2-2V7"/>
-            </svg>
+              <!-- User Names and Badges -->
+              <div class="profile-user-details">
+                <h1 class="profile-user-name" id="profileHeaderName">Kenfo Loic</h1>
+                <p class="profile-user-email" id="profileHeaderEmail">kenfoloic3@gmail.com</p>
+                <div class="profile-user-badge-row">
+                  <span class="profile-badge-verified">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    Compte Vérifié
+                  </span>
+                  <span class="profile-badge-role" id="profileBadgeRole">Producteur & Vendeur</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Action Button -->
+            <div>
+              <button type="button" id="btnQuickEditProfile" class="btn-secondary" style="background: rgba(255,255,255,0.12); color: #ffffff; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; height: 38px; padding: 0 16px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                <span>Modifier le profil</span>
+              </button>
+            </div>
           </div>
-          <div>
-            <h2 class="profile-shop-title" id="shopCardMainTitle">Créer votre boutique</h2>
-            <p class="profile-shop-sub" id="shopCardMainSub">Vendez vos produits sur AgroElevage</p>
-          </div>
-        </div>
-        <div class="profile-chevron-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m9 18 6-6-6-6"/>
-          </svg>
-        </div>
-      </div>
 
-      <!-- --- SECTION: MON COMPTE --- -->
-      <h3 class="profile-section-title">Mon Compte</h3>
-      <div class="profile-items-group">
-
-        <!-- Informations personnelles -->
-        <div class="profile-nav-card" id="btnOpenPersonalInfoModal">
-          <div class="profile-nav-card-left">
-            <div class="profile-item-icon-box">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
-                <circle cx="12" cy="7" r="4"/>
+          <!-- =========================================================================
+               2. BANNER CARD: CRÉER VOTRE BOUTIQUE
+               ========================================================================= -->
+          <div class="profile-shop-card" id="cardOpenShopModal" role="button" tabindex="0">
+            <div class="profile-shop-card-left">
+              <div class="profile-shop-icon-box">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/>
+                  <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                  <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/>
+                  <path d="M2 7h20"/>
+                  <path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12v0a2 2 0 0 1-2-2V7"/>
+                </svg>
+              </div>
+              <div>
+                <h2 class="profile-shop-title" id="shopCardMainTitle">Créer votre boutique</h2>
+                <p class="profile-shop-sub" id="shopCardMainSub">Vendez vos produits sur AgroElevage</p>
+              </div>
+            </div>
+            <div class="profile-chevron-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 18 6-6-6-6"/>
               </svg>
             </div>
-            <div>
-              <div class="profile-item-title">Informations personnelles</div>
-              <div class="profile-item-desc" id="subtxtPersonalInfo">Nom, email, téléphone</div>
+          </div>
+
+          <!-- =========================================================================
+               3. RESPONSIVE 2-COLUMN WINDOWS GRID
+               ========================================================================= -->
+          <div class="profile-windows-grid">
+            
+            <!-- LEFT COLUMN: MON COMPTE -->
+            <div class="profile-section-card">
+              <h2 class="profile-section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Mon Compte</span>
+              </h2>
+
+              <div class="profile-items-group">
+                <!-- Informations personnelles -->
+                <div class="profile-nav-card" id="btnOpenPersonalInfoModal">
+                  <div class="profile-nav-card-left">
+                    <div class="profile-item-icon-box">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <div class="profile-item-title">Informations personnelles</div>
+                      <div class="profile-item-desc" id="subtxtPersonalInfo">Nom, email, téléphone</div>
+                    </div>
+                  </div>
+                  <div class="profile-item-chevron">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                  </div>
+                </div>
+
+                <!-- Informations de livraison -->
+                <div class="profile-nav-card" id="btnOpenDeliveryModal">
+                  <div class="profile-nav-card-left">
+                    <div class="profile-item-icon-box">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <div class="profile-item-title">Informations de livraison</div>
+                      <div class="profile-item-desc" id="subtxtDeliveryInfo">Yaoundé, Cameroun</div>
+                    </div>
+                  </div>
+                  <div class="profile-item-chevron">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                  </div>
+                </div>
+
+                <!-- Moyens de paiement -->
+                <div class="profile-nav-card" id="btnOpenPaymentModal">
+                  <div class="profile-nav-card-left">
+                    <div class="profile-item-icon-box">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect width="20" height="14" x="2" y="5" rx="2"/>
+                        <line x1="2" x2="22" y1="10" y2="10"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <div class="profile-item-title">Moyens de paiement</div>
+                      <div class="profile-item-desc" id="subtxtPaymentInfo">Mobile Money, cartes</div>
+                    </div>
+                  </div>
+                  <div class="profile-item-chevron">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                  </div>
+                </div>
+
+                <!-- Agro Wallet -->
+                <a href="paiement_escrow.html" class="profile-nav-card">
+                  <div class="profile-nav-card-left">
+                    <div class="profile-item-icon-box">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/>
+                        <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <div class="profile-item-title">Agro Wallet</div>
+                      <div class="profile-item-desc">Portefeuille électronique & Séquestre Escrow</div>
+                    </div>
+                  </div>
+                  <div class="profile-item-chevron">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                  </div>
+                </a>
+              </div>
             </div>
+
+            <!-- RIGHT COLUMN: MES COMMANDES & PRÉFÉRENCES -->
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+              
+              <!-- Section Mes Commandes -->
+              <div class="profile-section-card">
+                <h2 class="profile-section-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                  <span>Mes commandes & Activité</span>
+                </h2>
+
+                <div class="profile-items-group">
+                  <div class="profile-nav-card" id="btnOpenOrdersModal">
+                    <div class="profile-nav-card-left">
+                      <div class="profile-item-icon-box">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                        </svg>
+                      </div>
+                      <div>
+                        <div class="profile-item-title">Historique des commandes</div>
+                        <div class="profile-item-desc" id="subtxtOrdersCount">Suivre mes commandes et expéditions</div>
+                      </div>
+                    </div>
+                    <div class="profile-item-chevron">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                    </div>
+                  </div>
+
+                  <a href="mes_produits.html" class="profile-nav-card">
+                    <div class="profile-nav-card-left">
+                      <div class="profile-item-icon-box">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
+                        </svg>
+                      </div>
+                      <div>
+                        <div class="profile-item-title">Mes Produits en Vente</div>
+                        <div class="profile-item-desc">Gérer le stock et les annonces de ma boutique</div>
+                      </div>
+                    </div>
+                    <div class="profile-item-chevron">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Section Préférences & Déconnexion -->
+              <div class="profile-section-card">
+                <h2 class="profile-section-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                  <span>Paramètres & Sécurité</span>
+                </h2>
+
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 12px 16px; border-radius: 12px; border: 1px solid #f1f5f9;">
+                    <div>
+                      <strong style="font-size: 13px; color: #0f172a;">Mode d'affichage</strong>
+                      <div style="font-size: 11.5px; color: #64748b;">Clair ou Sombre</div>
+                    </div>
+                    <div style="display: flex; gap: 6px;">
+                      <button type="button" id="btnThemeLight" class="btn-secondary" style="height: 32px; padding: 0 12px; font-size: 12px; font-weight: 700; border-radius: 8px;">Clair</button>
+                      <button type="button" id="btnThemeDark" class="btn-secondary" style="height: 32px; padding: 0 12px; font-size: 12px; font-weight: 700; border-radius: 8px;">Sombre</button>
+                    </div>
+                  </div>
+
+                  <a href="index.html" style="display: flex; align-items: center; justify-content: center; gap: 8px; color: #dc2626; font-weight: 800; font-size: 13.5px; text-decoration: none; padding: 12px; border-radius: 12px; background: #fee2e2; transition: all 0.2s ease;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                    <span>Se Déconnecter de la Session</span>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+
           </div>
-          <div class="profile-item-chevron">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-          </div>
+
         </div>
 
-        <!-- Informations de livraison -->
-        <div class="profile-nav-card" id="btnOpenDeliveryModal">
-          <div class="profile-nav-card-left">
-            <div class="profile-item-icon-box">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
-                <circle cx="12" cy="10" r="3"/>
-              </svg>
+      </main>
+
+      <!-- =========================================================================
+           MODAL 1: CRÉER / MODIFIER MA BOUTIQUE AGRICOLE
+           ========================================================================= -->
+      <div class="profile-modal-backdrop" id="modalShopBackdrop">
+        <div class="profile-modal-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 38px; height: 38px; border-radius: 10px; background: #e0e7ff; color: #3843d0; display: flex; align-items: center; justify-content: center;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/></svg>
+              </div>
+              <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: #0f172a; margin: 0;">Ma Boutique Agricole</h3>
             </div>
-            <div>
-              <div class="profile-item-title">Informations de livraison</div>
-              <div class="profile-item-desc" id="subtxtDeliveryInfo">Yaoundé, Cameroun</div>
-            </div>
+            <button type="button" id="btnCloseShopModal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">&times;</button>
           </div>
-          <div class="profile-item-chevron">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+
+          <form id="formShopConfig" onsubmit="event.preventDefault(); saveShopConfig();">
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155;">Nom de la Boutique *</label>
+              <input type="text" id="inputShopName" class="form-input" style="height: 40px; font-size: 13px;" placeholder="Ex: Ferme Bio AgroElevage" required />
+            </div>
+
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155;">Catégorie Principale *</label>
+              <select id="selectShopCategory" class="form-input" style="height: 40px; font-size: 13px;">
+                <option value="Maraîchage & Légumes">Maraîchage & Légumes</option>
+                <option value="Élevage & Volailles">Élevage & Volailles</option>
+                <option value="Céréales & Grains">Céréales & Grains</option>
+                <option value="Tubercules & Racines">Tubercules & Racines</option>
+                <option value="Fruits & Vergers">Fruits & Vergers</option>
+                <option value="Multi-Produits Agricoles">Multi-Produits Agricoles</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155;">Slogan / Description de la Boutique</label>
+              <textarea id="textareaShopBio" class="form-input" style="height: 64px; font-size: 12.5px; resize: none; padding: 8px 12px;" placeholder="Présentez vos récoltes, bétails et engagements qualité..."></textarea>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+              <div class="form-group">
+                <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155;">WhatsApp Vendeur *</label>
+                <input type="tel" id="inputShopPhone" class="form-input" style="height: 40px; font-size: 13px;" placeholder="+237 6XX XX XX XX" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155;">Ville / Région *</label>
+                <input type="text" id="inputShopLocation" class="form-input" style="height: 40px; font-size: 13px;" placeholder="Ex: Yaoundé / Foumbot" required />
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 18px;">
+              <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155;">Modalités de Livraison</label>
+              <input type="text" id="inputShopDelivery" class="form-input" style="height: 40px; font-size: 13px;" placeholder="Ex: Livraison locale & Expédition Séquestre" />
+            </div>
+
+            <div style="display: flex; gap: 8px; justify-content: flex-end;">
+              <button type="button" id="btnCancelShopModal" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px;">Annuler</button>
+              <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px; background: #3843d0; border-color: #3843d0;">Enregistrer la Boutique</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- =========================================================================
+           MODAL 2: INFORMATIONS PERSONNELLES
+           ========================================================================= -->
+      <div class="profile-modal-backdrop" id="modalPersonalBackdrop">
+        <div class="profile-modal-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 38px; height: 38px; border-radius: 10px; background: #f1f5f9; color: #0f172a; display: flex; align-items: center; justify-content: center;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: #0f172a; margin: 0;">Informations personnelles</h3>
+            </div>
+            <button type="button" id="btnClosePersonalModal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">&times;</button>
+          </div>
+
+          <form id="formPersonalInfo" onsubmit="event.preventDefault(); savePersonalInfo();">
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="form-label" style="font-size: 12px; font-weight: 700;">Nom complet *</label>
+              <input type="text" id="inputPersonalName" class="form-input" style="height: 40px; font-size: 13px;" required />
+            </div>
+
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="form-label" style="font-size: 12px; font-weight: 700;">Adresse e-mail *</label>
+              <input type="email" id="inputPersonalEmail" class="form-input" style="height: 40px; font-size: 13px;" required />
+            </div>
+
+            <div class="form-group" style="margin-bottom: 18px;">
+              <label class="form-label" style="font-size: 12px; font-weight: 700;">Numéro de téléphone *</label>
+              <input type="tel" id="inputPersonalPhone" class="form-input" style="height: 40px; font-size: 13px;" required />
+            </div>
+
+            <div style="display: flex; gap: 8px; justify-content: flex-end;">
+              <button type="button" id="btnCancelPersonalModal" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px;">Annuler</button>
+              <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px;">Mettre à jour</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- =========================================================================
+           MODAL 3: INFORMATIONS DE LIVRAISON
+           ========================================================================= -->
+      <div class="profile-modal-backdrop" id="modalDeliveryBackdrop">
+        <div class="profile-modal-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 38px; height: 38px; border-radius: 10px; background: #dcfce7; color: #15803d; display: flex; align-items: center; justify-content: center;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: #0f172a; margin: 0;">Adresse de livraison</h3>
+            </div>
+            <button type="button" id="btnCloseDeliveryModal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">&times;</button>
+          </div>
+
+          <form id="formDeliveryInfo" onsubmit="event.preventDefault(); saveDeliveryInfo();">
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="form-label" style="font-size: 12px; font-weight: 700;">Ville / Région *</label>
+              <input type="text" id="inputDeliveryCity" class="form-input" style="height: 40px; font-size: 13px;" placeholder="Ex: Yaoundé, Région du Centre" required />
+            </div>
+
+            <div class="form-group" style="margin-bottom: 18px;">
+              <label class="form-label" style="font-size: 12px; font-weight: 700;">Quartier & Précisions d'adresse</label>
+              <textarea id="textareaDeliveryAddress" class="form-input" style="height: 64px; font-size: 12.5px; resize: none; padding: 8px 12px;" placeholder="Ex: Quartier Olembé, Carrefour Marché, face pharmacie..."></textarea>
+            </div>
+
+            <div style="display: flex; gap: 8px; justify-content: flex-end;">
+              <button type="button" id="btnCancelDeliveryModal" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px;">Annuler</button>
+              <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px;">Enregistrer l'adresse</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- =========================================================================
+           MODAL 4: MOYENS DE PAIEMENT
+           ========================================================================= -->
+      <div class="profile-modal-backdrop" id="modalPaymentBackdrop">
+        <div class="profile-modal-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 38px; height: 38px; border-radius: 10px; background: #fef3c7; color: #d97706; display: flex; align-items: center; justify-content: center;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+              </div>
+              <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: #0f172a; margin: 0;">Moyens de Paiement</h3>
+            </div>
+            <button type="button" id="btnClosePaymentModal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">&times;</button>
+          </div>
+
+          <form id="formPaymentInfo" onsubmit="event.preventDefault(); savePaymentInfo();">
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="form-label" style="font-size: 12px; font-weight: 700;">Numéro MTN Mobile Money</label>
+              <input type="tel" id="inputMtnMomo" class="form-input" style="height: 40px; font-size: 13px;" placeholder="+237 67X XX XX XX" />
+            </div>
+
+            <div class="form-group" style="margin-bottom: 18px;">
+              <label class="form-label" style="font-size: 12px; font-weight: 700;">Numéro Orange Money</label>
+              <input type="tel" id="inputOrangeMoney" class="form-input" style="height: 40px; font-size: 13px;" placeholder="+237 69X XX XX XX" />
+            </div>
+
+            <div style="display: flex; gap: 8px; justify-content: flex-end;">
+              <button type="button" id="btnCancelPaymentModal" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px;">Annuler</button>
+              <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px;">Enregistrer</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- =========================================================================
+           MODAL 5: HISTORIQUE DES COMMANDES (Empty State & Orders List)
+           ========================================================================= -->
+      <div class="profile-modal-backdrop" id="modalOrdersBackdrop">
+        <div class="profile-modal-card" style="max-width: 540px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 38px; height: 38px; border-radius: 10px; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              </div>
+              <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: #0f172a; margin: 0;">Historique des commandes</h3>
+            </div>
+            <button type="button" id="btnCloseOrdersModal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">&times;</button>
+          </div>
+
+          <!-- Dynamic Container: Renders 'Aucune commande' or orders cards -->
+          <div id="ordersContainerList">
+            <!-- Injected by JavaScript -->
           </div>
         </div>
-
-        <!-- Moyens de paiement -->
-        <div class="profile-nav-card" id="btnOpenPaymentModal">
-          <div class="profile-nav-card-left">
-            <div class="profile-item-icon-box">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect width="20" height="14" x="2" y="5" rx="2"/>
-                <line x1="2" x2="22" y1="10" y2="10"/>
-              </svg>
-            </div>
-            <div>
-              <div class="profile-item-title">Moyens de paiement</div>
-              <div class="profile-item-desc" id="subtxtPaymentInfo">Mobile Money, cartes</div>
-            </div>
-          </div>
-          <div class="profile-item-chevron">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-          </div>
-        </div>
-
-        <!-- Nevo / Agro Wallet -->
-        <a href="paiement_escrow.html" class="profile-nav-card">
-          <div class="profile-nav-card-left">
-            <div class="profile-item-icon-box">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/>
-                <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>
-              </svg>
-            </div>
-            <div>
-              <div class="profile-item-title">Agro Wallet</div>
-              <div class="profile-item-desc">Portefeuille électronique & Séquestre Escrow</div>
-            </div>
-          </div>
-          <div class="profile-item-chevron">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-          </div>
-        </a>
-
       </div>
 
-      <!-- --- SECTION: MES COMMANDES --- -->
-      <h3 class="profile-section-title">Mes commandes</h3>
-      <div class="profile-items-group">
+      <!-- Interactive Toast -->
+      <div class="toast-msg" id="appToast">Profil mis à jour avec succès !</div>
 
-        <a href="marketplace.html" class="profile-nav-card">
-          <div class="profile-nav-card-left">
-            <div class="profile-item-icon-box">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
-              </svg>
-            </div>
-            <div>
-              <div class="profile-item-title">Historique des commandes</div>
-              <div class="profile-item-desc">Suivre mes commandes et expéditions</div>
-            </div>
-          </div>
-          <div class="profile-item-chevron">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-          </div>
-        </a>
-
-        <a href="mes_produits.html" class="profile-nav-card">
-          <div class="profile-nav-card-left">
-            <div class="profile-item-icon-box">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
-              </svg>
-            </div>
-            <div>
-              <div class="profile-item-title">Mes Produits en Vente</div>
-              <div class="profile-item-desc">Gérer mon stock et mes annonces</div>
-            </div>
-          </div>
-          <div class="profile-item-chevron">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-          </div>
-        </a>
-
-      </div>
-
-      <!-- --- SECTION: PRÉFÉRENCES & DÉCONNEXION --- -->
-      <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 12px;">
-        <a href="index.html" style="display: flex; align-items: center; justify-content: center; gap: 8px; color: #dc2626; font-weight: 800; font-size: 14px; text-decoration: none; padding: 12px; border-radius: 12px; background: #fee2e2; transition: all 0.2s ease;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
-          <span>Se Déconnecter de la Session</span>
-        </a>
-      </div>
-
-    </main>
-
-    <!-- =========================================================================
-         FLOATING PILL BOTTOM NAVIGATION (Matching Mockup)
-         ========================================================================= -->
-    <nav class="profile-floating-nav">
-      <a href="index.html" class="profile-floating-btn" title="Accueil">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      </a>
-
-      <a href="carte_et_geoloc.html" class="profile-floating-btn" title="Carte & Logistique">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg>
-      </a>
-
-      <a href="marketplace.html" class="profile-floating-btn" title="Marketplace">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/></svg>
-        <span class="profile-floating-badge">N</span>
-      </a>
-
-      <a href="mes_produits.html" class="profile-floating-btn" title="Mes Produits">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      </a>
-
-      <a href="profil.html" class="profile-floating-btn active" title="Profil">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        <span>Profil</span>
-      </a>
-    </nav>
-
-    <!-- =========================================================================
-         MODAL 1: CRÉER / MODIFIER MA BOUTIQUE AGRICOLE
-         ========================================================================= -->
-    <div class="profile-modal-backdrop" id="modalShopBackdrop">
-      <div class="profile-modal-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 36px; height: 36px; border-radius: 10px; background: #e0e7ff; color: #3843d0; display: flex; align-items: center; justify-content: center;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/></svg>
-            </div>
-            <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: #0f172a; margin: 0;">Ma Boutique Agricole</h3>
-          </div>
-          <button type="button" id="btnCloseShopModal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">&times;</button>
-        </div>
-
-        <form id="formShopConfig" onsubmit="event.preventDefault(); saveShopConfig();">
-          <div class="form-group" style="margin-bottom: 12px;">
-            <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155;">Nom de la Boutique *</label>
-            <input type="text" id="inputShopName" class="form-input" style="height: 40px; font-size: 13px;" placeholder="Ex: Ferme Bio AgroElevage" required />
-          </div>
-
-          <div class="form-group" style="margin-bottom: 12px;">
-            <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155;">Catégorie Principale *</label>
-            <select id="selectShopCategory" class="form-input" style="height: 40px; font-size: 13px;">
-              <option value="Maraîchage & Légumes">Maraîchage & Légumes</option>
-              <option value="Élevage & Volailles">Élevage & Volailles</option>
-              <option value="Céréales & Grains">Céréales & Grains</option>
-              <option value="Tubercules & Racines">Tubercules & Racines</option>
-              <option value="Fruits & Vergers">Fruits & Vergers</option>
-              <option value="Multi-Produits Agricoles">Multi-Produits Agricoles</option>
-            </select>
-          </div>
-
-          <div class="form-group" style="margin-bottom: 12px;">
-            <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155;">Slogan / Description de la Boutique</label>
-            <textarea id="textareaShopBio" class="form-input" style="height: 64px; font-size: 12.5px; resize: none; padding: 8px 12px;" placeholder="Présentez vos récoltes, bétails et engagements qualité..."></textarea>
-          </div>
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
-            <div class="form-group">
-              <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155;">WhatsApp Vendeur *</label>
-              <input type="tel" id="inputShopPhone" class="form-input" style="height: 40px; font-size: 13px;" placeholder="+237 6XX XX XX XX" required />
-            </div>
-            <div class="form-group">
-              <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155;">Ville / Région *</label>
-              <input type="text" id="inputShopLocation" class="form-input" style="height: 40px; font-size: 13px;" placeholder="Ex: Yaoundé / Foumbot" required />
-            </div>
-          </div>
-
-          <div class="form-group" style="margin-bottom: 18px;">
-            <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155;">Modalités de Livraison</label>
-            <input type="text" id="inputShopDelivery" class="form-input" style="height: 40px; font-size: 13px;" placeholder="Ex: Livraison locale & Expédition Séquestre" />
-          </div>
-
-          <div style="display: flex; gap: 8px; justify-content: flex-end;">
-            <button type="button" id="btnCancelShopModal" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px;">Annuler</button>
-            <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px; background: #3843d0; border-color: #3843d0;">Enregistrer</button>
-          </div>
-        </form>
-      </div>
     </div>
-
-    <!-- =========================================================================
-         MODAL 2: INFORMATIONS PERSONNELLES
-         ========================================================================= -->
-    <div class="profile-modal-backdrop" id="modalPersonalBackdrop">
-      <div class="profile-modal-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 36px; height: 36px; border-radius: 10px; background: #f1f5f9; color: #0f172a; display: flex; align-items: center; justify-content: center;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            </div>
-            <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: #0f172a; margin: 0;">Informations personnelles</h3>
-          </div>
-          <button type="button" id="btnClosePersonalModal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">&times;</button>
-        </div>
-
-        <form id="formPersonalInfo" onsubmit="event.preventDefault(); savePersonalInfo();">
-          <div class="form-group" style="margin-bottom: 12px;">
-            <label class="form-label" style="font-size: 12px; font-weight: 700;">Nom complet *</label>
-            <input type="text" id="inputPersonalName" class="form-input" style="height: 40px; font-size: 13px;" required />
-          </div>
-
-          <div class="form-group" style="margin-bottom: 12px;">
-            <label class="form-label" style="font-size: 12px; font-weight: 700;">Adresse e-mail *</label>
-            <input type="email" id="inputPersonalEmail" class="form-input" style="height: 40px; font-size: 13px;" required />
-          </div>
-
-          <div class="form-group" style="margin-bottom: 18px;">
-            <label class="form-label" style="font-size: 12px; font-weight: 700;">Numéro de téléphone *</label>
-            <input type="tel" id="inputPersonalPhone" class="form-input" style="height: 40px; font-size: 13px;" required />
-          </div>
-
-          <div style="display: flex; gap: 8px; justify-content: flex-end;">
-            <button type="button" id="btnCancelPersonalModal" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px;">Annuler</button>
-            <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px;">Mettre à jour</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- =========================================================================
-         MODAL 3: INFORMATIONS DE LIVRAISON
-         ========================================================================= -->
-    <div class="profile-modal-backdrop" id="modalDeliveryBackdrop">
-      <div class="profile-modal-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 36px; height: 36px; border-radius: 10px; background: #dcfce7; color: #15803d; display: flex; align-items: center; justify-content: center;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-            </div>
-            <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: #0f172a; margin: 0;">Adresse de livraison</h3>
-          </div>
-          <button type="button" id="btnCloseDeliveryModal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">&times;</button>
-        </div>
-
-        <form id="formDeliveryInfo" onsubmit="event.preventDefault(); saveDeliveryInfo();">
-          <div class="form-group" style="margin-bottom: 12px;">
-            <label class="form-label" style="font-size: 12px; font-weight: 700;">Ville / Région *</label>
-            <input type="text" id="inputDeliveryCity" class="form-input" style="height: 40px; font-size: 13px;" placeholder="Ex: Yaoundé, Région du Centre" required />
-          </div>
-
-          <div class="form-group" style="margin-bottom: 18px;">
-            <label class="form-label" style="font-size: 12px; font-weight: 700;">Quartier & Précisions d'adresse</label>
-            <textarea id="textareaDeliveryAddress" class="form-input" style="height: 64px; font-size: 12.5px; resize: none; padding: 8px 12px;" placeholder="Ex: Quartier Olembé, Carrefour Marché, face pharmacie..."></textarea>
-          </div>
-
-          <div style="display: flex; gap: 8px; justify-content: flex-end;">
-            <button type="button" id="btnCancelDeliveryModal" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px;">Annuler</button>
-            <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px;">Enregistrer l'adresse</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- =========================================================================
-         MODAL 4: MOYENS DE PAIEMENT
-         ========================================================================= -->
-    <div class="profile-modal-backdrop" id="modalPaymentBackdrop">
-      <div class="profile-modal-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 36px; height: 36px; border-radius: 10px; background: #fef3c7; color: #d97706; display: flex; align-items: center; justify-content: center;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
-            </div>
-            <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: #0f172a; margin: 0;">Moyens de Paiement</h3>
-          </div>
-          <button type="button" id="btnClosePaymentModal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">&times;</button>
-        </div>
-
-        <form id="formPaymentInfo" onsubmit="event.preventDefault(); savePaymentInfo();">
-          <div class="form-group" style="margin-bottom: 12px;">
-            <label class="form-label" style="font-size: 12px; font-weight: 700;">Numéro MTN Mobile Money</label>
-            <input type="tel" id="inputMtnMomo" class="form-input" style="height: 40px; font-size: 13px;" placeholder="+237 67X XX XX XX" />
-          </div>
-
-          <div class="form-group" style="margin-bottom: 18px;">
-            <label class="form-label" style="font-size: 12px; font-weight: 700;">Numéro Orange Money</label>
-            <input type="tel" id="inputOrangeMoney" class="form-input" style="height: 40px; font-size: 13px;" placeholder="+237 69X XX XX XX" />
-          </div>
-
-          <div style="display: flex; gap: 8px; justify-content: flex-end;">
-            <button type="button" id="btnCancelPaymentModal" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px;">Annuler</button>
-            <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px;">Enregistrer</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Interactive Toast -->
-    <div class="toast-msg" id="appToast">Profil mis à jour avec succès !</div>
-
   </div>
 
   <!-- Layout & App scripts -->
@@ -466,6 +537,7 @@
       const subtxtPersonalInfo = document.getElementById('subtxtPersonalInfo');
       const subtxtDeliveryInfo = document.getElementById('subtxtDeliveryInfo');
       const subtxtPaymentInfo = document.getElementById('subtxtPaymentInfo');
+      const btnQuickEditProfile = document.getElementById('btnQuickEditProfile');
 
       function loadUserData() {
         const name = localStorage.getItem('ago_user_fullname') || 'Kenfo Loic';
@@ -490,6 +562,10 @@
         if (inputDeliveryCity) inputDeliveryCity.value = location;
       }
       loadUserData();
+
+      if (btnQuickEditProfile) {
+        btnQuickEditProfile.addEventListener('click', openPersonalModal);
+      }
 
       // --- SHOP DATA LOAD & MODAL ---
       const modalShop = document.getElementById('modalShopBackdrop');
@@ -681,6 +757,115 @@
         closePaymentModal();
         showToast('Moyens de paiement enregistrés !');
       };
+
+      // --- ORDER HISTORY MODAL & DYNAMIC LOADING ---
+      const modalOrders = document.getElementById('modalOrdersBackdrop');
+      const btnOpenOrdersModal = document.getElementById('btnOpenOrdersModal');
+      const btnCloseOrdersModal = document.getElementById('btnCloseOrdersModal');
+      const ordersContainerList = document.getElementById('ordersContainerList');
+      const subtxtOrdersCount = document.getElementById('subtxtOrdersCount');
+
+      function loadOrdersHistory() {
+        let orders = [];
+        try {
+          orders = JSON.parse(localStorage.getItem('agroelevage_user_orders') || '[]');
+        } catch(e) {
+          orders = [];
+        }
+
+        if (subtxtOrdersCount) {
+          if (orders.length === 0) {
+            subtxtOrdersCount.textContent = 'Aucune commande enregistrée';
+          } else {
+            subtxtOrdersCount.textContent = `${orders.length} commande${orders.length > 1 ? 's' : ''} passée${orders.length > 1 ? 's' : ''}`;
+          }
+        }
+
+        if (!ordersContainerList) return;
+
+        if (!orders || orders.length === 0) {
+          ordersContainerList.innerHTML = `
+            <div style="text-align: center; padding: 36px 16px;">
+              <div style="width: 58px; height: 58px; border-radius: 50%; background: #f1f5f9; color: #94a3b8; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              </div>
+              <h3 style="font-family: var(--font-heading); font-size: 18px; font-weight: 800; color: #0f172a; margin: 0 0 6px;">Aucune commande</h3>
+              <p style="font-size: 13px; color: #64748b; margin: 0 0 20px; line-height: 1.45;">Vous n'avez pas encore passé de commande sur la marketplace.</p>
+              <a href="marketplace.html" class="btn-primary-action" style="display: inline-flex; height: 40px; padding: 0 20px; font-size: 13px; text-decoration: none; border-radius: 10px;">
+                Explorer la Marketplace
+              </a>
+            </div>
+          `;
+        } else {
+          ordersContainerList.innerHTML = `
+            <div style="display: flex; flex-direction: column; gap: 12px; max-height: 420px; overflow-y: auto; padding-right: 4px;">
+              ${orders.map(ord => `
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <div style="font-family: var(--font-heading); font-size: 14px; font-weight: 800; color: #0f172a;">${ord.id || 'CMD-8492'}</div>
+                    <span style="font-size: 11px; background: #dcfce7; color: #15803d; font-weight: 700; padding: 2px 8px; border-radius: 6px;">${ord.status || 'Escrow Sécurisé'}</span>
+                  </div>
+                  <div style="font-size: 13px; color: #334155; font-weight: 600; margin-bottom: 4px;">
+                    ${ord.product_name || 'Tomates fraîches Roma'} • ${ord.qty || 100} kg
+                  </div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #64748b; border-top: 1px dashed #cbd5e1; padding-top: 8px; margin-top: 6px;">
+                    <span>${ord.date || 'Récemment'}</span>
+                    <strong style="color: var(--primary, #16a34a); font-size: 14px;">${(ord.total || 27000).toLocaleString('fr-FR')} FCFA</strong>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          `;
+        }
+      }
+
+      function openOrdersModal() {
+        loadOrdersHistory();
+        if (modalOrders) modalOrders.style.display = 'flex';
+      }
+      function closeOrdersModal() {
+        if (modalOrders) modalOrders.style.display = 'none';
+      }
+
+      if (btnOpenOrdersModal) btnOpenOrdersModal.addEventListener('click', openOrdersModal);
+      if (btnCloseOrdersModal) btnCloseOrdersModal.addEventListener('click', closeOrdersModal);
+      if (modalOrders) {
+        modalOrders.addEventListener('click', (e) => {
+          if (e.target === modalOrders) closeOrdersModal();
+        });
+      }
+
+      loadOrdersHistory();
+
+      // --- THEME SWITCHER ---
+      const btnThemeLight = document.getElementById('btnThemeLight');
+      const btnThemeDark = document.getElementById('btnThemeDark');
+
+      function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        document.body.setAttribute('data-theme', theme);
+        localStorage.setItem('ago_theme', theme);
+
+        if (btnThemeLight && btnThemeDark) {
+          if (theme === 'dark') {
+            btnThemeDark.style.background = 'var(--primary)';
+            btnThemeDark.style.color = '#ffffff';
+            btnThemeLight.style.background = 'var(--bg-card, #ffffff)';
+            btnThemeLight.style.color = 'var(--text-main, #0f172a)';
+          } else {
+            btnThemeLight.style.background = 'var(--primary)';
+            btnThemeLight.style.color = '#ffffff';
+            btnThemeDark.style.background = 'var(--bg-card, #ffffff)';
+            btnThemeDark.style.color = 'var(--text-main, #0f172a)';
+          }
+        }
+      }
+
+      const currentTheme = localStorage.getItem('ago_theme') || 'light';
+      applyTheme(currentTheme);
+
+      if (btnThemeLight) btnThemeLight.addEventListener('click', () => applyTheme('light'));
+      if (btnThemeDark) btnThemeDark.addEventListener('click', () => applyTheme('dark'));
 
     });
   </script>
