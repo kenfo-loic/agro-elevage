@@ -3,258 +3,443 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profil & Paramètres — AgroElevage Link</title>
-  <meta name="description" content="Gérez vos informations personnelles, vos numéros Mobile Money, votre rôle et vos préférences de sécurité." />
+  <title>Mon Profil — AgroElevage Link</title>
+  <meta name="description" content="Profil utilisateur, gestion de boutique, informations personnelles et moyens de paiement." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/style.css?v=3" />
+  <link rel="stylesheet" href="css/profil.css?v=1" />
 </head>
-<body>
-  <!-- ===================================================================
-       WEB APPLICATION SHELL (PURE FULLSCREEN WEB APP)
-       =================================================================== -->
-  <div class="web-app-shell">
-    
-    <!-- Shared Web Sidebar (Injected by layout.js) -->
-    <div id="sidebar-root"></div>
+<body style="background: #f8fafc; margin: 0; padding: 0;">
 
-    <!-- Main Content Area -->
-    <div class="web-main-container">
+  <!-- Mobile App Shell Container -->
+  <div class="profile-app-container">
+
+    <!-- =========================================================================
+         TOP DARK HEADER (Matching User Mockup)
+         ========================================================================= -->
+    <header class="profile-dark-header">
       
-      <!-- Top Navigation Bar -->
-      <header class="web-topbar">
-        <div class="web-topbar-left">
-          <button class="web-menu-toggle" id="btnToggleMobileMenu" title="Ouvrir le menu de navigation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg> <span>Menu</span></button>
-          <span class="web-page-heading-title">Profil & Paramètres du Compte</span>
+      <!-- Top Bar Actions (Notification Bell) -->
+      <div class="profile-topbar-actions">
+        <a href="notifications.html" class="profile-notif-btn" title="Notifications">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+          </svg>
+          <span class="profile-notif-badge-dot"></span>
+        </a>
+      </div>
+
+      <!-- Centered Avatar -->
+      <div class="profile-avatar-wrapper">
+        <div class="profile-avatar-circle" id="profileAvatarCircle">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="#0f172a" stroke="none">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+          </svg>
         </div>
+        <button type="button" class="profile-avatar-edit-btn" id="btnChangeAvatar" title="Changer de photo">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+        </button>
+        <input type="file" id="inputAvatarFile" accept="image/*" style="display: none;" />
+      </div>
 
-        <div class="web-topbar-right">
-          <a href="mes_produits.html" class="btn-secondary" style="height: 38px; padding: 0 14px; font-size: 13px; font-weight: 700; text-decoration: none; border-radius: 8px; border: 1px solid var(--border-color); background: #ffffff; display: flex; align-items: center; gap: 6px;">
-            <span>Mes Produits</span>
-          </a>
+      <!-- User Information -->
+      <h1 class="profile-user-name" id="profileHeaderName">Kenfo Loic</h1>
+      <p class="profile-user-email" id="profileHeaderEmail">kenfoloic3@gmail.com</p>
 
-          <a href="notifications.html" class="web-topbar-btn-circle" title="Notifications">
-            <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span>
-            <span class="web-notif-dot"></span>
-          </a>
+    </header>
+
+    <!-- =========================================================================
+         BODY CONTENT
+         ========================================================================= -->
+    <main class="profile-body-content">
+
+      <!-- --- BANNER: CRÉER VOTRE BOUTIQUE --- -->
+      <div class="profile-shop-card" id="cardOpenShopModal" role="button" tabindex="0">
+        <div class="profile-shop-card-left">
+          <div class="profile-shop-icon-box">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/>
+              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+              <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/>
+              <path d="M2 7h20"/>
+              <path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12v0a2 2 0 0 1-2-2V7"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="profile-shop-title" id="shopCardMainTitle">Créer votre boutique</h2>
+            <p class="profile-shop-sub" id="shopCardMainSub">Vendez vos produits sur AgroElevage</p>
+          </div>
         </div>
-      </header>
-
-      <!-- Main Content Body -->
-      <main class="web-content-body">
-        
-        <div class="web-grid-2">
-          
-          <!-- Left Column: User Profile Card & General Info -->
-          <div class="web-card">
-            <div style="display: flex; gap: 18px; align-items: center; padding-bottom: 20px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 20px;">
-              <div style="position: relative; width: 76px; height: 76px; flex-shrink: 0;">
-                <div id="profileAvatarImg" style="width: 76px; height: 76px; border-radius: 50%; background: var(--primary-soft); color: var(--primary-dark); display: flex; align-items: center; justify-content: center; border: 3px solid var(--primary-border);">
-                  <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                </div>
-                <button type="button" id="btnChangeAvatar" style="position: absolute; bottom: 0; right: 0; background: var(--primary); color: #ffffff; border: 2px solid #ffffff; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.2);" title="Modifier la photo de profil">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
-                </button>
-                <input type="file" id="inputAvatarFile" accept="image/*" style="display: none;" />
-              </div>
-              <div>
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <h2 id="profileDisplayName" style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--text-main);">Kenfo Loic</h2>
-                </div>
-                <span id="profileDisplayLocation" style="font-size: 12px; color: var(--primary); font-weight: 700;">Yaoundé, Cameroun</span>
-              </div>
-            </div>
-
-            <!-- Espace Confidentialité & Sécurité des données -->
-            <div style="background: var(--bg-subtle); border-radius: 12px; padding: 18px; border: 1px solid var(--border-subtle);">
-              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-                <div style="width: 38px; height: 38px; border-radius: 10px; background: #dcfce7; color: #15803d; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                </div>
-                <div>
-                  <div style="font-family: var(--font-heading); font-size: 14px; font-weight: 800; color: var(--text-main);">Confidentialité & Données Privées</div>
-                  <div style="font-size: 11.5px; color: var(--text-muted);">Vos informations personnelles sont sécurisées et chiffrées.</div>
-                </div>
-              </div>
-
-              <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 14px; font-size: 12.5px;">
-                <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: #ffffff; border-radius: 8px; border: 1px solid var(--border-subtle);">
-                  <span style="color: var(--text-muted); font-weight: 600;">Statut du compte</span>
-                  <span style="color: #15803d; font-weight: 700; display: flex; align-items: center; gap: 4px;">● Actif & Vérifié</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: #ffffff; border-radius: 8px; border: 1px solid var(--border-subtle);">
-                  <span style="color: var(--text-muted); font-weight: 600;">Visibilité des coordonnées</span>
-                  <span style="color: var(--text-main); font-weight: 700;">Masquées (Protection Vie Privée)</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: #ffffff; border-radius: 8px; border: 1px solid var(--border-subtle);">
-                  <span style="color: var(--text-muted); font-weight: 600;">Authentification</span>
-                  <span style="color: var(--primary); font-weight: 700;">Sécurisée par jeton chiffré</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Boutique Agricole Section (Shop for Each User) -->
-          <div class="web-card" style="grid-column: 1 / -1; padding: 22px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--border-subtle);">
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <div style="width: 44px; height: 44px; border-radius: 12px; background: #dcfce7; color: #15803d; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid #bbf7d0;">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12v0a2 2 0 0 1-2-2V7"/></svg>
-                </div>
-                <div>
-                  <h2 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: var(--text-main); margin: 0;">Ma Boutique Agricole & Vitrine</h2>
-                  <p style="font-size: 12px; color: var(--text-muted); margin: 2px 0 0;">Votre espace de vente dédié pour exposer vos récoltes et bétails sur la place de marché.</p>
-                </div>
-              </div>
-              <div style="display: flex; gap: 8px;">
-                <button type="button" id="btnOpenShopModal" class="btn-primary-action" style="height: 38px; padding: 0 16px; font-size: 12.5px; border-radius: 8px; display: flex; align-items: center; gap: 6px;">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-                  <span>Configurer ma Boutique</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- Shop Showcase Preview Card -->
-            <div style="background: linear-gradient(135deg, #f8fafc 0%, #f0fdf4 100%); border: 1.5px solid #bbf7d0; border-radius: 14px; padding: 20px;">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px; margin-bottom: 14px;">
-                <div>
-                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-                    <span id="shopDisplayBadge" style="background: #16a34a; color: #ffffff; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 9999px; text-transform: uppercase;">Boutique Active</span>
-                    <span id="shopDisplayCategory" style="background: #dcfce7; color: #15803d; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px;">Maraîchage & Légumes</span>
-                  </div>
-                  <h3 id="shopDisplayName" style="font-family: var(--font-heading); font-size: 19px; font-weight: 800; color: #0f172a; margin: 0 0 6px;">Boutique & Ferme AgroElevage</h3>
-                  <p id="shopDisplayBio" style="font-size: 13px; color: #475569; margin: 0; max-width: 600px; line-height: 1.45;">Producteur de récoltes fraîches du terroir certifiées sans pesticides chimiques.</p>
-                </div>
-                
-                <div style="text-align: right; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; padding: 10px 14px;">
-                  <div style="font-size: 11px; color: #64748b; font-weight: 600;">Contact Commercial WhatsApp</div>
-                  <div id="shopDisplayPhone" style="font-size: 13.5px; font-weight: 800; color: #16a34a; margin-top: 2px;">+237 693 412 317</div>
-                </div>
-              </div>
-
-              <!-- Shop Details Grid -->
-              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 18px; font-size: 12.5px;">
-                <div style="background: #ffffff; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                  <span style="color: #64748b; display: block; font-size: 11px; font-weight: 600;">Localisation de la Boutique</span>
-                  <strong id="shopDisplayLocation" style="color: #0f172a;">Yaoundé, Cameroun</strong>
-                </div>
-                <div style="background: #ffffff; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                  <span style="color: #64748b; display: block; font-size: 11px; font-weight: 600;">Expédition & Livraison</span>
-                  <strong id="shopDisplayDelivery" style="color: #0f172a;">Livraison locale & Séquestre Escrow</strong>
-                </div>
-                <div style="background: #ffffff; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                  <span style="color: #64748b; display: block; font-size: 11px; font-weight: 600;">Statut Marketplace</span>
-                  <strong style="color: #16a34a;">Vendeur Vérifié & Certifié</strong>
-                </div>
-              </div>
-
-              <!-- Shop Action Buttons -->
-              <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <a href="ajouter_produit.html" class="btn-primary-action" style="height: 36px; padding: 0 16px; font-size: 12px; text-decoration: none; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px;">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
-                  <span>Ajouter un Produit à ma Boutique</span>
-                </a>
-                <a href="mes_produits.html" class="btn-secondary" style="height: 36px; padding: 0 14px; font-size: 12px; font-weight: 700; text-decoration: none; border-radius: 8px; background: #ffffff; border: 1px solid #cbd5e1; color: #334155; display: inline-flex; align-items: center; gap: 6px;">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                  <span>Gérer mes Produits</span>
-                </a>
-                <a href="marketplace.html" class="btn-secondary" style="height: 36px; padding: 0 14px; font-size: 12px; font-weight: 700; text-decoration: none; border-radius: 8px; background: #ffffff; border: 1px solid #cbd5e1; color: #16a34a; display: inline-flex; align-items: center; gap: 6px;">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                  <span>Voir ma Vitrine sur la Marketplace</span>
-                </a>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      </main>
-
-      <!-- =========================================================================
-           MODAL: CRÉER / MODIFIER MA BOUTIQUE AGRICOLE
-           ========================================================================= -->
-      <div class="admin-modal-backdrop" id="modalShopBackdrop" style="position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 16px;">
-        <div class="admin-modal-card" style="background: #ffffff; border-radius: 16px; width: 100%; max-width: 500px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border-subtle);">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12v0a2 2 0 0 1-2-2V7"/></svg>
-              <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: var(--text-main); margin: 0;">Configurer ma Boutique</h3>
-            </div>
-            <button type="button" id="btnCloseShopModal" style="background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-muted);">&times;</button>
-          </div>
-
-          <form id="formShopConfig" onsubmit="event.preventDefault(); saveShopConfig();">
-            <div class="form-group" style="margin-bottom: 12px;">
-              <label class="form-label" style="font-size: 12px; font-weight: 700;">Nom de la Boutique *</label>
-              <input type="text" id="inputShopName" class="form-input" style="height: 38px; font-size: 13px;" placeholder="Ex: Ferme Bio des Hauts Plateaux" required />
-            </div>
-
-            <div class="form-group" style="margin-bottom: 12px;">
-              <label class="form-label" style="font-size: 12px; font-weight: 700;">Catégorie Principale *</label>
-              <select id="selectShopCategory" class="form-input" style="height: 38px; font-size: 12.5px;">
-                <option value="Maraîchage & Légumes">Maraîchage & Légumes</option>
-                <option value="Élevage & Volailles">Élevage & Volailles</option>
-                <option value="Céréales & Grains">Céréales & Grains</option>
-                <option value="Tubercules & Racines">Tubercules & Racines</option>
-                <option value="Fruits & Vergers">Fruits & Vergers</option>
-                <option value="Multi-Produits Agricoles">Multi-Produits Agricoles</option>
-              </select>
-            </div>
-
-            <div class="form-group" style="margin-bottom: 12px;">
-              <label class="form-label" style="font-size: 12px; font-weight: 700;">Slogan / Description de la Boutique</label>
-              <textarea id="textareaShopBio" class="form-input" style="height: 60px; font-size: 12.5px; resize: none; padding: 8px 12px;" placeholder="Présentez vos spécialités, méthodes de culture et engagements qualité..."></textarea>
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
-              <div class="form-group">
-                <label class="form-label" style="font-size: 12px; font-weight: 700;">Numéro WhatsApp *</label>
-                <input type="tel" id="inputShopPhone" class="form-input" style="height: 38px; font-size: 13px;" placeholder="+237 6XX XX XX XX" required />
-              </div>
-              <div class="form-group">
-                <label class="form-label" style="font-size: 12px; font-weight: 700;">Ville / Région *</label>
-                <input type="text" id="inputShopLocation" class="form-input" style="height: 38px; font-size: 13px;" placeholder="Ex: Foumbot, Ouest" required />
-              </div>
-            </div>
-
-            <div class="form-group" style="margin-bottom: 18px;">
-              <label class="form-label" style="font-size: 12px; font-weight: 700;">Modalités de Livraison</label>
-              <input type="text" id="inputShopDelivery" class="form-input" style="height: 38px; font-size: 13px;" placeholder="Ex: Livraison locale en 24h & Expédition Séquestre" />
-            </div>
-
-            <div style="display: flex; gap: 8px; justify-content: flex-end;">
-              <button type="button" id="btnCancelShopModal" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px;">Annuler</button>
-              <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px;">Enregistrer ma Boutique</button>
-            </div>
-          </form>
+        <div class="profile-chevron-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6"/>
+          </svg>
         </div>
       </div>
 
-      <!-- Interactive Toast -->
-      <div class="toast-msg" id="appToast">Profil mis à jour avec succès !</div>
+      <!-- --- SECTION: MON COMPTE --- -->
+      <h3 class="profile-section-title">Mon Compte</h3>
+      <div class="profile-items-group">
 
+        <!-- Informations personnelles -->
+        <div class="profile-nav-card" id="btnOpenPersonalInfoModal">
+          <div class="profile-nav-card-left">
+            <div class="profile-item-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <div>
+              <div class="profile-item-title">Informations personnelles</div>
+              <div class="profile-item-desc" id="subtxtPersonalInfo">Nom, email, téléphone</div>
+            </div>
+          </div>
+          <div class="profile-item-chevron">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </div>
+
+        <!-- Informations de livraison -->
+        <div class="profile-nav-card" id="btnOpenDeliveryModal">
+          <div class="profile-nav-card-left">
+            <div class="profile-item-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div>
+              <div class="profile-item-title">Informations de livraison</div>
+              <div class="profile-item-desc" id="subtxtDeliveryInfo">Yaoundé, Cameroun</div>
+            </div>
+          </div>
+          <div class="profile-item-chevron">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </div>
+
+        <!-- Moyens de paiement -->
+        <div class="profile-nav-card" id="btnOpenPaymentModal">
+          <div class="profile-nav-card-left">
+            <div class="profile-item-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="14" x="2" y="5" rx="2"/>
+                <line x1="2" x2="22" y1="10" y2="10"/>
+              </svg>
+            </div>
+            <div>
+              <div class="profile-item-title">Moyens de paiement</div>
+              <div class="profile-item-desc" id="subtxtPaymentInfo">Mobile Money, cartes</div>
+            </div>
+          </div>
+          <div class="profile-item-chevron">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </div>
+
+        <!-- Nevo / Agro Wallet -->
+        <a href="paiement_escrow.html" class="profile-nav-card">
+          <div class="profile-nav-card-left">
+            <div class="profile-item-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/>
+                <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>
+              </svg>
+            </div>
+            <div>
+              <div class="profile-item-title">Agro Wallet</div>
+              <div class="profile-item-desc">Portefeuille électronique & Séquestre Escrow</div>
+            </div>
+          </div>
+          <div class="profile-item-chevron">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- --- SECTION: MES COMMANDES --- -->
+      <h3 class="profile-section-title">Mes commandes</h3>
+      <div class="profile-items-group">
+
+        <a href="marketplace.html" class="profile-nav-card">
+          <div class="profile-nav-card-left">
+            <div class="profile-item-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+              </svg>
+            </div>
+            <div>
+              <div class="profile-item-title">Historique des commandes</div>
+              <div class="profile-item-desc">Suivre mes commandes et expéditions</div>
+            </div>
+          </div>
+          <div class="profile-item-chevron">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </a>
+
+        <a href="mes_produits.html" class="profile-nav-card">
+          <div class="profile-nav-card-left">
+            <div class="profile-item-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
+              </svg>
+            </div>
+            <div>
+              <div class="profile-item-title">Mes Produits en Vente</div>
+              <div class="profile-item-desc">Gérer mon stock et mes annonces</div>
+            </div>
+          </div>
+          <div class="profile-item-chevron">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- --- SECTION: PRÉFÉRENCES & DÉCONNEXION --- -->
+      <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 12px;">
+        <a href="index.html" style="display: flex; align-items: center; justify-content: center; gap: 8px; color: #dc2626; font-weight: 800; font-size: 14px; text-decoration: none; padding: 12px; border-radius: 12px; background: #fee2e2; transition: all 0.2s ease;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+          <span>Se Déconnecter de la Session</span>
+        </a>
+      </div>
+
+    </main>
+
+    <!-- =========================================================================
+         FLOATING PILL BOTTOM NAVIGATION (Matching Mockup)
+         ========================================================================= -->
+    <nav class="profile-floating-nav">
+      <a href="index.html" class="profile-floating-btn" title="Accueil">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </a>
+
+      <a href="carte_et_geoloc.html" class="profile-floating-btn" title="Carte & Logistique">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg>
+      </a>
+
+      <a href="marketplace.html" class="profile-floating-btn" title="Marketplace">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/></svg>
+        <span class="profile-floating-badge">N</span>
+      </a>
+
+      <a href="mes_produits.html" class="profile-floating-btn" title="Mes Produits">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </a>
+
+      <a href="profil.html" class="profile-floating-btn active" title="Profil">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Profil</span>
+      </a>
+    </nav>
+
+    <!-- =========================================================================
+         MODAL 1: CRÉER / MODIFIER MA BOUTIQUE AGRICOLE
+         ========================================================================= -->
+    <div class="profile-modal-backdrop" id="modalShopBackdrop">
+      <div class="profile-modal-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: #e0e7ff; color: #3843d0; display: flex; align-items: center; justify-content: center;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/></svg>
+            </div>
+            <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: #0f172a; margin: 0;">Ma Boutique Agricole</h3>
+          </div>
+          <button type="button" id="btnCloseShopModal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">&times;</button>
+        </div>
+
+        <form id="formShopConfig" onsubmit="event.preventDefault(); saveShopConfig();">
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155;">Nom de la Boutique *</label>
+            <input type="text" id="inputShopName" class="form-input" style="height: 40px; font-size: 13px;" placeholder="Ex: Ferme Bio AgroElevage" required />
+          </div>
+
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155;">Catégorie Principale *</label>
+            <select id="selectShopCategory" class="form-input" style="height: 40px; font-size: 13px;">
+              <option value="Maraîchage & Légumes">Maraîchage & Légumes</option>
+              <option value="Élevage & Volailles">Élevage & Volailles</option>
+              <option value="Céréales & Grains">Céréales & Grains</option>
+              <option value="Tubercules & Racines">Tubercules & Racines</option>
+              <option value="Fruits & Vergers">Fruits & Vergers</option>
+              <option value="Multi-Produits Agricoles">Multi-Produits Agricoles</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155;">Slogan / Description de la Boutique</label>
+            <textarea id="textareaShopBio" class="form-input" style="height: 64px; font-size: 12.5px; resize: none; padding: 8px 12px;" placeholder="Présentez vos récoltes, bétails et engagements qualité..."></textarea>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+            <div class="form-group">
+              <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155;">WhatsApp Vendeur *</label>
+              <input type="tel" id="inputShopPhone" class="form-input" style="height: 40px; font-size: 13px;" placeholder="+237 6XX XX XX XX" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155;">Ville / Région *</label>
+              <input type="text" id="inputShopLocation" class="form-input" style="height: 40px; font-size: 13px;" placeholder="Ex: Yaoundé / Foumbot" required />
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 18px;">
+            <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155;">Modalités de Livraison</label>
+            <input type="text" id="inputShopDelivery" class="form-input" style="height: 40px; font-size: 13px;" placeholder="Ex: Livraison locale & Expédition Séquestre" />
+          </div>
+
+          <div style="display: flex; gap: 8px; justify-content: flex-end;">
+            <button type="button" id="btnCancelShopModal" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px;">Annuler</button>
+            <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px; background: #3843d0; border-color: #3843d0;">Enregistrer</button>
+          </div>
+        </form>
+      </div>
     </div>
+
+    <!-- =========================================================================
+         MODAL 2: INFORMATIONS PERSONNELLES
+         ========================================================================= -->
+    <div class="profile-modal-backdrop" id="modalPersonalBackdrop">
+      <div class="profile-modal-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: #f1f5f9; color: #0f172a; display: flex; align-items: center; justify-content: center;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: #0f172a; margin: 0;">Informations personnelles</h3>
+          </div>
+          <button type="button" id="btnClosePersonalModal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">&times;</button>
+        </div>
+
+        <form id="formPersonalInfo" onsubmit="event.preventDefault(); savePersonalInfo();">
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="form-label" style="font-size: 12px; font-weight: 700;">Nom complet *</label>
+            <input type="text" id="inputPersonalName" class="form-input" style="height: 40px; font-size: 13px;" required />
+          </div>
+
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="form-label" style="font-size: 12px; font-weight: 700;">Adresse e-mail *</label>
+            <input type="email" id="inputPersonalEmail" class="form-input" style="height: 40px; font-size: 13px;" required />
+          </div>
+
+          <div class="form-group" style="margin-bottom: 18px;">
+            <label class="form-label" style="font-size: 12px; font-weight: 700;">Numéro de téléphone *</label>
+            <input type="tel" id="inputPersonalPhone" class="form-input" style="height: 40px; font-size: 13px;" required />
+          </div>
+
+          <div style="display: flex; gap: 8px; justify-content: flex-end;">
+            <button type="button" id="btnCancelPersonalModal" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px;">Annuler</button>
+            <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px;">Mettre à jour</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         MODAL 3: INFORMATIONS DE LIVRAISON
+         ========================================================================= -->
+    <div class="profile-modal-backdrop" id="modalDeliveryBackdrop">
+      <div class="profile-modal-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: #dcfce7; color: #15803d; display: flex; align-items: center; justify-content: center;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: #0f172a; margin: 0;">Adresse de livraison</h3>
+          </div>
+          <button type="button" id="btnCloseDeliveryModal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">&times;</button>
+        </div>
+
+        <form id="formDeliveryInfo" onsubmit="event.preventDefault(); saveDeliveryInfo();">
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="form-label" style="font-size: 12px; font-weight: 700;">Ville / Région *</label>
+            <input type="text" id="inputDeliveryCity" class="form-input" style="height: 40px; font-size: 13px;" placeholder="Ex: Yaoundé, Région du Centre" required />
+          </div>
+
+          <div class="form-group" style="margin-bottom: 18px;">
+            <label class="form-label" style="font-size: 12px; font-weight: 700;">Quartier & Précisions d'adresse</label>
+            <textarea id="textareaDeliveryAddress" class="form-input" style="height: 64px; font-size: 12.5px; resize: none; padding: 8px 12px;" placeholder="Ex: Quartier Olembé, Carrefour Marché, face pharmacie..."></textarea>
+          </div>
+
+          <div style="display: flex; gap: 8px; justify-content: flex-end;">
+            <button type="button" id="btnCancelDeliveryModal" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px;">Annuler</button>
+            <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px;">Enregistrer l'adresse</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         MODAL 4: MOYENS DE PAIEMENT
+         ========================================================================= -->
+    <div class="profile-modal-backdrop" id="modalPaymentBackdrop">
+      <div class="profile-modal-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: #fef3c7; color: #d97706; display: flex; align-items: center; justify-content: center;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+            </div>
+            <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: #0f172a; margin: 0;">Moyens de Paiement</h3>
+          </div>
+          <button type="button" id="btnClosePaymentModal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">&times;</button>
+        </div>
+
+        <form id="formPaymentInfo" onsubmit="event.preventDefault(); savePaymentInfo();">
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="form-label" style="font-size: 12px; font-weight: 700;">Numéro MTN Mobile Money</label>
+            <input type="tel" id="inputMtnMomo" class="form-input" style="height: 40px; font-size: 13px;" placeholder="+237 67X XX XX XX" />
+          </div>
+
+          <div class="form-group" style="margin-bottom: 18px;">
+            <label class="form-label" style="font-size: 12px; font-weight: 700;">Numéro Orange Money</label>
+            <input type="tel" id="inputOrangeMoney" class="form-input" style="height: 40px; font-size: 13px;" placeholder="+237 69X XX XX XX" />
+          </div>
+
+          <div style="display: flex; gap: 8px; justify-content: flex-end;">
+            <button type="button" id="btnCancelPaymentModal" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px;">Annuler</button>
+            <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px;">Enregistrer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Interactive Toast -->
+    <div class="toast-msg" id="appToast">Profil mis à jour avec succès !</div>
+
   </div>
 
-  <!-- Navigation & Layout Helpers -->
+  <!-- Layout & App scripts -->
   <script src="js/layout.js"></script>
   <script src="js/mpa_app.js"></script>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('profileForm');
       const toast = document.getElementById('appToast');
-      const avatarImg = document.getElementById('profileAvatarImg');
+
+      function showToast(msg) {
+        if (!toast) return;
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+      }
+
+      // --- AVATAR MANAGEMENT ---
+      const avatarCircle = document.getElementById('profileAvatarCircle');
       const btnChangeAvatar = document.getElementById('btnChangeAvatar');
       const inputAvatarFile = document.getElementById('inputAvatarFile');
 
-      // Load saved avatar if exists
-      const savedAvatar = localStorage.getItem('ago_user_avatar');
-      if (savedAvatar && avatarImg) {
-        avatarImg.src = savedAvatar;
+      function loadAvatar() {
+        const savedAvatar = localStorage.getItem('ago_user_avatar');
+        if (savedAvatar && avatarCircle) {
+          avatarCircle.innerHTML = `<img src="${savedAvatar}" alt="Photo de profil" />`;
+        }
       }
 
       if (btnChangeAvatar && inputAvatarFile) {
@@ -265,210 +450,54 @@
             const reader = new FileReader();
             reader.onload = function(evt) {
               const base64Data = evt.target.result;
-              if (avatarImg) avatarImg.src = base64Data;
               localStorage.setItem('ago_user_avatar', base64Data);
-
-              // Update sidebar avatar immediately
-              const sidebarAvatar = document.getElementById('sidebarUserAvatarImg');
-              if (sidebarAvatar) sidebarAvatar.src = base64Data;
-
-              // Trigger notification for photo update
-              if (typeof window.addUserNotification === 'function') {
-                window.addUserNotification('Photo de profil modifiée', 'Vous avez mis à jour votre photo de profil.', 'profile', 'profil.html');
-              } else if (toast) {
-                toast.textContent = 'Photo de profil mise à jour avec succès !';
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 2500);
-              }
+              loadAvatar();
+              showToast('Photo de profil mise à jour !');
             };
             reader.readAsDataURL(file);
           }
         });
       }
+      loadAvatar();
 
-      // Theme Mode Handlers
-      const btnThemeLight = document.getElementById('btnThemeLight');
-      const btnThemeDark = document.getElementById('btnThemeDark');
+      // --- USER DATA LOAD & RENDER ---
+      const profileHeaderName = document.getElementById('profileHeaderName');
+      const profileHeaderEmail = document.getElementById('profileHeaderEmail');
+      const subtxtPersonalInfo = document.getElementById('subtxtPersonalInfo');
+      const subtxtDeliveryInfo = document.getElementById('subtxtDeliveryInfo');
+      const subtxtPaymentInfo = document.getElementById('subtxtPaymentInfo');
 
-      function applyTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        document.body.setAttribute('data-theme', theme);
-        localStorage.setItem('ago_theme', theme);
+      function loadUserData() {
+        const name = localStorage.getItem('ago_user_fullname') || 'Kenfo Loic';
+        const email = localStorage.getItem('ago_user_email') || 'kenfoloic3@gmail.com';
+        const phone = localStorage.getItem('ago_user_phone') || '+237 693 412 317';
+        const location = localStorage.getItem('ago_user_location') || 'Yaoundé, Cameroun';
 
-        if (btnThemeLight && btnThemeDark) {
-          if (theme === 'dark') {
-            btnThemeDark.style.background = 'var(--primary)';
-            btnThemeDark.style.color = '#ffffff';
-            btnThemeLight.style.background = 'var(--bg-card)';
-            btnThemeLight.style.color = 'var(--text-main)';
-          } else {
-            btnThemeLight.style.background = 'var(--primary)';
-            btnThemeLight.style.color = '#ffffff';
-            btnThemeDark.style.background = 'var(--bg-card)';
-            btnThemeDark.style.color = 'var(--text-main)';
-          }
-        }
+        if (profileHeaderName) profileHeaderName.textContent = name;
+        if (profileHeaderEmail) profileHeaderEmail.textContent = email;
+        if (subtxtPersonalInfo) subtxtPersonalInfo.textContent = `${name}, ${phone}`;
+        if (subtxtDeliveryInfo) subtxtDeliveryInfo.textContent = location;
+
+        // Populate Form fields
+        const inputPersonalName = document.getElementById('inputPersonalName');
+        const inputPersonalEmail = document.getElementById('inputPersonalEmail');
+        const inputPersonalPhone = document.getElementById('inputPersonalPhone');
+        if (inputPersonalName) inputPersonalName.value = name;
+        if (inputPersonalEmail) inputPersonalEmail.value = email;
+        if (inputPersonalPhone) inputPersonalPhone.value = phone;
+
+        const inputDeliveryCity = document.getElementById('inputDeliveryCity');
+        if (inputDeliveryCity) inputDeliveryCity.value = location;
       }
+      loadUserData();
 
-      const currentTheme = localStorage.getItem('ago_theme') || 'light';
-      applyTheme(currentTheme);
-
-      if (btnThemeLight) btnThemeLight.addEventListener('click', () => applyTheme('light'));
-      if (btnThemeDark) btnThemeDark.addEventListener('click', () => applyTheme('dark'));
-
-      // SMS & WhatsApp Alerts Toggle
-      const toggleSms = document.getElementById('toggleSmsWhatsappAlerts');
-      const smsBadge = document.getElementById('smsBadgeStatus');
-      const btnTestSms = document.getElementById('btnTestSmsAlert');
-
-      const savedSmsState = localStorage.getItem('ago_sms_whatsapp_alerts') !== 'false';
-      if (toggleSms) {
-        toggleSms.checked = savedSmsState;
-        updateSmsBadge(savedSmsState);
-
-        toggleSms.addEventListener('change', () => {
-          const isEnabled = toggleSms.checked;
-          localStorage.setItem('ago_sms_whatsapp_alerts', isEnabled);
-          updateSmsBadge(isEnabled);
-
-          if (isEnabled) {
-            if (typeof window.addUserNotification === 'function') {
-              window.addUserNotification('Alertes SMS & WhatsApp activées', 'Vous recevrez désormais les notifications instantanées de commandes et paiements par SMS et WhatsApp au +237 693 412 317.', 'info', 'profil.html');
-            }
-          } else {
-            if (toast) {
-              toast.textContent = 'Alertes SMS & WhatsApp désactivées.';
-              toast.classList.add('show');
-              setTimeout(() => toast.classList.remove('show'), 2500);
-            }
-          }
-        });
-      }
-
-      function updateSmsBadge(active) {
-        if (!smsBadge) return;
-        if (active) {
-          smsBadge.textContent = 'Actif';
-          smsBadge.style.background = '#dcfce7';
-          smsBadge.style.color = '#15803d';
-        } else {
-          smsBadge.textContent = 'Inactif';
-          smsBadge.style.background = '#fee2e2';
-          smsBadge.style.color = '#b91c1c';
-        }
-      }
-
-      if (btnTestSms) {
-        btnTestSms.addEventListener('click', () => {
-          const phoneInput = document.getElementById('profilePhone');
-          const targetPhone = (phoneInput && phoneInput.value.trim()) || '+237 693 412 317';
-          
-          if (typeof window.sendSmsWhatsappNotification === 'function') {
-            window.sendSmsWhatsappNotification(
-              targetPhone,
-              'Commande Confirmée #CMD-8492',
-              'Nouvelle commande reçue : 100 kg Tomates fraîches (27 000 FCFA). Fonds sécurisés sous Séquestre Escrow Mobile Money.',
-              'marketplace.html'
-            );
-          }
-        });
-      }
-
-      // Two-Factor Escrow Toggle
-      const toggle2FA = document.getElementById('toggleTwoFactorEscrow');
-      const twoFABadge = document.getElementById('twoFactorBadgeStatus');
-      const saved2FA = localStorage.getItem('ago_two_factor_escrow') !== 'false';
-
-      if (toggle2FA) {
-        toggle2FA.checked = saved2FA;
-        update2FABadge(saved2FA);
-
-        toggle2FA.addEventListener('change', () => {
-          const isEnabled = toggle2FA.checked;
-          localStorage.setItem('ago_two_factor_escrow', isEnabled);
-          update2FABadge(isEnabled);
-
-          if (toast) {
-            toast.textContent = isEnabled ? 'Validation Escrow 2FA activée.' : 'Validation Escrow 2FA désactivée.';
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
-          }
-        });
-      }
-
-      function update2FABadge(active) {
-        if (!twoFABadge) return;
-        if (active) {
-          twoFABadge.textContent = 'Actif';
-          twoFABadge.style.background = '#dcfce7';
-          twoFABadge.style.color = '#15803d';
-        } else {
-          twoFABadge.textContent = 'Inactif';
-          twoFABadge.style.background = '#fee2e2';
-          twoFABadge.style.color = '#b91c1c';
-        }
-      }
-
-      // Load saved profile data
-      const inputName = document.getElementById('profileFullName');
-      const inputPhone = document.getElementById('profilePhone');
-      const inputEmail = document.getElementById('profileEmail');
-      const inputLocation = document.getElementById('profileLocation');
-
-      if (inputName) inputName.value = localStorage.getItem('ago_user_fullname') || 'Kenfo Loic';
-      if (inputPhone) inputPhone.value = localStorage.getItem('ago_user_phone') || '+237 693 412 317';
-      if (inputEmail) inputEmail.value = localStorage.getItem('ago_user_email') || 'kenfoloic3@gmail.com';
-      if (inputLocation) inputLocation.value = localStorage.getItem('ago_user_location') || 'Quartier Olembé, Yaoundé Nord, Cameroun';
-
-      if (form) {
-        form.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const newName = inputName ? inputName.value.trim() : 'Kenfo Loic';
-          const newPhone = inputPhone ? inputPhone.value.trim() : '+237 693 412 317';
-          const newEmail = inputEmail ? inputEmail.value.trim() : 'kenfoloic3@gmail.com';
-          const newLocation = inputLocation ? inputLocation.value.trim() : 'Yaoundé, Cameroun';
-
-          localStorage.setItem('ago_user_fullname', newName);
-          localStorage.setItem('ago_user_phone', newPhone);
-          localStorage.setItem('ago_user_email', newEmail);
-          localStorage.setItem('ago_user_location', newLocation);
-
-          let userObj = {};
-          try {
-            userObj = JSON.parse(localStorage.getItem('agroelevage_user') || '{}');
-          } catch(e) {}
-          userObj.name = newName;
-          userObj.phone = newPhone;
-          userObj.email = newEmail;
-          userObj.location = newLocation;
-          localStorage.setItem('agroelevage_user', JSON.stringify(userObj));
-
-          if (typeof window.syncUserProfileUI === 'function') {
-            window.syncUserProfileUI();
-          }
-
-          if (typeof window.addUserNotification === 'function') {
-            window.addUserNotification('Informations de profil modifiées', `Profil mis à jour : ${newName} • ${newPhone} • ${newLocation}`, 'profile', 'profil.html');
-          } else if (toast) {
-            toast.textContent = 'Modifications enregistrées avec succès !';
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
-          }
-        });
-      }
-
-      // --- SHOP MANAGEMENT JAVASCRIPT ---
+      // --- SHOP DATA LOAD & MODAL ---
       const modalShop = document.getElementById('modalShopBackdrop');
-      const btnOpenShopModal = document.getElementById('btnOpenShopModal');
+      const cardOpenShopModal = document.getElementById('cardOpenShopModal');
       const btnCloseShopModal = document.getElementById('btnCloseShopModal');
       const btnCancelShopModal = document.getElementById('btnCancelShopModal');
-
-      const shopDisplayName = document.getElementById('shopDisplayName');
-      const shopDisplayBio = document.getElementById('shopDisplayBio');
-      const shopDisplayCategory = document.getElementById('shopDisplayCategory');
-      const shopDisplayPhone = document.getElementById('shopDisplayPhone');
-      const shopDisplayLocation = document.getElementById('shopDisplayLocation');
-      const shopDisplayDelivery = document.getElementById('shopDisplayDelivery');
+      const shopCardMainTitle = document.getElementById('shopCardMainTitle');
+      const shopCardMainSub = document.getElementById('shopCardMainSub');
 
       const inputShopName = document.getElementById('inputShopName');
       const selectShopCategory = document.getElementById('selectShopCategory');
@@ -478,47 +507,40 @@
       const inputShopDelivery = document.getElementById('inputShopDelivery');
 
       function loadShopData() {
-        const currentUserName = localStorage.getItem('ago_user_fullname') || 'Utilisateur';
-        const currentUserPhone = localStorage.getItem('ago_user_phone') || '+237 693 412 317';
-        const currentUserLocation = localStorage.getItem('ago_user_location') || 'Yaoundé, Cameroun';
-
         let shop = null;
         try {
           shop = JSON.parse(localStorage.getItem('agroelevage_user_shop') || 'null');
         } catch(e) {}
 
-        const sName = shop?.name || `Boutique & Ferme de ${currentUserName}`;
-        const sCat = shop?.category || 'Maraîchage & Légumes';
-        const sBio = shop?.bio || 'Producteur vérifié de récoltes fraîches du terroir certifiées sans pesticides chimiques.';
-        const sPhone = shop?.phone || currentUserPhone;
-        const sLoc = shop?.location || currentUserLocation;
-        const sDeliv = shop?.delivery || 'Livraison locale disponible & Expédition Séquestre Escrow';
+        const userName = localStorage.getItem('ago_user_fullname') || 'Utilisateur';
+        const userPhone = localStorage.getItem('ago_user_phone') || '+237 693 412 317';
+        const userLocation = localStorage.getItem('ago_user_location') || 'Yaoundé, Cameroun';
 
-        if (shopDisplayName) shopDisplayName.textContent = sName;
-        if (shopDisplayCategory) shopDisplayCategory.textContent = sCat;
-        if (shopDisplayBio) shopDisplayBio.textContent = sBio;
-        if (shopDisplayPhone) shopDisplayPhone.textContent = sPhone;
-        if (shopDisplayLocation) shopDisplayLocation.textContent = sLoc;
-        if (shopDisplayDelivery) shopDisplayDelivery.textContent = sDeliv;
+        if (shop && shop.name) {
+          if (shopCardMainTitle) shopCardMainTitle.textContent = shop.name;
+          if (shopCardMainSub) shopCardMainSub.textContent = `Boutique Active • ${shop.category || 'Vente en ligne'}`;
+        } else {
+          if (shopCardMainTitle) shopCardMainTitle.textContent = 'Créer votre boutique';
+          if (shopCardMainSub) shopCardMainSub.textContent = 'Vendez vos produits sur AgroElevage';
+        }
 
-        if (inputShopName) inputShopName.value = sName;
-        if (selectShopCategory) selectShopCategory.value = sCat;
-        if (textareaShopBio) textareaShopBio.value = sBio;
-        if (inputShopPhone) inputShopPhone.value = sPhone;
-        if (inputShopLocation) inputShopLocation.value = sLoc;
-        if (inputShopDelivery) inputShopDelivery.value = sDeliv;
+        if (inputShopName) inputShopName.value = shop?.name || `Boutique de ${userName}`;
+        if (selectShopCategory) selectShopCategory.value = shop?.category || 'Maraîchage & Légumes';
+        if (textareaShopBio) textareaShopBio.value = shop?.bio || 'Producteur certifié de produits du terroir.';
+        if (inputShopPhone) inputShopPhone.value = shop?.phone || userPhone;
+        if (inputShopLocation) inputShopLocation.value = shop?.location || userLocation;
+        if (inputShopDelivery) inputShopDelivery.value = shop?.delivery || 'Livraison locale & Séquestre Escrow';
       }
 
       function openShopModal() {
         loadShopData();
         if (modalShop) modalShop.style.display = 'flex';
       }
-
       function closeShopModal() {
         if (modalShop) modalShop.style.display = 'none';
       }
 
-      if (btnOpenShopModal) btnOpenShopModal.addEventListener('click', openShopModal);
+      if (cardOpenShopModal) cardOpenShopModal.addEventListener('click', openShopModal);
       if (btnCloseShopModal) btnCloseShopModal.addEventListener('click', closeShopModal);
       if (btnCancelShopModal) btnCancelShopModal.addEventListener('click', closeShopModal);
       if (modalShop) {
@@ -539,27 +561,127 @@
         };
 
         localStorage.setItem('agroelevage_user_shop', JSON.stringify(shop));
+        loadShopData();
+        closeShopModal();
+
+        if (typeof window.addUserNotification === 'function') {
+          window.addUserNotification('Boutique configurée', `Votre boutique "${shop.name}" est prête et publiée.`, 'shop', 'profil.html');
+        }
+        showToast(`Boutique "${shop.name}" enregistrée avec succès !`);
+      };
+      loadShopData();
+
+      // --- PERSONAL INFO MODAL ---
+      const modalPersonal = document.getElementById('modalPersonalBackdrop');
+      const btnOpenPersonalInfoModal = document.getElementById('btnOpenPersonalInfoModal');
+      const btnClosePersonalModal = document.getElementById('btnClosePersonalModal');
+      const btnCancelPersonalModal = document.getElementById('btnCancelPersonalModal');
+
+      function openPersonalModal() {
+        loadUserData();
+        if (modalPersonal) modalPersonal.style.display = 'flex';
+      }
+      function closePersonalModal() {
+        if (modalPersonal) modalPersonal.style.display = 'none';
+      }
+
+      if (btnOpenPersonalInfoModal) btnOpenPersonalInfoModal.addEventListener('click', openPersonalModal);
+      if (btnClosePersonalModal) btnClosePersonalModal.addEventListener('click', closePersonalModal);
+      if (btnCancelPersonalModal) btnCancelPersonalModal.addEventListener('click', closePersonalModal);
+      if (modalPersonal) {
+        modalPersonal.addEventListener('click', (e) => {
+          if (e.target === modalPersonal) closePersonalModal();
+        });
+      }
+
+      window.savePersonalInfo = function() {
+        const inputName = document.getElementById('inputPersonalName');
+        const inputEmail = document.getElementById('inputPersonalEmail');
+        const inputPhone = document.getElementById('inputPersonalPhone');
+
+        const newName = inputName ? inputName.value.trim() : 'Kenfo Loic';
+        const newEmail = inputEmail ? inputEmail.value.trim() : 'kenfoloic3@gmail.com';
+        const newPhone = inputPhone ? inputPhone.value.trim() : '+237 693 412 317';
+
+        localStorage.setItem('ago_user_fullname', newName);
+        localStorage.setItem('ago_user_email', newEmail);
+        localStorage.setItem('ago_user_phone', newPhone);
 
         let userObj = {};
         try {
           userObj = JSON.parse(localStorage.getItem('agroelevage_user') || '{}');
         } catch(e) {}
-        userObj.shop = shop;
+        userObj.name = newName;
+        userObj.email = newEmail;
+        userObj.phone = newPhone;
         localStorage.setItem('agroelevage_user', JSON.stringify(userObj));
 
-        loadShopData();
-        closeShopModal();
-
-        if (typeof window.addUserNotification === 'function') {
-          window.addUserNotification('Boutique mise à jour', `Votre boutique "${shop.name}" a été mise à jour et publiée sur la marketplace.`, 'shop', 'profil.html');
-        } else if (toast) {
-          toast.textContent = `Boutique "${shop.name}" enregistrée avec succès !`;
-          toast.classList.add('show');
-          setTimeout(() => toast.classList.remove('show'), 2500);
-        }
+        loadUserData();
+        closePersonalModal();
+        showToast('Informations personnelles mises à jour !');
       };
 
-      loadShopData();
+      // --- DELIVERY INFO MODAL ---
+      const modalDelivery = document.getElementById('modalDeliveryBackdrop');
+      const btnOpenDeliveryModal = document.getElementById('btnOpenDeliveryModal');
+      const btnCloseDeliveryModal = document.getElementById('btnCloseDeliveryModal');
+      const btnCancelDeliveryModal = document.getElementById('btnCancelDeliveryModal');
+
+      function openDeliveryModal() {
+        if (modalDelivery) modalDelivery.style.display = 'flex';
+      }
+      function closeDeliveryModal() {
+        if (modalDelivery) modalDelivery.style.display = 'none';
+      }
+
+      if (btnOpenDeliveryModal) btnOpenDeliveryModal.addEventListener('click', openDeliveryModal);
+      if (btnCloseDeliveryModal) btnCloseDeliveryModal.addEventListener('click', closeDeliveryModal);
+      if (btnCancelDeliveryModal) btnCancelDeliveryModal.addEventListener('click', closeDeliveryModal);
+      if (modalDelivery) {
+        modalDelivery.addEventListener('click', (e) => {
+          if (e.target === modalDelivery) closeDeliveryModal();
+        });
+      }
+
+      window.saveDeliveryInfo = function() {
+        const city = document.getElementById('inputDeliveryCity')?.value.trim() || 'Yaoundé, Cameroun';
+        localStorage.setItem('ago_user_location', city);
+        loadUserData();
+        closeDeliveryModal();
+        showToast('Adresse de livraison enregistrée !');
+      };
+
+      // --- PAYMENT INFO MODAL ---
+      const modalPayment = document.getElementById('modalPaymentBackdrop');
+      const btnOpenPaymentModal = document.getElementById('btnOpenPaymentModal');
+      const btnClosePaymentModal = document.getElementById('btnClosePaymentModal');
+      const btnCancelPaymentModal = document.getElementById('btnCancelPaymentModal');
+
+      function openPaymentModal() {
+        if (modalPayment) modalPayment.style.display = 'flex';
+      }
+      function closePaymentModal() {
+        if (modalPayment) modalPayment.style.display = 'none';
+      }
+
+      if (btnOpenPaymentModal) btnOpenPaymentModal.addEventListener('click', openPaymentModal);
+      if (btnClosePaymentModal) btnClosePaymentModal.addEventListener('click', closePaymentModal);
+      if (btnCancelPaymentModal) btnCancelPaymentModal.addEventListener('click', closePaymentModal);
+      if (modalPayment) {
+        modalPayment.addEventListener('click', (e) => {
+          if (e.target === modalPayment) closePaymentModal();
+        });
+      }
+
+      window.savePaymentInfo = function() {
+        const mtn = document.getElementById('inputMtnMomo')?.value.trim();
+        const orange = document.getElementById('inputOrangeMoney')?.value.trim();
+        if (mtn) localStorage.setItem('ago_payment_mtn', mtn);
+        if (orange) localStorage.setItem('ago_payment_orange', orange);
+        closePaymentModal();
+        showToast('Moyens de paiement enregistrés !');
+      };
+
     });
   </script>
 </body>
