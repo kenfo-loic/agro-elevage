@@ -299,7 +299,7 @@
               </div>
               <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: #0f172a; margin: 0;">Ma Boutique Agricole</h3>
             </div>
-            <button type="button" id="btnCloseShopModal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">&times;</button>
+            <button type="button" id="btnCloseShopModal" onclick="closeShopModal()" style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: #f1f5f9; border: none; border-radius: 50%; font-size: 22px; cursor: pointer; color: #475569; transition: background 0.2s;" title="Fermer">&times;</button>
           </div>
 
           <form id="formShopConfig" onsubmit="event.preventDefault(); saveShopConfig();">
@@ -342,8 +342,8 @@
             </div>
 
             <div style="display: flex; gap: 8px; justify-content: flex-end;">
-              <button type="button" id="btnCancelShopModal" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px;">Annuler</button>
-              <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px; background: #3843d0; border-color: #3843d0;">Enregistrer la Boutique</button>
+              <button type="button" id="btnCancelShopModal" onclick="closeShopModal()" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px; cursor: pointer;">Annuler</button>
+              <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px; background: #3843d0; border-color: #3843d0; cursor: pointer;">Enregistrer la Boutique</button>
             </div>
           </form>
         </div>
@@ -361,7 +361,7 @@
               </div>
               <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: #0f172a; margin: 0;">Informations personnelles</h3>
             </div>
-            <button type="button" id="btnClosePersonalModal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">&times;</button>
+            <button type="button" id="btnClosePersonalModal" onclick="closePersonalModal()" style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: #f1f5f9; border: none; border-radius: 50%; font-size: 22px; cursor: pointer; color: #475569; transition: background 0.2s;" title="Fermer">&times;</button>
           </div>
 
           <form id="formPersonalInfo" onsubmit="event.preventDefault(); savePersonalInfo();">
@@ -381,8 +381,8 @@
             </div>
 
             <div style="display: flex; gap: 8px; justify-content: flex-end;">
-              <button type="button" id="btnCancelPersonalModal" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px;">Annuler</button>
-              <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px;">Mettre à jour</button>
+              <button type="button" id="btnCancelPersonalModal" onclick="closePersonalModal()" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px; cursor: pointer;">Annuler</button>
+              <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px; cursor: pointer;">Mettre à jour</button>
             </div>
           </form>
         </div>
@@ -400,7 +400,7 @@
               </div>
               <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: #0f172a; margin: 0;">Adresse de livraison</h3>
             </div>
-            <button type="button" id="btnCloseDeliveryModal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">&times;</button>
+            <button type="button" id="btnCloseDeliveryModal" onclick="closeDeliveryModal()" style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: #f1f5f9; border: none; border-radius: 50%; font-size: 22px; cursor: pointer; color: #475569; transition: background 0.2s;" title="Fermer">&times;</button>
           </div>
 
           <form id="formDeliveryInfo" onsubmit="event.preventDefault(); saveDeliveryInfo();">
@@ -415,8 +415,8 @@
             </div>
 
             <div style="display: flex; gap: 8px; justify-content: flex-end;">
-              <button type="button" id="btnCancelDeliveryModal" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px;">Annuler</button>
-              <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px;">Enregistrer l'adresse</button>
+              <button type="button" id="btnCancelDeliveryModal" onclick="closeDeliveryModal()" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px; cursor: pointer;">Annuler</button>
+              <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px; cursor: pointer;">Enregistrer l'adresse</button>
             </div>
           </form>
         </div>
@@ -434,7 +434,7 @@
               </div>
               <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: #0f172a; margin: 0;">Moyens de Paiement</h3>
             </div>
-            <button type="button" id="btnClosePaymentModal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">&times;</button>
+            <button type="button" id="btnClosePaymentModal" onclick="closePaymentModal()" style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: #f1f5f9; border: none; border-radius: 50%; font-size: 22px; cursor: pointer; color: #475569; transition: background 0.2s;" title="Fermer">&times;</button>
           </div>
 
           <form id="formPaymentInfo" onsubmit="event.preventDefault(); savePaymentInfo();">
@@ -449,8 +449,8 @@
             </div>
 
             <div style="display: flex; gap: 8px; justify-content: flex-end;">
-              <button type="button" id="btnCancelPaymentModal" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px;">Annuler</button>
-              <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px;">Enregistrer</button>
+              <button type="button" id="btnCancelPaymentModal" onclick="closePaymentModal()" class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 12.5px; cursor: pointer;">Annuler</button>
+              <button type="submit" class="btn-primary-action" style="height: 38px; padding: 0 20px; font-size: 13px; cursor: pointer;">Enregistrer</button>
             </div>
           </form>
         </div>
@@ -468,7 +468,7 @@
               </div>
               <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: #0f172a; margin: 0;">Historique des commandes</h3>
             </div>
-            <button type="button" id="btnCloseOrdersModal" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">&times;</button>
+            <button type="button" id="btnCloseOrdersModal" onclick="closeOrdersModal()" style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: #f1f5f9; border: none; border-radius: 50%; font-size: 22px; cursor: pointer; color: #475569; transition: background 0.2s;" title="Fermer">&times;</button>
           </div>
 
           <!-- Dynamic Container: Renders 'Aucune commande' or orders cards -->
