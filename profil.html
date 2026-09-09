@@ -57,12 +57,12 @@
             <div class="profile-header-user-info">
               <!-- Avatar with Edit Button -->
               <div class="profile-avatar-wrapper">
-                <div class="profile-avatar-circle" id="profileAvatarCircle">
+                <div class="profile-avatar-circle" id="profileAvatarCircle" onclick="document.getElementById('inputAvatarFile').click()" style="cursor: pointer;" title="Cliquer pour changer de photo">
                   <svg width="44" height="44" viewBox="0 0 24 24" fill="#0f172a" stroke="none">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                   </svg>
                 </div>
-                <button type="button" class="profile-avatar-edit-btn" id="btnChangeAvatar" title="Changer de photo">
+                <button type="button" class="profile-avatar-edit-btn" id="btnChangeAvatar" onclick="document.getElementById('inputAvatarFile').click()" title="Changer de photo">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
                 </button>
                 <input type="file" id="inputAvatarFile" accept="image/*" style="display: none;" />
@@ -82,7 +82,7 @@
 
             <!-- Quick Action Button -->
             <div>
-              <button type="button" id="btnQuickEditProfile" class="btn-secondary" style="background: rgba(255,255,255,0.12); color: #ffffff; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; height: 38px; padding: 0 16px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+              <button type="button" id="btnQuickEditProfile" onclick="openPersonalModal()" class="btn-secondary" style="background: rgba(255,255,255,0.12); color: #ffffff; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; height: 38px; padding: 0 16px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
                 <span>Modifier le profil</span>
               </button>
@@ -92,7 +92,7 @@
           <!-- =========================================================================
                2. BANNER CARD: CRÉER VOTRE BOUTIQUE
                ========================================================================= -->
-          <div class="profile-shop-card" id="cardOpenShopModal" role="button" tabindex="0">
+          <div class="profile-shop-card" id="cardOpenShopModal" onclick="openShopModal()" role="button" tabindex="0" style="cursor: pointer;">
             <div class="profile-shop-card-left">
               <div class="profile-shop-icon-box">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -129,7 +129,7 @@
 
               <div class="profile-items-group">
                 <!-- Informations personnelles -->
-                <div class="profile-nav-card" id="btnOpenPersonalInfoModal">
+                <div class="profile-nav-card" id="btnOpenPersonalInfoModal" onclick="openPersonalModal()" role="button" tabindex="0" style="cursor: pointer;">
                   <div class="profile-nav-card-left">
                     <div class="profile-item-icon-box">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -148,7 +148,7 @@
                 </div>
 
                 <!-- Informations de livraison -->
-                <div class="profile-nav-card" id="btnOpenDeliveryModal">
+                <div class="profile-nav-card" id="btnOpenDeliveryModal" onclick="openDeliveryModal()" role="button" tabindex="0" style="cursor: pointer;">
                   <div class="profile-nav-card-left">
                     <div class="profile-item-icon-box">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -167,7 +167,7 @@
                 </div>
 
                 <!-- Moyens de paiement -->
-                <div class="profile-nav-card" id="btnOpenPaymentModal">
+                <div class="profile-nav-card" id="btnOpenPaymentModal" onclick="openPaymentModal()" role="button" tabindex="0" style="cursor: pointer;">
                   <div class="profile-nav-card-left">
                     <div class="profile-item-icon-box">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -186,7 +186,7 @@
                 </div>
 
                 <!-- Agro Wallet -->
-                <a href="paiement_escrow.html" class="profile-nav-card">
+                <a href="paiement_escrow.html" class="profile-nav-card" style="cursor: pointer;">
                   <div class="profile-nav-card-left">
                     <div class="profile-item-icon-box">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -217,7 +217,7 @@
                 </h2>
 
                 <div class="profile-items-group">
-                  <div class="profile-nav-card" id="btnOpenOrdersModal">
+                  <div class="profile-nav-card" id="btnOpenOrdersModal" onclick="openOrdersModal()" role="button" tabindex="0" style="cursor: pointer;">
                     <div class="profile-nav-card-left">
                       <div class="profile-item-icon-box">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -234,7 +234,7 @@
                     </div>
                   </div>
 
-                  <a href="mes_produits.html" class="profile-nav-card">
+                  <a href="mes_produits.html" class="profile-nav-card" style="cursor: pointer;">
                     <div class="profile-nav-card-left">
                       <div class="profile-item-icon-box">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -267,12 +267,12 @@
                       <div style="font-size: 11.5px; color: #64748b;">Clair ou Sombre</div>
                     </div>
                     <div style="display: flex; gap: 6px;">
-                      <button type="button" id="btnThemeLight" class="btn-secondary" style="height: 32px; padding: 0 12px; font-size: 12px; font-weight: 700; border-radius: 8px;">Clair</button>
-                      <button type="button" id="btnThemeDark" class="btn-secondary" style="height: 32px; padding: 0 12px; font-size: 12px; font-weight: 700; border-radius: 8px;">Sombre</button>
+                      <button type="button" id="btnThemeLight" onclick="applyTheme('light')" class="btn-secondary" style="height: 32px; padding: 0 12px; font-size: 12px; font-weight: 700; border-radius: 8px; cursor: pointer;">Clair</button>
+                      <button type="button" id="btnThemeDark" onclick="applyTheme('dark')" class="btn-secondary" style="height: 32px; padding: 0 12px; font-size: 12px; font-weight: 700; border-radius: 8px; cursor: pointer;">Sombre</button>
                     </div>
                   </div>
 
-                  <a href="index.html" style="display: flex; align-items: center; justify-content: center; gap: 8px; color: #dc2626; font-weight: 800; font-size: 13.5px; text-decoration: none; padding: 12px; border-radius: 12px; background: #fee2e2; transition: all 0.2s ease;">
+                  <a href="index.html" id="btnProfileLogout" onclick="handleProfileLogout(event)" style="display: flex; align-items: center; justify-content: center; gap: 8px; color: #dc2626; font-weight: 800; font-size: 13.5px; text-decoration: none; padding: 12px; border-radius: 12px; background: #fee2e2; transition: all 0.2s ease; cursor: pointer;">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
                     <span>Se Déconnecter de la Session</span>
                   </a>
@@ -489,6 +489,263 @@
   <script src="js/mpa_app.js"></script>
 
   <script>
+    // --- GLOBAL MODAL CONTROLLERS & ACTIONS ---
+    window.showToast = function(msg) {
+      const toast = document.getElementById('appToast');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2800);
+    };
+
+    window.openPersonalModal = function() {
+      if (typeof window.loadUserData === 'function') window.loadUserData();
+      const modal = document.getElementById('modalPersonalBackdrop');
+      if (modal) modal.style.display = 'flex';
+    };
+
+    window.closePersonalModal = function() {
+      const modal = document.getElementById('modalPersonalBackdrop');
+      if (modal) modal.style.display = 'none';
+    };
+
+    window.savePersonalInfo = function() {
+      const inputName = document.getElementById('inputPersonalName');
+      const inputEmail = document.getElementById('inputPersonalEmail');
+      const inputPhone = document.getElementById('inputPersonalPhone');
+
+      let userObj = {};
+      try {
+        userObj = JSON.parse(localStorage.getItem('agroelevage_user') || '{}');
+      } catch(e) {}
+
+      const newName = inputName ? inputName.value.trim() : (userObj?.name || '');
+      const newEmail = inputEmail ? inputEmail.value.trim() : (userObj?.email || '');
+      const newPhone = inputPhone ? inputPhone.value.trim() : (userObj?.phone || '');
+
+      if (!newName) {
+        alert('Veuillez renseigner votre nom complet.');
+        return;
+      }
+
+      localStorage.setItem('ago_user_fullname', newName);
+      localStorage.setItem('ago_user_email', newEmail);
+      localStorage.setItem('ago_user_phone', newPhone);
+
+      userObj.name = newName;
+      userObj.email = newEmail;
+      userObj.phone = newPhone;
+      localStorage.setItem('agroelevage_user', JSON.stringify(userObj));
+
+      // Persist to registered users
+      try {
+        let regUsers = JSON.parse(localStorage.getItem('agroelevage_registered_users') || '[]');
+        let idx = regUsers.findIndex(u => u.id === userObj.id || (u.email && u.email === userObj.email) || (u.phone && u.phone === userObj.phone));
+        if (idx !== -1) {
+          regUsers[idx].name = newName;
+          regUsers[idx].email = newEmail;
+          regUsers[idx].phone = newPhone;
+          localStorage.setItem('agroelevage_registered_users', JSON.stringify(regUsers));
+        }
+      } catch(e) {}
+
+      if (typeof window.loadUserData === 'function') window.loadUserData();
+      if (typeof window.syncUserProfileUI === 'function') window.syncUserProfileUI();
+      window.closePersonalModal();
+      window.showToast('Informations personnelles mises à jour !');
+    };
+
+    window.openDeliveryModal = function() {
+      const modal = document.getElementById('modalDeliveryBackdrop');
+      if (modal) modal.style.display = 'flex';
+    };
+
+    window.closeDeliveryModal = function() {
+      const modal = document.getElementById('modalDeliveryBackdrop');
+      if (modal) modal.style.display = 'none';
+    };
+
+    window.saveDeliveryInfo = function() {
+      const city = document.getElementById('inputDeliveryCity')?.value.trim() || 'Yaoundé, Cameroun';
+      const addressDetails = document.getElementById('textareaDeliveryAddress')?.value.trim();
+      const fullLocation = addressDetails ? `${city} (${addressDetails})` : city;
+
+      let userObj = {};
+      try {
+        userObj = JSON.parse(localStorage.getItem('agroelevage_user') || '{}');
+      } catch(e) {}
+
+      localStorage.setItem('ago_user_location', fullLocation);
+      userObj.location = fullLocation;
+      localStorage.setItem('agroelevage_user', JSON.stringify(userObj));
+
+      try {
+        let regUsers = JSON.parse(localStorage.getItem('agroelevage_registered_users') || '[]');
+        let idx = regUsers.findIndex(u => u.id === userObj.id || (u.email && u.email === userObj.email) || (u.phone && u.phone === userObj.phone));
+        if (idx !== -1) {
+          regUsers[idx].location = fullLocation;
+          localStorage.setItem('agroelevage_registered_users', JSON.stringify(regUsers));
+        }
+      } catch(e) {}
+
+      if (typeof window.loadUserData === 'function') window.loadUserData();
+      window.closeDeliveryModal();
+      window.showToast('Adresse de livraison enregistrée !');
+    };
+
+    window.openPaymentModal = function() {
+      let userObj = {};
+      try {
+        userObj = JSON.parse(localStorage.getItem('agroelevage_user') || '{}');
+      } catch(e) {}
+      const mtnInput = document.getElementById('inputMtnMomo');
+      const orangeInput = document.getElementById('inputOrangeMoney');
+      if (mtnInput) mtnInput.value = localStorage.getItem('ago_payment_mtn') || userObj.paymentMtn || '';
+      if (orangeInput) orangeInput.value = localStorage.getItem('ago_payment_orange') || userObj.paymentOrange || '';
+
+      const modal = document.getElementById('modalPaymentBackdrop');
+      if (modal) modal.style.display = 'flex';
+    };
+
+    window.closePaymentModal = function() {
+      const modal = document.getElementById('modalPaymentBackdrop');
+      if (modal) modal.style.display = 'none';
+    };
+
+    window.savePaymentInfo = function() {
+      const mtn = document.getElementById('inputMtnMomo')?.value.trim() || '';
+      const orange = document.getElementById('inputOrangeMoney')?.value.trim() || '';
+
+      if (mtn) localStorage.setItem('ago_payment_mtn', mtn);
+      if (orange) localStorage.setItem('ago_payment_orange', orange);
+
+      let userObj = {};
+      try {
+        userObj = JSON.parse(localStorage.getItem('agroelevage_user') || '{}');
+        userObj.paymentMtn = mtn;
+        userObj.paymentOrange = orange;
+        localStorage.setItem('agroelevage_user', JSON.stringify(userObj));
+      } catch(e) {}
+
+      if (typeof window.loadUserData === 'function') window.loadUserData();
+      window.closePaymentModal();
+      window.showToast('Moyens de paiement enregistrés !');
+    };
+
+    window.openShopModal = function() {
+      if (typeof window.loadShopData === 'function') window.loadShopData();
+      const modal = document.getElementById('modalShopBackdrop');
+      if (modal) modal.style.display = 'flex';
+    };
+
+    window.closeShopModal = function() {
+      const modal = document.getElementById('modalShopBackdrop');
+      if (modal) modal.style.display = 'none';
+    };
+
+    window.saveShopConfig = function() {
+      let userObj = {};
+      try {
+        userObj = JSON.parse(localStorage.getItem('agroelevage_user') || '{}');
+      } catch(e) {}
+
+      const inputShopName = document.getElementById('inputShopName');
+      const selectShopCategory = document.getElementById('selectShopCategory');
+      const textareaShopBio = document.getElementById('textareaShopBio');
+      const inputShopPhone = document.getElementById('inputShopPhone');
+      const inputShopLocation = document.getElementById('inputShopLocation');
+      const inputShopDelivery = document.getElementById('inputShopDelivery');
+
+      const shop = {
+        name: inputShopName?.value.trim() || 'Boutique Agricole',
+        category: selectShopCategory?.value || 'Maraîchage & Légumes',
+        bio: textareaShopBio?.value.trim() || '',
+        phone: inputShopPhone?.value.trim() || userObj?.phone || '',
+        location: inputShopLocation?.value.trim() || userObj?.location || 'Yaoundé, Cameroun',
+        delivery: inputShopDelivery?.value.trim() || 'Livraison locale & Séquestre Escrow',
+        updatedAt: new Date().toISOString()
+      };
+
+      userObj.shop = shop;
+      localStorage.setItem('agroelevage_user', JSON.stringify(userObj));
+      localStorage.setItem(`agroelevage_shop_${userObj.id || userObj.email || 'default'}`, JSON.stringify(shop));
+      localStorage.setItem('agroelevage_user_shop', JSON.stringify(shop));
+
+      try {
+        let regUsers = JSON.parse(localStorage.getItem('agroelevage_registered_users') || '[]');
+        let idx = regUsers.findIndex(u => u.id === userObj.id || (u.email && u.email === userObj.email) || (u.phone && u.phone === userObj.phone));
+        if (idx !== -1) {
+          regUsers[idx].shop = shop;
+          localStorage.setItem('agroelevage_registered_users', JSON.stringify(regUsers));
+        }
+      } catch(e) {}
+
+      if (typeof window.loadShopData === 'function') window.loadShopData();
+      window.closeShopModal();
+
+      if (typeof window.addUserNotification === 'function') {
+        window.addUserNotification('Boutique configurée', `Votre boutique "${shop.name}" est prête et publiée.`, 'shop', 'profil.html');
+      }
+      window.showToast(`Boutique "${shop.name}" enregistrée avec succès !`);
+    };
+
+    window.openOrdersModal = function() {
+      if (typeof window.loadOrdersHistory === 'function') window.loadOrdersHistory();
+      const modal = document.getElementById('modalOrdersBackdrop');
+      if (modal) modal.style.display = 'flex';
+    };
+
+    window.closeOrdersModal = function() {
+      const modal = document.getElementById('modalOrdersBackdrop');
+      if (modal) modal.style.display = 'none';
+    };
+
+    window.applyTheme = function(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      document.body.setAttribute('data-theme', theme);
+      localStorage.setItem('ago_theme', theme);
+
+      const btnThemeLight = document.getElementById('btnThemeLight');
+      const btnThemeDark = document.getElementById('btnThemeDark');
+
+      if (btnThemeLight && btnThemeDark) {
+        if (theme === 'dark') {
+          btnThemeDark.style.background = 'var(--primary, #16a34a)';
+          btnThemeDark.style.color = '#ffffff';
+          btnThemeLight.style.background = 'var(--bg-card, #ffffff)';
+          btnThemeLight.style.color = 'var(--text-main, #0f172a)';
+        } else {
+          btnThemeLight.style.background = 'var(--primary, #16a34a)';
+          btnThemeLight.style.color = '#ffffff';
+          btnThemeDark.style.background = 'var(--bg-card, #ffffff)';
+          btnThemeDark.style.color = 'var(--text-main, #0f172a)';
+        }
+      }
+    };
+
+    window.handleProfileLogout = function(e) {
+      if (e) e.preventDefault();
+      localStorage.removeItem('ago_logged_in');
+      localStorage.removeItem('agroelevage_user');
+      localStorage.removeItem('ago_user_fullname');
+      localStorage.removeItem('ago_user_email');
+      localStorage.removeItem('ago_user_phone');
+      localStorage.removeItem('ago_user_role');
+      localStorage.removeItem('ago_user_location');
+      window.location.href = 'connexion.html';
+    };
+
+    // Close any modal on backdrop click or Escape key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        window.closePersonalModal();
+        window.closeDeliveryModal();
+        window.closePaymentModal();
+        window.closeShopModal();
+        window.closeOrdersModal();
+      }
+    });
+
     document.addEventListener('DOMContentLoaded', () => {
       // 1. Enforce Authentication: Only logged-in users can view this profile
       const isLoggedIn = localStorage.getItem('ago_logged_in') === 'true';
@@ -502,21 +759,11 @@
         return;
       }
 
-      const toast = document.getElementById('appToast');
-
-      function showToast(msg) {
-        if (!toast) return;
-        toast.textContent = msg;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 2500);
-      }
-
       // --- AVATAR MANAGEMENT ---
       const avatarCircle = document.getElementById('profileAvatarCircle');
-      const btnChangeAvatar = document.getElementById('btnChangeAvatar');
       const inputAvatarFile = document.getElementById('inputAvatarFile');
 
-      function loadAvatar() {
+      window.loadAvatar = function() {
         const savedAvatar = localStorage.getItem('ago_user_avatar') || userObj.avatar;
         if (savedAvatar && avatarCircle) {
           avatarCircle.innerHTML = `<img src="${savedAvatar}" alt="Photo de profil" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" />`;
@@ -525,10 +772,9 @@
           const initials = parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : parts[0].substring(0, 2).toUpperCase();
           avatarCircle.innerHTML = `<span style="font-family: var(--font-heading, sans-serif); font-size: 24px; font-weight: 800; color: #ffffff;">${initials}</span>`;
         }
-      }
+      };
 
-      if (btnChangeAvatar && inputAvatarFile) {
-        btnChangeAvatar.addEventListener('click', () => inputAvatarFile.click());
+      if (inputAvatarFile) {
         inputAvatarFile.addEventListener('change', (e) => {
           const file = e.target.files[0];
           if (file) {
@@ -538,26 +784,23 @@
               localStorage.setItem('ago_user_avatar', base64Data);
               userObj.avatar = base64Data;
               localStorage.setItem('agroelevage_user', JSON.stringify(userObj));
-              loadAvatar();
+              window.loadAvatar();
               if (window.syncUserProfileUI) window.syncUserProfileUI();
-              showToast('Photo de profil mise à jour !');
+              window.showToast('Photo de profil mise à jour !');
             };
             reader.readAsDataURL(file);
           }
         });
       }
-      loadAvatar();
+      window.loadAvatar();
 
       // --- USER DATA LOAD & RENDER ---
       const profileHeaderName = document.getElementById('profileHeaderName');
-      const profileHeaderEmail = document.getElementById('profileHeaderEmail');
-      const profileBadgeRole = document.getElementById('profileBadgeRole');
       const subtxtPersonalInfo = document.getElementById('subtxtPersonalInfo');
       const subtxtDeliveryInfo = document.getElementById('subtxtDeliveryInfo');
       const subtxtPaymentInfo = document.getElementById('subtxtPaymentInfo');
-      const btnQuickEditProfile = document.getElementById('btnQuickEditProfile');
 
-      function loadUserData() {
+      window.loadUserData = function() {
         try {
           userObj = JSON.parse(localStorage.getItem('agroelevage_user') || 'null') || userObj;
         } catch(e) {}
@@ -565,16 +808,24 @@
         if (!userObj) return;
 
         const name = userObj.name || localStorage.getItem('ago_user_fullname') || 'Mon Profil';
-        const email = userObj.email || localStorage.getItem('ago_user_email') || 'Aucune adresse e-mail';
+        const email = userObj.email || localStorage.getItem('ago_user_email') || 'Non renseigné';
         const phone = userObj.phone || localStorage.getItem('ago_user_phone') || 'Non renseigné';
         const location = userObj.location || localStorage.getItem('ago_user_location') || 'Aucune adresse enregistrée';
-        const role = userObj.role || localStorage.getItem('ago_user_role') || 'Producteur & Vendeur';
 
         if (profileHeaderName) profileHeaderName.textContent = name;
-        if (profileHeaderEmail) profileHeaderEmail.textContent = email;
-        if (profileBadgeRole) profileBadgeRole.textContent = role;
         if (subtxtPersonalInfo) subtxtPersonalInfo.textContent = `${name}, ${phone}`;
         if (subtxtDeliveryInfo) subtxtDeliveryInfo.textContent = location;
+
+        // Payment info subtext
+        const mtn = localStorage.getItem('ago_payment_mtn') || userObj.paymentMtn;
+        const orange = localStorage.getItem('ago_payment_orange') || userObj.paymentOrange;
+        if (subtxtPaymentInfo) {
+          if (mtn || orange) {
+            subtxtPaymentInfo.textContent = [mtn ? `MTN: ${mtn}` : '', orange ? `Orange: ${orange}` : ''].filter(Boolean).join(' • ');
+          } else {
+            subtxtPaymentInfo.textContent = 'Mobile Money, cartes';
+          }
+        }
 
         // Populate Form fields
         const inputPersonalName = document.getElementById('inputPersonalName');
@@ -587,24 +838,14 @@
         const inputDeliveryCity = document.getElementById('inputDeliveryCity');
         if (inputDeliveryCity) inputDeliveryCity.value = location;
 
-        loadAvatar();
-        loadShopData();
-        loadOrdersHistory();
-      }
-      loadUserData();
+        window.loadAvatar();
+        window.loadShopData();
+        window.loadOrdersHistory();
+      };
 
-      if (btnQuickEditProfile) {
-        btnQuickEditProfile.addEventListener('click', openPersonalModal);
-      }
-
-      // --- SHOP DATA LOAD & MODAL ---
-      const modalShop = document.getElementById('modalShopBackdrop');
-      const cardOpenShopModal = document.getElementById('cardOpenShopModal');
-      const btnCloseShopModal = document.getElementById('btnCloseShopModal');
-      const btnCancelShopModal = document.getElementById('btnCancelShopModal');
+      // --- SHOP DATA LOAD ---
       const shopCardMainTitle = document.getElementById('shopCardMainTitle');
       const shopCardMainSub = document.getElementById('shopCardMainSub');
-
       const inputShopName = document.getElementById('inputShopName');
       const selectShopCategory = document.getElementById('selectShopCategory');
       const textareaShopBio = document.getElementById('textareaShopBio');
@@ -612,7 +853,7 @@
       const inputShopLocation = document.getElementById('inputShopLocation');
       const inputShopDelivery = document.getElementById('inputShopDelivery');
 
-      function loadShopData() {
+      window.loadShopData = function() {
         let shop = userObj?.shop || null;
         if (!shop && userObj) {
           try {
@@ -643,207 +884,13 @@
         if (inputShopPhone) inputShopPhone.value = shop?.phone || userPhone;
         if (inputShopLocation) inputShopLocation.value = shop?.location || userLocation;
         if (inputShopDelivery) inputShopDelivery.value = shop?.delivery || 'Livraison locale & Séquestre Escrow';
-      }
-
-      function openShopModal() {
-        loadShopData();
-        if (modalShop) modalShop.style.display = 'flex';
-      }
-      function closeShopModal() {
-        if (modalShop) modalShop.style.display = 'none';
-      }
-
-      if (cardOpenShopModal) cardOpenShopModal.addEventListener('click', openShopModal);
-      if (btnCloseShopModal) btnCloseShopModal.addEventListener('click', closeShopModal);
-      if (btnCancelShopModal) btnCancelShopModal.addEventListener('click', closeShopModal);
-      if (modalShop) {
-        modalShop.addEventListener('click', (e) => {
-          if (e.target === modalShop) closeShopModal();
-        });
-      }
-
-      window.saveShopConfig = function() {
-        const shop = {
-          name: inputShopName?.value.trim() || 'Boutique Agricole',
-          category: selectShopCategory?.value || 'Maraîchage & Légumes',
-          bio: textareaShopBio?.value.trim() || '',
-          phone: inputShopPhone?.value.trim() || userObj?.phone || '',
-          location: inputShopLocation?.value.trim() || userObj?.location || 'Yaoundé, Cameroun',
-          delivery: inputShopDelivery?.value.trim() || 'Livraison locale & Séquestre Escrow',
-          updatedAt: new Date().toISOString()
-        };
-
-        userObj.shop = shop;
-        localStorage.setItem('agroelevage_user', JSON.stringify(userObj));
-        localStorage.setItem(`agroelevage_shop_${userObj.id || userObj.email || 'default'}`, JSON.stringify(shop));
-        localStorage.setItem('agroelevage_user_shop', JSON.stringify(shop));
-
-        try {
-          let regUsers = JSON.parse(localStorage.getItem('agroelevage_registered_users') || '[]');
-          let idx = regUsers.findIndex(u => u.id === userObj.id || (u.email && u.email === userObj.email) || (u.phone && u.phone === userObj.phone));
-          if (idx !== -1) {
-            regUsers[idx].shop = shop;
-            localStorage.setItem('agroelevage_registered_users', JSON.stringify(regUsers));
-          }
-        } catch(e) {}
-
-        loadShopData();
-        closeShopModal();
-
-        if (typeof window.addUserNotification === 'function') {
-          window.addUserNotification('Boutique configurée', `Votre boutique "${shop.name}" est prête et publiée.`, 'shop', 'profil.html');
-        }
-        showToast(`Boutique "${shop.name}" enregistrée avec succès !`);
       };
 
-      // --- PERSONAL INFO MODAL ---
-      const modalPersonal = document.getElementById('modalPersonalBackdrop');
-      const btnOpenPersonalInfoModal = document.getElementById('btnOpenPersonalInfoModal');
-      const btnClosePersonalModal = document.getElementById('btnClosePersonalModal');
-      const btnCancelPersonalModal = document.getElementById('btnCancelPersonalModal');
-
-      function openPersonalModal() {
-        loadUserData();
-        if (modalPersonal) modalPersonal.style.display = 'flex';
-      }
-      function closePersonalModal() {
-        if (modalPersonal) modalPersonal.style.display = 'none';
-      }
-
-      if (btnOpenPersonalInfoModal) btnOpenPersonalInfoModal.addEventListener('click', openPersonalModal);
-      if (btnClosePersonalModal) btnClosePersonalModal.addEventListener('click', closePersonalModal);
-      if (btnCancelPersonalModal) btnCancelPersonalModal.addEventListener('click', closePersonalModal);
-      if (modalPersonal) {
-        modalPersonal.addEventListener('click', (e) => {
-          if (e.target === modalPersonal) closePersonalModal();
-        });
-      }
-
-      window.savePersonalInfo = function() {
-        const inputName = document.getElementById('inputPersonalName');
-        const inputEmail = document.getElementById('inputPersonalEmail');
-        const inputPhone = document.getElementById('inputPersonalPhone');
-
-        const newName = inputName ? inputName.value.trim() : (userObj?.name || '');
-        const newEmail = inputEmail ? inputEmail.value.trim() : (userObj?.email || '');
-        const newPhone = inputPhone ? inputPhone.value.trim() : (userObj?.phone || '');
-
-        if (!newName) {
-          alert('Veuillez renseigner votre nom complet.');
-          return;
-        }
-
-        localStorage.setItem('ago_user_fullname', newName);
-        localStorage.setItem('ago_user_email', newEmail);
-        localStorage.setItem('ago_user_phone', newPhone);
-
-        userObj.name = newName;
-        userObj.email = newEmail;
-        userObj.phone = newPhone;
-        localStorage.setItem('agroelevage_user', JSON.stringify(userObj));
-
-        // Persist to registered users
-        try {
-          let regUsers = JSON.parse(localStorage.getItem('agroelevage_registered_users') || '[]');
-          let idx = regUsers.findIndex(u => u.id === userObj.id || (u.email && u.email === userObj.email) || (u.phone && u.phone === userObj.phone));
-          if (idx !== -1) {
-            regUsers[idx].name = newName;
-            regUsers[idx].email = newEmail;
-            regUsers[idx].phone = newPhone;
-            localStorage.setItem('agroelevage_registered_users', JSON.stringify(regUsers));
-          }
-        } catch(e) {}
-
-        loadUserData();
-        if (window.syncUserProfileUI) window.syncUserProfileUI();
-        closePersonalModal();
-        showToast('Informations personnelles mises à jour !');
-      };
-
-      // --- DELIVERY INFO MODAL ---
-      const modalDelivery = document.getElementById('modalDeliveryBackdrop');
-      const btnOpenDeliveryModal = document.getElementById('btnOpenDeliveryModal');
-      const btnCloseDeliveryModal = document.getElementById('btnCloseDeliveryModal');
-      const btnCancelDeliveryModal = document.getElementById('btnCancelDeliveryModal');
-
-      function openDeliveryModal() {
-        if (modalDelivery) modalDelivery.style.display = 'flex';
-      }
-      function closeDeliveryModal() {
-        if (modalDelivery) modalDelivery.style.display = 'none';
-      }
-
-      if (btnOpenDeliveryModal) btnOpenDeliveryModal.addEventListener('click', openDeliveryModal);
-      if (btnCloseDeliveryModal) btnCloseDeliveryModal.addEventListener('click', closeDeliveryModal);
-      if (btnCancelDeliveryModal) btnCancelDeliveryModal.addEventListener('click', closeDeliveryModal);
-      if (modalDelivery) {
-        modalDelivery.addEventListener('click', (e) => {
-          if (e.target === modalDelivery) closeDeliveryModal();
-        });
-      }
-
-      window.saveDeliveryInfo = function() {
-        const city = document.getElementById('inputDeliveryCity')?.value.trim() || 'Yaoundé, Cameroun';
-        const addressDetails = document.getElementById('textareaDeliveryAddress')?.value.trim();
-        const fullLocation = addressDetails ? `${city} (${addressDetails})` : city;
-
-        localStorage.setItem('ago_user_location', fullLocation);
-        userObj.location = fullLocation;
-        localStorage.setItem('agroelevage_user', JSON.stringify(userObj));
-
-        try {
-          let regUsers = JSON.parse(localStorage.getItem('agroelevage_registered_users') || '[]');
-          let idx = regUsers.findIndex(u => u.id === userObj.id || (u.email && u.email === userObj.email) || (u.phone && u.phone === userObj.phone));
-          if (idx !== -1) {
-            regUsers[idx].location = fullLocation;
-            localStorage.setItem('agroelevage_registered_users', JSON.stringify(regUsers));
-          }
-        } catch(e) {}
-
-        loadUserData();
-        closeDeliveryModal();
-        showToast('Adresse de livraison enregistrée !');
-      };
-
-      // --- PAYMENT INFO MODAL ---
-      const modalPayment = document.getElementById('modalPaymentBackdrop');
-      const btnOpenPaymentModal = document.getElementById('btnOpenPaymentModal');
-      const btnClosePaymentModal = document.getElementById('btnClosePaymentModal');
-      const btnCancelPaymentModal = document.getElementById('btnCancelPaymentModal');
-
-      function openPaymentModal() {
-        if (modalPayment) modalPayment.style.display = 'flex';
-      }
-      function closePaymentModal() {
-        if (modalPayment) modalPayment.style.display = 'none';
-      }
-
-      if (btnOpenPaymentModal) btnOpenPaymentModal.addEventListener('click', openPaymentModal);
-      if (btnClosePaymentModal) btnClosePaymentModal.addEventListener('click', closePaymentModal);
-      if (btnCancelPaymentModal) btnCancelPaymentModal.addEventListener('click', closePaymentModal);
-      if (modalPayment) {
-        modalPayment.addEventListener('click', (e) => {
-          if (e.target === modalPayment) closePaymentModal();
-        });
-      }
-
-      window.savePaymentInfo = function() {
-        const mtn = document.getElementById('inputMtnMomo')?.value.trim();
-        const orange = document.getElementById('inputOrangeMoney')?.value.trim();
-        if (mtn) localStorage.setItem('ago_payment_mtn', mtn);
-        if (orange) localStorage.setItem('ago_payment_orange', orange);
-        closePaymentModal();
-        showToast('Moyens de paiement enregistrés !');
-      };
-
-      // --- ORDER HISTORY MODAL & DYNAMIC LOADING ---
-      const modalOrders = document.getElementById('modalOrdersBackdrop');
-      const btnOpenOrdersModal = document.getElementById('btnOpenOrdersModal');
-      const btnCloseOrdersModal = document.getElementById('btnCloseOrdersModal');
+      // --- ORDER HISTORY DYNAMIC LOADING ---
       const ordersContainerList = document.getElementById('ordersContainerList');
       const subtxtOrdersCount = document.getElementById('subtxtOrdersCount');
 
-      function loadOrdersHistory() {
+      window.loadOrdersHistory = function() {
         let orders = [];
         try {
           orders = JSON.parse(localStorage.getItem('agroelevage_user_orders') || '[]');
@@ -895,56 +942,24 @@
             </div>
           `;
         }
-      }
+      };
 
-      function openOrdersModal() {
-        loadOrdersHistory();
-        if (modalOrders) modalOrders.style.display = 'flex';
-      }
-      function closeOrdersModal() {
-        if (modalOrders) modalOrders.style.display = 'none';
-      }
-
-      if (btnOpenOrdersModal) btnOpenOrdersModal.addEventListener('click', openOrdersModal);
-      if (btnCloseOrdersModal) btnCloseOrdersModal.addEventListener('click', closeOrdersModal);
-      if (modalOrders) {
-        modalOrders.addEventListener('click', (e) => {
-          if (e.target === modalOrders) closeOrdersModal();
-        });
-      }
-
-      loadOrdersHistory();
-
-      // --- THEME SWITCHER ---
-      const btnThemeLight = document.getElementById('btnThemeLight');
-      const btnThemeDark = document.getElementById('btnThemeDark');
-
-      function applyTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        document.body.setAttribute('data-theme', theme);
-        localStorage.setItem('ago_theme', theme);
-
-        if (btnThemeLight && btnThemeDark) {
-          if (theme === 'dark') {
-            btnThemeDark.style.background = 'var(--primary)';
-            btnThemeDark.style.color = '#ffffff';
-            btnThemeLight.style.background = 'var(--bg-card, #ffffff)';
-            btnThemeLight.style.color = 'var(--text-main, #0f172a)';
-          } else {
-            btnThemeLight.style.background = 'var(--primary)';
-            btnThemeLight.style.color = '#ffffff';
-            btnThemeDark.style.background = 'var(--bg-card, #ffffff)';
-            btnThemeDark.style.color = 'var(--text-main, #0f172a)';
-          }
+      // Modal background click to close
+      ['modalPersonalBackdrop', 'modalDeliveryBackdrop', 'modalPaymentBackdrop', 'modalShopBackdrop', 'modalOrdersBackdrop'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('click', (e) => {
+            if (e.target === el) el.style.display = 'none';
+          });
         }
-      }
+      });
 
+      // Initial data render
+      window.loadUserData();
+
+      // Initial theme apply
       const currentTheme = localStorage.getItem('ago_theme') || 'light';
-      applyTheme(currentTheme);
-
-      if (btnThemeLight) btnThemeLight.addEventListener('click', () => applyTheme('light'));
-      if (btnThemeDark) btnThemeDark.addEventListener('click', () => applyTheme('dark'));
-
+      window.applyTheme(currentTheme);
     });
   </script>
 </body>
