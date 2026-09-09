@@ -339,7 +339,12 @@
               <h2 style="font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: var(--text-main); margin: 0;">Comptes Utilisateurs Enregistres</h2>
               <p style="font-size: 12px; color: var(--text-muted); margin: 2px 0 0;">Modification des identifiants, mots de passe et suppression de comptes.</p>
             </div>
-            <input type="text" id="filterUsersInput" class="form-input" placeholder="Rechercher par nom ou telephone..." style="max-width: 250px; height: 36px; font-size: 12.5px;" oninput="renderUsersTable()" />
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <input type="text" id="filterUsersInput" class="form-input" placeholder="Rechercher par nom ou telephone..." style="max-width: 230px; height: 36px; font-size: 12.5px;" oninput="renderUsersTable()" />
+              <button type="button" onclick="resetUsersDatabase()" class="btn-secondary" style="height: 36px; padding: 0 12px; font-size: 11.5px; font-weight: 700; background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; border-radius: 8px; cursor: pointer; white-space: nowrap;" title="Effacer tous les anciens comptes de test et ne garder que l'Admin">
+                Reinitialiser Utilisateurs
+              </button>
+            </div>
           </div>
 
           <div class="admin-table-wrapper">
@@ -658,14 +663,9 @@
       }
     })();
 
-    // Initial base seed users
+    // Initial base seed users (Only the authentic Administrator by default)
     const baseDefaultUsers = [
-      { id: 1, name: 'Kenfo Loic (Compte Principal)', phone: '+237 693 412 317', email: 'kenfoloic3@gmail.com', password: 'admin_kenfo_2026', role: 'admin', location: 'Yaoundé, Cameroun', wallet: '350 000 FCFA', status: 'Actif' },
-      { id: 2, name: 'Paul Nguema', phone: '+237 690 12 34 56', email: 'paul.nguema@agroelevage.cm', password: 'pass_paul_nguema', role: 'vendeur (agriculteur)', location: 'Foumbot, Ouest', wallet: '145 000 FCFA', status: 'Actif' },
-      { id: 3, name: 'Marie Tchakounté', phone: '+237 691 23 45 67', email: 'marie.tchakounte@agroelevage.cm', password: 'pass_marie_tchak', role: 'vendeur (éleveur)', location: 'Bafoussam, Ouest', wallet: '280 000 FCFA', status: 'Actif' },
-      { id: 4, name: 'Ibrahim Bello', phone: '+237 692 34 56 78', email: 'ibrahim.bello@agroelevage.cm', password: 'pass_ibrahim_garoua', role: 'vendeur (coopérative)', location: 'Garoua, Nord', wallet: '520 000 FCFA', status: 'Actif' },
-      { id: 5, name: 'Emmanuel Manga', phone: '+237 693 45 67 89', email: 'emmanuel.manga@agroelevage.cm', password: 'pass_emmanuel_penja', role: 'vendeur (agriculteur)', location: 'Njombé-Penja', wallet: '85 000 FCFA', status: 'Actif' },
-      { id: 6, name: 'Chef Alain Mbarga (Restaurant)', phone: '+237 670 98 76 54', email: 'alain.mbarga@saveurs.cm', password: 'pass_alain_resto', role: 'acheteur (restaurateur)', location: 'Bastos, Yaoundé', wallet: '75 000 FCFA', status: 'Actif' }
+      { id: 1, name: 'Kenfo Loic (Admin)', phone: '+237 693 412 317', email: 'kenfoloic3@gmail.com', password: 'admin_kenfo_2026', role: 'admin', location: 'Yaoundé, Cameroun', wallet: '350 000 FCFA', status: 'Actif' }
     ];
 
     function showToast(msg) {
@@ -921,6 +921,18 @@
       showToast(`Compte de "${userName}" supprime definitivement.`);
       window.dispatchEvent(new Event('agroelevage_users_updated'));
       window.dispatchEvent(new Event('agroelevage_products_updated'));
+    };
+
+    window.resetUsersDatabase = function() {
+      if (!confirm("Confirmez-vous la reinitialisation complete des utilisateurs ? Tous les anciens comptes de test seront supprimes et seul votre compte Administrateur principal sera conserve.")) {
+        return;
+      }
+      localStorage.setItem('agroelevage_registered_users', JSON.stringify([]));
+      localStorage.setItem('agroelevage_admin_users', JSON.stringify([...baseDefaultUsers]));
+      localStorage.removeItem('agroelevage_deleted_user_ids');
+      renderUsersTable();
+      showToast("Base utilisateurs reinitialisee avec succes !");
+      window.dispatchEvent(new Event('agroelevage_users_updated'));
     };
 
     // --- PRODUCTS MANAGEMENT ---

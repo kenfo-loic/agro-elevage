@@ -80,13 +80,9 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 6. Données de Test Initiales (9 Produits du Catalogue)
+-- 6. Données de Test Initiales (Compte Administrateur Principal)
 INSERT INTO `users` (`id`, `name`, `email`, `phone`, `password`, `location`) VALUES
-(1, 'Paul Nguema', 'paul.nguema@agroelevage.cm', '+237690123456', '$2a$10$c7ZzP7mQvF5PZ0TfLw7n8O8oN8.sC3qW5eU8iO.p8E8aO.g3h4I5k', 'Foumbot, Ouest'),
-(2, 'Marie Tchakounté', 'marie.tchakounte@agroelevage.cm', '+237691234567', '$2a$10$c7ZzP7mQvF5PZ0TfLw7n8O8oN8.sC3qW5eU8iO.p8E8aO.g3h4I5k', 'Bafoussam, Ouest'),
-(3, 'Ibrahim Bello', 'ibrahim.bello@agroelevage.cm', '+237692345678', '$2a$10$c7ZzP7mQvF5PZ0TfLw7n8O8oN8.sC3qW5eU8iO.p8E8aO.g3h4I5k', 'Garoua, Nord'),
-(4, 'Emmanuel Manga', 'emmanuel.manga@agroelevage.cm', '+237693456789', '$2a$10$c7ZzP7mQvF5PZ0TfLw7n8O8oN8.sC3qW5eU8iO.p8E8aO.g3h4I5k', 'Njombé-Penja'),
-(5, 'Kenfo Loic (Admin)', 'kenfoloic3@gmail.com', '+237693412317', '$2a$10$c7ZzP7mQvF5PZ0TfLw7n8O8oN8.sC3qW5eU8iO.p8E8aO.g3h4I5k', 'Yaoundé, Cameroun')
+(1, 'Kenfo Loic (Admin)', 'kenfoloic3@gmail.com', '+237693412317', '$2a$10$c7ZzP7mQvF5PZ0TfLw7n8O8oN8.sC3qW5eU8iO.p8E8aO.g3h4I5k', 'Yaoundé, Cameroun')
 ON DUPLICATE KEY UPDATE `name`=VALUES(`name`);
 
 INSERT INTO `products` (`id`, `seller_id`, `name`, `category`, `price`, `unit`, `stock_quantity`, `location`, `image_url`) VALUES

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscription — AgroElevage Link</title>
+  <meta name="description" content="Créez votre compte producteur, éleveur ou acheteur sur AgroElevage Link et bénéficiez de transactions sécurisées par séquestre." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css?v=3" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #052e16 0%, #14532d 50%, #166534 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 16px;
+      font-family: var(--font-body);
+      color: var(--text-main);
+    }
+    .auth-container {
+      width: 100%;
+      max-width: 520px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      padding: 32px 28px;
+      position: relative;
+    }
+    .auth-header {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+    .auth-logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      background: #f0fdf4;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      border: 1px solid #bbf7d0;
+    }
+    .auth-title {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    .auth-subtitle {
+      font-size: 13.5px;
+      color: #64748b;
+    }
+    .auth-error-banner {
+      display: none;
+      background: #fef2f2;
+      border: 1.5px solid #f87171;
+      color: #b91c1c;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      line-height: 1.45;
+    }
+    .auth-success-banner {
+      display: none;
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      color: #166534;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      line-height: 1.45;
+    }
+    .grid-2-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 480px) {
+      .grid-2-col {
+        grid-template-columns: 1fr;
+      }
+    }
+    .form-group {
+      margin-bottom: 14px;
+    }
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 5px;
+    }
+    .form-input-auth {
+      width: 100%;
+      height: 42px;
+      padding: 0 14px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 9px;
+      font-size: 13px;
+      color: #0f172a;
+      transition: all 0.2s ease;
+      background: #f8fafc;
+    }
+    .form-input-auth:focus {
+      outline: none;
+      border-color: #16a34a;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+    }
+    .btn-submit-auth {
+      width: 100%;
+      height: 46px;
+      background: #16a34a;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-family: var(--font-heading);
+      font-size: 14.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s ease;
+      margin-top: 10px;
+    }
+    .btn-submit-auth:hover {
+      background: #15803d;
+    }
+    .auth-footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      color: #64748b;
+    }
+    .auth-footer a {
+      color: #16a34a;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .auth-footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-container">
+    <div class="auth-header">
+      <div class="auth-logo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+      </div>
+      <h1 class="auth-title">Créer un Compte</h1>
+      <p class="auth-subtitle">Rejoignez la communauté agricole AgroElevage Link</p>
+    </div>
+
+    <!-- Error & Success Banners -->
+    <div id="authErrorBanner" class="auth-error-banner"></div>
+    <div id="authSuccessBanner" class="auth-success-banner"></div>
+
+    <form id="standaloneRegisterForm" onsubmit="event.preventDefault(); handleRegister();">
+      <div class="grid-2-col">
+        <div class="form-group">
+          <label class="form-label" for="regPrenom">Prénom *</label>
+          <input type="text" id="regPrenom" class="form-input-auth" placeholder="Ex: Paul" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="regNom">Nom de famille *</label>
+          <input type="text" id="regNom" class="form-input-auth" placeholder="Ex: Nguema" required />
+        </div>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="form-group">
+          <label class="form-label" for="regPhone">Numéro WhatsApp / Téléphone *</label>
+          <input type="tel" id="regPhone" class="form-input-auth" placeholder="+237 6XX XX XX XX" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="regEmail">Adresse e-mail (optionnelle)</label>
+          <input type="email" id="regEmail" class="form-input-auth" placeholder="exemple@domaine.cm" />
+        </div>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="form-group">
+          <label class="form-label" for="regRole">Type d'activité *</label>
+          <select id="regRole" class="form-input-auth" style="cursor: pointer;">
+            <option value="vendeur (agriculteur)">Agriculteur / Maraîcher (Vendeur)</option>
+            <option value="vendeur (éleveur)">Éleveur de bétail / volaille (Vendeur)</option>
+            <option value="vendeur (coopérative)">Coopérative / GIC (Vendeur)</option>
+            <option value="acheteur (grossiste)">Grossiste / Commerçant (Acheteur)</option>
+            <option value="acheteur (restaurateur)">Restaurateur / Hôtelier (Acheteur)</option>
+            <option value="acheteur (particulier)">Particulier / Ménage (Acheteur)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="regLocation">Ville / Région *</label>
+          <input type="text" id="regLocation" class="form-input-auth" placeholder="Ex: Foumbot, Ouest" value="Yaoundé, Cameroun" required />
+        </div>
+      </div>
+
+      <div class="grid-2-col">
+        <div class="form-group">
+          <label class="form-label" for="regPassword">Mot de passe (min. 6 car.) *</label>
+          <input type="password" id="regPassword" class="form-input-auth" placeholder="Mot de passe" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="regConfirmPassword">Confirmer mot de passe *</label>
+          <input type="password" id="regConfirmPassword" class="form-input-auth" placeholder="Retapez le mot de passe" required />
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit-auth" id="btnSubmitRegister">
+        <span>Créer mon compte</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      Vous avez déjà un compte ? <a href="connexion.html">Se connecter</a>
+      <div style="margin-top: 10px;">
+        <a href="marketplace.html" style="color: #64748b; font-size: 12.5px;">&larr; Retour à la marketplace</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supabase JS & API Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/api-client.js"></script>
+
+  <script>
+    async function handleRegister() {
+      const prenom = (document.getElementById('regPrenom')?.value || '').trim();
+      const nom = (document.getElementById('regNom')?.value || '').trim();
+      const phone = (document.getElementById('regPhone')?.value || '').trim();
+      const email = (document.getElementById('regEmail')?.value || '').trim();
+      const role = document.getElementById('regRole')?.value || 'vendeur (agriculteur)';
+      const location = (document.getElementById('regLocation')?.value || 'Yaoundé, Cameroun').trim();
+      const password = (document.getElementById('regPassword')?.value || '').trim();
+      const confirmPassword = (document.getElementById('regConfirmPassword')?.value || '').trim();
+
+      const errorBanner = document.getElementById('authErrorBanner');
+      const successBanner = document.getElementById('authSuccessBanner');
+      const submitBtn = document.getElementById('btnSubmitRegister');
+
+      errorBanner.style.display = 'none';
+      successBanner.style.display = 'none';
+
+      if (!prenom || !nom || !phone || !password) {
+        errorBanner.textContent = 'Veuillez remplir tous les champs obligatoires.';
+        errorBanner.style.display = 'block';
+        return;
+      }
+
+      if (password.length < 6) {
+        errorBanner.textContent = 'Le mot de passe doit contenir au moins 6 caractères.';
+        errorBanner.style.display = 'block';
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        errorBanner.textContent = 'Les mots de passe ne correspondent pas. Veuillez les retaper à l\'identique.';
+        errorBanner.style.display = 'block';
+        return;
+      }
+
+      // Check duplicates in localStorage
+      let regUsers = [];
+      try {
+        regUsers = JSON.parse(localStorage.getItem('agroelevage_registered_users') || '[]');
+      } catch (e) {}
+
+      const cleanPhone = phone.replace(/[\s+]/g, '');
+      const isDuplicate = regUsers.some(u => {
+        const uPhone = (u.phone || '').replace(/[\s+]/g, '');
+        const uEmail = (u.email || '').toLowerCase().trim();
+        return (cleanPhone && uPhone === cleanPhone) || (email && uEmail && uEmail === email.toLowerCase());
+      });
+
+      if (isDuplicate) {
+        errorBanner.textContent = 'Un compte existe déjà avec cette adresse e-mail ou ce numéro de téléphone. Veuillez vous connecter.';
+        errorBanner.style.display = 'block';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Création du compte en cours...';
+
+      const fullName = `${prenom} ${nom}`.trim();
+      const newUser = {
+        id: 'usr_' + Date.now(),
+        name: fullName,
+        email: email,
+        phone: phone,
+        password: password,
+        role: role,
+        location: location,
+        wallet: '0 FCFA',
+        status: 'Actif (Nouveau)',
+        createdAt: new Date().toISOString()
+      };
+
+      // Save to localStorage
+      regUsers.push(newUser);
+      localStorage.setItem('agroelevage_registered_users', JSON.stringify(regUsers));
+
+      let adminUsers = JSON.parse(localStorage.getItem('agroelevage_admin_users') || '[]');
+      if (!adminUsers.some(u => u.phone === phone)) {
+        adminUsers.push(newUser);
+        localStorage.setItem('agroelevage_admin_users', JSON.stringify(adminUsers));
+      }
+
+      // Sync to Supabase table
+      if (window.AgroApi && typeof window.AgroApi.syncUserToSupabase === 'function') {
+        try {
+          await window.AgroApi.syncUserToSupabase(newUser);
+        } catch (e) {}
+      }
+
+      // Log in session
+      localStorage.setItem('ago_logged_in', 'true');
+      localStorage.setItem('ago_user_fullname', fullName);
+      localStorage.setItem('ago_user_email', email);
+      localStorage.setItem('ago_user_phone', phone);
+      localStorage.setItem('ago_user_role', role.includes('vendeur') ? 'Producteur Certifié' : 'Acheteur / Restaurant');
+      localStorage.setItem('ago_user_location', location);
+      localStorage.setItem('agroelevage_user', JSON.stringify(newUser));
+
+      successBanner.textContent = `Compte créé avec succès ! Bienvenue ${fullName}. Redirection...`;
+      successBanner.style.display = 'block';
+
+      setTimeout(() => {
+        window.location.href = 'marketplace.html';
+      }, 1500);
+    }
+  </script>
+</body>
+</html>

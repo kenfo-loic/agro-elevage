@@ -11,17 +11,13 @@ INSERT INTO product_categories (slug, label, icon, description) VALUES
 ('tubercules', 'Tubercules & Racines', 'circle-dot', 'Manioc, ignames, patates douces, macabos, taros')
 ON CONFLICT (slug) DO NOTHING;
 
--- 2. Utilisateurs de test (Mots de passe : 'password123' hashé bcrypt)
--- Hash: $2a$10$wT0o3q6/J9oM1k7gM1bT1eC2q5U8oJ.p8E8aO.g3h4I5k6L7m8N9O
+-- 2. Utilisateur Administrateur Principal (Mot de passe: password123 / admin_kenfo_2026)
 INSERT INTO users (id, phone, name, email, password_hash, role, sub_role, location, region, latitude, longitude, wallet_balance, escrow_balance, is_verified) VALUES
-(1, '+237690123456', 'Paul Nguema', 'paul.nguema@agroelevage.cm', '$2a$10$c7ZzP7mQvF5PZ0TfLw7n8O8oN8.sC3qW5eU8iO.p8E8aO.g3h4I5k', 'vendeur', 'agriculteur', 'Foumbot, Ouest Cameroun', 'Ouest', 5.5097, 10.6306, 145000.00, 35000.00, TRUE),
-(2, '+237691234567', 'Marie Tchakounté', 'marie.tchakounte@agroelevage.cm', '$2a$10$c7ZzP7mQvF5PZ0TfLw7n8O8oN8.sC3qW5eU8iO.p8E8aO.g3h4I5k', 'vendeur', 'eleveur', 'Bafoussam, Ouest Cameroun', 'Ouest', 5.4777, 10.4176, 280000.00, 50000.00, TRUE),
-(3, '+237692345678', 'Ibrahim Bello', 'ibrahim.bello@agroelevage.cm', '$2a$10$c7ZzP7mQvF5PZ0TfLw7n8O8oN8.sC3qW5eU8iO.p8E8aO.g3h4I5k', 'vendeur', 'cooperative', 'Garoua, Nord Cameroun', 'Nord', 9.3013, 13.3977, 520000.00, 0.00, TRUE),
-(4, '+237693456789', 'Emmanuel Manga', 'emmanuel.manga@agroelevage.cm', '$2a$10$c7ZzP7mQvF5PZ0TfLw7n8O8oN8.sC3qW5eU8iO.p8E8aO.g3h4I5k', 'vendeur', 'agriculteur', 'Njombé-Penja, Moungo', 'Littoral', 4.5833, 9.6833, 85000.00, 25000.00, TRUE),
-(5, '+237670987654', 'Chef Alain Mbarga (Restaurant Les Saveurs)', 'alain.mbarga@saveurs.cm', '$2a$10$c7ZzP7mQvF5PZ0TfLw7n8O8oN8.sC3qW5eU8iO.p8E8aO.g3h4I5k', 'acheteur', 'restaurateur', 'Bastos, Yaoundé', 'Centre', 3.8828, 11.5167, 75000.00, 60000.00, TRUE),
-(6, '+237671876543', 'SOREPCO Agro Distribution', 'achats@sorepco-agro.cm', '$2a$10$c7ZzP7mQvF5PZ0TfLw7n8O8oN8.sC3qW5eU8iO.p8E8aO.g3h4I5k', 'acheteur', 'grossiste', 'Akwa, Douala', 'Littoral', 4.0511, 9.7085, 450000.00, 150000.00, TRUE),
-(7, '+237693412317', 'Kenfo Loic (Compte Principal)', 'kenfoloic3@gmail.com', '$2a$10$c7ZzP7mQvF5PZ0TfLw7n8O8oN8.sC3qW5eU8iO.p8E8aO.g3h4I5k', 'vendeur', 'agriculteur', 'Yaoundé, Cameroun', 'Centre', 3.8480, 11.5021, 350000.00, 85000.00, TRUE)
-ON CONFLICT (phone) DO NOTHING;
+(1, '+237693412317', 'Kenfo Loic (Admin)', 'kenfoloic3@gmail.com', '$2a$10$c7ZzP7mQvF5PZ0TfLw7n8O8oN8.sC3qW5eU8iO.p8E8aO.g3h4I5k', 'admin', 'administrateur', 'Yaoundé, Cameroun', 'Centre', 3.8480, 11.5021, 350000.00, 85000.00, TRUE)
+ON CONFLICT (phone) DO UPDATE SET
+  name = EXCLUDED.name,
+  email = EXCLUDED.email,
+  role = EXCLUDED.role;
 
 -- Réajuster la séquence des utilisateurs
 SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));

@@ -129,6 +129,8 @@ const loginModalHTML = `
     <p class="login-modal-subtitle">Connectez-vous à votre espace AgroElevage Link</p>
 
     <form class="login-modal-form" id="loginForm" onsubmit="event.preventDefault();">
+      <div id="loginModalErrorBox" style="display: none; background: #fef2f2; border: 1px solid #f87171; color: #b91c1c; padding: 10px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; margin-bottom: 12px; line-height: 1.4;"></div>
+
       <div class="login-field-group">
         <label class="login-field-label" for="loginEmail">Adresse e-mail</label>
         <div class="login-input-wrap">
@@ -462,64 +464,111 @@ document.addEventListener('DOMContentLoaded', () => {
   window.syncUserProfileUI();
 
   if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const loginVal = document.getElementById('loginEmail')?.value.trim() || '';
+      const loginVal = (document.getElementById('loginEmail')?.value || '').trim();
+      const pwdVal = (document.getElementById('loginPassword')?.value || '').trim();
+      const errorMsgBox = document.getElementById('loginModalErrorBox');
 
+      if (!loginVal || !pwdVal) {
+        if (errorMsgBox) {
+          errorMsgBox.textContent = 'Veuillez saisir votre adresse e-mail et votre mot de passe.';
+          errorMsgBox.style.display = 'block';
+        } else {
+          alert('Veuillez saisir votre adresse e-mail et votre mot de passe.');
+        }
+        return;
+      }
+
+      // 1. Retrieve registered users
       let regUsers = [];
       try {
         regUsers = JSON.parse(localStorage.getItem('agroelevage_registered_users') || '[]');
       } catch (err) {}
 
-      let matched = regUsers.find(u => 
-        u.email?.toLowerCase() === loginVal.toLowerCase() || 
-        u.phone === loginVal || 
-        u.name?.toLowerCase() === loginVal.toLowerCase()
+      // 2. Retrieve admin users
+      let adminUsers = [];
+      try {
+        adminUsers = JSON.parse(localStorage.getItem('agroelevage_admin_users') || '[]');
+      } catch (err) {}
+
+      const cleanInput = loginVal.toLowerCase().replace(/[\s+]/g, '');
+      const allUsers = [...regUsers, ...adminUsers];
+
+      // 3. Check Admin credentials
+      const isAdminMatch = (
+        (loginVal.toLowerCase() === 'kenfoloic3@gmail.com' || cleanInput === '237693412317' || cleanInput === '693412317') &&
+        (pwdVal === 'admin_kenfo_2026' || pwdVal === 'password123')
       );
 
-      let finalName = '';
-      let finalRole = 'Producteur Certifié';
-      let finalPhone = '+237 693 412 317';
-      let finalEmail = loginVal || 'kenfoloic3@gmail.com';
-      let finalLocation = 'Yaoundé, Cameroun';
-
-      if (matched) {
-        finalName = matched.name;
-        finalRole = matched.role || finalRole;
-        finalPhone = matched.phone || finalPhone;
-        finalEmail = matched.email || finalEmail;
-        finalLocation = matched.location || finalLocation;
+      let matched = null;
+      if (isAdminMatch) {
+        matched = {
+          name: 'Kenfo Loic (Admin)',
+          email: 'kenfoloic3@gmail.com',
+          phone: '+237 693 412 317',
+          role: 'admin',
+          location: 'Yaoundé, Cameroun'
+        };
       } else {
-        if (loginVal.includes('@')) {
-          const part = loginVal.split('@')[0];
-          finalName = part.charAt(0).toUpperCase() + part.slice(1).replace(/[._-]/g, ' ');
-        } else if (loginVal) {
-          finalName = loginVal;
-        } else {
-          finalName = 'Kenfo Loic';
-        }
+        matched = allUsers.find(u => {
+          const userEmail = (u.email || '').toLowerCase().trim();
+          const userPhone = (u.phone || '').replace(/[\s+]/g, '');
+          const isUserMatch = (userEmail && userEmail === loginVal.toLowerCase()) || 
+                              (userPhone && (userPhone === cleanInput || cleanInput.includes(userPhone) || userPhone.includes(cleanInput)));
+          const isPwdMatch = (u.password && u.password === pwdVal);
+          return isUserMatch && isPwdMatch;
+        });
       }
 
-      const loggedUser = {
-        name: finalName,
-        email: finalEmail,
-        phone: finalPhone,
-        role: finalRole,
-        location: finalLocation
-      };
+      // 4. Check backend Supabase if available
+      if (!matched && window.AgroApi && window.AgroApi.supabase) {
+        try {
+          const { data, error } = await window.AgroApi.supabase
+            .from('users')
+            .select('*')
+            .or(`email.eq.${loginVal},phone.eq.${loginVal}`)
+            .single();
+          if (!error && data) {
+            if (data.password === pwdVal) {
+              matched = {
+                id: data.id,
+                name: data.name,
+                email: data.email,
+                phone: data.phone,
+                role: data.role || 'Producteur Certifié',
+                location: data.location || 'Yaoundé, Cameroun'
+              };
+            }
+          }
+        } catch (e) {}
+      }
+
+      // 5. If credentials DO NOT match -> STRICT ERROR, BLOCK ACCESS!
+      if (!matched) {
+        if (errorMsgBox) {
+          errorMsgBox.textContent = 'Adresse e-mail ou mot de passe incorrect. Votre session ne peut pas être ouverte.';
+          errorMsgBox.style.display = 'block';
+        }
+        alert('Connexion refusée : Adresse e-mail ou mot de passe incorrect. Veuillez vérifier vos identifiants ou créer un compte.');
+        return;
+      }
+
+      // 6. Successful Login
+      if (errorMsgBox) errorMsgBox.style.display = 'none';
 
       localStorage.setItem('ago_logged_in', 'true');
-      localStorage.setItem('ago_user_fullname', finalName);
-      localStorage.setItem('ago_user_email', finalEmail);
-      localStorage.setItem('ago_user_phone', finalPhone);
-      localStorage.setItem('ago_user_role', finalRole);
-      localStorage.setItem('ago_user_location', finalLocation);
-      localStorage.setItem('agroelevage_user', JSON.stringify(loggedUser));
+      localStorage.setItem('ago_user_fullname', matched.name || 'Utilisateur');
+      localStorage.setItem('ago_user_email', matched.email || loginVal);
+      localStorage.setItem('ago_user_phone', matched.phone || '+237 693 412 317');
+      localStorage.setItem('ago_user_role', matched.role || 'Producteur Certifié');
+      localStorage.setItem('ago_user_location', matched.location || 'Yaoundé, Cameroun');
+      localStorage.setItem('agroelevage_user', JSON.stringify(matched));
 
       window.syncUserProfileUI();
       window.closeLoginModal();
       if (typeof showToast === 'function') {
-        showToast(`Connexion réussie ! Bienvenue ${finalName}.`);
+        showToast(`Connexion réussie ! Bienvenue ${matched.name || ''}.`);
       }
     });
   }

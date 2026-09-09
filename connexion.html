@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connexion — AgroElevage Link</title>
+  <meta name="description" content="Connectez-vous à votre compte AgroElevage Link pour gérer vos ventes, achats et transactions sécurisées." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css?v=3" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #052e16 0%, #14532d 50%, #166534 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      font-family: var(--font-body);
+      color: var(--text-main);
+    }
+    .auth-container {
+      width: 100%;
+      max-width: 440px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      padding: 32px 28px;
+      position: relative;
+    }
+    .auth-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .auth-logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: #f0fdf4;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      border: 1px solid #bbf7d0;
+    }
+    .auth-title {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    .auth-subtitle {
+      font-size: 13.5px;
+      color: #64748b;
+    }
+    .auth-error-banner {
+      display: none;
+      background: #fef2f2;
+      border: 1.5px solid #f87171;
+      color: #b91c1c;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      line-height: 1.45;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .input-icon {
+      position: absolute;
+      left: 12px;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+    }
+    .form-input-auth {
+      width: 100%;
+      height: 44px;
+      padding: 0 40px 0 38px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 13.5px;
+      color: #0f172a;
+      transition: all 0.2s ease;
+      background: #f8fafc;
+    }
+    .form-input-auth:focus {
+      outline: none;
+      border-color: #16a34a;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+    }
+    .btn-toggle-eye {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 4px;
+    }
+    .btn-toggle-eye:hover {
+      color: #334155;
+    }
+    .btn-submit-auth {
+      width: 100%;
+      height: 46px;
+      background: #16a34a;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-family: var(--font-heading);
+      font-size: 14.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s ease;
+      margin-top: 8px;
+    }
+    .btn-submit-auth:hover {
+      background: #15803d;
+    }
+    .auth-footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13.5px;
+      color: #64748b;
+    }
+    .auth-footer a {
+      color: #16a34a;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .auth-footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-container">
+    <div class="auth-header">
+      <div class="auth-logo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+      </div>
+      <h1 class="auth-title">Connexion</h1>
+      <p class="auth-subtitle">Accédez à votre espace sécurisé AgroElevage Link</p>
+    </div>
+
+    <!-- Error Banner -->
+    <div id="authErrorBanner" class="auth-error-banner"></div>
+
+    <form id="standaloneLoginForm" onsubmit="event.preventDefault(); handleLogin();">
+      <div class="form-group">
+        <label class="form-label" for="inputAuthEmail">Adresse e-mail ou Téléphone</label>
+        <div class="input-wrapper">
+          <span class="input-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </span>
+          <input type="text" id="inputAuthEmail" class="form-input-auth" placeholder="exemple@domaine.com ou +237 6..." required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="inputAuthPassword">Mot de passe</label>
+        <div class="input-wrapper">
+          <span class="input-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </span>
+          <input type="password" id="inputAuthPassword" class="form-input-auth" placeholder="Votre mot de passe" required />
+          <button type="button" class="btn-toggle-eye" id="btnToggleAuthPassword" title="Afficher/Masquer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit-auth" id="btnSubmitAuth">
+        <span>Se connecter</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      Pas encore de compte ? <a href="inscription.html">Créer un compte</a>
+      <div style="margin-top: 10px;">
+        <a href="marketplace.html" style="color: #64748b; font-size: 12.5px;">&larr; Retour à la marketplace</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supabase JS & API Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/api-client.js"></script>
+
+  <script>
+    // Eye Toggle Password
+    const btnToggle = document.getElementById('btnToggleAuthPassword');
+    const pwdInput = document.getElementById('inputAuthPassword');
+    if (btnToggle && pwdInput) {
+      btnToggle.addEventListener('click', () => {
+        const isPwd = pwdInput.type === 'password';
+        pwdInput.type = isPwd ? 'text' : 'password';
+        btnToggle.innerHTML = isPwd
+          ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
+          : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>`;
+      });
+    }
+
+    async function handleLogin() {
+      const emailOrPhone = (document.getElementById('inputAuthEmail')?.value || '').trim();
+      const password = (document.getElementById('inputAuthPassword')?.value || '').trim();
+      const errorBanner = document.getElementById('authErrorBanner');
+      const submitBtn = document.getElementById('btnSubmitAuth');
+
+      if (!emailOrPhone || !password) {
+        errorBanner.textContent = 'Veuillez saisir votre identifiant et votre mot de passe.';
+        errorBanner.style.display = 'block';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Vérification en cours...';
+
+      let regUsers = [];
+      try {
+        regUsers = JSON.parse(localStorage.getItem('agroelevage_registered_users') || '[]');
+      } catch (e) {}
+
+      let adminUsers = [];
+      try {
+        adminUsers = JSON.parse(localStorage.getItem('agroelevage_admin_users') || '[]');
+      } catch (e) {}
+
+      const cleanInput = emailOrPhone.toLowerCase().replace(/[\s+]/g, '');
+      const allUsers = [...regUsers, ...adminUsers];
+
+      // 1. Check Admin Master Account
+      const isAdminMatch = (
+        (emailOrPhone.toLowerCase() === 'kenfoloic3@gmail.com' || cleanInput === '237693412317' || cleanInput === '693412317') &&
+        (password === 'admin_kenfo_2026' || password === 'password123')
+      );
+
+      let matchedUser = null;
+      if (isAdminMatch) {
+        matchedUser = {
+          id: 1,
+          name: 'Kenfo Loic (Admin)',
+          email: 'kenfoloic3@gmail.com',
+          phone: '+237 693 412 317',
+          role: 'admin',
+          location: 'Yaoundé, Cameroun'
+        };
+      } else {
+        matchedUser = allUsers.find(u => {
+          const uEmail = (u.email || '').toLowerCase().trim();
+          const uPhone = (u.phone || '').replace(/[\s+]/g, '');
+          const isIdMatch = (uEmail && uEmail === emailOrPhone.toLowerCase()) || 
+                            (uPhone && (uPhone === cleanInput || cleanInput.includes(uPhone) || uPhone.includes(cleanInput)));
+          const isPwdMatch = (u.password && u.password === password);
+          return isIdMatch && isPwdMatch;
+        });
+      }
+
+      // 2. Check Supabase / API backend if online
+      if (!matchedUser && window.AgroApi && window.AgroApi.supabase) {
+        try {
+          const { data, error } = await window.AgroApi.supabase
+            .from('users')
+            .select('*')
+            .or(`email.eq.${emailOrPhone},phone.eq.${emailOrPhone}`)
+            .single();
+          if (!error && data && data.password === password) {
+            matchedUser = {
+              id: data.id,
+              name: data.name,
+              email: data.email,
+              phone: data.phone,
+              role: data.role || 'Producteur Certifié',
+              location: data.location || 'Yaoundé, Cameroun'
+            };
+          }
+        } catch (e) {}
+      }
+
+      // 3. Strict Failure: DO NOT open session or redirect
+      if (!matchedUser) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Se connecter</span> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+        errorBanner.textContent = 'Adresse e-mail ou mot de passe incorrect. Votre session ne peut pas être ouverte.';
+        errorBanner.style.display = 'block';
+        return;
+      }
+
+      // 4. Success: Save Session & Redirect
+      errorBanner.style.display = 'none';
+      localStorage.setItem('ago_logged_in', 'true');
+      localStorage.setItem('ago_user_fullname', matchedUser.name || 'Utilisateur');
+      localStorage.setItem('ago_user_email', matchedUser.email || emailOrPhone);
+      localStorage.setItem('ago_user_phone', matchedUser.phone || '+237 693 412 317');
+      localStorage.setItem('ago_user_role', matchedUser.role || 'Producteur Certifié');
+      localStorage.setItem('ago_user_location', matchedUser.location || 'Yaoundé, Cameroun');
+      localStorage.setItem('agroelevage_user', JSON.stringify(matchedUser));
+
+      if (matchedUser.role === 'admin') {
+        window.location.href = 'admin.html';
+      } else {
+        window.location.href = 'marketplace.html';
+      }
+    }
+  </script>
+</body>
+</html>
