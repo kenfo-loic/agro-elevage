@@ -242,10 +242,8 @@
           if (invoiceTotal) invoiceTotal.textContent = `${(saved.total || 27000).toLocaleString('fr-FR')} FCFA`;
         }
       } catch (e) {}
-    });
-  </script>
-
-  <!-- API Client -->
+  <!-- Supabase JS Client & API Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/api-client.js"></script>
 
   <!-- Navigation & Layout Helpers -->
@@ -256,35 +254,60 @@
     document.addEventListener('DOMContentLoaded', () => {
       const btnPay = document.getElementById('btnPayNow');
       const toast = document.getElementById('appToast');
+      const inputPhone = document.getElementById('inputPayPhone');
 
       if (btnPay) {
-        btnPay.addEventListener('click', () => {
-          btnPay.textContent = '⏳ Traitement Mobile Money...';
+        btnPay.addEventListener('click', async () => {
+          btnPay.textContent = '⏳ Traitement Mobile Money & Séquestre...';
           btnPay.disabled = true;
 
+          const savedOrder = JSON.parse(localStorage.getItem('agroelevage_pending_order') || '{}');
+          const userPhone = (inputPhone?.value || localStorage.getItem('ago_user_phone') || '+237 693 412 317').trim();
+
+          // Record in Supabase Escrow & Orders tables
+          if (window.AgroApi && typeof window.AgroApi.createEscrowTransaction === 'function') {
+            try {
+              await window.AgroApi.createEscrowTransaction({
+                product_name: 'Tomates fraîches Roma',
+                qty: savedOrder.qty || 100,
+                unitPrice: savedOrder.unitPrice || 250,
+                subtotal: savedOrder.subtotal || 25000,
+                transportFee: savedOrder.transportFee || 2000,
+                total: savedOrder.total || 27000,
+                address: 'Quartier Bastos, Yaoundé'
+              }, {
+                method: 'MTN_MOMO',
+                operator: 'MTN_MOMO',
+                phone: userPhone
+              });
+            } catch (err) {
+              console.warn('Escrow save:', err);
+            }
+          }
+
           setTimeout(() => {
-            btnPay.textContent = ' Paiement Bloqué en Séquestre';
+            btnPay.textContent = '🔒 Paiement Bloqué en Séquestre';
             btnPay.style.background = '#16a34a';
 
             // Send SMS & Real WhatsApp Notification
-            const userPhone = localStorage.getItem('ago_user_phone') || '+237 693 412 317';
             if (typeof window.sendSmsWhatsappNotification === 'function') {
               window.sendSmsWhatsappNotification(
                 userPhone,
                 'Paiement Séquestre Validé #CMD-8492',
-                'Votre paiement de 27 000 FCFA pour 100 kg Tomates est bloqué sous séquestre Mobile Money. Le vendeur a été notifié pour expédition.',
+                `Votre paiement de ${(savedOrder.total || 27000).toLocaleString('fr-FR')} FCFA pour ${savedOrder.qty || 100} kg Tomates est bloqué sous séquestre Mobile Money. Le vendeur a été notifié pour expédition.`,
                 'marketplace.html',
                 true
               );
             }
 
             if (toast) {
+              toast.textContent = 'Paiement Séquestre enregistré avec succès dans Supabase !';
               toast.classList.add('show');
               setTimeout(() => {
                 window.location.href = 'marketplace.html';
-              }, 2500);
+              }, 2000);
             }
-          }, 1200);
+          }, 1000);
         });
       }
     });

@@ -223,9 +223,10 @@
         </div>
 
         <!-- Navigation Tabs -->
-        <div style="display: flex; gap: 8px; border-bottom: 2px solid var(--border-color); margin-bottom: 20px;">
+        <div style="display: flex; gap: 8px; border-bottom: 2px solid var(--border-color); margin-bottom: 20px; flex-wrap: wrap;">
           <button class="admin-tab-btn active" id="tabBtnUsers" onclick="switchAdminTab('users')">👥 Gestion des Utilisateurs (Modifier / Supprimer)</button>
           <button class="admin-tab-btn" id="tabBtnProducts" onclick="switchAdminTab('products')">🥕 Gestion des Produits (Modifier / Supprimer)</button>
+          <button class="admin-tab-btn" id="tabBtnSupabase" onclick="switchAdminTab('supabase')">⚡ Base Supabase (Sync Utilisateurs & Séquestre)</button>
         </div>
 
         <!-- TAB 1: GESTION DES UTILISATEURS -->
@@ -291,6 +292,79 @@
                 <!-- Rendered dynamically -->
               </tbody>
             </table>
+          </div>
+        </section>
+
+        <!-- TAB 3: SYNCHRONISATION SUPABASE POSTGRESQL -->
+        <section id="adminSectionSupabase" class="web-card" style="padding: 24px; display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 20px;">⚡</span>
+                <h2 style="font-family: var(--font-heading); font-size: 18px; font-weight: 800; color: var(--text-main); margin: 0;">Synchronisation Directe Supabase Studio</h2>
+              </div>
+              <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Envoyez instantanément tous les utilisateurs inscrits, les transactions de séquestre Mobile Money et les produits vers vos tables PostgreSQL Supabase.</p>
+            </div>
+            <a href="https://supabase.com/dashboard/projects" target="_blank" class="btn-secondary" style="height: 38px; font-size: 12.5px; font-weight: 700; text-decoration: none; border-radius: 8px; display: flex; align-items: center; gap: 6px; background: #052e16; color: #86efac; border: 1px solid #16a34a;">
+              <span>Ouvrir Supabase Studio ↗</span>
+            </a>
+          </div>
+
+          <!-- Supabase Config Status Cards -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px;">
+            <div style="border: 1.5px solid #bbf7d0; background: #f0fdf4; border-radius: 12px; padding: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 13px; font-weight: 800; color: #166534;">Table `utilisateurs` / `users`</span>
+                <span style="background: #16a34a; color: #fff; font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 999px;">Prête</span>
+              </div>
+              <p style="font-size: 12px; color: #15803d; margin-bottom: 12px;">Synchronise tous les comptes utilisateurs, téléphones, rôles et mots de passe dans Supabase.</p>
+              <button type="button" onclick="adminSyncUsersToSupabase()" id="btnSyncUsersSb" class="btn-primary-action" style="width: 100%; height: 38px; font-size: 12.5px;">
+                👥 Synchroniser les Utilisateurs vers Supabase
+              </button>
+            </div>
+
+            <div style="border: 1.5px solid #fed7aa; background: #fff7ed; border-radius: 12px; padding: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 13px; font-weight: 800; color: #9a3412;">Table `transactions de séquestre`</span>
+                <span style="background: #ea580c; color: #fff; font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 999px;">Séquestre MoMo</span>
+              </div>
+              <p style="font-size: 12px; color: #c2410c; margin-bottom: 12px;">Enregistre et synchronise les paiements bloqués sous séquestre Escrow (MTN & Orange Money).</p>
+              <button type="button" onclick="adminSyncEscrowToSupabase()" id="btnSyncEscrowSb" class="btn-primary-action" style="width: 100%; height: 38px; font-size: 12.5px; background: #ea580c;">
+                🔒 Synchroniser Séquestre vers Supabase
+              </button>
+            </div>
+
+            <div style="border: 1.5px solid #bfdbfe; background: #eff6ff; border-radius: 12px; padding: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 13px; font-weight: 800; color: #1e40af;">Table `produits` / `products`</span>
+                <span style="background: #2563eb; color: #fff; font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 999px;">Marketplace</span>
+              </div>
+              <p style="font-size: 12px; color: #1d4ed8; margin-bottom: 12px;">Synchronise l'ensemble des annonces et récoltes disponibles sur la marketplace.</p>
+              <button type="button" onclick="adminSyncProductsToSupabase()" id="btnSyncProdsSb" class="btn-primary-action" style="width: 100%; height: 38px; font-size: 12.5px; background: #2563eb;">
+                🥕 Synchroniser Produits vers Supabase
+              </button>
+            </div>
+          </div>
+
+          <!-- Supabase Credentials Direct Configuration -->
+          <div style="background: var(--bg-subtle); border: 1.5px solid var(--border-color); border-radius: 12px; padding: 18px;">
+            <h3 style="font-size: 14px; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">Configuration de Connexion Directe Supabase</h3>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">Entrez l'URL de votre projet Supabase et votre clé publique anonyme (anon key) pour activer la synchronisation en temps réel.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+              <div class="form-group">
+                <label class="form-label" style="font-size: 12px; font-weight: 700;">URL du projet Supabase (Ex: https://xyz.supabase.co)</label>
+                <input type="url" id="sbConfigUrl" class="form-input" style="height: 38px;" placeholder="https://votre-projet.supabase.co" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="font-size: 12px; font-weight: 700;">Clé Supabase Anon / Public Key</label>
+                <input type="password" id="sbConfigKey" class="form-input" style="height: 38px; font-family: monospace;" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." />
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+              <button type="button" onclick="saveAdminSupabaseConfig()" class="btn-primary-action" style="height: 38px; padding: 0 18px; font-size: 13px;">
+                💾 Enregistrer & Tester la Connexion Supabase
+              </button>
+            </div>
           </div>
         </section>
 
@@ -499,8 +573,10 @@
     function switchAdminTab(tab) {
       document.getElementById('tabBtnUsers').classList.toggle('active', tab === 'users');
       document.getElementById('tabBtnProducts').classList.toggle('active', tab === 'products');
+      document.getElementById('tabBtnSupabase').classList.toggle('active', tab === 'supabase');
       document.getElementById('adminSectionUsers').style.display = tab === 'users' ? 'block' : 'none';
       document.getElementById('adminSectionProducts').style.display = tab === 'products' ? 'block' : 'none';
+      document.getElementById('adminSectionSupabase').style.display = tab === 'supabase' ? 'block' : 'none';
     }
 
     // --- USERS MANAGEMENT ---
@@ -697,6 +773,11 @@
         }
         localStorage.setItem('agroelevage_registered_users', JSON.stringify(regUsers));
       } catch (e) {}
+
+      // Also direct sync to Supabase PostgreSQL table (users / utilisateurs)
+      if (window.AgroApi && typeof window.AgroApi.syncUserToSupabase === 'function') {
+        window.AgroApi.syncUserToSupabase({ name, phone, email, password, role, status, location, wallet });
+      }
 
       closeEditUserModal();
       renderUsersTable();
@@ -895,9 +976,94 @@
       window.dispatchEvent(new Event('agroelevage_products_updated'));
     };
 
+    // --- SUPABASE DIRECT ADMIN ACTIONS ---
+    window.adminSyncUsersToSupabase = async function() {
+      const btn = document.getElementById('btnSyncUsersSb');
+      if (btn) { btn.textContent = '⏳ Synchronisation en cours...'; btn.disabled = true; }
+
+      const users = getUsersList();
+      let successCount = 0;
+      if (window.AgroApi) {
+        for (const u of users) {
+          try {
+            await window.AgroApi.syncUserToSupabase(u);
+            successCount++;
+          } catch (e) {}
+        }
+      }
+
+      if (btn) { btn.textContent = '✅ Utilisateurs Synchronisés !'; btn.disabled = false; }
+      showToast(`⚡ ${successCount} comptes utilisateurs synchronisés avec succès vers Supabase !`);
+      setTimeout(() => { if (btn) btn.textContent = '👥 Synchroniser les Utilisateurs vers Supabase'; }, 3000);
+    };
+
+    window.adminSyncEscrowToSupabase = async function() {
+      const btn = document.getElementById('btnSyncEscrowSb');
+      if (btn) { btn.textContent = '⏳ Enregistrement Séquestre...'; btn.disabled = true; }
+
+      if (window.AgroApi && typeof window.AgroApi.syncAllToSupabase === 'function') {
+        await window.AgroApi.syncAllToSupabase();
+      }
+
+      if (btn) { btn.textContent = '✅ Séquestre Synchronisé !'; btn.disabled = false; }
+      showToast('🔒 Transactions de séquestre Mobile Money synchronisées vers Supabase !');
+      setTimeout(() => { if (btn) btn.textContent = '🔒 Synchroniser Séquestre vers Supabase'; }, 3000);
+    };
+
+    window.adminSyncProductsToSupabase = async function() {
+      const btn = document.getElementById('btnSyncProdsSb');
+      if (btn) { btn.textContent = '⏳ Synchronisation Produits...'; btn.disabled = true; }
+
+      const prods = getProductsList();
+      let count = 0;
+      if (window.AgroApi && window.AgroApi.supabase) {
+        for (const p of prods) {
+          try {
+            await window.AgroApi.supabase.from('products').upsert([{
+              name: p.name,
+              category: p.category || 'maraichage',
+              price: p.price || 0,
+              stock_quantity: p.stock || p.quantity || 0,
+              unit: p.unit || 'kg',
+              location: p.location || 'Cameroun',
+              image_url: p.image || p.imageUrl || null
+            }]);
+            count++;
+          } catch (e) {}
+        }
+      }
+
+      if (btn) { btn.textContent = '✅ Produits Synchronisés !'; btn.disabled = false; }
+      showToast(`🥕 ${count || prods.length} produits synchronisés vers Supabase !`);
+      setTimeout(() => { if (btn) btn.textContent = '🥕 Synchroniser Produits vers Supabase'; }, 3000);
+    };
+
+    window.saveAdminSupabaseConfig = function() {
+      const url = document.getElementById('sbConfigUrl')?.value.trim();
+      const key = document.getElementById('sbConfigKey')?.value.trim();
+      if (!url || !key) {
+        alert('Veuillez entrer l\'URL et la clé anonyme de votre projet Supabase.');
+        return;
+      }
+
+      if (window.AgroApi && typeof window.AgroApi.setSupabaseConfig === 'function') {
+        window.AgroApi.setSupabaseConfig(url, key);
+        showToast('Connexion Supabase enregistrée avec succès !');
+      }
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
       renderUsersTable();
       renderProductsTable();
+
+      // Populate Supabase inputs if stored
+      if (window.AgroApi && typeof window.AgroApi.getSupabaseConfig === 'function') {
+        const cfg = window.AgroApi.getSupabaseConfig();
+        const urlInput = document.getElementById('sbConfigUrl');
+        const keyInput = document.getElementById('sbConfigKey');
+        if (urlInput && cfg.url) urlInput.value = cfg.url;
+        if (keyInput && cfg.key) keyInput.value = cfg.key;
+      }
     });
 
     window.addEventListener('agroelevage_users_updated', renderUsersTable);

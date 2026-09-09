@@ -433,6 +433,11 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('ago_user_location', location);
       localStorage.setItem('ago_logged_in', 'true');
 
+      // Direct Sync to Supabase PostgreSQL table (users / utilisateurs)
+      if (window.AgroApi && typeof window.AgroApi.syncUserToSupabase === 'function') {
+        window.AgroApi.syncUserToSupabase(newUser).catch(err => console.warn('Supabase auto-sync:', err));
+      }
+
       window.dispatchEvent(new Event('agroelevage_users_updated'));
 
       if (typeof window.syncUserProfileUI === 'function') {
