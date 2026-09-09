@@ -245,6 +245,7 @@
                   <th>ID</th>
                   <th>Nom & Profil</th>
                   <th>Téléphone</th>
+                  <th>Mot de passe</th>
                   <th>Rôle</th>
                   <th>Emplacement</th>
                   <th>Solde Portefeuille</th>
@@ -326,6 +327,14 @@
           <div class="form-group">
             <label class="form-label" style="font-size: 12px; font-weight: 700;">E-mail</label>
             <input type="email" id="editUserEmail" class="form-input" style="height: 38px;" />
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label class="form-label" style="font-size: 12px; font-weight: 700;">Mot de passe du compte (Visible par l'Admin)</label>
+          <div style="position: relative; display: flex; align-items: center;">
+            <input type="text" id="editUserPassword" class="form-input" style="height: 38px; font-family: monospace; font-weight: 700; padding-right: 40px;" placeholder="Mot de passe" required />
+            <span style="position: absolute; right: 10px; font-size: 14px; color: var(--text-muted);">🔑</span>
           </div>
         </div>
 
@@ -470,12 +479,12 @@
 
     // Initial base seed users
     const baseDefaultUsers = [
-      { id: 1, name: 'Kenfo Loic (Compte Principal)', phone: '+237 693 412 317', email: 'kenfoloic3@gmail.com', role: 'admin', location: 'Yaoundé, Cameroun', wallet: '350 000 FCFA', status: 'Actif' },
-      { id: 2, name: 'Paul Nguema', phone: '+237 690 12 34 56', email: 'paul.nguema@agroelevage.cm', role: 'vendeur (agriculteur)', location: 'Foumbot, Ouest', wallet: '145 000 FCFA', status: 'Actif' },
-      { id: 3, name: 'Marie Tchakounté', phone: '+237 691 23 45 67', email: 'marie.tchakounte@agroelevage.cm', role: 'vendeur (éleveur)', location: 'Bafoussam, Ouest', wallet: '280 000 FCFA', status: 'Actif' },
-      { id: 4, name: 'Ibrahim Bello', phone: '+237 692 34 56 78', email: 'ibrahim.bello@agroelevage.cm', role: 'vendeur (coopérative)', location: 'Garoua, Nord', wallet: '520 000 FCFA', status: 'Actif' },
-      { id: 5, name: 'Emmanuel Manga', phone: '+237 693 45 67 89', email: 'emmanuel.manga@agroelevage.cm', role: 'vendeur (agriculteur)', location: 'Njombé-Penja', wallet: '85 000 FCFA', status: 'Actif' },
-      { id: 6, name: 'Chef Alain Mbarga (Restaurant)', phone: '+237 670 98 76 54', email: 'alain.mbarga@saveurs.cm', role: 'acheteur (restaurateur)', location: 'Bastos, Yaoundé', wallet: '75 000 FCFA', status: 'Actif' }
+      { id: 1, name: 'Kenfo Loic (Compte Principal)', phone: '+237 693 412 317', email: 'kenfoloic3@gmail.com', password: 'admin_kenfo_2026', role: 'admin', location: 'Yaoundé, Cameroun', wallet: '350 000 FCFA', status: 'Actif' },
+      { id: 2, name: 'Paul Nguema', phone: '+237 690 12 34 56', email: 'paul.nguema@agroelevage.cm', password: 'pass_paul_nguema', role: 'vendeur (agriculteur)', location: 'Foumbot, Ouest', wallet: '145 000 FCFA', status: 'Actif' },
+      { id: 3, name: 'Marie Tchakounté', phone: '+237 691 23 45 67', email: 'marie.tchakounte@agroelevage.cm', password: 'pass_marie_tchak', role: 'vendeur (éleveur)', location: 'Bafoussam, Ouest', wallet: '280 000 FCFA', status: 'Actif' },
+      { id: 4, name: 'Ibrahim Bello', phone: '+237 692 34 56 78', email: 'ibrahim.bello@agroelevage.cm', password: 'pass_ibrahim_garoua', role: 'vendeur (coopérative)', location: 'Garoua, Nord', wallet: '520 000 FCFA', status: 'Actif' },
+      { id: 5, name: 'Emmanuel Manga', phone: '+237 693 45 67 89', email: 'emmanuel.manga@agroelevage.cm', password: 'pass_emmanuel_penja', role: 'vendeur (agriculteur)', location: 'Njombé-Penja', wallet: '85 000 FCFA', status: 'Actif' },
+      { id: 6, name: 'Chef Alain Mbarga (Restaurant)', phone: '+237 670 98 76 54', email: 'alain.mbarga@saveurs.cm', password: 'pass_alain_resto', role: 'acheteur (restaurateur)', location: 'Bastos, Yaoundé', wallet: '75 000 FCFA', status: 'Actif' }
     ];
 
     function showToast(msg) {
@@ -524,7 +533,8 @@
         const storedAdmin = JSON.parse(localStorage.getItem('agroelevage_admin_users') || '[]');
         storedAdmin.forEach(u => {
           if (!deleted.includes(String(u.id)) && !deleted.includes(String(u.phone).trim())) {
-            usersMap.set(String(u.phone).trim(), { ...u });
+            const existing = usersMap.get(String(u.phone).trim()) || {};
+            usersMap.set(String(u.phone).trim(), { ...existing, ...u });
           }
         });
       } catch (e) {}
@@ -541,6 +551,7 @@
               name: u.name || existing.name || 'Nouvel Utilisateur',
               phone: cleanPhone,
               email: u.email || existing.email || '',
+              password: u.password || existing.password || 'password123',
               role: u.role || existing.role || 'vendeur (agriculteur)',
               location: u.location || existing.location || 'Cameroun',
               wallet: u.wallet || existing.wallet || (u.wallet_balance ? u.wallet_balance + ' FCFA' : '0 FCFA'),
@@ -558,6 +569,25 @@
       localStorage.setItem('agroelevage_registered_users', JSON.stringify(list));
     }
 
+    window.togglePasswordVisibility = function(userId, realPassword) {
+      const el = document.getElementById(`pwd-display-${userId}`);
+      const btn = document.getElementById(`btn-eye-${userId}`);
+      if (!el) return;
+      if (el.textContent === '••••••••') {
+        el.textContent = realPassword || 'password123';
+        el.style.background = '#fef3c7';
+        el.style.color = '#92400e';
+        el.style.borderColor = '#fde68a';
+        if (btn) btn.title = 'Masquer le mot de passe';
+      } else {
+        el.textContent = '••••••••';
+        el.style.background = '#f1f5f9';
+        el.style.color = '#0f172a';
+        el.style.borderColor = '#e2e8f0';
+        if (btn) btn.title = 'Afficher le mot de passe';
+      }
+    };
+
     function renderUsersTable() {
       const tbody = document.getElementById('adminUsersTbody');
       const filter = (document.getElementById('filterUsersInput').value || '').toLowerCase();
@@ -570,6 +600,8 @@
         if (filter && !u.name.toLowerCase().includes(filter) && !u.phone.includes(filter)) return;
 
         const isSuperAdmin = String(u.id) === '1' || (u.email && u.email.includes('kenfoloic3@gmail.com'));
+        const safePassword = (u.password || 'password123').replace(/'/g, "\\'");
+
         html += `
           <tr>
             <td><span style="font-weight: 700; color: var(--text-muted);">#${u.id}</span></td>
@@ -578,6 +610,12 @@
               <div style="font-size: 11.5px; color: var(--text-muted);">${u.email || ''}</div>
             </td>
             <td style="font-weight: 600;">${u.phone}</td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span id="pwd-display-${u.id}" style="font-family: monospace; font-weight: 700; background: #f1f5f9; padding: 2px 7px; border-radius: 6px; font-size: 11.5px; color: #0f172a; border: 1px solid #e2e8f0;">••••••••</span>
+                <button type="button" onclick="togglePasswordVisibility('${u.id}', '${safePassword}')" class="btn-pwd-eye" id="btn-eye-${u.id}" title="Afficher/Masquer le mot de passe" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; padding: 2px 6px; font-size: 12px; display: inline-flex; align-items: center; justify-content: center;">👁️</button>
+              </div>
+            </td>
             <td><span style="padding: 2px 8px; border-radius: 6px; font-size: 11px; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; font-weight: 700;">${u.role}</span></td>
             <td style="color: var(--text-muted);">${u.location || 'Cameroun'}</td>
             <td style="font-weight: 700; color: var(--primary);">${u.wallet || '0 FCFA'}</td>
@@ -602,7 +640,7 @@
         `;
       });
 
-      tbody.innerHTML = html || '<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 20px;">Aucun utilisateur trouvé</td></tr>';
+      tbody.innerHTML = html || '<tr><td colspan="9" style="text-align: center; color: var(--text-muted); padding: 20px;">Aucun utilisateur trouvé</td></tr>';
     }
 
     window.openEditUserModal = function(userId) {
@@ -614,6 +652,7 @@
       document.getElementById('editUserName').value = user.name;
       document.getElementById('editUserPhone').value = user.phone;
       document.getElementById('editUserEmail').value = user.email || '';
+      document.getElementById('editUserPassword').value = user.password || 'password123';
       document.getElementById('editUserRole').value = user.role;
       document.getElementById('editUserStatus').value = user.status || 'Actif';
       document.getElementById('editUserLocation').value = user.location || 'Yaoundé, Cameroun';
@@ -631,6 +670,7 @@
       const name = document.getElementById('editUserName').value.trim();
       const phone = document.getElementById('editUserPhone').value.trim();
       const email = document.getElementById('editUserEmail').value.trim();
+      const password = document.getElementById('editUserPassword').value.trim() || 'password123';
       const role = document.getElementById('editUserRole').value;
       const status = document.getElementById('editUserStatus').value;
       const location = document.getElementById('editUserLocation').value.trim();
@@ -639,15 +679,28 @@
       let users = getUsersList();
       const idx = users.findIndex(u => String(u.id) === String(id));
       if (idx !== -1) {
-        users[idx] = { ...users[idx], name, phone, email, role, status, location, wallet };
+        users[idx] = { ...users[idx], name, phone, email, password, role, status, location, wallet };
       } else {
-        users.push({ id, name, phone, email, role, status, location, wallet });
+        users.push({ id, name, phone, email, password, role, status, location, wallet });
       }
 
       saveUsersList(users);
+
+      // Also sync to registered users store
+      try {
+        let regUsers = JSON.parse(localStorage.getItem('agroelevage_registered_users') || '[]');
+        const regIdx = regUsers.findIndex(u => String(u.id) === String(id) || u.phone === phone);
+        if (regIdx !== -1) {
+          regUsers[regIdx] = { ...regUsers[regIdx], name, phone, email, password, role, location };
+        } else {
+          regUsers.push({ id, name, phone, email, password, role, location });
+        }
+        localStorage.setItem('agroelevage_registered_users', JSON.stringify(regUsers));
+      } catch (e) {}
+
       closeEditUserModal();
       renderUsersTable();
-      showToast(`Utilisateur "${name}" mis à jour avec succès !`);
+      showToast(`Utilisateur "${name}" et mot de passe mis à jour avec succès !`);
       window.dispatchEvent(new Event('agroelevage_users_updated'));
     };
 
