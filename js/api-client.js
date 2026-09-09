@@ -501,6 +501,43 @@
         results.errors.push('Erreur escrow: ' + err.message);
       }
 
+      // 3. Sync All Products
+      try {
+        const defaultBaseProducts = [
+          { id: 1, name: 'Tomates fraîches Roma (Cagettes 20kg)', category: 'maraichage', price: 12500, unit: 'cagette', stock_quantity: 120, location: 'Foumbot, Ouest Cameroun', image_url: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=500' },
+          { id: 2, name: 'Poulets Goliath fermiers vivants', category: 'elevage', price: 3500, unit: 'u', stock_quantity: 50, location: 'Bafoussam, Ouest Cameroun', image_url: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=500' },
+          { id: 3, name: 'Maïs Blanc Séché (Sacs 50kg)', category: 'cereales', price: 12000, unit: 'sac', stock_quantity: 300, location: 'Garoua, Nord Cameroun', image_url: 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=500' },
+          { id: 4, name: 'Poivre Blanc de Penja IGP (Sacs 5kg)', category: 'maraichage', price: 35000, unit: 'sac', stock_quantity: 45, location: 'Njombé-Penja, Moungo', image_url: 'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=500' },
+          { id: 5, name: 'Poivrons Verts & Jaunes Bio', category: 'maraichage', price: 850, unit: 'kg', stock_quantity: 150, location: 'Yaoundé, Cameroun', image_url: 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=500' },
+          { id: 6, name: 'Pommes de Terre de Dschang (Sacs 25kg)', category: 'tubercules', price: 8000, unit: 'sac', stock_quantity: 200, location: 'Dschang, Ouest Cameroun', image_url: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=500' },
+          { id: 7, name: 'Régimes de Banane Plantain Gros Michel', category: 'fruits', price: 4500, unit: 'u', stock_quantity: 90, location: 'Njombé, Moungo', image_url: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500' },
+          { id: 8, name: 'Ananas Pain de Sucre doux (Cartons 10kg)', category: 'fruits', price: 6000, unit: 'carton', stock_quantity: 110, location: 'Awae, Centre Cameroun', image_url: 'https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=500' },
+          { id: 9, name: 'Bâtons de Manioc & Gari Blanc (Sacs 50kg)', category: 'tubercules', price: 14000, unit: 'sac', stock_quantity: 180, location: 'Sa\'a, Centre Cameroun', image_url: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=500' }
+        ];
+
+        const storedProds = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
+        const prodsToSync = storedProds.length > 0 ? storedProds : defaultBaseProducts;
+
+        for (const p of prodsToSync) {
+          try {
+            const numId = typeof p.id === 'number' ? p.id : parseInt(String(p.id).replace(/[^\d]/g, ''), 10) || undefined;
+            await this.supabase.from('products').upsert([{
+              ...(numId ? { id: numId } : {}),
+              name: p.name,
+              category: p.category || 'maraichage',
+              price: p.price || 0,
+              stock_quantity: p.stock || p.quantity || p.stock_quantity || 0,
+              unit: p.unit || 'kg',
+              location: p.location || 'Cameroun',
+              image_url: p.image || p.imageUrl || p.image_url || null
+            }]);
+            results.products++;
+          } catch (e) {}
+        }
+      } catch (err) {
+        results.errors.push('Erreur products: ' + err.message);
+      }
+
       return { success: true, results };
     }
   }

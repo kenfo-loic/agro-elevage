@@ -85,113 +85,9 @@
           </div>
         </div>
 
-        <!-- Responsive Products Grid -->
+        <!-- Responsive Products Grid (Dynamically Populated from Database) -->
         <div class="products-grid" id="marketProductsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px;">
-          
-          <!-- Product 1 -->
-          <div class="web-card product-item-card" data-cat="maraichage" style="padding: 14px; display: flex; flex-direction: column; cursor: pointer;" onclick="window.location.href='detail_produit.html'">
-            <div style="position: relative; height: 160px; border-radius: 12px; overflow: hidden; margin-bottom: 12px;">
-              <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400" style="width: 100%; height: 100%; object-fit: cover;" alt="Tomates" />
-            </div>
-            <div style="flex: 1; display: flex; flex-direction: column;">
-              <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 2px;" class="prod-title">Tomates fraîches Roma</div>
-              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Ferme de la Vallée • Yaoundé</div>
-              <div style="display: flex; gap: 8px; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border-subtle); align-items: center; justify-content: space-between;">
-                <div>
-                  <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--primary);">250 FCFA <span style="font-size: 11px; font-weight: 500; color: var(--text-muted);">/ kg</span></div>
-                  <div style="font-size: 11px; color: var(--text-muted);">Stock : 200 kg</div>
-                </div>
-                <div style="display: flex; gap: 6px; align-items: center;">
-                  <a href="https://wa.me/237690123456?text=Bonjour,%20je%20suis%20int%C3%A9ress%C3%A9%20par%20vos%20Tomates%20fra%C3%AEches%20Roma%20sur%20AgroElevage%20Link." target="_blank" class="btn-secondary" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; font-weight: 700; background: #25d366; color: #ffffff; text-decoration: none; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;" onclick="event.stopPropagation()" title="Discuter directement sur WhatsApp">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                    WhatsApp
-                  </a>
-                  <a href="passer_commande.html" class="btn-primary-action" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; text-decoration: none;" onclick="event.stopPropagation()">
-                    Commander
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Product 2 -->
-          <div class="web-card product-item-card" data-cat="elevage" style="padding: 14px; display: flex; flex-direction: column; cursor: pointer;" onclick="window.location.href='detail_produit.html'">
-            <div style="position: relative; height: 160px; border-radius: 12px; overflow: hidden; margin-bottom: 12px;">
-              <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=400" style="width: 100%; height: 100%; object-fit: cover;" alt="Poulets" />
-            </div>
-            <div style="flex: 1; display: flex; flex-direction: column;">
-              <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 2px;" class="prod-title">Poulets Goliath fermiers</div>
-              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Élevage Avicole Mbouda • Ouest</div>
-              <div style="display: flex; gap: 8px; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border-subtle); align-items: center; justify-content: space-between;">
-                <div>
-                  <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--primary);">3 500 FCFA <span style="font-size: 11px; font-weight: 500; color: var(--text-muted);">/ u</span></div>
-                  <div style="font-size: 11px; color: var(--text-muted);">Stock : 50 u</div>
-                </div>
-                <div style="display: flex; gap: 6px; align-items: center;">
-                  <a href="https://wa.me/237699887766?text=Bonjour,%20je%20suis%20int%C3%A9ress%C3%A9%20par%20vos%20Poulets%20Goliath%20sur%20AgroElevage%20Link." target="_blank" class="btn-secondary" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; font-weight: 700; background: #25d366; color: #ffffff; text-decoration: none; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;" onclick="event.stopPropagation()" title="Discuter directement sur WhatsApp">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                    WhatsApp
-                  </a>
-                  <a href="passer_commande.html" class="btn-primary-action" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; text-decoration: none;" onclick="event.stopPropagation()">
-                    Commander
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Product 3 -->
-          <div class="web-card product-item-card" data-cat="cereales" style="padding: 14px; display: flex; flex-direction: column; cursor: pointer;" onclick="window.location.href='detail_produit.html'">
-            <div style="position: relative; height: 160px; border-radius: 12px; overflow: hidden; margin-bottom: 12px;">
-              <img src="https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=400" style="width: 100%; height: 100%; object-fit: cover;" alt="Maïs" />
-            </div>
-            <div style="flex: 1; display: flex; flex-direction: column;">
-              <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 2px;" class="prod-title">Maïs Blanc Séché (Sacs 50kg)</div>
-              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">GIC Céréales Bafoussam</div>
-              <div style="display: flex; gap: 8px; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border-subtle); align-items: center; justify-content: space-between;">
-                <div>
-                  <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--primary);">12 000 FCFA <span style="font-size: 11px; font-weight: 500; color: var(--text-muted);">/ sac</span></div>
-                  <div style="font-size: 11px; color: var(--text-muted);">Stock : 300 sacs</div>
-                </div>
-                <div style="display: flex; gap: 6px; align-items: center;">
-                  <a href="https://wa.me/237677112233?text=Bonjour,%20je%20suis%20int%C3%A9ress%C3%A9%20par%20votre%20Ma%C3%AFs%20Blanc%20sur%20AgroElevage%20Link." target="_blank" class="btn-secondary" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; font-weight: 700; background: #25d366; color: #ffffff; text-decoration: none; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;" onclick="event.stopPropagation()" title="Discuter directement sur WhatsApp">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                    WhatsApp
-                  </a>
-                  <a href="passer_commande.html" class="btn-primary-action" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; text-decoration: none;" onclick="event.stopPropagation()">
-                    Commander
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Product 4 -->
-          <div class="web-card product-item-card" data-cat="tubercules" style="padding: 14px; display: flex; flex-direction: column; cursor: pointer;" onclick="window.location.href='detail_produit.html'">
-            <div style="position: relative; height: 160px; border-radius: 12px; overflow: hidden; margin-bottom: 12px;">
-              <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400" style="width: 100%; height: 100%; object-fit: cover;" alt="Pommes de terre" />
-            </div>
-            <div style="flex: 1; display: flex; flex-direction: column;">
-              <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 2px;" class="prod-title">Pommes de Terre de Dschang</div>
-              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Coopérative des Hauts Plateaux</div>
-              <div style="display: flex; gap: 8px; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border-subtle); align-items: center; justify-content: space-between;">
-                <div>
-                  <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--primary);">320 FCFA <span style="font-size: 11px; font-weight: 500; color: var(--text-muted);">/ kg</span></div>
-                  <div style="font-size: 11px; color: var(--text-muted);">Stock : 500 kg</div>
-                </div>
-                <div style="display: flex; gap: 6px; align-items: center;">
-                  <a href="https://wa.me/237690554433?text=Bonjour,%20je%20suis%20int%C3%A9ress%C3%A9%20par%20vos%20Pommes%20de%20Terre%20sur%20AgroElevage%20Link." target="_blank" class="btn-secondary" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; font-weight: 700; background: #25d366; color: #ffffff; text-decoration: none; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;" onclick="event.stopPropagation()" title="Discuter directement sur WhatsApp">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                    WhatsApp
-                  </a>
-                  <a href="passer_commande.html" class="btn-primary-action" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; text-decoration: none;" onclick="event.stopPropagation()">
-                    Commander
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
+          <!-- Dynamically populated by JS from Database / Supabase -->
         </div>
 
       </main>
@@ -216,24 +112,64 @@
       const countEl = document.getElementById('marketProductCount');
       const searchInput = document.getElementById('inputMarketSearch');
 
-      // Load user published products from localStorage
-      function loadUserProducts() {
-        if (!grid) return;
-        // Remove previously rendered dynamic user products
-        document.querySelectorAll('.dynamic-user-product').forEach(el => el.remove());
+      // 9 Base Catalog Products corresponding to PostgreSQL database seed
+      const baseDefaultProducts = [
+        { id: 'prod_1', name: 'Tomates fraîches Roma (Cagettes 20kg)', category: 'maraichage', price: 12500, unit: 'cagette', stock: 120, location: 'Foumbot, Ouest', ownerName: 'Paul Nguema', ownerPhone: '+237 690 12 34 56', image: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400' },
+        { id: 'prod_2', name: 'Poulets Goliath fermiers vivants', category: 'elevage', price: 3500, unit: 'u', stock: 50, location: 'Bafoussam, Ouest', ownerName: 'Marie Tchakounté', ownerPhone: '+237 691 23 45 67', image: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=400' },
+        { id: 'prod_3', name: 'Maïs Blanc Séché (Sacs 50kg)', category: 'cereales', price: 12000, unit: 'sac', stock: 300, location: 'Garoua, Nord', ownerName: 'Ibrahim Bello', ownerPhone: '+237 692 34 56 78', image: 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=400' },
+        { id: 'prod_4', name: 'Poivre Blanc de Penja IGP (Sacs 5kg)', category: 'maraichage', price: 35000, unit: 'sac', stock: 45, location: 'Njombé-Penja, Moungo', ownerName: 'Emmanuel Manga', ownerPhone: '+237 693 45 67 89', image: 'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=400' },
+        { id: 'prod_5', name: 'Poivrons Verts & Jaunes Bio', category: 'maraichage', price: 850, unit: 'kg', stock: 150, location: 'Yaoundé, Cameroun', ownerName: 'Kenfo Loic (Admin)', ownerPhone: '+237 693 412 317', image: 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=400' },
+        { id: 'prod_6', name: 'Pommes de Terre de Dschang (Sacs 25kg)', category: 'tubercules', price: 8000, unit: 'sac', stock: 200, location: 'Dschang, Ouest', ownerName: 'Paul Nguema', ownerPhone: '+237 690 12 34 56', image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400' },
+        { id: 'prod_7', name: 'Régimes de Banane Plantain Gros Michel', category: 'fruits', price: 4500, unit: 'u', stock: 90, location: 'Njombé, Moungo', ownerName: 'Emmanuel Manga', ownerPhone: '+237 693 45 67 89', image: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400' },
+        { id: 'prod_8', name: 'Ananas Pain de Sucre doux (Cartons 10kg)', category: 'fruits', price: 6000, unit: 'carton', stock: 110, location: 'Awae, Centre', ownerName: 'Marie Tchakounté', ownerPhone: '+237 691 23 45 67', image: 'https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=400' },
+        { id: 'prod_9', name: 'Bâtons de Manioc & Gari Blanc (Sacs 50kg)', category: 'tubercules', price: 14000, unit: 'sac', stock: 180, location: 'Sa\'a, Centre', ownerName: 'Ibrahim Bello', ownerPhone: '+237 692 34 56 78', image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400' }
+      ];
 
-        const userProducts = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
-        if (userProducts.length === 0) {
-          updateProductCount();
-          return;
+      function getProductsList() {
+        const deleted = JSON.parse(localStorage.getItem('agroelevage_deleted_prod_ids') || '[]');
+        let stored = localStorage.getItem('agroelevage_products');
+        let list = [];
+        if (stored) {
+          try {
+            list = JSON.parse(stored);
+          } catch (e) {}
         }
+        if (!list || list.length === 0) {
+          list = [...baseDefaultProducts];
+          localStorage.setItem('agroelevage_products', JSON.stringify(list));
+        } else {
+          // Merge missing base catalog items
+          let modified = false;
+          baseDefaultProducts.forEach(bp => {
+            if (!list.some(p => String(p.id) === String(bp.id)) && !deleted.includes(String(bp.id))) {
+              list.push(bp);
+              modified = true;
+            }
+          });
+          if (modified) {
+            localStorage.setItem('agroelevage_products', JSON.stringify(list));
+          }
+        }
+        return list.filter(p => !deleted.includes(String(p.id)) && p.isAvailable !== false);
+      }
 
-        const currentUserRole = localStorage.getItem('ago_user_role') || '';
+      function updateProductCount() {
+        if (!countEl) return;
+        const visibleCards = document.querySelectorAll('#marketProductsGrid .product-item-card:not([style*="display: none"])');
+        countEl.textContent = `Affichage de ${visibleCards.length} produit${visibleCards.length > 1 ? 's' : ''} certifié${visibleCards.length > 1 ? 's' : ''}`;
+      }
+
+      function renderMarketplace() {
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        const products = getProductsList();
+        const currentUserRole = (localStorage.getItem('ago_user_role') || '').toLowerCase();
         const currentUserName = (localStorage.getItem('ago_user_fullname') || '').toLowerCase();
         const currentUserEmail = (localStorage.getItem('ago_user_email') || '').toLowerCase();
         const isAdmin = currentUserRole === 'admin' || currentUserName.includes('admin') || currentUserName.includes('kenfo') || currentUserEmail.includes('kenfoloic');
 
-        // Admin banner
+        // Admin Notification Banner
         let adminBanner = document.getElementById('marketplaceAdminBanner');
         if (isAdmin && !adminBanner) {
           adminBanner = document.createElement('div');
@@ -242,7 +178,7 @@
           adminBanner.innerHTML = `
             <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: #b91c1c;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              <span>Privilèges Administrateur Actifs : Vous pouvez modifier ou supprimer n'importe quel produit.</span>
+              <span>Privilèges Administrateur : Vous pouvez modifier ou supprimer directement n'importe quel produit.</span>
             </div>
             <a href="admin.html" class="btn-secondary" style="height: 32px; padding: 0 12px; font-size: 12px; font-weight: 700; background: #b91c1c; color: #ffffff; text-decoration: none; border-radius: 6px;">Ouvrir Espace Admin</a>
           `;
@@ -250,16 +186,21 @@
           if (mainBody) mainBody.prepend(adminBanner);
         }
 
-        userProducts.forEach(p => {
-          if (p.isAvailable === false) return; // Don't show hidden items
-          const cleanWa = (p.whatsapp || '+237690123456').replace(/[^\d+]/g, '');
-          const cardHtml = document.createElement('div');
-          cardHtml.className = 'web-card product-item-card dynamic-user-product';
-          cardHtml.setAttribute('data-cat', p.category || 'maraichage');
-          cardHtml.setAttribute('data-prod-id', String(p.id));
-          cardHtml.style.cssText = 'padding: 14px; display: flex; flex-direction: column; cursor: pointer; border: 2px solid var(--primary-soft); position: relative;';
-          cardHtml.onclick = () => window.location.href = 'detail_produit.html';
-          
+        if (products.length === 0) {
+          grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 14px;">Aucun produit disponible pour le moment.</div>';
+          updateProductCount();
+          return;
+        }
+
+        products.forEach(p => {
+          const cleanWa = (p.whatsapp || p.ownerPhone || '+237690123456').replace(/[^\d+]/g, '');
+          const card = document.createElement('div');
+          card.className = 'web-card product-item-card';
+          card.setAttribute('data-cat', p.category || 'maraichage');
+          card.setAttribute('data-prod-id', String(p.id));
+          card.style.cssText = 'padding: 14px; display: flex; flex-direction: column; cursor: pointer; position: relative;';
+          card.onclick = () => window.location.href = `detail_produit.html?id=${p.id}`;
+
           let adminBadgeHtml = '';
           let adminActionsHtml = '';
           if (isAdmin) {
@@ -278,14 +219,14 @@
             `;
           }
 
-          cardHtml.innerHTML = `
+          card.innerHTML = `
             ${adminBadgeHtml}
             <div style="position: relative; height: 160px; border-radius: 12px; overflow: hidden; margin-bottom: 12px;">
               <img src="${p.image || p.imageUrl || 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400'}" style="width: 100%; height: 100%; object-fit: cover;" alt="${p.name}" />
             </div>
             <div style="flex: 1; display: flex; flex-direction: column;">
               <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 2px;" class="prod-title">${p.name}</div>
-              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">${p.location || 'Yaoundé'}</div>
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">${p.ownerName ? p.ownerName + ' • ' : ''}${p.location || 'Cameroun'}</div>
               <div style="display: flex; gap: 8px; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border-subtle); align-items: center; justify-content: space-between;">
                 <div>
                   <div style="font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: var(--primary);">${(p.price || 0).toLocaleString('fr-FR')} FCFA <span style="font-size: 11px; font-weight: 500; color: var(--text-muted);">/ ${p.unit || 'kg'}</span></div>
@@ -296,7 +237,7 @@
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     WhatsApp
                   </a>
-                  <a href="passer_commande.html" class="btn-primary-action" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; text-decoration: none;" onclick="event.stopPropagation()">
+                  <a href="passer_commande.html?product_id=${p.id}" class="btn-primary-action" style="width: auto; height: 32px; padding: 0 10px; font-size: 12px; text-decoration: none;" onclick="event.stopPropagation()">
                     Commander
                   </a>
                 </div>
@@ -304,35 +245,55 @@
               ${adminActionsHtml}
             </div>
           `;
-          grid.prepend(cardHtml);
+          grid.appendChild(card);
         });
 
-        window.deleteMarketplaceProductByAdmin = function(productId, prodName) {
-          if (!confirm(`[ADMIN] Confirmez-vous la suppression du produit "${prodName}" ?`)) return;
-          let list = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
-          list = list.filter(p => String(p.id) !== String(productId));
-          localStorage.setItem('agroelevage_products', JSON.stringify(list));
-          loadUserProducts();
-          const toast = document.getElementById('appToast');
-          if (toast) {
-            toast.textContent = `[Admin] Produit "${prodName}" supprimé avec succès !`;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
-          }
-        };
-
+        // Apply active filters if any
+        applyFilters();
         updateProductCount();
       }
 
-      window.addEventListener('storage', loadUserProducts);
-      window.addEventListener('agroelevage_products_updated', loadUserProducts);
+      window.deleteMarketplaceProductByAdmin = function(productId, prodName) {
+        if (!confirm(`[ADMIN] Confirmez-vous la suppression définitive du produit "${prodName}" ?`)) return;
+        
+        let deleted = JSON.parse(localStorage.getItem('agroelevage_deleted_prod_ids') || '[]');
+        if (!deleted.includes(String(productId))) {
+          deleted.push(String(productId));
+          localStorage.setItem('agroelevage_deleted_prod_ids', JSON.stringify(deleted));
+        }
 
-      function performSearch(query) {
-        const q = (query || '').toLowerCase().trim();
-        const cards = document.querySelectorAll('.product-item-card');
+        let list = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
+        list = list.filter(p => String(p.id) !== String(productId));
+        localStorage.setItem('agroelevage_products', JSON.stringify(list));
+
+        if (window.AgroApi && typeof window.AgroApi.deleteProduct === 'function') {
+          window.AgroApi.deleteProduct(productId);
+        }
+
+        renderMarketplace();
+
+        const toast = document.getElementById('appToast');
+        if (toast) {
+          toast.textContent = `[Admin] Produit "${prodName}" supprimé avec succès !`;
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+        window.dispatchEvent(new Event('agroelevage_products_updated'));
+      };
+
+      function applyFilters() {
+        const activeChip = document.querySelector('.cat-chip.active');
+        const cat = activeChip ? activeChip.getAttribute('data-cat') : 'all';
+        const q = (searchInput ? searchInput.value : '').toLowerCase().trim();
+
+        const cards = document.querySelectorAll('#marketProductsGrid .product-item-card');
         cards.forEach(card => {
-          const cardContent = card.textContent.toLowerCase();
-          if (!q || cardContent.includes(q)) {
+          const cardCat = card.getAttribute('data-cat');
+          const cardText = card.textContent.toLowerCase();
+          const matchCat = (cat === 'all' || cardCat === cat);
+          const matchSearch = (!q || cardText.includes(q));
+
+          if (matchCat && matchSearch) {
             card.style.display = 'flex';
           } else {
             card.style.display = 'none';
@@ -347,36 +308,28 @@
         chip.addEventListener('click', () => {
           chips.forEach(c => c.classList.remove('active'));
           chip.classList.add('active');
-
-          const cat = chip.getAttribute('data-cat');
-          const cards = document.querySelectorAll('.product-item-card');
-          cards.forEach(card => {
-            if (cat === 'all' || card.getAttribute('data-cat') === cat) {
-              card.style.display = 'flex';
-            } else {
-              card.style.display = 'none';
-            }
-          });
-          updateProductCount();
+          applyFilters();
         });
       });
 
       // Search handler
       if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-          performSearch(e.target.value);
-        });
+        searchInput.addEventListener('input', applyFilters);
       }
 
-      loadUserProducts();
+      // Initial rendering
+      renderMarketplace();
 
       // Read URL ?search= param
       const urlParams = new URLSearchParams(window.location.search);
       const initialQuery = urlParams.get('search');
-      if (initialQuery) {
-        if (searchInput) searchInput.value = initialQuery;
-        performSearch(initialQuery);
+      if (initialQuery && searchInput) {
+        searchInput.value = initialQuery;
+        applyFilters();
       }
+
+      window.addEventListener('storage', renderMarketplace);
+      window.addEventListener('agroelevage_products_updated', renderMarketplace);
     });
   </script>
 </body>

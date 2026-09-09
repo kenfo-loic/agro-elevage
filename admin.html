@@ -929,7 +929,11 @@
       { id: 'prod_2', name: 'Poulets Goliath fermiers vivants', category: 'elevage', price: 3500, unit: 'u', stock: 50, location: 'Bafoussam, Ouest', ownerName: 'Marie Tchakounté', ownerPhone: '+237 691 23 45 67', image: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=400' },
       { id: 'prod_3', name: 'Maïs Blanc Séché (Sacs 50kg)', category: 'cereales', price: 12000, unit: 'sac', stock: 300, location: 'Garoua, Nord', ownerName: 'Ibrahim Bello', ownerPhone: '+237 692 34 56 78', image: 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=400' },
       { id: 'prod_4', name: 'Poivre Blanc de Penja IGP (Sacs 5kg)', category: 'maraichage', price: 35000, unit: 'sac', stock: 45, location: 'Njombé-Penja, Moungo', ownerName: 'Emmanuel Manga', ownerPhone: '+237 693 45 67 89', image: 'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=400' },
-      { id: 'prod_5', name: 'Poivrons Verts Bio', category: 'maraichage', price: 850, unit: 'kg', stock: 150, location: 'Yaoundé, Cameroun', ownerName: 'Kenfo Loic (Admin)', ownerPhone: '+237 693 412 317', image: 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=400' }
+      { id: 'prod_5', name: 'Poivrons Verts & Jaunes Bio', category: 'maraichage', price: 850, unit: 'kg', stock: 150, location: 'Yaoundé, Cameroun', ownerName: 'Kenfo Loic (Admin)', ownerPhone: '+237 693 412 317', image: 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=400' },
+      { id: 'prod_6', name: 'Pommes de Terre de Dschang (Sacs 25kg)', category: 'tubercules', price: 8000, unit: 'sac', stock: 200, location: 'Dschang, Ouest', ownerName: 'Paul Nguema', ownerPhone: '+237 690 12 34 56', image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400' },
+      { id: 'prod_7', name: 'Régimes de Banane Plantain Gros Michel', category: 'fruits', price: 4500, unit: 'u', stock: 90, location: 'Njombé, Moungo', ownerName: 'Emmanuel Manga', ownerPhone: '+237 693 45 67 89', image: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400' },
+      { id: 'prod_8', name: 'Ananas Pain de Sucre doux (Cartons 10kg)', category: 'fruits', price: 6000, unit: 'carton', stock: 110, location: 'Awae, Centre', ownerName: 'Marie Tchakounté', ownerPhone: '+237 691 23 45 67', image: 'https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=400' },
+      { id: 'prod_9', name: 'Bâtons de Manioc & Gari Blanc (Sacs 50kg)', category: 'tubercules', price: 14000, unit: 'sac', stock: 180, location: 'Sa\'a, Centre', ownerName: 'Ibrahim Bello', ownerPhone: '+237 692 34 56 78', image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400' }
     ];
 
     function getDeletedProdIds() {
@@ -959,6 +963,13 @@
 
       if (!list || list.length === 0) {
         list = [...baseDefaultProducts];
+      } else {
+        // Ensure all 9 catalog base products are available if not previously deleted
+        baseDefaultProducts.forEach(bp => {
+          if (!list.some(p => String(p.id) === String(bp.id)) && !deleted.includes(String(bp.id))) {
+            list.push(bp);
+          }
+        });
       }
 
       // Filter out deleted items
