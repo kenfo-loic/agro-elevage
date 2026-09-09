@@ -492,6 +492,18 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // 1. Enforce Authentication: Only logged-in users can view this profile
+      const isLoggedIn = localStorage.getItem('ago_logged_in') === 'true';
+      let userObj = null;
+      try {
+        userObj = JSON.parse(localStorage.getItem('agroelevage_user') || 'null');
+      } catch (e) {}
+
+      if (!isLoggedIn || !userObj) {
+        window.location.href = 'connexion.html?redirect=profil.html';
+        return;
+      }
+
       const toast = document.getElementById('appToast');
 
       function showToast(msg) {
@@ -507,7 +519,7 @@
       const inputAvatarFile = document.getElementById('inputAvatarFile');
 
       function loadAvatar() {
-        const savedAvatar = localStorage.getItem('ago_user_avatar');
+        const savedAvatar = localStorage.getItem('ago_user_avatar') || userObj.avatar;
         if (savedAvatar && avatarCircle) {
           avatarCircle.innerHTML = `<img src="${savedAvatar}" alt="Photo de profil" />`;
         }
@@ -522,6 +534,8 @@
             reader.onload = function(evt) {
               const base64Data = evt.target.result;
               localStorage.setItem('ago_user_avatar', base64Data);
+              userObj.avatar = base64Data;
+              localStorage.setItem('agroelevage_user', JSON.stringify(userObj));
               loadAvatar();
               showToast('Photo de profil mise à jour !');
             };
@@ -534,19 +548,26 @@
       // --- USER DATA LOAD & RENDER ---
       const profileHeaderName = document.getElementById('profileHeaderName');
       const profileHeaderEmail = document.getElementById('profileHeaderEmail');
+      const profileBadgeRole = document.getElementById('profileBadgeRole');
       const subtxtPersonalInfo = document.getElementById('subtxtPersonalInfo');
       const subtxtDeliveryInfo = document.getElementById('subtxtDeliveryInfo');
       const subtxtPaymentInfo = document.getElementById('subtxtPaymentInfo');
       const btnQuickEditProfile = document.getElementById('btnQuickEditProfile');
 
       function loadUserData() {
-        const name = localStorage.getItem('ago_user_fullname') || 'Kenfo Loic';
-        const email = localStorage.getItem('ago_user_email') || 'kenfoloic3@gmail.com';
-        const phone = localStorage.getItem('ago_user_phone') || '+237 693 412 317';
-        const location = localStorage.getItem('ago_user_location') || 'Yaoundé, Cameroun';
+        try {
+          userObj = JSON.parse(localStorage.getItem('agroelevage_user') || 'null') || userObj;
+        } catch(e) {}
+
+        const name = userObj?.name || localStorage.getItem('ago_user_fullname') || 'Mon Profil';
+        const email = userObj?.email || localStorage.getItem('ago_user_email') || 'Aucune adresse e-mail';
+        const phone = userObj?.phone || localStorage.getItem('ago_user_phone') || 'Non renseigné';
+        const location = userObj?.location || localStorage.getItem('ago_user_location') || 'Aucune adresse enregistrée';
+        const role = userObj?.role || localStorage.getItem('ago_user_role') || 'Producteur & Vendeur';
 
         if (profileHeaderName) profileHeaderName.textContent = name;
         if (profileHeaderEmail) profileHeaderEmail.textContent = email;
+        if (profileBadgeRole) profileBadgeRole.textContent = role;
         if (subtxtPersonalInfo) subtxtPersonalInfo.textContent = `${name}, ${phone}`;
         if (subtxtDeliveryInfo) subtxtDeliveryInfo.textContent = location;
 
@@ -583,14 +604,16 @@
       const inputShopDelivery = document.getElementById('inputShopDelivery');
 
       function loadShopData() {
-        let shop = null;
-        try {
-          shop = JSON.parse(localStorage.getItem('agroelevage_user_shop') || 'null');
-        } catch(e) {}
+        let shop = userObj?.shop || null;
+        if (!shop) {
+          try {
+            shop = JSON.parse(localStorage.getItem('agroelevage_user_shop') || 'null');
+          } catch(e) {}
+        }
 
-        const userName = localStorage.getItem('ago_user_fullname') || 'Utilisateur';
-        const userPhone = localStorage.getItem('ago_user_phone') || '+237 693 412 317';
-        const userLocation = localStorage.getItem('ago_user_location') || 'Yaoundé, Cameroun';
+        const userName = userObj?.name || localStorage.getItem('ago_user_fullname') || 'Mon Entreprise';
+        const userPhone = userObj?.phone || localStorage.getItem('ago_user_phone') || '';
+        const userLocation = userObj?.location || localStorage.getItem('ago_user_location') || 'Cameroun';
 
         if (shop && shop.name) {
           if (shopCardMainTitle) shopCardMainTitle.textContent = shop.name;
@@ -599,6 +622,14 @@
           if (shopCardMainTitle) shopCardMainTitle.textContent = 'Créer votre boutique';
           if (shopCardMainSub) shopCardMainSub.textContent = 'Vendez vos produits sur AgroElevage';
         }
+
+        if (inputShopName) inputShopName.value = shop?.name || `Boutique de ${userName}`;
+        if (selectShopCategory) selectShopCategory.value = shop?.category || 'Maraîchage & Légumes';
+        if (textareaShopBio) textareaShopBio.value = shop?.bio || 'Producteur vérifié de produits agricoles frais.';
+        if (inputShopPhone) inputShopPhone.value = shop?.phone || userPhone;
+        if (inputShopLocation) inputShopLocation.value = shop?.location || userLocation;
+        if (inputShopDelivery) inputShopDelivery.value = shop?.delivery || 'Livraison locale & Séquestre Escrow';
+      }
 
         if (inputShopName) inputShopName.value = shop?.name || `Boutique de ${userName}`;
         if (selectShopCategory) selectShopCategory.value = shop?.category || 'Maraîchage & Légumes';

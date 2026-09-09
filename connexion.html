@@ -325,8 +325,13 @@
       localStorage.setItem('ago_user_location', matchedUser.location || 'Yaoundé, Cameroun');
       localStorage.setItem('agroelevage_user', JSON.stringify(matchedUser));
 
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirectUrl = urlParams.get('redirect');
+
       if (matchedUser.role === 'admin') {
         window.location.href = 'admin.html';
+      } else if (redirectUrl) {
+        window.location.href = redirectUrl;
       } else {
         window.location.href = 'marketplace.html';
       }

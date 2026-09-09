@@ -341,9 +341,12 @@
       successBanner.textContent = `Compte créé avec succès ! Bienvenue ${fullName}. Redirection...`;
       successBanner.style.display = 'block';
 
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirectUrl = urlParams.get('redirect') || 'profil.html';
+
       setTimeout(() => {
-        window.location.href = 'marketplace.html';
-      }, 1500);
+        window.location.href = redirectUrl;
+      }, 1200);
     }
   </script>
 </body>

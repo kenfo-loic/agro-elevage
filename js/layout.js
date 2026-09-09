@@ -565,11 +565,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
       window.syncUserProfileUI();
       window.closeLoginModal();
-      if (typeof showToast === 'function') {
-        showToast(`Connexion réussie ! Bienvenue ${matched.name || ''}.`);
+
+      if (matched.role === 'admin') {
+        window.location.href = 'admin.html';
+      } else {
+        window.location.href = 'profil.html';
       }
     });
   }
+
+  // Profile Access Gatekeeper (Strict Authentication required)
+  document.addEventListener('click', (e) => {
+    const profileLink = e.target.closest('a[href*="profil.html"], a[href*="Profil_et_Parametres.html"], [data-page="profil.html"], [data-mobile="profil.html"], a[title="Profil"]');
+    if (!profileLink) return;
+
+    const isLoggedIn = localStorage.getItem('ago_logged_in') === 'true';
+    let userObj = null;
+    try {
+      userObj = JSON.parse(localStorage.getItem('agroelevage_user') || 'null');
+    } catch (err) {}
+
+    if (!isLoggedIn || !userObj) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof window.openLoginModal === 'function') {
+        window.openLoginModal();
+      } else {
+        window.location.href = 'connexion.html?redirect=profil.html';
+      }
+    }
+  });
 
   // Centralized Logout click handler: Clears session and redirects directly to home page without sending any message
   function performLogout(e) {
