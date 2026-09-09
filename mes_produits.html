@@ -223,9 +223,6 @@
           if (user.email && pEmail && user.email === pEmail) return true;
           if (user.name && pName && user.name === pName) return true;
 
-          // If product has no owner saved and user is Kenfo Loic (initial default account)
-          if (!p.ownerPhone && !p.ownerEmail && (user.name.includes('kenfo') || user.phone.includes('693412317'))) return true;
-
           return false;
         });
 

@@ -219,9 +219,9 @@
         if (!container) return;
         const allProducts = JSON.parse(localStorage.getItem('agroelevage_products') || '[]');
         const user = typeof window.getAgroCurrentUser === 'function' ? window.getAgroCurrentUser() : {
-          phone: (localStorage.getItem('ago_user_phone') || '+237 693 412 317').replace(/[\s+]/g, ''),
-          email: (localStorage.getItem('ago_user_email') || 'kenfoloic3@gmail.com').toLowerCase(),
-          name: (localStorage.getItem('ago_user_fullname') || 'Kenfo Loic').toLowerCase()
+          phone: (localStorage.getItem('ago_user_phone') || '').replace(/[\s+]/g, ''),
+          email: (localStorage.getItem('ago_user_email') || '').toLowerCase(),
+          name: (localStorage.getItem('ago_user_fullname') || 'Mon Compte').toLowerCase()
         };
 
         const products = allProducts.filter(p => {
@@ -231,7 +231,6 @@
           if (user.phone && pPhone && (user.phone === pPhone || pPhone.includes(user.phone) || user.phone.includes(pPhone))) return true;
           if (user.email && pEmail && user.email === pEmail) return true;
           if (user.name && pName && user.name === pName) return true;
-          if (!p.ownerPhone && !p.ownerEmail && (user.name.includes('kenfo') || user.phone.includes('693412317'))) return true;
           return false;
         });
 
@@ -323,9 +322,9 @@
             }
           } else {
             // Add New Product with Creator/Owner Identity
-            const currentUserPhone = localStorage.getItem('ago_user_phone') || '+237 693 412 317';
-            const currentUserName = localStorage.getItem('ago_user_fullname') || 'Kenfo Loic';
-            const currentUserEmail = localStorage.getItem('ago_user_email') || 'kenfoloic3@gmail.com';
+            const currentUserPhone = localStorage.getItem('ago_user_phone') || '';
+            const currentUserName = localStorage.getItem('ago_user_fullname') || 'Producteur';
+            const currentUserEmail = localStorage.getItem('ago_user_email') || '';
 
             const newProduct = {
               id: 'prod_' + Date.now(),

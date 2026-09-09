@@ -70,14 +70,14 @@
 
               <!-- User Names and Badges -->
               <div class="profile-user-details">
-                <h1 class="profile-user-name" id="profileHeaderName">Kenfo Loic</h1>
-                <p class="profile-user-email" id="profileHeaderEmail">kenfoloic3@gmail.com</p>
+                <h1 class="profile-user-name" id="profileHeaderName">Mon Profil</h1>
+                <p class="profile-user-email" id="profileHeaderEmail">Chargement du compte...</p>
                 <div class="profile-user-badge-row">
                   <span class="profile-badge-verified">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                     Compte Vérifié
                   </span>
-                  <span class="profile-badge-role" id="profileBadgeRole">Producteur & Vendeur</span>
+                  <span class="profile-badge-role" id="profileBadgeRole">Membre</span>
                 </div>
               </div>
             </div>
@@ -521,7 +521,11 @@
       function loadAvatar() {
         const savedAvatar = localStorage.getItem('ago_user_avatar') || userObj.avatar;
         if (savedAvatar && avatarCircle) {
-          avatarCircle.innerHTML = `<img src="${savedAvatar}" alt="Photo de profil" />`;
+          avatarCircle.innerHTML = `<img src="${savedAvatar}" alt="Photo de profil" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" />`;
+        } else if (avatarCircle && userObj.name) {
+          const parts = userObj.name.trim().split(/\s+/);
+          const initials = parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : parts[0].substring(0, 2).toUpperCase();
+          avatarCircle.innerHTML = `<span style="font-family: var(--font-heading, sans-serif); font-size: 24px; font-weight: 800; color: #ffffff;">${initials}</span>`;
         }
       }
 
@@ -537,6 +541,7 @@
               userObj.avatar = base64Data;
               localStorage.setItem('agroelevage_user', JSON.stringify(userObj));
               loadAvatar();
+              if (window.syncUserProfileUI) window.syncUserProfileUI();
               showToast('Photo de profil mise à jour !');
             };
             reader.readAsDataURL(file);
@@ -559,11 +564,13 @@
           userObj = JSON.parse(localStorage.getItem('agroelevage_user') || 'null') || userObj;
         } catch(e) {}
 
-        const name = userObj?.name || localStorage.getItem('ago_user_fullname') || 'Mon Profil';
-        const email = userObj?.email || localStorage.getItem('ago_user_email') || 'Aucune adresse e-mail';
-        const phone = userObj?.phone || localStorage.getItem('ago_user_phone') || 'Non renseigné';
-        const location = userObj?.location || localStorage.getItem('ago_user_location') || 'Aucune adresse enregistrée';
-        const role = userObj?.role || localStorage.getItem('ago_user_role') || 'Producteur & Vendeur';
+        if (!userObj) return;
+
+        const name = userObj.name || localStorage.getItem('ago_user_fullname') || 'Mon Profil';
+        const email = userObj.email || localStorage.getItem('ago_user_email') || 'Aucune adresse e-mail';
+        const phone = userObj.phone || localStorage.getItem('ago_user_phone') || 'Non renseigné';
+        const location = userObj.location || localStorage.getItem('ago_user_location') || 'Aucune adresse enregistrée';
+        const role = userObj.role || localStorage.getItem('ago_user_role') || 'Producteur & Vendeur';
 
         if (profileHeaderName) profileHeaderName.textContent = name;
         if (profileHeaderEmail) profileHeaderEmail.textContent = email;
@@ -581,6 +588,10 @@
 
         const inputDeliveryCity = document.getElementById('inputDeliveryCity');
         if (inputDeliveryCity) inputDeliveryCity.value = location;
+
+        loadAvatar();
+        loadShopData();
+        loadOrdersHistory();
       }
       loadUserData();
 
@@ -605,15 +616,20 @@
 
       function loadShopData() {
         let shop = userObj?.shop || null;
+        if (!shop && userObj) {
+          try {
+            shop = JSON.parse(localStorage.getItem(`agroelevage_shop_${userObj.id || userObj.email}`) || 'null');
+          } catch(e) {}
+        }
         if (!shop) {
           try {
             shop = JSON.parse(localStorage.getItem('agroelevage_user_shop') || 'null');
           } catch(e) {}
         }
 
-        const userName = userObj?.name || localStorage.getItem('ago_user_fullname') || 'Mon Entreprise';
-        const userPhone = userObj?.phone || localStorage.getItem('ago_user_phone') || '';
-        const userLocation = userObj?.location || localStorage.getItem('ago_user_location') || 'Cameroun';
+        const userName = userObj?.name || 'Mon Entreprise';
+        const userPhone = userObj?.phone || '';
+        const userLocation = userObj?.location || 'Cameroun';
 
         if (shop && shop.name) {
           if (shopCardMainTitle) shopCardMainTitle.textContent = shop.name;
@@ -626,14 +642,6 @@
         if (inputShopName) inputShopName.value = shop?.name || `Boutique de ${userName}`;
         if (selectShopCategory) selectShopCategory.value = shop?.category || 'Maraîchage & Légumes';
         if (textareaShopBio) textareaShopBio.value = shop?.bio || 'Producteur vérifié de produits agricoles frais.';
-        if (inputShopPhone) inputShopPhone.value = shop?.phone || userPhone;
-        if (inputShopLocation) inputShopLocation.value = shop?.location || userLocation;
-        if (inputShopDelivery) inputShopDelivery.value = shop?.delivery || 'Livraison locale & Séquestre Escrow';
-      }
-
-        if (inputShopName) inputShopName.value = shop?.name || `Boutique de ${userName}`;
-        if (selectShopCategory) selectShopCategory.value = shop?.category || 'Maraîchage & Légumes';
-        if (textareaShopBio) textareaShopBio.value = shop?.bio || 'Producteur certifié de produits du terroir.';
         if (inputShopPhone) inputShopPhone.value = shop?.phone || userPhone;
         if (inputShopLocation) inputShopLocation.value = shop?.location || userLocation;
         if (inputShopDelivery) inputShopDelivery.value = shop?.delivery || 'Livraison locale & Séquestre Escrow';
@@ -661,13 +669,26 @@
           name: inputShopName?.value.trim() || 'Boutique Agricole',
           category: selectShopCategory?.value || 'Maraîchage & Légumes',
           bio: textareaShopBio?.value.trim() || '',
-          phone: inputShopPhone?.value.trim() || '+237 693 412 317',
-          location: inputShopLocation?.value.trim() || 'Yaoundé, Cameroun',
+          phone: inputShopPhone?.value.trim() || userObj?.phone || '',
+          location: inputShopLocation?.value.trim() || userObj?.location || 'Yaoundé, Cameroun',
           delivery: inputShopDelivery?.value.trim() || 'Livraison locale & Séquestre Escrow',
           updatedAt: new Date().toISOString()
         };
 
+        userObj.shop = shop;
+        localStorage.setItem('agroelevage_user', JSON.stringify(userObj));
+        localStorage.setItem(`agroelevage_shop_${userObj.id || userObj.email || 'default'}`, JSON.stringify(shop));
         localStorage.setItem('agroelevage_user_shop', JSON.stringify(shop));
+
+        try {
+          let regUsers = JSON.parse(localStorage.getItem('agroelevage_registered_users') || '[]');
+          let idx = regUsers.findIndex(u => u.id === userObj.id || (u.email && u.email === userObj.email) || (u.phone && u.phone === userObj.phone));
+          if (idx !== -1) {
+            regUsers[idx].shop = shop;
+            localStorage.setItem('agroelevage_registered_users', JSON.stringify(regUsers));
+          }
+        } catch(e) {}
+
         loadShopData();
         closeShopModal();
 
@@ -676,7 +697,6 @@
         }
         showToast(`Boutique "${shop.name}" enregistrée avec succès !`);
       };
-      loadShopData();
 
       // --- PERSONAL INFO MODAL ---
       const modalPersonal = document.getElementById('modalPersonalBackdrop');
@@ -706,24 +726,38 @@
         const inputEmail = document.getElementById('inputPersonalEmail');
         const inputPhone = document.getElementById('inputPersonalPhone');
 
-        const newName = inputName ? inputName.value.trim() : 'Kenfo Loic';
-        const newEmail = inputEmail ? inputEmail.value.trim() : 'kenfoloic3@gmail.com';
-        const newPhone = inputPhone ? inputPhone.value.trim() : '+237 693 412 317';
+        const newName = inputName ? inputName.value.trim() : (userObj?.name || '');
+        const newEmail = inputEmail ? inputEmail.value.trim() : (userObj?.email || '');
+        const newPhone = inputPhone ? inputPhone.value.trim() : (userObj?.phone || '');
+
+        if (!newName) {
+          alert('Veuillez renseigner votre nom complet.');
+          return;
+        }
 
         localStorage.setItem('ago_user_fullname', newName);
         localStorage.setItem('ago_user_email', newEmail);
         localStorage.setItem('ago_user_phone', newPhone);
 
-        let userObj = {};
-        try {
-          userObj = JSON.parse(localStorage.getItem('agroelevage_user') || '{}');
-        } catch(e) {}
         userObj.name = newName;
         userObj.email = newEmail;
         userObj.phone = newPhone;
         localStorage.setItem('agroelevage_user', JSON.stringify(userObj));
 
+        // Persist to registered users
+        try {
+          let regUsers = JSON.parse(localStorage.getItem('agroelevage_registered_users') || '[]');
+          let idx = regUsers.findIndex(u => u.id === userObj.id || (u.email && u.email === userObj.email) || (u.phone && u.phone === userObj.phone));
+          if (idx !== -1) {
+            regUsers[idx].name = newName;
+            regUsers[idx].email = newEmail;
+            regUsers[idx].phone = newPhone;
+            localStorage.setItem('agroelevage_registered_users', JSON.stringify(regUsers));
+          }
+        } catch(e) {}
+
         loadUserData();
+        if (window.syncUserProfileUI) window.syncUserProfileUI();
         closePersonalModal();
         showToast('Informations personnelles mises à jour !');
       };
@@ -752,7 +786,22 @@
 
       window.saveDeliveryInfo = function() {
         const city = document.getElementById('inputDeliveryCity')?.value.trim() || 'Yaoundé, Cameroun';
-        localStorage.setItem('ago_user_location', city);
+        const addressDetails = document.getElementById('textareaDeliveryAddress')?.value.trim();
+        const fullLocation = addressDetails ? `${city} (${addressDetails})` : city;
+
+        localStorage.setItem('ago_user_location', fullLocation);
+        userObj.location = fullLocation;
+        localStorage.setItem('agroelevage_user', JSON.stringify(userObj));
+
+        try {
+          let regUsers = JSON.parse(localStorage.getItem('agroelevage_registered_users') || '[]');
+          let idx = regUsers.findIndex(u => u.id === userObj.id || (u.email && u.email === userObj.email) || (u.phone && u.phone === userObj.phone));
+          if (idx !== -1) {
+            regUsers[idx].location = fullLocation;
+            localStorage.setItem('agroelevage_registered_users', JSON.stringify(regUsers));
+          }
+        } catch(e) {}
+
         loadUserData();
         closeDeliveryModal();
         showToast('Adresse de livraison enregistrée !');

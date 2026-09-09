@@ -132,15 +132,15 @@
         let u = null;
         try { u = JSON.parse(localStorage.getItem('agroelevage_user') || 'null'); } catch(e){}
         return {
-          phone: (localStorage.getItem('ago_user_phone') || u?.phone || '+237 693 412 317').trim().replace(/[\s+]/g, ''),
-          email: (localStorage.getItem('ago_user_email') || u?.email || 'kenfoloic3@gmail.com').trim().toLowerCase(),
-          name: (localStorage.getItem('ago_user_fullname') || u?.name || 'Kenfo Loic').trim()
+          phone: (localStorage.getItem('ago_user_phone') || u?.phone || '').trim().replace(/[\s+]/g, ''),
+          email: (localStorage.getItem('ago_user_email') || u?.email || '').trim().toLowerCase(),
+          name: (localStorage.getItem('ago_user_fullname') || u?.name || 'Mon Compte').trim()
         };
       }
 
       function isUserNotif(n, user) {
         if (!n.recipientPhone && !n.recipientEmail && !n.recipientName) {
-          return (user.name && user.name.toLowerCase().includes('kenfo')) || (user.phone && user.phone.includes('693412317'));
+          return true;
         }
         const nPhone = (n.recipientPhone || '').trim().replace(/[\s+]/g, '');
         const nEmail = (n.recipientEmail || '').trim().toLowerCase();

@@ -319,21 +319,21 @@
       errorBanner.style.display = 'none';
       localStorage.setItem('ago_logged_in', 'true');
       localStorage.setItem('ago_user_fullname', matchedUser.name || 'Utilisateur');
-      localStorage.setItem('ago_user_email', matchedUser.email || emailOrPhone);
-      localStorage.setItem('ago_user_phone', matchedUser.phone || '+237 693 412 317');
-      localStorage.setItem('ago_user_role', matchedUser.role || 'Producteur Certifié');
+      localStorage.setItem('ago_user_email', matchedUser.email || '');
+      localStorage.setItem('ago_user_phone', matchedUser.phone || emailOrPhone);
+      localStorage.setItem('ago_user_role', matchedUser.role || 'Producteur & Vendeur');
       localStorage.setItem('ago_user_location', matchedUser.location || 'Yaoundé, Cameroun');
       localStorage.setItem('agroelevage_user', JSON.stringify(matchedUser));
 
       const urlParams = new URLSearchParams(window.location.search);
       const redirectUrl = urlParams.get('redirect');
 
-      if (matchedUser.role === 'admin') {
+      if (matchedUser.role === 'admin' || (matchedUser.email && matchedUser.email.toLowerCase() === 'agro2026elevage@gmail.com')) {
         window.location.href = 'admin.html';
       } else if (redirectUrl) {
         window.location.href = redirectUrl;
       } else {
-        window.location.href = 'marketplace.html';
+        window.location.href = 'profil.html';
       }
     }
   </script>

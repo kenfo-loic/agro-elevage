@@ -78,11 +78,11 @@ const webSidebarHTML = `
 
     <div class="web-sidebar-footer">
       <div class="web-user-profile-summary">
-        <div class="web-user-avatar-img" id="sidebarUserAvatarImg" style="width: 36px; height: 36px; border-radius: 50%; background: var(--primary-soft); color: var(--primary-dark); display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--primary-border); flex-shrink: 0;">
+        <div class="web-user-avatar-img" id="sidebarUserAvatarImg" style="width: 36px; height: 36px; border-radius: 50%; background: var(--primary-soft, #dcfce7); color: var(--primary-dark, #15803d); display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--primary-border, #bbf7d0); flex-shrink: 0; font-family: var(--font-heading, sans-serif); font-size: 13px; font-weight: 800;">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </div>
         <div class="web-user-info-text">
-          <span class="web-user-name-txt">Kenfo Loic</span>
+          <span class="web-user-name-txt">Mon Compte</span>
         </div>
       </div>
       <a href="index.html" class="web-logout-btn" title="Déconnexion">${SVG.logout}</a>
@@ -199,10 +199,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const sidebarRoot = document.getElementById('sidebar-root');
   if (sidebarRoot) {
     sidebarRoot.innerHTML = webSidebarHTML;
-    // Re-check avatar after injection
-    if (savedAvatar) {
-      const avatarAfterInject = document.getElementById('sidebarUserAvatarImg');
-      if (avatarAfterInject) avatarAfterInject.src = savedAvatar;
+    if (typeof window.syncUserProfileUI === 'function') {
+      window.syncUserProfileUI();
     }
   }
 
@@ -382,13 +380,20 @@ document.addEventListener('DOMContentLoaded', () => {
       user = JSON.parse(localStorage.getItem('agroelevage_user') || 'null');
     } catch (e) {}
 
-    const name = localStorage.getItem('ago_user_fullname') || user?.name || 'Kenfo Loic';
-    const role = localStorage.getItem('ago_user_role') || user?.role || 'Producteur Certifié';
-    const email = localStorage.getItem('ago_user_email') || user?.email || 'kenfoloic3@gmail.com';
-    const phone = localStorage.getItem('ago_user_phone') || user?.phone || '+237 693 412 317';
-    const location = localStorage.getItem('ago_user_location') || user?.location || 'Yaoundé, Cameroun';
-    const avatar = localStorage.getItem('ago_user_avatar') || user?.avatar || '';
-    const isLoggedIn = localStorage.getItem('ago_logged_in') === 'true';
+    const isLoggedIn = localStorage.getItem('ago_logged_in') === 'true' && !!user;
+    const name = isLoggedIn ? (user?.name || localStorage.getItem('ago_user_fullname') || 'Mon Compte') : 'Non connecté';
+    const role = isLoggedIn ? (user?.role || localStorage.getItem('ago_user_role') || 'Membre') : '';
+    const email = isLoggedIn ? (user?.email || localStorage.getItem('ago_user_email') || '') : '';
+    const phone = isLoggedIn ? (user?.phone || localStorage.getItem('ago_user_phone') || '') : '';
+    const location = isLoggedIn ? (user?.location || localStorage.getItem('ago_user_location') || 'Cameroun') : '';
+    const avatar = isLoggedIn ? (localStorage.getItem('ago_user_avatar') || user?.avatar || '') : '';
+
+    // Calculate Initials (e.g., "John Doe" -> "JD")
+    let initials = 'U';
+    if (isLoggedIn && name && name !== 'Non connecté') {
+      const parts = name.trim().split(/\s+/);
+      initials = parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : parts[0].substring(0, 2).toUpperCase();
+    }
 
     // 1. Update Sidebar Name, Role and Avatar & Footer State
     const footer = document.querySelector('.web-sidebar-footer');
@@ -396,8 +401,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isLoggedIn) {
         footer.innerHTML = `
           <div class="web-user-profile-summary">
-            <div class="web-user-avatar-img" id="sidebarUserAvatarImg" style="width: 36px; height: 36px; border-radius: 50%; background: var(--primary-soft); color: var(--primary-dark); display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--primary-border); flex-shrink: 0;">
-              ${avatar ? `<img src="${avatar}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;" />` : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`}
+            <div class="web-user-avatar-img" id="sidebarUserAvatarImg" style="width: 36px; height: 36px; border-radius: 50%; background: var(--primary-soft, #dcfce7); color: var(--primary-dark, #15803d); display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--primary-border, #bbf7d0); flex-shrink: 0; font-family: var(--font-heading, sans-serif); font-size: 13px; font-weight: 800;">
+              ${avatar ? `<img src="${avatar}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;" />` : `<span>${initials}</span>`}
             </div>
             <div class="web-user-info-text">
               <span class="web-user-name-txt">${name}</span>
@@ -411,7 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       } else {
         footer.innerHTML = `
-          <button type="button" class="btn-primary-action" onclick="window.openLoginModal ? window.openLoginModal() : (window.location.href='index.html')" style="width: 100%; height: 38px; font-size: 13px; font-weight: 700; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none;">
+          <button type="button" class="btn-primary-action" onclick="window.openLoginModal ? window.openLoginModal() : (window.location.href='connexion.html')" style="width: 100%; height: 38px; font-size: 13px; font-weight: 700; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
             <span>Se connecter</span>
           </button>
@@ -421,7 +426,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.web-user-name-txt').forEach(el => el.textContent = name);
     document.querySelectorAll('.web-user-avatar-img').forEach(el => {
-      if (avatar && el.tagName === 'IMG') el.src = avatar;
+      if (avatar && el.tagName === 'IMG') {
+        el.src = avatar;
+      }
     });
 
     // Toggle Espace Admin visibility (STRICTLY for Administrator only)
@@ -631,10 +638,10 @@ window.getAgroCurrentUser = function() {
   try {
     user = JSON.parse(localStorage.getItem('agroelevage_user') || 'null');
   } catch (e) {}
-  const phone = (localStorage.getItem('ago_user_phone') || user?.phone || '+237 693 412 317').trim().replace(/[\s+]/g, '');
-  const email = (localStorage.getItem('ago_user_email') || user?.email || 'kenfoloic3@gmail.com').trim().toLowerCase();
-  const name = (localStorage.getItem('ago_user_fullname') || user?.name || 'Kenfo Loic').trim();
-  const rawPhone = localStorage.getItem('ago_user_phone') || user?.phone || '+237 693 412 317';
+  const phone = (localStorage.getItem('ago_user_phone') || user?.phone || '').trim().replace(/[\s+]/g, '');
+  const email = (localStorage.getItem('ago_user_email') || user?.email || '').trim().toLowerCase();
+  const name = (localStorage.getItem('ago_user_fullname') || user?.name || 'Mon Compte').trim();
+  const rawPhone = localStorage.getItem('ago_user_phone') || user?.phone || '';
   return { phone, email, name, rawPhone };
 };
 
@@ -693,7 +700,7 @@ window.updateNotificationBadges = function() {
   // Filter ONLY notifications belonging to the logged-in user
   const userNotifs = notifs.filter(n => {
     if (!n.recipientPhone && !n.recipientEmail && !n.recipientName) {
-      return (user.name && user.name.toLowerCase().includes('kenfo')) || (user.phone && user.phone.includes('693412317'));
+      return true;
     }
     const nPhone = (n.recipientPhone || '').trim().replace(/[\s+]/g, '');
     const nEmail = (n.recipientEmail || '').trim().toLowerCase();
